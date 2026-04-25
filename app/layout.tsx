@@ -3,7 +3,7 @@ import './globals.css'
 import { AppProvider } from '@/context/AppContext'
 
 export const metadata: Metadata = {
-  title: 'Nomadic 游牧派',
+  title: 'Nomadic 像种树一样生活',
   description: '在世界各地扎根，而不只是路过。',
 }
 
