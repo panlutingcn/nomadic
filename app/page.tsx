@@ -7,13 +7,11 @@ import { CITIES } from '@/data/cities'
 
 const ZH_TO_EN: Record<string, string> = {
   '柏林': 'Berlin', '阿姆斯特丹': 'Amsterdam', '里斯本': 'Lisbon',
-  '曼谷': 'Bangkok', '布拉格': 'Prague', '维也纳': 'Vienna', '塔林': 'Tallinn',
-  '巴塞罗那': 'Barcelona', '巴塞罗纳': 'Barcelona', '巴黎': 'Paris',
-  '伦敦': 'London', '东京': 'Tokyo', '波尔图': 'Porto', '都柏林': 'Dublin',
-  '杜布罗夫尼克': 'Dubrovnik', '佛罗伦萨': 'Florence', '佛罗伦斯': 'Florence',
-  '马德里': 'Madrid', '罗马': 'Rome', '米兰': 'Milan', '首尔': 'Seoul',
-  '新加坡': 'Singapore', '悉尼': 'Sydney', '纽约': 'New York', '洛杉矶': 'Los Angeles',
-  '阿姆斯特丹': 'Amsterdam', '维也纳': 'Vienna',
+  '布拉格': 'Prague', '维也纳': 'Vienna', '塔林': 'Tallinn',
+  '巴塞罗那': 'Barcelona', '巴黎': 'Paris',
+  '伦敦': 'London', '波尔图': 'Porto', '都柏林': 'Dublin',
+  '杜布罗夫尼克': 'Dubrovnik', '佛罗伦萨': 'Florence',
+  '马德里': 'Madrid', '罗马': 'Rome', '米兰': 'Milan',
 }
 
 export default function HomePage() {
