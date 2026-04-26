@@ -7,7 +7,7 @@ import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
 
 export default function InsightsPage() {
   const router = useRouter()
-  const { selectedCity, isCitySaved, toggleSaveCity, setSearchContext } = useApp()
+  const { selectedCity, isCitySaved, toggleSaveCity, searchContext, setSearchContext } = useApp()
   const city = CITIES[selectedCity] ?? {
     ...CITIES['Berlin'],
     name: selectedCity, nameZh: selectedCity,
@@ -54,6 +54,13 @@ export default function InsightsPage() {
         </div>
 
         <div style={{ height: '0.5px', background: 'var(--border)', margin: '10px 0' }} />
+
+        {searchContext && (
+          <div style={{ background: 'linear-gradient(135deg, #e8f5ee 0%, #e8f0f5 100%)', border: '0.5px solid #9fd4b8', borderRadius: 10, padding: '10px 12px', marginBottom: 12 }}>
+            <div style={{ fontSize: 10, fontWeight: 500, color: '#085041', marginBottom: 4 }}>✨ AI 为你找到了</div>
+            <div style={{ fontSize: 11, color: '#0c447c', lineHeight: 1.5 }}>{searchContext.aiInsight}</div>
+          </div>
+        )}
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌍 SOUL 城市灵魂</div>
