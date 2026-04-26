@@ -17,13 +17,13 @@ export default function BottomNav() {
       position: 'sticky',
       bottom: 0,
     }}>
-      <button onClick={() => router.push('/')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer' }}>
+      <button className="nav-btn" onClick={() => router.push('/')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer' }}>
         <span style={{ fontSize: 18 }}>🏠</span>
         <span style={{ fontSize: 10, color: isActive('/') ? 'var(--text-primary)' : 'var(--text-secondary)', fontWeight: isActive('/') ? 500 : 400 }}>主页</span>
         {isActive('/') && <div style={{ height: 2, width: 18, background: 'var(--accent)', borderRadius: 1 }} />}
       </button>
 
-      <button onClick={() => router.push('/insights')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer' }}>
+      <button className="nav-btn" onClick={() => router.push('/insights')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer' }}>
         <span style={{ fontSize: 18 }}>🧭</span>
         <span style={{ fontSize: 10, color: isActive('/insights') ? 'var(--text-primary)' : 'var(--text-secondary)', fontWeight: isActive('/insights') ? 500 : 400 }}>洞察</span>
         {isActive('/insights') && <div style={{ height: 2, width: 18, background: 'var(--accent)', borderRadius: 1 }} />}
@@ -31,6 +31,7 @@ export default function BottomNav() {
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flex: 1 }}>
         <button
+          className="nav-btn"
           onClick={() => router.push('/story')}
           style={{
             width: 48, height: 48, borderRadius: '50%',
@@ -48,13 +49,13 @@ export default function BottomNav() {
         <span style={{ fontSize: 10, color: isActive('/story') ? 'var(--accent)' : 'var(--text-secondary)', fontWeight: isActive('/story') ? 500 : 400, marginTop: 2 }}>印迹</span>
       </div>
 
-      <button onClick={() => router.push('/meet')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer' }}>
+      <button className="nav-btn" onClick={() => router.push('/meet')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer' }}>
         <span style={{ fontSize: 18 }}>✨</span>
         <span style={{ fontSize: 10, color: isActive('/meet') ? 'var(--text-primary)' : 'var(--text-secondary)', fontWeight: isActive('/meet') ? 500 : 400 }}>遇见</span>
         {isActive('/meet') && <div style={{ height: 2, width: 18, background: 'var(--accent)', borderRadius: 1 }} />}
       </button>
 
-      <button onClick={() => router.push('/vault')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer' }}>
+      <button className="nav-btn" onClick={() => router.push('/vault')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer' }}>
         <span style={{ fontSize: 18 }}>🗺️</span>
         <span style={{ fontSize: 10, color: isActive('/vault') ? 'var(--text-primary)' : 'var(--text-secondary)', fontWeight: isActive('/vault') ? 500 : 400 }}>领地</span>
         {isActive('/vault') && <div style={{ height: 2, width: 18, background: 'var(--accent)', borderRadius: 1 }} />}
