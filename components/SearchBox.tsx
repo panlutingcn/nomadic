@@ -2,21 +2,38 @@
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 import { useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
+import { SEARCH_PROMPTS } from '@/data/searchPrompts'
 
-const PLACEHOLDER_LINES = ['柏林', '我想去佛罗伦萨的画廊工作', '欧洲哪里适合一个人安静写作？']
-const FULL_PLACEHOLDER = PLACEHOLDER_LINES.join('\n')
 const CHAR_DELAY = 60
-const LINE_PAUSE = 400
 
 export interface SearchBoxHandle {
   fill: (text: string) => void
   pulse: () => void
 }
 
-const SearchBox = forwardRef<SearchBoxHandle>((_, ref) => {
+interface SearchBoxProps {
+  onError?: (msg: string) => void
+}
+
+function getDailyPrompt(): string {
+  const today = new Date().toISOString().slice(0, 10)
+  try {
+    const stored = localStorage.getItem('nomadic_daily_prompt')
+    if (stored) {
+      const { date, index } = JSON.parse(stored)
+      if (date === today) return SEARCH_PROMPTS[index]
+    }
+    const index = Math.floor(Math.random() * SEARCH_PROMPTS.length)
+    localStorage.setItem('nomadic_daily_prompt', JSON.stringify({ date: today, index }))
+    return SEARCH_PROMPTS[index]
+  } catch {
+    return SEARCH_PROMPTS[0]
+  }
+}
+
+const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref) => {
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
   const [placeholder, setPlaceholder] = useState('')
   const [pulsing, setPulsing] = useState(false)
   const router = useRouter()
@@ -26,7 +43,6 @@ const SearchBox = forwardRef<SearchBoxHandle>((_, ref) => {
   useImperativeHandle(ref, () => ({
     fill: (text: string) => {
       setQuery(text)
-      setError(false)
       textareaRef.current?.focus()
     },
     pulse: () => {
@@ -36,16 +52,15 @@ const SearchBox = forwardRef<SearchBoxHandle>((_, ref) => {
   }))
 
   useEffect(() => {
+    const prompt = getDailyPrompt()
     let i = 0
     let timeout: ReturnType<typeof setTimeout>
 
     const type = () => {
-      if (i <= FULL_PLACEHOLDER.length) {
-        setPlaceholder(FULL_PLACEHOLDER.slice(0, i))
-        const nextChar = FULL_PLACEHOLDER[i]
-        const delay = nextChar === '\n' ? LINE_PAUSE : CHAR_DELAY
+      if (i <= prompt.length) {
+        setPlaceholder(prompt.slice(0, i))
         i++
-        timeout = setTimeout(type, delay)
+        timeout = setTimeout(type, CHAR_DELAY)
       }
     }
 
@@ -55,9 +70,7 @@ const SearchBox = forwardRef<SearchBoxHandle>((_, ref) => {
 
   const handleSearch = async () => {
     if (!query.trim()) return
-
     setLoading(true)
-    setError(false)
 
     try {
       const res = await fetch('/api/search', {
@@ -69,23 +82,32 @@ const SearchBox = forwardRef<SearchBoxHandle>((_, ref) => {
       const result = await res.json()
 
       if (!result.success || result.confidence < 0.3) {
-        setError(true)
+        onError?.('哎呀没有理解你')
         setLoading(false)
         return
       }
 
       setSearchContext({
         cityName: result.cityName,
+        cityNameZh: result.cityNameZh,
+        country: result.country,
+        countryZh: result.countryZh,
+        flag: result.flag,
+        confidence: result.confidence,
         userIntent: result.userIntent,
         relevantSections: result.relevantSections,
-        aiInsight: result.aiInsight
+        aiInsight: result.aiInsight,
+        soulHeadline: result.soulHeadline,
+        wifiSpeed: result.wifiSpeed,
+        costLevel: result.costLevel,
+        visaInfo: result.visaInfo,
+        chanceParagraph: result.chanceParagraph,
       })
 
       setSelectedCity(result.cityName)
       router.push('/insights')
-    } catch (err) {
-      console.error('Search error:', err)
-      setError(true)
+    } catch {
+      onError?.('哎呀没有理解你')
     } finally {
       setLoading(false)
     }
@@ -98,7 +120,7 @@ const SearchBox = forwardRef<SearchBoxHandle>((_, ref) => {
     }
   }
 
-  const borderColor = error ? '#e07050' : pulsing ? 'var(--accent)' : 'var(--border-light)'
+  const borderColor = pulsing ? 'var(--accent)' : 'var(--border-light)'
   const boxShadow = pulsing ? '0 0 0 4px rgba(29,158,117,0.2)' : '0 2px 6px rgba(0,0,0,0.06)'
 
   return (
@@ -117,7 +139,7 @@ const SearchBox = forwardRef<SearchBoxHandle>((_, ref) => {
       <textarea
         ref={textareaRef}
         value={query}
-        onChange={e => { setQuery(e.target.value); setError(false) }}
+        onChange={e => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         rows={3}
