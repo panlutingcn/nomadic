@@ -7,7 +7,7 @@ import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
 
 export default function InsightsPage() {
   const router = useRouter()
-  const { selectedCity, isCitySaved, toggleSaveCity } = useApp()
+  const { selectedCity, isCitySaved, toggleSaveCity, searchContext, setSearchContext } = useApp()
   const city = CITIES[selectedCity] ?? {
     ...CITIES['Berlin'],
     name: selectedCity, nameZh: selectedCity,
@@ -30,13 +30,18 @@ export default function InsightsPage() {
     toggleSaveCity(city.name, city.country)
   }
 
+  const handleBack = () => {
+    setSearchContext(null)
+    router.back()
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 1, padding: '14px 16px 10px' }}>
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
           <div>
-            <button onClick={() => router.back()} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: 4 }}>← 返回</button>
+            <button onClick={handleBack} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: 4 }}>← 返回</button>
             <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--text-primary)' }}>{city.name} {city.nameZh}</div>
             <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 3 }}>{city.flag} {city.country} {city.countryZh}</div>
           </div>
@@ -49,6 +54,13 @@ export default function InsightsPage() {
         </div>
 
         <div style={{ height: '0.5px', background: 'var(--border)', margin: '10px 0' }} />
+
+        {searchContext && (
+          <div style={{ background: 'linear-gradient(135deg, #e8f5ee 0%, #e8f0f5 100%)', border: '0.5px solid #9fd4b8', borderRadius: 10, padding: '10px 12px', marginBottom: 12 }}>
+            <div style={{ fontSize: 10, fontWeight: 500, color: '#085041', marginBottom: 4 }}>✨ AI 为你找到了</div>
+            <div style={{ fontSize: 11, color: '#0c447c', lineHeight: 1.5 }}>{searchContext.aiInsight}</div>
+          </div>
+        )}
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌍 SOUL 城市灵魂</div>

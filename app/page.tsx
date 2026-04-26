@@ -1,40 +1,28 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
+import SearchBox from '@/components/SearchBox'
+import GuideModal from '@/components/GuideModal'
+import ErrorToast from '@/components/ErrorToast'
 import { useApp } from '@/context/AppContext'
 import { CITIES } from '@/data/cities'
-
-const ZH_TO_EN: Record<string, string> = {
-  '柏林': 'Berlin', '阿姆斯特丹': 'Amsterdam', '里斯本': 'Lisbon',
-  '布拉格': 'Prague', '维也纳': 'Vienna', '塔林': 'Tallinn',
-  '巴塞罗那': 'Barcelona', '巴黎': 'Paris',
-  '伦敦': 'London', '波尔图': 'Porto', '都柏林': 'Dublin',
-  '杜布罗夫尼克': 'Dubrovnik', '佛罗伦萨': 'Florence',
-  '马德里': 'Madrid', '罗马': 'Rome', '米兰': 'Milan',
-}
 
 export default function HomePage() {
   const router = useRouter()
   const { setSelectedCity, imprints } = useApp()
-  const [query, setQuery] = useState('')
-  const [searchError, setSearchError] = useState(false)
+  const [showGuide, setShowGuide] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    const hasSeenGuide = localStorage.getItem('hasSeenGuide')
+    if (!hasSeenGuide) {
+      setShowGuide(true)
+    }
+  }, [])
 
   const handleCityClick = (city: string) => {
     const key = city === 'BCN' ? 'Barcelona' : city
-    setSelectedCity(key)
-    router.push('/insights')
-  }
-
-  const handleSearch = () => {
-    if (!query.trim()) return
-    const raw = query.trim()
-    const key = ZH_TO_EN[raw] ?? raw
-    if (!(key in CITIES)) {
-      setSearchError(true)
-      return
-    }
-    setSearchError(false)
     setSelectedCity(key)
     router.push('/insights')
   }
@@ -174,20 +162,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div style={{ background: 'var(--bg-card)', border: `0.5px solid ${searchError ? '#e07050' : 'var(--border-light)'}`, borderRadius: 12, padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 8, margin: '14px 0 4px', minHeight: 58, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-          <input
-            value={query}
-            onChange={e => { setQuery(e.target.value); setSearchError(false) }}
-            onKeyDown={e => e.key === 'Enter' && handleSearch()}
-            placeholder="你在寻找什么？一座城市、一个机会，还是一段故事……"
-            style={{ fontSize: 11, color: 'var(--text-primary)', flex: 1, lineHeight: 1.55, background: 'none', border: 'none', outline: 'none' }}
-          />
-          <button onClick={handleSearch} style={{ background: 'var(--accent)', color: '#fff', fontSize: 11, fontWeight: 500, padding: '6px 11px', borderRadius: 8, border: 'none', cursor: 'pointer', flexShrink: 0 }}>GO</button>
-        </div>
-        {searchError && (
-          <div style={{ fontSize: 10, color: '#e07050', marginBottom: 8, paddingLeft: 4 }}>未知城市，待收录</div>
-        )}
-        {!searchError && <div style={{ marginBottom: 12 }} />}
+        <SearchBox />
 
         <div style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 8 }}>—— 你想去哪里 ——</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 12 }}>
@@ -240,6 +215,8 @@ export default function HomePage() {
         </div>
       </div>
       <BottomNav />
+      {showGuide && <GuideModal onClose={() => setShowGuide(false)} />}
+      {errorMessage && <ErrorToast message={errorMessage} onClose={() => setErrorMessage('')} />}
     </div>
   )
 }
