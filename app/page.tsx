@@ -5,6 +5,7 @@ import BottomNav from '@/components/BottomNav'
 import SearchBox, { SearchBoxHandle } from '@/components/SearchBox'
 import GuideModal from '@/components/GuideModal'
 import ErrorToast from '@/components/ErrorToast'
+import WorldMap from '@/components/WorldMap'
 import { useApp } from '@/context/AppContext'
 import { CITIES } from '@/data/cities'
 import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
@@ -18,7 +19,6 @@ export default function HomePage() {
   const [showGuide, setShowGuide] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [randomCities, setRandomCities] = useState<NomadCity[]>([])
-  const [pressedCity, setPressedCity] = useState<string | null>(null)
   const searchBoxRef = useRef<SearchBoxHandle>(null)
 
   useEffect(() => {
@@ -47,12 +47,6 @@ export default function HomePage() {
   }, [])
 
   const imprintCities = Array.from(new Set(imprints.map(i => i.city))).slice(0, 4)
-  const KNOWN_ZH: Record<string, string> = {
-    Berlin: '柏林', Amsterdam: '阿姆斯特丹', Lisbon: '里斯本', Bangkok: '曼谷',
-    Prague: '布拉格', Vienna: '维也纳', Paris: '巴黎', Barcelona: '巴塞罗那',
-    Porto: '波尔图', Dublin: '都柏林', Dubrovnik: '杜布罗夫尼克',
-    Florence: '佛罗伦萨', Tallinn: '塔林',
-  }
   const displayCities: NomadCity[] = [...PINNED_CITIES, ...randomCities]
 
   return (
@@ -188,31 +182,24 @@ export default function HomePage() {
           </div>
         </div>
 
-        <SearchBox ref={searchBoxRef} />
+        <SearchBox ref={searchBoxRef} onError={setErrorMessage} />
 
         <div style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 8 }}>—— 你想去哪里 ——</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 12 }}>
-          {displayCities.map(city => {
-            const isPressed = pressedCity === city.en
-            return (
+          {displayCities.map(city => (
               <button
                 key={city.en}
+                className="city-tag"
                 onClick={() => handleCityClick(city)}
-                onMouseDown={() => setPressedCity(city.en)}
-                onMouseUp={() => setPressedCity(null)}
-                onMouseLeave={() => setPressedCity(null)}
                 style={{
                   fontSize: 11, fontWeight: 500, padding: '5px 11px', borderRadius: 8,
                   background: 'var(--accent-dim)', color: 'var(--accent-text)',
                   border: '0.5px solid var(--accent-border)', cursor: 'pointer',
-                  transform: isPressed ? 'scale(0.96)' : 'scale(1)',
-                  transition: 'transform 100ms ease',
                 }}
               >
                 {city.zh}
               </button>
-            )
-          })}
+            ))}
           <button
             onClick={handleRandomExplore}
             style={{
@@ -228,6 +215,7 @@ export default function HomePage() {
 
         <div style={{ height: '0.5px', background: 'var(--border)', margin: '12px 0' }} />
 
+        <div style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 8 }}>—— 洞察四个象限 ——</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7, marginBottom: 12 }}>
           {[
             { emoji: '🌍', en: 'SOUL', zh: '城市灵魂', desc: '读懂一座城市的内核', bg: '#faeeda', border: '#e8c98a', color: '#633806', descColor: '#854f0b' },
@@ -249,28 +237,20 @@ export default function HomePage() {
             <span style={{ fontSize: 10, color: 'var(--text-muted)', cursor: 'pointer' }} onClick={() => router.push('/vault')}>点击展开 ›</span>
           </div>
           <div style={{ height: 72, position: 'relative', background: 'var(--bg-page)', borderRadius: 8, overflow: 'hidden' }}>
-            {imprintCities.map((city, i) => {
-              const positions = [
-                { left: '20%', top: '30%' }, { left: '42%', top: '25%' },
-                { left: '62%', top: '38%' }, { left: '80%', top: '30%' },
-              ]
-              const pos = positions[i] ?? positions[0]
-              const isFirst = i === 0
-              return (
-                <div key={city} onClick={() => { setSelectedCity(city in CITIES ? city : 'Berlin'); router.push('/insights') }}
-                  style={{ position: 'absolute', left: pos.left, top: pos.top, transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }}>
-                  <div style={{ width: isFirst ? 10 : 7, height: isFirst ? 10 : 7, borderRadius: '50%', background: 'var(--accent)', boxShadow: isFirst ? '0 0 0 4px rgba(29,158,117,0.18),0 0 0 8px rgba(29,158,117,0.07)' : '0 0 0 3px rgba(29,158,117,0.15),0 0 0 6px rgba(29,158,117,0.06)' }} />
-                  <span style={{ fontSize: 8, color: isFirst ? 'var(--accent)' : 'var(--text-secondary)', fontWeight: isFirst ? 500 : 400, marginTop: 2 }}>{KNOWN_ZH[city] ?? city}</span>
-                </div>
-              )
-            })}
+            <WorldMap
+              cities={imprintCities}
+              onCityClick={(city) => {
+                setSelectedCity(city in CITIES ? city : 'Berlin')
+                router.push('/insights')
+              }}
+            />
           </div>
           <div style={{ fontSize: 9, color: 'var(--text-muted)', textAlign: 'center', marginTop: 6 }}>点击发光点 · 进入该城市印迹</div>
         </div>
       </div>
       <BottomNav />
       {showGuide && <GuideModal onClose={() => setShowGuide(false)} />}
-      {errorMessage && <ErrorToast message={errorMessage} onClose={() => setErrorMessage('')} />}
+      {errorMessage && <ErrorToast onClose={() => setErrorMessage('')} />}
     </div>
   )
 }
