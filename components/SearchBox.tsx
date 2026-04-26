@@ -72,7 +72,7 @@ export default function SearchBox() {
         value={query}
         onChange={e => { setQuery(e.target.value); setError(false) }}
         onKeyDown={handleKeyDown}
-        placeholder="柏林&#10;我想去佛罗伦萨的画廊工作&#10;欧洲哪里适合一个人安静写作？"
+        placeholder={"柏林\n我想去佛罗伦萨的画廊工作\n欧洲哪里适合一个人安静写作？"}
         rows={3}
         style={{
           fontSize: '12px',
