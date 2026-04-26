@@ -21,6 +21,13 @@ export interface Imprint {
   photo?: string
 }
 
+export interface SearchContext {
+  cityName: string
+  userIntent: string
+  relevantSections: string[]
+  aiInsight: string
+}
+
 interface AppState {
   selectedCity: string
   setSelectedCity: (city: string) => void
@@ -30,12 +37,15 @@ interface AppState {
   imprints: Imprint[]
   addImprint: (imprint: Omit<Imprint, 'id' | 'createdAt'>) => void
   allPublicImprints: Imprint[]
+  searchContext: SearchContext | null
+  setSearchContext: (context: SearchContext | null) => void
 }
 
 const AppContext = createContext<AppState | null>(null)
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [selectedCity, setSelectedCity] = useState('Berlin')
+  const [searchContext, setSearchContext] = useState<SearchContext | null>(null)
   const [savedCities, setSavedCities] = useState<SavedCity[]>([
     { name: 'Berlin', country: 'Germany', savedAt: '2025.01.14' },
     { name: 'Amsterdam', country: 'Netherlands', savedAt: '2025.01.08' },
@@ -80,6 +90,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       savedCities, toggleSaveCity, isCitySaved,
       imprints, addImprint,
       allPublicImprints,
+      searchContext, setSearchContext,
     }}>
       {children}
     </AppContext.Provider>
