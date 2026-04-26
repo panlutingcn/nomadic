@@ -7,7 +7,7 @@ import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
 
 export default function InsightsPage() {
   const router = useRouter()
-  const { selectedCity, isCitySaved, toggleSaveCity, searchContext, setSearchContext } = useApp()
+  const { selectedCity, isCitySaved, toggleSaveCity, setSearchContext } = useApp()
   const city = CITIES[selectedCity] ?? {
     ...CITIES['Berlin'],
     name: selectedCity, nameZh: selectedCity,
@@ -18,9 +18,6 @@ export default function InsightsPage() {
   const [loginMethod, setLoginMethod] = useState<'wechat' | 'email'>('wechat')
   const [loginEmail, setLoginEmail] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  const relevant = searchContext?.relevantSections ?? []
-  const isHighlighted = (section: string) => relevant.length > 0 && relevant.includes(section)
 
   const handleSave = () => {
     if (!isLoggedIn) { setShowLogin(true); return }
@@ -42,13 +39,6 @@ export default function InsightsPage() {
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 1, padding: '14px 16px 10px' }}>
 
-        {searchContext && (
-          <div style={{ background: 'linear-gradient(135deg, #e8f5ee 0%, #e8f0f5 100%)', border: '0.5px solid #9fd4b8', borderRadius: 10, padding: '10px 12px', marginBottom: 12 }}>
-            <div style={{ fontSize: 10, fontWeight: 500, color: '#085041', marginBottom: 4 }}>✨ AI 为你找到了</div>
-            <div style={{ fontSize: 11, color: '#0c447c', lineHeight: 1.5 }}>{searchContext.aiInsight}</div>
-          </div>
-        )}
-
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
           <div>
             <button onClick={handleBack} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: 4 }}>← 返回</button>
@@ -67,7 +57,7 @@ export default function InsightsPage() {
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌍 SOUL 城市灵魂</div>
-          <div style={{ background: isHighlighted('soul') ? '#e8f5ee' : '#faeeda', border: `0.5px solid ${isHighlighted('soul') ? '#9fd4b8' : '#e8c98a'}`, borderRadius: 10, padding: '9px 11px', boxShadow: isHighlighted('soul') ? '0 0 0 2px rgba(29,158,117,0.15)' : 'none' }}>
+          <div style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 10, padding: '9px 11px' }}>
             <div style={{ fontSize: 12, fontWeight: 500, color: '#3d2010', marginBottom: 2 }}>{city.soul.headline}</div>
             <div style={{ fontSize: 10, color: '#854f0b' }}>{city.soul.sub} → 展开</div>
           </div>
@@ -75,7 +65,7 @@ export default function InsightsPage() {
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌿 BASE 生存基准</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5, boxShadow: isHighlighted('base') ? '0 0 0 2px rgba(29,158,117,0.15)' : 'none', borderRadius: 8 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
             {[
               { num: city.base.wifi, label: 'WiFi' },
               { num: city.base.cost, label: '物价' },
@@ -95,7 +85,7 @@ export default function InsightsPage() {
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>💼 CHANCE 商业机会</div>
-          <div style={{ background: isHighlighted('chance') ? '#e8f5ee' : 'var(--bg-card)', border: `0.5px solid ${isHighlighted('chance') ? '#9fd4b8' : 'var(--border-light)'}`, borderRadius: 10, padding: '9px 11px', boxShadow: isHighlighted('chance') ? '0 0 0 2px rgba(29,158,117,0.15)' : 'none' }}>
+          <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '9px 11px' }}>
             <div style={{ fontSize: 10, color: '#3d3020', lineHeight: 1.55, marginBottom: 6 }}>{city.chance.paragraph}</div>
             <div style={{ fontSize: 9, color: 'var(--text-muted)', margin: '5px 0 3px' }}>📋 政策环境</div>
             <a href={city.chance.policy.url} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 8px', borderRadius: 6, background: 'var(--bg-page)', border: '0.5px solid var(--border)', marginBottom: 6, textDecoration: 'none' }}>
@@ -121,7 +111,7 @@ export default function InsightsPage() {
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>👥 LOCAL 本地圈子</div>
-          <div style={{ background: isHighlighted('local') ? '#e8f5ee' : '#f0edf8', border: `0.5px solid ${isHighlighted('local') ? '#9fd4b8' : '#cdc5e8'}`, borderRadius: 10, padding: '9px 11px', boxShadow: isHighlighted('local') ? '0 0 0 2px rgba(29,158,117,0.15)' : 'none' }}>
+          <div style={{ background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 10, padding: '9px 11px' }}>
             <div style={{ fontSize: 9, color: '#3c3489', marginBottom: 3 }}>📍 本地社群平台</div>
             {city.local.platforms.map(p => (
               <a key={p.name} href={p.url} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 8px', borderRadius: 6, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 3, textDecoration: 'none' }}>
