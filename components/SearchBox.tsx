@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 import { useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
 
@@ -8,13 +8,32 @@ const FULL_PLACEHOLDER = PLACEHOLDER_LINES.join('\n')
 const CHAR_DELAY = 60
 const LINE_PAUSE = 400
 
-export default function SearchBox() {
+export interface SearchBoxHandle {
+  fill: (text: string) => void
+  pulse: () => void
+}
+
+const SearchBox = forwardRef<SearchBoxHandle>((_, ref) => {
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const [placeholder, setPlaceholder] = useState('')
+  const [pulsing, setPulsing] = useState(false)
   const router = useRouter()
   const { setSelectedCity, setSearchContext } = useApp()
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useImperativeHandle(ref, () => ({
+    fill: (text: string) => {
+      setQuery(text)
+      setError(false)
+      textareaRef.current?.focus()
+    },
+    pulse: () => {
+      setPulsing(true)
+      setTimeout(() => setPulsing(false), 700)
+    },
+  }))
 
   useEffect(() => {
     let i = 0
@@ -79,20 +98,24 @@ export default function SearchBox() {
     }
   }
 
+  const borderColor = error ? '#e07050' : pulsing ? 'var(--accent)' : 'var(--border-light)'
+  const boxShadow = pulsing ? '0 0 0 4px rgba(29,158,117,0.2)' : '0 2px 6px rgba(0,0,0,0.06)'
+
   return (
     <div style={{
       background: 'var(--bg-card)',
-      border: `2.5px solid ${error ? '#e07050' : 'var(--border-light)'}`,
+      border: `2.5px solid ${borderColor}`,
       borderRadius: '12px',
       padding: '12px 14px',
       display: 'flex',
       flexDirection: 'column',
       gap: '10px',
       margin: '14px 0 4px',
-      boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
-      transition: 'border-color 200ms ease'
+      boxShadow,
+      transition: 'border-color 200ms ease, box-shadow 200ms ease'
     }}>
       <textarea
+        ref={textareaRef}
         value={query}
         onChange={e => { setQuery(e.target.value); setError(false) }}
         onKeyDown={handleKeyDown}
@@ -130,4 +153,7 @@ export default function SearchBox() {
       </div>
     </div>
   )
-}
+})
+
+SearchBox.displayName = 'SearchBox'
+export default SearchBox

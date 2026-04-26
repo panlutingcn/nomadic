@@ -1,0 +1,75 @@
+// 数字游民友好欧洲城市池
+// en: 英文名（用于搜索和跳转），zh: 中文显示名
+export interface NomadCity {
+  en: string
+  zh: string
+}
+
+// 前3个固定热门城市，始终显示在最前面
+export const PINNED_CITIES: NomadCity[] = [
+  { en: 'Lisbon', zh: '里斯本' },
+  { en: 'Berlin', zh: '柏林' },
+  { en: 'Barcelona', zh: '巴塞罗那' },
+]
+
+// 随机城市池（数字游民友好，不太偏僻）
+export const NOMAD_CITY_POOL: NomadCity[] = [
+  { en: 'Amsterdam', zh: '阿姆斯特丹' },
+  { en: 'Prague', zh: '布拉格' },
+  { en: 'Vienna', zh: '维也纳' },
+  { en: 'Paris', zh: '巴黎' },
+  { en: 'Porto', zh: '波尔图' },
+  { en: 'Dublin', zh: '都柏林' },
+  { en: 'Florence', zh: '佛罗伦萨' },
+  { en: 'Tallinn', zh: '塔林' },
+  { en: 'Budapest', zh: '布达佩斯' },
+  { en: 'Warsaw', zh: '华沙' },
+  { en: 'Krakow', zh: '克拉科夫' },
+  { en: 'Bucharest', zh: '布加勒斯特' },
+  { en: 'Sofia', zh: '索菲亚' },
+  { en: 'Athens', zh: '雅典' },
+  { en: 'Thessaloniki', zh: '塞萨洛尼基' },
+  { en: 'Valencia', zh: '瓦伦西亚' },
+  { en: 'Seville', zh: '塞维利亚' },
+  { en: 'Malaga', zh: '马拉加' },
+  { en: 'Madrid', zh: '马德里' },
+  { en: 'Milan', zh: '米兰' },
+  { en: 'Rome', zh: '罗马' },
+  { en: 'Bologna', zh: '博洛尼亚' },
+  { en: 'Turin', zh: '都灵' },
+  { en: 'Tbilisi', zh: '第比利斯' },
+  { en: 'Yerevan', zh: '埃里温' },
+  { en: 'Baku', zh: '巴库' },
+  { en: 'Riga', zh: '里加' },
+  { en: 'Vilnius', zh: '维尔纽斯' },
+  { en: 'Bratislava', zh: '布拉迪斯拉发' },
+  { en: 'Ljubljana', zh: '卢布尔雅那' },
+  { en: 'Zagreb', zh: '萨格勒布' },
+  { en: 'Split', zh: '斯普利特' },
+  { en: 'Dubrovnik', zh: '杜布罗夫尼克' },
+  { en: 'Kotor', zh: '科托尔' },
+  { en: 'Tirana', zh: '地拉那' },
+  { en: 'Skopje', zh: '斯科普里' },
+  { en: 'Belgrade', zh: '贝尔格莱德' },
+  { en: 'Novi Sad', zh: '诺维萨德' },
+  { en: 'Sarajevo', zh: '萨拉热窝' },
+  { en: 'Copenhagen', zh: '哥本哈根' },
+  { en: 'Stockholm', zh: '斯德哥尔摩' },
+  { en: 'Helsinki', zh: '赫尔辛基' },
+  { en: 'Oslo', zh: '奥斯陆' },
+  { en: 'Reykjavik', zh: '雷克雅未克' },
+  { en: 'Edinburgh', zh: '爱丁堡' },
+  { en: 'London', zh: '伦敦' },
+  { en: 'Manchester', zh: '曼彻斯特' },
+  { en: 'Brussels', zh: '布鲁塞尔' },
+  { en: 'Ghent', zh: '根特' },
+  { en: 'Zurich', zh: '苏黎世' },
+  { en: 'Geneva', zh: '日内瓦' },
+  { en: 'Bern', zh: '伯尔尼' },
+  { en: 'Lausanne', zh: '洛桑' },
+  { en: 'Nicosia', zh: '尼科西亚' },
+  { en: 'Valletta', zh: '瓦莱塔' },
+  { en: 'Funchal', zh: '丰沙尔' },
+  { en: 'Las Palmas', zh: '拉斯帕尔马斯' },
+  { en: 'Chiang Mai', zh: '清迈' },
+]
