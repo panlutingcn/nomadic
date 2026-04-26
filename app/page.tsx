@@ -1,33 +1,59 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
-import SearchBox from '@/components/SearchBox'
+import SearchBox, { SearchBoxHandle } from '@/components/SearchBox'
 import GuideModal from '@/components/GuideModal'
 import ErrorToast from '@/components/ErrorToast'
 import { useApp } from '@/context/AppContext'
 import { CITIES } from '@/data/cities'
+import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
+import { shuffle } from '@/utils/shuffle'
+
+const RANDOM_COUNT = 6
 
 export default function HomePage() {
   const router = useRouter()
   const { setSelectedCity, imprints } = useApp()
   const [showGuide, setShowGuide] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [randomCities, setRandomCities] = useState<NomadCity[]>([])
+  const [pressedCity, setPressedCity] = useState<string | null>(null)
+  const searchBoxRef = useRef<SearchBoxHandle>(null)
 
   useEffect(() => {
     const hasSeenGuide = localStorage.getItem('hasSeenGuide')
-    if (!hasSeenGuide) {
-      setShowGuide(true)
-    }
+    if (!hasSeenGuide) setShowGuide(true)
+    setRandomCities(shuffle(NOMAD_CITY_POOL).slice(0, RANDOM_COUNT))
   }, [])
 
-  const handleCityClick = (city: string) => {
-    const key = city === 'BCN' ? 'Barcelona' : city
-    setSelectedCity(key)
-    router.push('/insights')
+  const handleCityClick = (city: NomadCity) => {
+    if (city.en in CITIES) {
+      setSelectedCity(city.en)
+      router.push('/insights')
+    } else {
+      searchBoxRef.current?.fill(city.zh)
+    }
   }
 
+  const handleRandomExplore = () => {
+    const all = [...PINNED_CITIES, ...NOMAD_CITY_POOL]
+    const pick = all[Math.floor(Math.random() * all.length)]
+    searchBoxRef.current?.fill(pick.zh)
+  }
+
+  const handleQuadrantClick = useCallback(() => {
+    searchBoxRef.current?.pulse()
+  }, [])
+
   const imprintCities = Array.from(new Set(imprints.map(i => i.city))).slice(0, 4)
+  const KNOWN_ZH: Record<string, string> = {
+    Berlin: '柏林', Amsterdam: '阿姆斯特丹', Lisbon: '里斯本', Bangkok: '曼谷',
+    Prague: '布拉格', Vienna: '维也纳', Paris: '巴黎', Barcelona: '巴塞罗那',
+    Porto: '波尔图', Dublin: '都柏林', Dubrovnik: '杜布罗夫尼克',
+    Florence: '佛罗伦萨', Tallinn: '塔林',
+  }
+  const displayCities: NomadCity[] = [...PINNED_CITIES, ...randomCities]
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
@@ -162,14 +188,42 @@ export default function HomePage() {
           </div>
         </div>
 
-        <SearchBox />
+        <SearchBox ref={searchBoxRef} />
 
         <div style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 8 }}>—— 你想去哪里 ——</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 12 }}>
-          {['Berlin', 'Paris', 'Amsterdam', 'Lisbon', 'BCN', 'Prague', 'Vienna', 'Tallinn', 'Porto', 'Dublin', 'Dubrovnik', 'Florence'].map(city => (
-            <button key={city} onClick={() => handleCityClick(city)} style={{ fontSize: 11, fontWeight: 500, padding: '5px 11px', borderRadius: 8, background: 'var(--accent-dim)', color: 'var(--accent-text)', border: '0.5px solid var(--accent-border)', cursor: 'pointer' }}>{city}</button>
-          ))}
-          <button style={{ fontSize: 11, fontWeight: 500, padding: '5px 11px', borderRadius: 8, background: 'var(--bg-card-2)', color: 'var(--text-secondary)', border: '0.5px solid var(--border-light)', cursor: 'pointer' }}>更多</button>
+          {displayCities.map(city => {
+            const isPressed = pressedCity === city.en
+            return (
+              <button
+                key={city.en}
+                onClick={() => handleCityClick(city)}
+                onMouseDown={() => setPressedCity(city.en)}
+                onMouseUp={() => setPressedCity(null)}
+                onMouseLeave={() => setPressedCity(null)}
+                style={{
+                  fontSize: 11, fontWeight: 500, padding: '5px 11px', borderRadius: 8,
+                  background: 'var(--accent-dim)', color: 'var(--accent-text)',
+                  border: '0.5px solid var(--accent-border)', cursor: 'pointer',
+                  transform: isPressed ? 'scale(0.96)' : 'scale(1)',
+                  transition: 'transform 100ms ease',
+                }}
+              >
+                {city.zh}
+              </button>
+            )
+          })}
+          <button
+            onClick={handleRandomExplore}
+            style={{
+              fontSize: 11, fontWeight: 500, padding: '5px 11px', borderRadius: 8,
+              background: 'var(--bg-card-2)', color: 'var(--text-secondary)',
+              border: '0.5px solid var(--border-light)', cursor: 'pointer',
+              transition: 'transform 100ms ease',
+            }}
+          >
+            随机 🎲
+          </button>
         </div>
 
         <div style={{ height: '0.5px', background: 'var(--border)', margin: '12px 0' }} />
@@ -181,7 +235,7 @@ export default function HomePage() {
             { emoji: '💼', en: 'CHANCE', zh: '商业机会', desc: '链接当地的商业生态', bg: '#e8f0f5', border: '#b5cfe0', color: '#0c447c', descColor: '#185fa5' },
             { emoji: '🤝', en: 'LOCAL', zh: '本地圈子', desc: '遇见同频的灵魂', bg: '#f0edf8', border: '#cdc5e8', color: '#3c3489', descColor: '#534ab7' },
           ].map(q => (
-            <div key={q.en} onClick={() => router.push('/insights')} style={{ background: q.bg, border: `0.5px solid ${q.border}`, borderRadius: 10, padding: '10px 11px', cursor: 'pointer' }}>
+            <div key={q.en} onClick={handleQuadrantClick} style={{ background: q.bg, border: `0.5px solid ${q.border}`, borderRadius: 10, padding: '10px 11px', cursor: 'pointer' }}>
               <div style={{ fontSize: 18, lineHeight: 1, marginBottom: 5 }}>{q.emoji}</div>
               <div style={{ fontSize: 11, fontWeight: 500, color: q.color }}>{q.en} {q.zh}</div>
               <div style={{ fontSize: 10, color: q.descColor, marginTop: 3 }}>{q.desc}</div>
@@ -206,7 +260,7 @@ export default function HomePage() {
                 <div key={city} onClick={() => { setSelectedCity(city in CITIES ? city : 'Berlin'); router.push('/insights') }}
                   style={{ position: 'absolute', left: pos.left, top: pos.top, transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }}>
                   <div style={{ width: isFirst ? 10 : 7, height: isFirst ? 10 : 7, borderRadius: '50%', background: 'var(--accent)', boxShadow: isFirst ? '0 0 0 4px rgba(29,158,117,0.18),0 0 0 8px rgba(29,158,117,0.07)' : '0 0 0 3px rgba(29,158,117,0.15),0 0 0 6px rgba(29,158,117,0.06)' }} />
-                  <span style={{ fontSize: 8, color: isFirst ? 'var(--accent)' : 'var(--text-secondary)', fontWeight: isFirst ? 500 : 400, marginTop: 2 }}>{city}</span>
+                  <span style={{ fontSize: 8, color: isFirst ? 'var(--accent)' : 'var(--text-secondary)', fontWeight: isFirst ? 500 : 400, marginTop: 2 }}>{KNOWN_ZH[city] ?? city}</span>
                 </div>
               )
             })}
