@@ -1,14 +1,38 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
+
+const PLACEHOLDER_LINES = ['柏林', '我想去佛罗伦萨的画廊工作', '欧洲哪里适合一个人安静写作？']
+const FULL_PLACEHOLDER = PLACEHOLDER_LINES.join('\n')
+const CHAR_DELAY = 60
+const LINE_PAUSE = 400
 
 export default function SearchBox() {
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
+  const [placeholder, setPlaceholder] = useState('')
   const router = useRouter()
   const { setSelectedCity, setSearchContext } = useApp()
+
+  useEffect(() => {
+    let i = 0
+    let timeout: ReturnType<typeof setTimeout>
+
+    const type = () => {
+      if (i <= FULL_PLACEHOLDER.length) {
+        setPlaceholder(FULL_PLACEHOLDER.slice(0, i))
+        const nextChar = FULL_PLACEHOLDER[i]
+        const delay = nextChar === '\n' ? LINE_PAUSE : CHAR_DELAY
+        i++
+        timeout = setTimeout(type, delay)
+      }
+    }
+
+    timeout = setTimeout(type, 300)
+    return () => clearTimeout(timeout)
+  }, [])
 
   const handleSearch = async () => {
     if (!query.trim()) return
@@ -72,7 +96,7 @@ export default function SearchBox() {
         value={query}
         onChange={e => { setQuery(e.target.value); setError(false) }}
         onKeyDown={handleKeyDown}
-        placeholder={"柏林\n我想去佛罗伦萨的画廊工作\n欧洲哪里适合一个人安静写作？"}
+        placeholder={placeholder}
         rows={3}
         style={{
           fontSize: '12px',
