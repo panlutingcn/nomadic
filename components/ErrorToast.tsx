@@ -2,11 +2,10 @@
 import { useEffect, useState } from 'react'
 
 interface ErrorToastProps {
-  message: string
   onClose: () => void
 }
 
-export default function ErrorToast({ message, onClose }: ErrorToastProps) {
+export default function ErrorToast({ onClose }: ErrorToastProps) {
   const [opacity, setOpacity] = useState(1)
 
   useEffect(() => {
@@ -14,7 +13,6 @@ export default function ErrorToast({ message, onClose }: ErrorToastProps) {
       setOpacity(0)
       setTimeout(onClose, 300)
     }, 1000)
-
     return () => clearTimeout(timer)
   }, [onClose])
 
@@ -24,18 +22,22 @@ export default function ErrorToast({ message, onClose }: ErrorToastProps) {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      background: 'rgba(0, 0, 0, 0.85)',
-      color: '#fff',
-      padding: '16px 24px',
-      borderRadius: '12px',
-      fontSize: '14px',
+      background: 'rgba(255, 255, 255, 0.72)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      border: '1px solid rgba(0,0,0,0.08)',
+      color: 'var(--text-primary)',
+      padding: '14px 22px',
+      borderRadius: '14px',
+      fontSize: '13px',
       fontWeight: 500,
       zIndex: 9999,
       opacity,
       transition: 'opacity 300ms ease',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+      boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+      pointerEvents: 'none',
     }}>
-      {message}
+      哎呀没有理解你
     </div>
   )
 }
