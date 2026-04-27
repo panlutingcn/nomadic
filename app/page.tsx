@@ -11,7 +11,7 @@ import { CITIES } from '@/data/cities'
 import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
 import { shuffle } from '@/utils/shuffle'
 
-const RANDOM_COUNT = 6
+const RANDOM_COUNT = 9
 
 export default function HomePage() {
   const router = useRouter()
@@ -187,7 +187,7 @@ export default function HomePage() {
         <SearchBox ref={searchBoxRef} onError={setErrorMessage} />
 
         <div style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 8 }}>—— 你想去哪里 ——</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 12 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 12, justifyContent: 'center' }}>
           {displayCities.map(city => (
               <button
                 key={city.en}
