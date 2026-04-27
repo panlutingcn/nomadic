@@ -237,7 +237,7 @@ export default function HomePage() {
             { emoji: '🌍', en: 'SOUL', zh: '城市灵魂', desc: '读懂一座城市的内核', bg: '#faeeda', border: '#e8c98a', color: '#633806', descColor: '#854f0b' },
             { emoji: '🌿', en: 'BASE', zh: '生存基准', desc: '确认适合你居住', bg: '#e8f5ee', border: '#9fd4b8', color: '#085041', descColor: '#0f6e56' },
             { emoji: '💼', en: 'CHANCE', zh: '商业机会', desc: '链接当地的商业生态', bg: '#e8f0f5', border: '#b5cfe0', color: '#0c447c', descColor: '#185fa5' },
-            { emoji: '🤝', en: 'LOCAL', zh: '本地圈子', desc: '遇见同频的灵魂', bg: '#f0edf8', border: '#cdc5e8', color: '#3c3489', descColor: '#534ab7' },
+            { emoji: '👥', en: 'LOCAL', zh: '本地圈子', desc: '遇见同频的灵魂', bg: '#f0edf8', border: '#cdc5e8', color: '#3c3489', descColor: '#534ab7' },
           ].map(q => (
             <div
               key={q.en}

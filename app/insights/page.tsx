@@ -273,7 +273,7 @@ export default function InsightsPage() {
         </div>
 
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>👥 LOCAL 本地圈子</div>
+          <div style={{ fontSize: 14, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>👥 LOCAL 本地圈子</div>
           <div style={{ background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 10, padding: '9px 11px' }}>
             {city.local.platforms.length > 0 && (
               <div style={{ marginBottom: 10 }}>
