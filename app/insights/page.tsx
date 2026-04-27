@@ -104,10 +104,6 @@ export default function InsightsPage() {
   const [pageUrl, setPageUrl] = useState('')
   const [showSoulModal, setShowSoulModal] = useState(false)
 
-  // Refs for focus management
-  const soulModalCloseButtonRef = useRef<HTMLButtonElement>(null)
-  const previousFocusRef = useRef<HTMLElement | null>(null)
-
   useEffect(() => {
     setPageUrl(window.location.href)
   }, [])
@@ -127,22 +123,6 @@ export default function InsightsPage() {
       return () => {
         document.body.style.overflow = ''
       }
-    }
-  }, [showSoulModal])
-
-  // Focus management for SOUL modal
-  useEffect(() => {
-    if (showSoulModal) {
-      // Store the currently focused element
-      previousFocusRef.current = document.activeElement as HTMLElement
-      // Focus the close button when modal opens
-      setTimeout(() => {
-        soulModalCloseButtonRef.current?.focus()
-      }, 0)
-    } else if (previousFocusRef.current) {
-      // Restore focus when modal closes
-      previousFocusRef.current.focus()
-      previousFocusRef.current = null
     }
   }, [showSoulModal])
 
@@ -336,7 +316,7 @@ export default function InsightsPage() {
             if (e.target === e.currentTarget) setShowSoulModal(false)
           }}
         >
-          <FocusTrap active={showSoulModal}>
+          <FocusTrap active={showSoulModal} focusTrapOptions={{ escapeDeactivates: false }}>
             <div
               role="dialog"
               aria-modal="true"
@@ -344,7 +324,6 @@ export default function InsightsPage() {
               style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 16, padding: '20px', overflow: 'auto' }}
             >
             <button
-              ref={soulModalCloseButtonRef}
               onClick={() => setShowSoulModal(false)}
               aria-label="关闭"
               style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, border: 'none', background: 'rgba(61, 32, 16, 0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#3d2010', cursor: 'pointer', lineHeight: 1 }}
