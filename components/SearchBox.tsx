@@ -84,6 +84,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
       })
 
       const result = await res.json()
+      console.log('Search API response:', result)
 
       if (!result.success) {
         onError?.(result.error || '搜索失败')
@@ -92,7 +93,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
       }
 
       if (result.confidence < 0.3) {
-        onError?.('哎呀没有理解你')
+        onError?.(`置信度太低 (${result.confidence?.toFixed(2) || 'N/A'})，请换个说法试试`)
         setLoading(false)
         return
       }

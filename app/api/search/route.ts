@@ -4,6 +4,7 @@ import { searchCity } from '@/lib/deepseek'
 export async function POST(req: NextRequest) {
   try {
     const { query } = await req.json()
+    console.log('[Search API] Received query:', query)
 
     if (!query || typeof query !== 'string' || !query.trim()) {
       return NextResponse.json(
@@ -13,13 +14,14 @@ export async function POST(req: NextRequest) {
     }
 
     const result = await searchCity(query.trim())
+    console.log('[Search API] Result:', JSON.stringify(result, null, 2))
 
     return NextResponse.json({
       success: true,
       ...result
     })
   } catch (error) {
-    console.error('Search API error:', error)
+    console.error('[Search API] Error:', error)
     return NextResponse.json(
       {
         success: false,
