@@ -21,6 +21,7 @@ export default function HomePage() {
   const [randomCities, setRandomCities] = useState<NomadCity[]>([])
   const [hoveredCity, setHoveredCity] = useState<string | null>(null)
   const [hoveredQuadrant, setHoveredQuadrant] = useState<string | null>(null)
+  const searchBoxRef = useRef<SearchBoxHandle>(null)
 
   useEffect(() => {
     const hasSeenGuide = localStorage.getItem('hasSeenGuide')
