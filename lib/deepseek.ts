@@ -28,6 +28,7 @@ Query: ${query}`
 
 export async function searchCity(query: string): Promise<SearchResult> {
   const apiKey = process.env.ANTHROPIC_API_KEY
+  console.log('[deepseek] apiKey present:', !!apiKey, 'prefix:', apiKey?.slice(0, 8))
   if (!apiKey) {
     throw new Error('ANTHROPIC_API_KEY not configured')
   }
@@ -50,7 +51,9 @@ export async function searchCity(query: string): Promise<SearchResult> {
   })
 
   if (!response.ok) {
-    throw new Error(`Deepseek API error: ${response.status}`)
+    const body = await response.text()
+    console.log('[deepseek] error response:', response.status, body)
+    throw new Error(`Deepseek API error: ${response.status} ${body}`)
   }
 
   const data = await response.json()
