@@ -4,6 +4,7 @@ import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps
 import { CITY_COORDS } from '@/data/cityCoords'
 import { NOMAD_CITY_POOL, PINNED_CITIES } from '@/data/nomadCities'
 import { COUNTRY_CENTROIDS } from '@/data/countryCentroids'
+import { OCEAN_LABELS } from '@/data/oceanLabels'
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
@@ -103,6 +104,19 @@ export default function GlobeMap({ cities, onCityClick }: GlobeMapProps) {
             ))
           }
         </Geographies>
+        {OCEAN_LABELS.map(({ zh, coords }) => {
+          if (frontFaceDot(coords[0], coords[1], -rotate[0], -rotate[1]) <= 0.2) return null
+          return (
+            <Marker key={zh} coordinates={coords}>
+              <text
+                textAnchor="middle"
+                style={{ fontSize: 7, fill: '#a8c4d4', fontWeight: 300, fontStyle: 'italic', pointerEvents: 'none', userSelect: 'none', letterSpacing: 1 }}
+              >
+                {zh}
+              </text>
+            </Marker>
+          )
+        })}
         {COUNTRY_CENTROIDS.map(({ zh, coords }) => {
           // hide labels near the limb (dot < 0.15) to avoid distortion at the edge
           if (frontFaceDot(coords[0], coords[1], -rotate[0], -rotate[1]) <= 0.15) return null
