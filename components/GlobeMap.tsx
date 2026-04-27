@@ -18,7 +18,7 @@ interface GlobeMapProps {
 
 export default function GlobeMap({ cities, onCityClick }: GlobeMapProps) {
   const [lon, setLon] = useState(0)
-  const rafRef = useRef<number>(0)
+  const rafRef = useRef<number | null>(null)
   const pausedRef = useRef(false)
   const lonRef = useRef(0)
 
@@ -31,12 +31,12 @@ export default function GlobeMap({ cities, onCityClick }: GlobeMapProps) {
       rafRef.current = requestAnimationFrame(animate)
     }
     rafRef.current = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(rafRef.current)
+    return () => { if (rafRef.current !== null) cancelAnimationFrame(rafRef.current) }
   }, [])
 
   const dots = cities
     .map((en, i) => ({ en, zh: CITY_ZH[en] ?? en, coords: CITY_COORDS[en], isFirst: i === 0 }))
-    .filter(d => d.coords != null)
+    .filter((d): d is typeof d & { coords: [number, number] } => d.coords != null)
 
   return (
     <div
