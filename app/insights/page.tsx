@@ -83,6 +83,7 @@ export default function InsightsPage() {
   const [loginEmail, setLoginEmail] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [pageUrl, setPageUrl] = useState('')
+  const [showSoulModal, setShowSoulModal] = useState(false)
 
   useEffect(() => {
     setPageUrl(window.location.href)
@@ -96,6 +97,15 @@ export default function InsightsPage() {
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [showShare])
+
+  useEffect(() => {
+    if (!showSoulModal) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowSoulModal(false)
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [showSoulModal])
 
   const handleSave = () => {
     if (!isLoggedIn) { setShowLogin(true); return }
@@ -145,7 +155,7 @@ export default function InsightsPage() {
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌍 SOUL 城市灵魂</div>
-          <div style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 10, padding: '9px 11px' }}>
+          <div onClick={() => setShowSoulModal(true)} style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 10, padding: '9px 11px', cursor: 'pointer' }}>
             <div style={{ fontSize: 12, fontWeight: 500, color: '#3d2010', marginBottom: 2 }}>{city.soul.headline}</div>
             <div style={{ fontSize: 10, color: '#854f0b' }}>{city.soul.sub} → 展开</div>
           </div>
@@ -276,6 +286,75 @@ export default function InsightsPage() {
               {copyStatus === 'copied' ? '已复制' : copyStatus === 'failed' ? '复制失败' : '复制链接'}
             </button>
             <button onClick={() => setShowShare(false)} style={{ width: '100%', padding: '10px', borderRadius: 12, background: 'none', border: '0.5px solid var(--border-light)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer' }}>关闭</button>
+          </div>
+        </div>
+      )}
+
+      {showSoulModal && (
+        <div
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowSoulModal(false)
+          }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 16, padding: '20px', overflow: 'auto' }}
+          >
+            <button
+              onClick={() => setShowSoulModal(false)}
+              style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, border: 'none', background: 'rgba(61, 32, 16, 0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#3d2010', cursor: 'pointer', lineHeight: 1 }}
+            >
+              ×
+            </button>
+
+            <div style={{ fontSize: 16, fontWeight: 500, color: '#3d2010', marginBottom: 16, paddingRight: 40 }}>
+              🌍 {city.name}{city.nameZh && ` ${city.nameZh}`} 的灵魂
+            </div>
+
+            {city.soul.body || city.soul.personality || city.soul.economy || city.soul.festivals || city.soul.figures ? (
+              <>
+                {city.soul.body && (
+                  <div style={{ marginBottom: 16 }}>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>城市概览</div>
+                    <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.body}</div>
+                  </div>
+                )}
+
+                {city.soul.personality && (
+                  <div style={{ marginBottom: 16 }}>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>文化性格</div>
+                    <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.personality}</div>
+                  </div>
+                )}
+
+                {city.soul.economy && (
+                  <div style={{ marginBottom: 16 }}>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>经济支柱</div>
+                    <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.economy}</div>
+                  </div>
+                )}
+
+                {city.soul.festivals && (
+                  <div style={{ marginBottom: 16 }}>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>节庆活动</div>
+                    <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.festivals}</div>
+                  </div>
+                )}
+
+                {city.soul.figures && (
+                  <div style={{ marginBottom: 0 }}>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>代表人物</div>
+                    <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.figures}</div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div style={{ fontSize: 11, color: '#854f0b', lineHeight: 1.6, textAlign: 'center', padding: '20px 0' }}>
+                选择具体城市查看详细内容
+              </div>
+            )}
           </div>
         </div>
       )}
