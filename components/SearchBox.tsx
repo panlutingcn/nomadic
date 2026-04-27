@@ -85,7 +85,13 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
 
       const result = await res.json()
 
-      if (!result.success || result.confidence < 0.3) {
+      if (!result.success) {
+        onError?.(result.error || '搜索失败')
+        setLoading(false)
+        return
+      }
+
+      if (result.confidence < 0.3) {
         onError?.('哎呀没有理解你')
         setLoading(false)
         return
