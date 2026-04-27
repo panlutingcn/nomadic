@@ -15,7 +15,7 @@ const RANDOM_COUNT = 6
 
 export default function HomePage() {
   const router = useRouter()
-  const { setSelectedCity, imprints } = useApp()
+  const { setSelectedCity, imprints, savedCities } = useApp()
   const [showGuide, setShowGuide] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [randomCities, setRandomCities] = useState<NomadCity[]>([])
@@ -233,7 +233,7 @@ export default function HomePage() {
         <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, padding: '11px 13px', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
             <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>我的全球版图</span>
-            <span style={{ fontSize: 10, color: 'var(--text-muted)', cursor: 'pointer' }} onClick={() => router.push('/vault')}>点击展开 ›</span>
+            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>走过 {new Set(savedCities.map(c => c.country)).size} 个国家 · {new Set(imprints.map(i => i.city)).size} 个城市</span>
           </div>
           <div style={{ height: 72, position: 'relative', background: 'var(--bg-page)', borderRadius: 8, overflow: 'hidden' }}>
             <WorldMap

@@ -2,9 +2,10 @@
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 import { useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
-import { SEARCH_PROMPTS } from '@/data/searchPrompts'
+import { SEARCH_PROMPTS, SearchPrompt } from '@/data/searchPrompts'
 
 const CHAR_DELAY = 60
+const LINE_PAUSE = 400
 
 export interface SearchBoxHandle {
   fill: (text: string) => void
@@ -15,16 +16,16 @@ interface SearchBoxProps {
   onError?: (msg: string) => void
 }
 
-function getDailyPrompt(): string {
+function getDailyPrompt(): SearchPrompt {
   const today = new Date().toISOString().slice(0, 10)
   try {
-    const stored = localStorage.getItem('nomadic_daily_prompt')
+    const stored = localStorage.getItem('nomadic_daily_prompt_v2')
     if (stored) {
       const { date, index } = JSON.parse(stored)
       if (date === today) return SEARCH_PROMPTS[index]
     }
     const index = Math.floor(Math.random() * SEARCH_PROMPTS.length)
-    localStorage.setItem('nomadic_daily_prompt', JSON.stringify({ date: today, index }))
+    localStorage.setItem('nomadic_daily_prompt_v2', JSON.stringify({ date: today, index }))
     return SEARCH_PROMPTS[index]
   } catch {
     return SEARCH_PROMPTS[0]
@@ -53,14 +54,17 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
 
   useEffect(() => {
     const prompt = getDailyPrompt()
+    const full = prompt.city + '\n' + prompt.line2 + '\n' + prompt.line3
     let i = 0
     let timeout: ReturnType<typeof setTimeout>
 
     const type = () => {
-      if (i <= prompt.length) {
-        setPlaceholder(prompt.slice(0, i))
+      if (i <= full.length) {
+        setPlaceholder(full.slice(0, i))
+        const nextChar = full[i]
+        const delay = nextChar === '\n' ? LINE_PAUSE : CHAR_DELAY
         i++
-        timeout = setTimeout(type, CHAR_DELAY)
+        timeout = setTimeout(type, delay)
       }
     }
 
