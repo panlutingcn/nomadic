@@ -215,7 +215,6 @@ export default function HomePage() {
 
         <div style={{ height: '0.5px', background: 'var(--border)', margin: '12px 0' }} />
 
-        <div style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 8 }}>—— 洞察四个象限 ——</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7, marginBottom: 12 }}>
           {[
             { emoji: '🌍', en: 'SOUL', zh: '城市灵魂', desc: '读懂一座城市的内核', bg: '#faeeda', border: '#e8c98a', color: '#633806', descColor: '#854f0b' },
