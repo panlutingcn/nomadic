@@ -27,37 +27,36 @@ Return JSON only:
 Query: ${query}`
 
 export async function searchCity(query: string): Promise<SearchResult> {
-  const apiKey = process.env.ANTHROPIC_API_KEY
+  const apiKey = process.env.DEEPSEEK_API_KEY
   console.log('[deepseek] apiKey present:', !!apiKey, 'prefix:', apiKey?.slice(0, 8))
   if (!apiKey) {
-    throw new Error('ANTHROPIC_API_KEY not configured')
+    throw new Error('DEEPSEEK_API_KEY not configured')
   }
 
-  const response = await fetch('https://dragoncode.codes/v1/messages', {
+  const response = await fetch('https://api.deepseek.com/chat/completions', {
     method: 'POST',
     headers: {
-      'x-api-key': apiKey,
+      'Authorization': `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
-      'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 500,
-      system: SYSTEM_PROMPT,
+      model: 'deepseek-chat',
       messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: USER_PROMPT(query) }
       ],
+      temperature: 0.7,
     })
   })
 
   if (!response.ok) {
     const body = await response.text()
     console.log('[deepseek] error response:', response.status, body)
-    throw new Error(`Deepseek API error: ${response.status} ${body}`)
+    throw new Error(`Deepseek API error: ${response.status}`)
   }
 
   const data = await response.json()
-  const text: string = data.content[0].text
+  const text: string = data.choices[0].message.content
   const jsonStr = text.replace(/^```json\s*/m, '').replace(/\s*```$/m, '').trim()
   return JSON.parse(jsonStr) as SearchResult
 }
