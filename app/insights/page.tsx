@@ -194,7 +194,10 @@ export default function InsightsPage() {
                 <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.55, marginTop: 5 }}>{city.soul.body}</div>
               )}
             </div>
-            <div style={{ fontSize: 10, color: '#854f0b', marginTop: 5, textAlign: 'center' }}>文化性格·经济支柱·节庆活动·代表人物 → 展开</div>
+            <div style={{ fontSize: 10, color: '#854f0b', marginTop: 5, textAlign: 'center' }}>
+              <div>文化性格·经济支柱·节庆活动·代表人物</div>
+              <div style={{ marginTop: 2 }}>点击展开详情 →</div>
+            </div>
           </div>
         </div>
 
