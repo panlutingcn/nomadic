@@ -104,6 +104,7 @@ export default function InsightsPage() {
   const [pageUrl, setPageUrl] = useState('')
   const [showSoulModal, setShowSoulModal] = useState(false)
   const [showBaseModal, setShowBaseModal] = useState(false)
+  const [showChanceModal, setShowChanceModal] = useState(false)
 
   useEffect(() => {
     setPageUrl(window.location.href)
@@ -113,11 +114,13 @@ export default function InsightsPage() {
   const closeShare = useCallback(() => setShowShare(false), [])
   const closeSoulModal = useCallback(() => setShowSoulModal(false), [])
   const closeBaseModal = useCallback(() => setShowBaseModal(false), [])
+  const closeChanceModal = useCallback(() => setShowChanceModal(false), [])
 
   // Use custom hook for Escape key handling
   useEscapeKey(showShare, closeShare)
   useEscapeKey(showSoulModal, closeSoulModal)
   useEscapeKey(showBaseModal, closeBaseModal)
+  useEscapeKey(showChanceModal, closeChanceModal)
 
   // Body scroll lock when SOUL modal is open
   useEffect(() => {
@@ -138,6 +141,16 @@ export default function InsightsPage() {
       }
     }
   }, [showBaseModal])
+
+  // Body scroll lock when CHANCE modal is open
+  useEffect(() => {
+    if (showChanceModal) {
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = ''
+      }
+    }
+  }, [showChanceModal])
 
   const handleSave = () => {
     if (!isLoggedIn) { setShowLogin(true); return }
@@ -218,27 +231,9 @@ export default function InsightsPage() {
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>💼 CHANCE 商业机会</div>
-          <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '9px 11px' }}>
+          <div onClick={() => setShowChanceModal(true)} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '9px 11px', cursor: 'pointer' }}>
             <div style={{ fontSize: 10, color: '#3d3020', lineHeight: 1.55, marginBottom: 6 }}>{city.chance.paragraph}</div>
-            <div style={{ fontSize: 9, color: 'var(--text-muted)', margin: '5px 0 3px' }}>📋 政策环境</div>
-            <a href={city.chance.policy.url} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 8px', borderRadius: 6, background: 'var(--bg-page)', border: '0.5px solid var(--border)', marginBottom: 6, textDecoration: 'none' }}>
-              <span style={{ fontSize: 10, color: 'var(--accent-text)' }}>{city.chance.policy.label}</span>
-              <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>›</span>
-            </a>
-            <div style={{ fontSize: 9, color: 'var(--text-muted)', margin: '5px 0 3px' }}>🏢 本地招聘平台</div>
-            {city.chance.localJobs.map(j => (
-              <a key={j.name} href={j.url} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 8px', borderRadius: 6, background: 'var(--bg-page)', border: '0.5px solid var(--border)', marginBottom: 3, textDecoration: 'none' }}>
-                <span style={{ fontSize: 10, color: 'var(--accent-text)' }}>{j.name}</span>
-                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>›</span>
-              </a>
-            ))}
-            <div style={{ fontSize: 9, color: 'var(--text-muted)', margin: '5px 0 3px' }}>🌐 全球远程平台</div>
-            {city.chance.remoteJobs.map(j => (
-              <a key={j.name} href={j.url} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 8px', borderRadius: 6, background: 'var(--bg-page)', border: '0.5px solid var(--border)', marginBottom: 3, textDecoration: 'none' }}>
-                <span style={{ fontSize: 10, color: 'var(--accent-text)' }}>{j.name}</span>
-                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>›</span>
-              </a>
-            ))}
+            <div style={{ fontSize: 10, color: '#8b6914', textAlign: 'center' }}>点击展开平台详情 →</div>
           </div>
         </div>
 
@@ -457,6 +452,70 @@ export default function InsightsPage() {
               ) : (
                 <div style={{ fontSize: 11, color: '#6b8e23', lineHeight: 1.6, textAlign: 'center', padding: '20px 0' }}>
                   选择具体城市查看详细内容
+                </div>
+              )}
+            </div>
+          </FocusTrap>
+        </div>
+      )}
+
+      {showChanceModal && (
+        <div
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowChanceModal(false)
+          }}
+        >
+          <FocusTrap active={showChanceModal} focusTrapOptions={{ escapeDeactivates: false }}>
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="chance-modal-title"
+              style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#fdf8ee', border: '0.5px solid #e8d5a0', borderRadius: 16, padding: '20px', overflow: 'auto' }}
+            >
+              <button
+                onClick={() => setShowChanceModal(false)}
+                aria-label="关闭"
+                style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, border: 'none', background: 'rgba(139, 105, 20, 0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#8b6914', cursor: 'pointer', lineHeight: 1 }}
+              >
+                ×
+              </button>
+
+              <div id="chance-modal-title" style={{ fontSize: 16, fontWeight: 500, color: '#3d2c00', marginBottom: 16, paddingRight: 40 }}>
+                💼 {city.name}{city.nameZh && ` ${city.nameZh}`} 的商业机会
+              </div>
+
+              <div style={{ fontSize: 11, color: '#3d3020', lineHeight: 1.6, marginBottom: 16 }}>{city.chance.paragraph}</div>
+
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 12, fontWeight: 500, color: '#8b6914', marginBottom: 8 }}>📋 政策环境</div>
+                <a href={city.chance.policy.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', textDecoration: 'none' }}>
+                  <span style={{ fontSize: 11, color: 'var(--accent-text)', fontWeight: 500 }}>{city.chance.policy.label}</span>
+                  {city.chance.policy.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{city.chance.policy.desc}</span>}
+                </a>
+              </div>
+
+              {city.chance.localJobs.length > 0 && (
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: '#8b6914', marginBottom: 8 }}>🏢 本地招聘平台</div>
+                  {city.chance.localJobs.map(j => (
+                    <a key={j.name} href={j.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 6, textDecoration: 'none' }}>
+                      <span style={{ fontSize: 11, color: 'var(--accent-text)', fontWeight: 500 }}>{j.name}</span>
+                      {j.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{j.desc}</span>}
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              {city.chance.remoteJobs.length > 0 && (
+                <div style={{ marginBottom: 0 }}>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: '#8b6914', marginBottom: 8 }}>🌐 全球远程平台</div>
+                  {city.chance.remoteJobs.map(j => (
+                    <a key={j.name} href={j.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 6, textDecoration: 'none' }}>
+                      <span style={{ fontSize: 11, color: 'var(--accent-text)', fontWeight: 500 }}>{j.name}</span>
+                      {j.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{j.desc}</span>}
+                    </a>
+                  ))}
                 </div>
               )}
             </div>
