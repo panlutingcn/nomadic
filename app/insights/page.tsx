@@ -103,6 +103,7 @@ export default function InsightsPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [pageUrl, setPageUrl] = useState('')
   const [showSoulModal, setShowSoulModal] = useState(false)
+  const [showBaseModal, setShowBaseModal] = useState(false)
 
   useEffect(() => {
     setPageUrl(window.location.href)
@@ -111,10 +112,12 @@ export default function InsightsPage() {
   // Stable callback references for escape key handling
   const closeShare = useCallback(() => setShowShare(false), [])
   const closeSoulModal = useCallback(() => setShowSoulModal(false), [])
+  const closeBaseModal = useCallback(() => setShowBaseModal(false), [])
 
   // Use custom hook for Escape key handling
   useEscapeKey(showShare, closeShare)
   useEscapeKey(showSoulModal, closeSoulModal)
+  useEscapeKey(showBaseModal, closeBaseModal)
 
   // Body scroll lock when SOUL modal is open
   useEffect(() => {
@@ -125,6 +128,16 @@ export default function InsightsPage() {
       }
     }
   }, [showSoulModal])
+
+  // Body scroll lock when BASE modal is open
+  useEffect(() => {
+    if (showBaseModal) {
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = ''
+      }
+    }
+  }, [showBaseModal])
 
   const handleSave = () => {
     if (!isLoggedIn) { setShowLogin(true); return }
@@ -182,21 +195,24 @@ export default function InsightsPage() {
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌿 BASE 生存基准</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
-            {[
-              { num: city.base.wifi, label: 'WiFi' },
-              { num: city.base.cost, label: '物价' },
-              { num: city.base.visa.split('天')[0] + (city.base.visa.includes('天') ? 'd' : ''), unit: city.base.visa.includes('申根') ? '申根' : city.base.visa.includes('落地') ? '落地签' : '', label: '签证' },
-            ].map(item => (
-              <div key={item.label} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '7px 6px', textAlign: 'center' }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{item.num}</div>
-                {'unit' in item && <div style={{ fontSize: 9, color: 'var(--text-secondary)' }}>{item.unit}</div>}
-                <div style={{ fontSize: 9, color: 'var(--text-muted)', marginTop: 1 }}>{item.label}</div>
-              </div>
-            ))}
-          </div>
-          <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 7, padding: '7px 10px', marginTop: 5 }}>
-            <span style={{ fontSize: 10, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{city.base.welfare}</span>
+          <div onClick={() => setShowBaseModal(true)} style={{ cursor: 'pointer' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
+              {[
+                { num: city.base.wifi, label: 'WiFi' },
+                { num: city.base.cost, label: '物价' },
+                { num: city.base.visa.split('天')[0] + (city.base.visa.includes('天') ? 'd' : ''), unit: city.base.visa.includes('申根') ? '申根' : city.base.visa.includes('落地') ? '落地签' : '', label: '签证' },
+              ].map(item => (
+                <div key={item.label} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '7px 6px', textAlign: 'center' }}>
+                  <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{item.num}</div>
+                  {'unit' in item && <div style={{ fontSize: 9, color: 'var(--text-secondary)' }}>{item.unit}</div>}
+                  <div style={{ fontSize: 9, color: 'var(--text-muted)', marginTop: 1 }}>{item.label}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 7, padding: '7px 10px', marginTop: 5 }}>
+              <span style={{ fontSize: 10, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{city.base.welfare}</span>
+            </div>
+            <div style={{ fontSize: 10, color: '#6b8e23', marginTop: 5, textAlign: 'center' }}>点击展开详情 →</div>
           </div>
         </div>
 
@@ -378,6 +394,72 @@ export default function InsightsPage() {
               </div>
             )}
           </div>
+          </FocusTrap>
+        </div>
+      )}
+
+      {showBaseModal && (
+        <div
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowBaseModal(false)
+          }}
+        >
+          <FocusTrap active={showBaseModal} focusTrapOptions={{ escapeDeactivates: false }}>
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="base-modal-title"
+              style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#f0f8f0', border: '0.5px solid #a8d5a8', borderRadius: 16, padding: '20px', overflow: 'auto' }}
+            >
+              <button
+                onClick={() => setShowBaseModal(false)}
+                aria-label="关闭"
+                style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, border: 'none', background: 'rgba(107, 142, 35, 0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#6b8e23', cursor: 'pointer', lineHeight: 1 }}
+              >
+                ×
+              </button>
+
+              <div id="base-modal-title" style={{ fontSize: 16, fontWeight: 500, color: '#2d5016', marginBottom: 16, paddingRight: 40 }}>
+                🌿 {city.name}{city.nameZh && ` ${city.nameZh}`} 的生存基准
+              </div>
+
+              {city.base.safety || city.base.dailyCost || city.base.visaDetail || city.base.society ? (
+                <>
+                  {city.base.safety && (
+                    <div style={{ marginBottom: 16 }}>
+                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>治安与安全</div>
+                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.safety}</div>
+                    </div>
+                  )}
+
+                  {city.base.dailyCost && (
+                    <div style={{ marginBottom: 16 }}>
+                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>每日花销</div>
+                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{city.base.dailyCost}</div>
+                    </div>
+                  )}
+
+                  {city.base.visaDetail && (
+                    <div style={{ marginBottom: 16 }}>
+                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证政策</div>
+                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.visaDetail}</div>
+                    </div>
+                  )}
+
+                  {city.base.society && (
+                    <div style={{ marginBottom: 0 }}>
+                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>社会运转</div>
+                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.society}</div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div style={{ fontSize: 11, color: '#6b8e23', lineHeight: 1.6, textAlign: 'center', padding: '20px 0' }}>
+                  选择具体城市查看详细内容
+                </div>
+              )}
+            </div>
           </FocusTrap>
         </div>
       )}
