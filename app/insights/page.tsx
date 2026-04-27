@@ -1,10 +1,22 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { QRCodeSVG } from 'qrcode.react'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
+
+// Custom hook for Escape key handling
+function useEscapeKey(isOpen: boolean, onClose: () => void) {
+  useEffect(() => {
+    if (!isOpen) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, onClose])
+}
 
 export default function InsightsPage() {
   const router = useRouter()
@@ -85,26 +97,42 @@ export default function InsightsPage() {
   const [pageUrl, setPageUrl] = useState('')
   const [showSoulModal, setShowSoulModal] = useState(false)
 
+  // Refs for focus management
+  const soulModalCloseButtonRef = useRef<HTMLButtonElement>(null)
+  const previousFocusRef = useRef<HTMLElement | null>(null)
+
   useEffect(() => {
     setPageUrl(window.location.href)
   }, [])
 
-  useEffect(() => {
-    if (!showShare) return
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setShowShare(false)
-    }
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [showShare])
+  // Use custom hook for Escape key handling
+  useEscapeKey(showShare, () => setShowShare(false))
+  useEscapeKey(showSoulModal, () => setShowSoulModal(false))
 
+  // Body scroll lock when SOUL modal is open
   useEffect(() => {
-    if (!showSoulModal) return
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setShowSoulModal(false)
+    if (showSoulModal) {
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = ''
+      }
     }
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [showSoulModal])
+
+  // Focus management for SOUL modal
+  useEffect(() => {
+    if (showSoulModal) {
+      // Store the currently focused element
+      previousFocusRef.current = document.activeElement as HTMLElement
+      // Focus the close button when modal opens
+      setTimeout(() => {
+        soulModalCloseButtonRef.current?.focus()
+      }, 0)
+    } else if (previousFocusRef.current) {
+      // Restore focus when modal closes
+      previousFocusRef.current.focus()
+      previousFocusRef.current = null
+    }
   }, [showSoulModal])
 
   const handleSave = () => {
@@ -300,16 +328,19 @@ export default function InsightsPage() {
           <div
             role="dialog"
             aria-modal="true"
+            aria-labelledby="soul-modal-title"
             style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 16, padding: '20px', overflow: 'auto' }}
           >
             <button
+              ref={soulModalCloseButtonRef}
               onClick={() => setShowSoulModal(false)}
+              aria-label="关闭"
               style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, border: 'none', background: 'rgba(61, 32, 16, 0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#3d2010', cursor: 'pointer', lineHeight: 1 }}
             >
               ×
             </button>
 
-            <div style={{ fontSize: 16, fontWeight: 500, color: '#3d2010', marginBottom: 16, paddingRight: 40 }}>
+            <div id="soul-modal-title" style={{ fontSize: 16, fontWeight: 500, color: '#3d2010', marginBottom: 16, paddingRight: 40 }}>
               🌍 {city.name}{city.nameZh && ` ${city.nameZh}`} 的灵魂
             </div>
 
