@@ -62,23 +62,23 @@ export default function InsightsPage() {
   const city = hasSelection
     ? (CITIES[selectedCity] ?? {
         name: selectedCity,
-        nameZh: searchContext.cityNameZh || selectedCity,
-        country: searchContext.country || 'Unknown',
-        countryZh: searchContext.countryZh || '未知地区',
-        flag: searchContext.flag || '🌍',
-        match: Math.round((searchContext.confidence || 0.75) * 100),
+        nameZh: searchContext?.cityNameZh || selectedCity,
+        country: searchContext?.country || 'Unknown',
+        countryZh: searchContext?.countryZh || '未知地区',
+        flag: searchContext?.flag || '🌍',
+        match: Math.round((searchContext?.confidence || 0.75) * 100),
         soul: {
-          headline: searchContext.soulHeadline || '探索这座城市的独特魅力。',
+          headline: searchContext?.soulHeadline || '探索这座城市的独特魅力。',
           sub: '文化 · 生活 · 工作'
         },
         base: {
-          wifi: searchContext.wifiSpeed || '未知',
-          cost: searchContext.costLevel || '$$',
-          visa: searchContext.visaInfo || '请查询当地签证政策',
+          wifi: searchContext?.wifiSpeed || '未知',
+          cost: searchContext?.costLevel || '$$',
+          visa: searchContext?.visaInfo || '请查询当地签证政策',
           welfare: '🏥 建议出行前购买国际医疗保险。'
         },
         chance: {
-          paragraph: searchContext.chanceParagraph || '该城市提供多样化的远程工作机会。',
+          paragraph: searchContext?.chanceParagraph || '该城市提供多样化的远程工作机会。',
           policy: { label: '查询当地签证政策', url: 'https://www.iatatravelcentre.com' },
           localJobs: [{ name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs' }],
           remoteJobs: [
