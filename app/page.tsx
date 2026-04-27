@@ -5,7 +5,7 @@ import BottomNav from '@/components/BottomNav'
 import SearchBox, { SearchBoxHandle } from '@/components/SearchBox'
 import GuideModal from '@/components/GuideModal'
 import ErrorToast from '@/components/ErrorToast'
-import WorldMap from '@/components/WorldMap'
+import GlobeMap from '@/components/GlobeMap'
 import { useApp } from '@/context/AppContext'
 import { CITIES } from '@/data/cities'
 import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
@@ -19,6 +19,7 @@ export default function HomePage() {
   const [showGuide, setShowGuide] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [randomCities, setRandomCities] = useState<NomadCity[]>([])
+  const [hoveredCity, setHoveredCity] = useState<string | null>(null)
   const searchBoxRef = useRef<SearchBoxHandle>(null)
 
   useEffect(() => {
@@ -189,12 +190,20 @@ export default function HomePage() {
           {displayCities.map(city => (
               <button
                 key={city.en}
-                className="city-tag"
                 onClick={() => handleCityClick(city)}
+                onMouseEnter={() => setHoveredCity(city.en)}
+                onMouseLeave={() => setHoveredCity(null)}
                 style={{
-                  fontSize: 11, fontWeight: 500, padding: '5px 11px', borderRadius: 8,
-                  background: 'var(--accent-dim)', color: 'var(--accent-text)',
-                  border: '0.5px solid var(--accent-border)', cursor: 'pointer',
+                  fontSize: 11,
+                  padding: '5px 11px',
+                  borderRadius: 8,
+                  background: 'var(--accent-dim)',
+                  color: 'var(--accent-text)',
+                  border: `${hoveredCity === city.en ? '1.5px' : '0.5px'} solid var(--accent-border)`,
+                  cursor: 'pointer',
+                  fontWeight: hoveredCity === city.en ? 600 : 500,
+                  transform: hoveredCity === city.en ? 'scale(1.06)' : 'scale(1)',
+                  transition: 'all 120ms ease',
                 }}
               >
                 {city.zh}
@@ -235,8 +244,8 @@ export default function HomePage() {
             <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>我的全球版图</span>
             <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>走过 {new Set(savedCities.map(c => c.country)).size} 个国家 · {new Set(imprints.map(i => i.city)).size} 个城市</span>
           </div>
-          <div style={{ height: 72, position: 'relative', background: 'var(--bg-page)', borderRadius: 8, overflow: 'hidden' }}>
-            <WorldMap
+          <div style={{ height: 160, position: 'relative', background: 'var(--bg-page)', borderRadius: 8, overflow: 'hidden' }}>
+            <GlobeMap
               cities={imprintCities}
               onCityClick={(city) => {
                 setSelectedCity(city in CITIES ? city : 'Berlin')
