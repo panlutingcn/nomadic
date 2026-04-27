@@ -61,7 +61,7 @@ export default function GuideModal({ onClose }: GuideModalProps) {
             欢迎来到 Nomadic 🌍
           </div>
           <div style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '20px' }}>
-            在搜索框输入你想去的城市，<br/>
+            输入你想去的城市，<br/>
             或描述你的旅居想法，<br/>
             我们会为你找到最合适的目的地。
           </div>
