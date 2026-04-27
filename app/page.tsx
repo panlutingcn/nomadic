@@ -6,6 +6,7 @@ import SearchBox, { SearchBoxHandle } from '@/components/SearchBox'
 import GuideModal from '@/components/GuideModal'
 import ErrorToast from '@/components/ErrorToast'
 import GlobeMap from '@/components/GlobeMap'
+import ContactBubble from '@/components/ContactBubble'
 import { useApp } from '@/context/AppContext'
 import { CITIES } from '@/data/cities'
 import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
@@ -278,6 +279,15 @@ export default function HomePage() {
           <div style={{ fontSize: 9, color: 'var(--text-muted)', textAlign: 'center', marginTop: 6 }}>点击发光点 · 进入该城市印迹</div>
         </div>
       </div>
+
+      {/* Hidden form for Netlify Forms build-time detection */}
+      <form name="contact" data-netlify="true" hidden>
+        <input type="email" name="user-email" />
+        <input type="text" name="subject" />
+        <textarea name="message"></textarea>
+      </form>
+
+      <ContactBubble />
       <BottomNav />
       {showGuide && <GuideModal onClose={() => setShowGuide(false)} />}
       {errorMessage && <ErrorToast onClose={() => setErrorMessage('')} />}
