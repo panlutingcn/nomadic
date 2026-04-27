@@ -41,13 +41,11 @@ export default function ContactBubble() {
             fontSize: 11,
             color: '#b8a98a',
             lineHeight: 1.6,
-            textAlign: 'left',
+            textAlign: 'center',
           }}>
             <span style={{ fontWeight: 600, color: '#9a8a6a' }}>共创Nomadic</span><br />
-            <span style={{ borderLeft: '2px solid #d4c4a0', paddingLeft: 6, display: 'inline-block', marginTop: 3 }}>
-              有建议、故事或合作意向？<br />
-              欢迎来信✉️
-            </span>
+            有建议、故事或合作意向？<br />
+            欢迎来信✉️
           </div>
         </div>
       </div>
