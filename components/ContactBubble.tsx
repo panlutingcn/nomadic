@@ -9,7 +9,7 @@ export default function ContactBubble() {
   return (
     <>
       {/* Chat bubble entry point */}
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 32, marginBottom: 8 }}>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 32, marginBottom: 32 }}>
         <div
           onClick={() => setShowModal(true)}
           onMouseEnter={() => setHovered(true)}
