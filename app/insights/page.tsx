@@ -104,8 +104,6 @@ export default function InsightsPage() {
   const [pageUrl, setPageUrl] = useState('')
   const [showSoulModal, setShowSoulModal] = useState(false)
   const [showBaseModal, setShowBaseModal] = useState(false)
-  const [showChanceModal, setShowChanceModal] = useState(false)
-  const [showLocalModal, setShowLocalModal] = useState(false)
 
   useEffect(() => {
     setPageUrl(window.location.href)
@@ -115,15 +113,11 @@ export default function InsightsPage() {
   const closeShare = useCallback(() => setShowShare(false), [])
   const closeSoulModal = useCallback(() => setShowSoulModal(false), [])
   const closeBaseModal = useCallback(() => setShowBaseModal(false), [])
-  const closeChanceModal = useCallback(() => setShowChanceModal(false), [])
-  const closeLocalModal = useCallback(() => setShowLocalModal(false), [])
 
   // Use custom hook for Escape key handling
   useEscapeKey(showShare, closeShare)
   useEscapeKey(showSoulModal, closeSoulModal)
   useEscapeKey(showBaseModal, closeBaseModal)
-  useEscapeKey(showChanceModal, closeChanceModal)
-  useEscapeKey(showLocalModal, closeLocalModal)
 
   // Body scroll lock when SOUL modal is open
   useEffect(() => {
@@ -144,26 +138,6 @@ export default function InsightsPage() {
       }
     }
   }, [showBaseModal])
-
-  // Body scroll lock when CHANCE modal is open
-  useEffect(() => {
-    if (showChanceModal) {
-      document.body.style.overflow = 'hidden'
-      return () => {
-        document.body.style.overflow = ''
-      }
-    }
-  }, [showChanceModal])
-
-  // Body scroll lock when LOCAL modal is open
-  useEffect(() => {
-    if (showLocalModal) {
-      document.body.style.overflow = 'hidden'
-      return () => {
-        document.body.style.overflow = ''
-      }
-    }
-  }, [showLocalModal])
 
   const handleSave = () => {
     if (!isLoggedIn) { setShowLogin(true); return }
@@ -212,15 +186,18 @@ export default function InsightsPage() {
         )}
 
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌍 SOUL 城市灵魂</div>
+          <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌍 SOUL 城市灵魂</div>
           <div onClick={() => setShowSoulModal(true)} style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 10, padding: '9px 11px', cursor: 'pointer' }}>
             <div style={{ fontSize: 12, fontWeight: 500, color: '#3d2010', marginBottom: 2 }}>{city.soul.headline}</div>
-            <div style={{ fontSize: 10, color: '#854f0b' }}>{city.soul.sub} → 展开</div>
+            {'body' in city.soul && city.soul.body && (
+              <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.55, marginTop: 5, marginBottom: 5 }}>{city.soul.body}</div>
+            )}
+            <div style={{ fontSize: 10, color: '#854f0b' }}>文化性格·经济支柱·节庆活动·代表人物 → 展开</div>
           </div>
         </div>
 
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌿 BASE 生存基准</div>
+          <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌿 BASE 生存基准</div>
           <div onClick={() => setShowBaseModal(true)} style={{ cursor: 'pointer' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
               {[
@@ -243,22 +220,63 @@ export default function InsightsPage() {
         </div>
 
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>💼 CHANCE 商业机会</div>
-          <div onClick={() => setShowChanceModal(true)} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '9px 11px', cursor: 'pointer' }}>
-            <div style={{ fontSize: 10, color: '#3d3020', lineHeight: 1.55, marginBottom: 6 }}>{city.chance.paragraph}</div>
-            <div style={{ fontSize: 10, color: '#8b6914', textAlign: 'center' }}>点击展开平台详情 →</div>
+          <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>💼 CHANCE 商业机会</div>
+          <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '9px 11px' }}>
+            <div style={{ fontSize: 10, color: '#3d3020', lineHeight: 1.55, marginBottom: 8 }}>{city.chance.paragraph}</div>
+            <a href={city.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', marginBottom: 8 }}>
+              <div style={{ fontSize: 10, fontWeight: 500, color: '#8b6914' }}>📋 {city.chance.policy.label}</div>
+              {'desc' in city.chance.policy && city.chance.policy.desc && <div style={{ fontSize: 9, color: 'var(--text-muted)', marginTop: 2 }}>{city.chance.policy.desc}</div>}
+            </a>
+            {city.chance.localJobs.length > 0 && (
+              <div style={{ marginBottom: 8 }}>
+                <div style={{ fontSize: 9, color: 'var(--text-muted)', marginBottom: 4 }}>本地招聘</div>
+                {city.chance.localJobs.map(j => (
+                  <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', marginBottom: 4 }}>
+                    <div style={{ fontSize: 10, color: '#8b6914' }}>→ {j.name}</div>
+                    {'desc' in j && j.desc && <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>{j.desc}</div>}
+                  </a>
+                ))}
+              </div>
+            )}
+            {city.chance.remoteJobs.length > 0 && (
+              <div>
+                <div style={{ fontSize: 9, color: 'var(--text-muted)', marginBottom: 4 }}>远程工作</div>
+                {city.chance.remoteJobs.map(j => (
+                  <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', marginBottom: 4 }}>
+                    <div style={{ fontSize: 10, color: '#8b6914' }}>→ {j.name}</div>
+                    {'desc' in j && j.desc && <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>{j.desc}</div>}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>👥 LOCAL 本地圈子</div>
-          <div onClick={() => setShowLocalModal(true)} style={{ background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 10, padding: '9px 11px', cursor: 'pointer' }}>
-            <div style={{ fontSize: 10, color: '#3c3489', lineHeight: 1.55, marginBottom: 6 }}>
-              {city.local.platforms.length > 0 ? `${city.local.platforms.length} 个本地社群平台` : '本地社群平台'}
-              {' · '}
-              {GLOBAL_COMMUNITIES.length} 个全球游民社群
-            </div>
-            <div style={{ fontSize: 10, color: '#6b5bb5', textAlign: 'center' }}>点击展开平台详情 →</div>
+          <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>👥 LOCAL 本地圈子</div>
+          <div style={{ background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 10, padding: '9px 11px' }}>
+            {city.local.platforms.length > 0 && (
+              <div style={{ marginBottom: 8 }}>
+                <div style={{ fontSize: 9, color: '#3c3489', marginBottom: 4 }}>本地社群平台</div>
+                {city.local.platforms.map(p => (
+                  <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', marginBottom: 4 }}>
+                    <div style={{ fontSize: 10, color: '#6b5bb5' }}>→ {p.name}</div>
+                    {'desc' in p && p.desc && <div style={{ fontSize: 9, color: '#3c3489' }}>{p.desc}</div>}
+                  </a>
+                ))}
+              </div>
+            )}
+            {GLOBAL_COMMUNITIES.length > 0 && (
+              <div>
+                <div style={{ fontSize: 9, color: '#3c3489', marginBottom: 4 }}>全球游民社群</div>
+                {GLOBAL_COMMUNITIES.map(c => (
+                  <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', marginBottom: 4 }}>
+                    <div style={{ fontSize: 10, color: '#6b5bb5' }}>→ {c.name}</div>
+                    <div style={{ fontSize: 9, color: '#3c3489' }}>{c.desc}</div>
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -351,15 +369,8 @@ export default function InsightsPage() {
               🌍 {city.name}{city.nameZh && ` ${city.nameZh}`} 的灵魂
             </div>
 
-            {('body' in city.soul && city.soul.body) || ('personality' in city.soul && city.soul.personality) || ('economy' in city.soul && city.soul.economy) || ('festivals' in city.soul && city.soul.festivals) || ('figures' in city.soul && city.soul.figures) ? (
+            {('personality' in city.soul && city.soul.personality) || ('economy' in city.soul && city.soul.economy) || ('festivals' in city.soul && city.soul.festivals) || ('figures' in city.soul && city.soul.figures) ? (
               <>
-                {'body' in city.soul && city.soul.body && (
-                  <div style={{ marginBottom: 16 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>城市概览</div>
-                    <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.body}</div>
-                  </div>
-                )}
-
                 {'personality' in city.soul && city.soul.personality && (
                   <div style={{ marginBottom: 16 }}>
                     <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>文化性格</div>
@@ -464,121 +475,6 @@ export default function InsightsPage() {
         </div>
       )}
 
-      {showChanceModal && (
-        <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setShowChanceModal(false)
-          }}
-        >
-          <FocusTrap active={showChanceModal} focusTrapOptions={{ escapeDeactivates: false }}>
-            <div
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="chance-modal-title"
-              style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#fdf8ee', border: '0.5px solid #e8d5a0', borderRadius: 16, padding: '20px', overflow: 'auto' }}
-            >
-              <button
-                onClick={() => setShowChanceModal(false)}
-                aria-label="关闭"
-                style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, border: 'none', background: 'rgba(139, 105, 20, 0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#8b6914', cursor: 'pointer', lineHeight: 1 }}
-              >
-                ×
-              </button>
-
-              <div id="chance-modal-title" style={{ fontSize: 16, fontWeight: 500, color: '#3d2c00', marginBottom: 16, paddingRight: 40 }}>
-                💼 {city.name}{city.nameZh && ` ${city.nameZh}`} 的商业机会
-              </div>
-
-              <div style={{ fontSize: 11, color: '#3d3020', lineHeight: 1.6, marginBottom: 16 }}>{city.chance.paragraph}</div>
-
-              <div style={{ marginBottom: 16 }}>
-                <div style={{ fontSize: 12, fontWeight: 500, color: '#8b6914', marginBottom: 8 }}>📋 政策环境</div>
-                <a href={city.chance.policy.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', textDecoration: 'none' }}>
-                  <span style={{ fontSize: 11, color: 'var(--accent-text)', fontWeight: 500 }}>{city.chance.policy.label}</span>
-                  {'desc' in city.chance.policy && city.chance.policy.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{city.chance.policy.desc}</span>}
-                </a>
-              </div>
-
-              {city.chance.localJobs.length > 0 && (
-                <div style={{ marginBottom: 16 }}>
-                  <div style={{ fontSize: 12, fontWeight: 500, color: '#8b6914', marginBottom: 8 }}>🏢 本地招聘平台</div>
-                  {city.chance.localJobs.map(j => (
-                    <a key={j.name} href={j.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 6, textDecoration: 'none' }}>
-                      <span style={{ fontSize: 11, color: 'var(--accent-text)', fontWeight: 500 }}>{j.name}</span>
-                      {'desc' in j && j.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{j.desc}</span>}
-                    </a>
-                  ))}
-                </div>
-              )}
-
-              {city.chance.remoteJobs.length > 0 && (
-                <div style={{ marginBottom: 0 }}>
-                  <div style={{ fontSize: 12, fontWeight: 500, color: '#8b6914', marginBottom: 8 }}>🌐 全球远程平台</div>
-                  {city.chance.remoteJobs.map(j => (
-                    <a key={j.name} href={j.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 6, textDecoration: 'none' }}>
-                      <span style={{ fontSize: 11, color: 'var(--accent-text)', fontWeight: 500 }}>{j.name}</span>
-                      {'desc' in j && j.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{j.desc}</span>}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          </FocusTrap>
-        </div>
-      )}
-
-      {showLocalModal && (
-        <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setShowLocalModal(false)
-          }}
-        >
-          <FocusTrap active={showLocalModal} focusTrapOptions={{ escapeDeactivates: false }}>
-            <div
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="local-modal-title"
-              style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 16, padding: '20px', overflow: 'auto' }}
-            >
-              <button
-                onClick={() => setShowLocalModal(false)}
-                aria-label="关闭"
-                style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, border: 'none', background: 'rgba(60, 52, 137, 0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#3c3489', cursor: 'pointer', lineHeight: 1 }}
-              >
-                ×
-              </button>
-
-              <div id="local-modal-title" style={{ fontSize: 16, fontWeight: 500, color: '#1e1a5e', marginBottom: 16, paddingRight: 40 }}>
-                👥 {city.name}{city.nameZh && ` ${city.nameZh}`} 的本地圈子
-              </div>
-
-              {city.local.platforms.length > 0 && (
-                <div style={{ marginBottom: 16 }}>
-                  <div style={{ fontSize: 12, fontWeight: 500, color: '#3c3489', marginBottom: 8 }}>📍 本地社群平台</div>
-                  {city.local.platforms.map(p => (
-                    <a key={p.name} href={p.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 6, textDecoration: 'none' }}>
-                      <span style={{ fontSize: 11, color: '#3c3489', fontWeight: 500 }}>{p.name}</span>
-                      {'desc' in p && p.desc && <span style={{ fontSize: 10, color: '#6b5bb5', marginTop: 2 }}>{p.desc}</span>}
-                    </a>
-                  ))}
-                </div>
-              )}
-
-              <div style={{ marginBottom: 0 }}>
-                <div style={{ fontSize: 12, fontWeight: 500, color: '#3c3489', marginBottom: 8 }}>🌍 全球游民社群</div>
-                {GLOBAL_COMMUNITIES.map(c => (
-                  <a key={c.name} href={c.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 6, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 11, color: '#3c3489', fontWeight: 500 }}>{c.name}</span>
-                    <span style={{ fontSize: 10, color: '#6b5bb5', marginTop: 2 }}>{c.desc}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </FocusTrap>
-        </div>
-      )}
     </div>
   )
 }
