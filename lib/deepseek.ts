@@ -36,7 +36,7 @@ export async function searchCity(query: string): Promise<SearchResult> {
   const response = await fetch('https://dragoncode.codes/v1/messages', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
+      'x-api-key': apiKey,
       'Content-Type': 'application/json',
       'anthropic-version': '2023-06-01',
     },
