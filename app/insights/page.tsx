@@ -105,6 +105,7 @@ export default function InsightsPage() {
   const [showSoulModal, setShowSoulModal] = useState(false)
   const [showBaseModal, setShowBaseModal] = useState(false)
   const [showChanceModal, setShowChanceModal] = useState(false)
+  const [showLocalModal, setShowLocalModal] = useState(false)
 
   useEffect(() => {
     setPageUrl(window.location.href)
@@ -115,12 +116,14 @@ export default function InsightsPage() {
   const closeSoulModal = useCallback(() => setShowSoulModal(false), [])
   const closeBaseModal = useCallback(() => setShowBaseModal(false), [])
   const closeChanceModal = useCallback(() => setShowChanceModal(false), [])
+  const closeLocalModal = useCallback(() => setShowLocalModal(false), [])
 
   // Use custom hook for Escape key handling
   useEscapeKey(showShare, closeShare)
   useEscapeKey(showSoulModal, closeSoulModal)
   useEscapeKey(showBaseModal, closeBaseModal)
   useEscapeKey(showChanceModal, closeChanceModal)
+  useEscapeKey(showLocalModal, closeLocalModal)
 
   // Body scroll lock when SOUL modal is open
   useEffect(() => {
@@ -151,6 +154,16 @@ export default function InsightsPage() {
       }
     }
   }, [showChanceModal])
+
+  // Body scroll lock when LOCAL modal is open
+  useEffect(() => {
+    if (showLocalModal) {
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = ''
+      }
+    }
+  }, [showLocalModal])
 
   const handleSave = () => {
     if (!isLoggedIn) { setShowLogin(true); return }
@@ -239,21 +252,13 @@ export default function InsightsPage() {
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>👥 LOCAL 本地圈子</div>
-          <div style={{ background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 10, padding: '9px 11px' }}>
-            <div style={{ fontSize: 9, color: '#3c3489', marginBottom: 3 }}>📍 本地社群平台</div>
-            {city.local.platforms.map(p => (
-              <a key={p.name} href={p.url} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 8px', borderRadius: 6, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 3, textDecoration: 'none' }}>
-                <span style={{ fontSize: 10, color: '#3c3489' }}>{p.name}</span>
-                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>›</span>
-              </a>
-            ))}
-            <div style={{ fontSize: 9, color: '#3c3489', margin: '5px 0 3px' }}>🌍 全球游民社群</div>
-            {GLOBAL_COMMUNITIES.map(c => (
-              <a key={c.name} href={c.url} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 8px', borderRadius: 6, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 3, textDecoration: 'none' }}>
-                <span style={{ fontSize: 10, color: '#3c3489' }}>{c.name}</span>
-                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>›</span>
-              </a>
-            ))}
+          <div onClick={() => setShowLocalModal(true)} style={{ background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 10, padding: '9px 11px', cursor: 'pointer' }}>
+            <div style={{ fontSize: 10, color: '#3c3489', lineHeight: 1.55, marginBottom: 6 }}>
+              {city.local.platforms.length > 0 ? `${city.local.platforms.length} 个本地社群平台` : '本地社群平台'}
+              {' · '}
+              {GLOBAL_COMMUNITIES.length} 个全球游民社群
+            </div>
+            <div style={{ fontSize: 10, color: '#6b5bb5', textAlign: 'center' }}>点击展开平台详情 →</div>
           </div>
         </div>
       </div>
@@ -518,6 +523,58 @@ export default function InsightsPage() {
                   ))}
                 </div>
               )}
+            </div>
+          </FocusTrap>
+        </div>
+      )}
+
+      {showLocalModal && (
+        <div
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowLocalModal(false)
+          }}
+        >
+          <FocusTrap active={showLocalModal} focusTrapOptions={{ escapeDeactivates: false }}>
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="local-modal-title"
+              style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 16, padding: '20px', overflow: 'auto' }}
+            >
+              <button
+                onClick={() => setShowLocalModal(false)}
+                aria-label="关闭"
+                style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, border: 'none', background: 'rgba(60, 52, 137, 0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#3c3489', cursor: 'pointer', lineHeight: 1 }}
+              >
+                ×
+              </button>
+
+              <div id="local-modal-title" style={{ fontSize: 16, fontWeight: 500, color: '#1e1a5e', marginBottom: 16, paddingRight: 40 }}>
+                👥 {city.name}{city.nameZh && ` ${city.nameZh}`} 的本地圈子
+              </div>
+
+              {city.local.platforms.length > 0 && (
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: '#3c3489', marginBottom: 8 }}>📍 本地社群平台</div>
+                  {city.local.platforms.map(p => (
+                    <a key={p.name} href={p.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 6, textDecoration: 'none' }}>
+                      <span style={{ fontSize: 11, color: '#3c3489', fontWeight: 500 }}>{p.name}</span>
+                      {p.desc && <span style={{ fontSize: 10, color: '#6b5bb5', marginTop: 2 }}>{p.desc}</span>}
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              <div style={{ marginBottom: 0 }}>
+                <div style={{ fontSize: 12, fontWeight: 500, color: '#3c3489', marginBottom: 8 }}>🌍 全球游民社群</div>
+                {GLOBAL_COMMUNITIES.map(c => (
+                  <a key={c.name} href={c.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 6, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 11, color: '#3c3489', fontWeight: 500 }}>{c.name}</span>
+                    <span style={{ fontSize: 10, color: '#6b5bb5', marginTop: 2 }}>{c.desc}</span>
+                  </a>
+                ))}
+              </div>
             </div>
           </FocusTrap>
         </div>
