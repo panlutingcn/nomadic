@@ -351,37 +351,37 @@ export default function InsightsPage() {
               🌍 {city.name}{city.nameZh && ` ${city.nameZh}`} 的灵魂
             </div>
 
-            {city.soul.body || city.soul.personality || city.soul.economy || city.soul.festivals || city.soul.figures ? (
+            {('body' in city.soul && city.soul.body) || ('personality' in city.soul && city.soul.personality) || ('economy' in city.soul && city.soul.economy) || ('festivals' in city.soul && city.soul.festivals) || ('figures' in city.soul && city.soul.figures) ? (
               <>
-                {city.soul.body && (
+                {'body' in city.soul && city.soul.body && (
                   <div style={{ marginBottom: 16 }}>
                     <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>城市概览</div>
                     <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.body}</div>
                   </div>
                 )}
 
-                {city.soul.personality && (
+                {'personality' in city.soul && city.soul.personality && (
                   <div style={{ marginBottom: 16 }}>
                     <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>文化性格</div>
                     <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.personality}</div>
                   </div>
                 )}
 
-                {city.soul.economy && (
+                {'economy' in city.soul && city.soul.economy && (
                   <div style={{ marginBottom: 16 }}>
                     <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>经济支柱</div>
                     <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.economy}</div>
                   </div>
                 )}
 
-                {city.soul.festivals && (
+                {'festivals' in city.soul && city.soul.festivals && (
                   <div style={{ marginBottom: 16 }}>
                     <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>节庆活动</div>
                     <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.festivals}</div>
                   </div>
                 )}
 
-                {city.soul.figures && (
+                {'figures' in city.soul && city.soul.figures && (
                   <div style={{ marginBottom: 0 }}>
                     <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>代表人物</div>
                     <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.figures}</div>
@@ -424,30 +424,30 @@ export default function InsightsPage() {
                 🌿 {city.name}{city.nameZh && ` ${city.nameZh}`} 的生存基准
               </div>
 
-              {city.base.safety || city.base.dailyCost || city.base.visaDetail || city.base.society ? (
+              {('safety' in city.base && city.base.safety) || ('dailyCost' in city.base && city.base.dailyCost) || ('visaDetail' in city.base && city.base.visaDetail) || ('society' in city.base && city.base.society) ? (
                 <>
-                  {city.base.safety && (
+                  {'safety' in city.base && city.base.safety && (
                     <div style={{ marginBottom: 16 }}>
                       <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>治安与安全</div>
                       <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.safety}</div>
                     </div>
                   )}
 
-                  {city.base.dailyCost && (
+                  {'dailyCost' in city.base && city.base.dailyCost && (
                     <div style={{ marginBottom: 16 }}>
                       <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>每日花销</div>
                       <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{city.base.dailyCost}</div>
                     </div>
                   )}
 
-                  {city.base.visaDetail && (
+                  {'visaDetail' in city.base && city.base.visaDetail && (
                     <div style={{ marginBottom: 16 }}>
                       <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证政策</div>
                       <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.visaDetail}</div>
                     </div>
                   )}
 
-                  {city.base.society && (
+                  {'society' in city.base && city.base.society && (
                     <div style={{ marginBottom: 0 }}>
                       <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>社会运转</div>
                       <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.society}</div>
@@ -496,7 +496,7 @@ export default function InsightsPage() {
                 <div style={{ fontSize: 12, fontWeight: 500, color: '#8b6914', marginBottom: 8 }}>📋 政策环境</div>
                 <a href={city.chance.policy.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', textDecoration: 'none' }}>
                   <span style={{ fontSize: 11, color: 'var(--accent-text)', fontWeight: 500 }}>{city.chance.policy.label}</span>
-                  {city.chance.policy.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{city.chance.policy.desc}</span>}
+                  {'desc' in city.chance.policy && city.chance.policy.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{city.chance.policy.desc}</span>}
                 </a>
               </div>
 
@@ -506,7 +506,7 @@ export default function InsightsPage() {
                   {city.chance.localJobs.map(j => (
                     <a key={j.name} href={j.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 6, textDecoration: 'none' }}>
                       <span style={{ fontSize: 11, color: 'var(--accent-text)', fontWeight: 500 }}>{j.name}</span>
-                      {j.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{j.desc}</span>}
+                      {'desc' in j && j.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{j.desc}</span>}
                     </a>
                   ))}
                 </div>
@@ -518,7 +518,7 @@ export default function InsightsPage() {
                   {city.chance.remoteJobs.map(j => (
                     <a key={j.name} href={j.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 6, textDecoration: 'none' }}>
                       <span style={{ fontSize: 11, color: 'var(--accent-text)', fontWeight: 500 }}>{j.name}</span>
-                      {j.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{j.desc}</span>}
+                      {'desc' in j && j.desc && <span style={{ fontSize: 10, color: '#8b6914', marginTop: 2 }}>{j.desc}</span>}
                     </a>
                   ))}
                 </div>
@@ -560,7 +560,7 @@ export default function InsightsPage() {
                   {city.local.platforms.map(p => (
                     <a key={p.name} href={p.url} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 6, textDecoration: 'none' }}>
                       <span style={{ fontSize: 11, color: '#3c3489', fontWeight: 500 }}>{p.name}</span>
-                      {p.desc && <span style={{ fontSize: 10, color: '#6b5bb5', marginTop: 2 }}>{p.desc}</span>}
+                      {'desc' in p && p.desc && <span style={{ fontSize: 10, color: '#6b5bb5', marginTop: 2 }}>{p.desc}</span>}
                     </a>
                   ))}
                 </div>
