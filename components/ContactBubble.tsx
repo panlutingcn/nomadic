@@ -43,8 +43,8 @@ export default function ContactBubble() {
             lineHeight: 1.6,
             textAlign: 'center',
           }}>
-            这是旅行者Luna用代码写给自己的情书。<br />
-            如果它也触动了你，欢迎来信交流 ✉️
+            这是Luna写给远方的信。<br />
+            如果你也在路上，欢迎回信 ✉️
           </div>
         </div>
       </div>
