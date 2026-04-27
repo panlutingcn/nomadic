@@ -222,29 +222,35 @@ export default function InsightsPage() {
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>💼 CHANCE 商业机会</div>
           <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '9px 11px' }}>
-            <div style={{ fontSize: 10, color: '#3d3020', lineHeight: 1.55, marginBottom: 8 }}>{city.chance.paragraph}</div>
-            <a href={city.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', marginBottom: 8 }}>
-              <div style={{ fontSize: 10, fontWeight: 500, color: '#8b6914' }}>📋 {city.chance.policy.label}</div>
-              {'desc' in city.chance.policy && city.chance.policy.desc && <div style={{ fontSize: 9, color: 'var(--text-muted)', marginTop: 2 }}>{city.chance.policy.desc}</div>}
-            </a>
+            <div style={{ fontSize: 10, color: '#3d3020', lineHeight: 1.55, marginBottom: 10 }}>{city.chance.paragraph}</div>
+
+            <div style={{ marginBottom: 10 }}>
+              <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 5 }}>📋 政策环境</div>
+              <a href={city.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', textDecoration: 'none' }}>
+                <span style={{ fontSize: 11, color: '#8b6914' }}>{city.chance.policy.label}</span>
+                <span style={{ fontSize: 11, color: '#8b6914' }}>›</span>
+              </a>
+            </div>
+
             {city.chance.localJobs.length > 0 && (
-              <div style={{ marginBottom: 8 }}>
-                <div style={{ fontSize: 9, color: 'var(--text-muted)', marginBottom: 4 }}>本地招聘</div>
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 5 }}>🏢 本地招聘平台</div>
                 {city.chance.localJobs.map(j => (
-                  <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', marginBottom: 4 }}>
-                    <div style={{ fontSize: 10, color: '#8b6914' }}>→ {j.name}</div>
-                    {'desc' in j && j.desc && <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>{j.desc}</div>}
+                  <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 11, color: '#8b6914' }}>{j.name}</span>
+                    <span style={{ fontSize: 11, color: '#8b6914' }}>›</span>
                   </a>
                 ))}
               </div>
             )}
+
             {city.chance.remoteJobs.length > 0 && (
               <div>
-                <div style={{ fontSize: 9, color: 'var(--text-muted)', marginBottom: 4 }}>远程工作</div>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 5 }}>🌐 全球远程平台</div>
                 {city.chance.remoteJobs.map(j => (
-                  <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', marginBottom: 4 }}>
-                    <div style={{ fontSize: 10, color: '#8b6914' }}>→ {j.name}</div>
-                    {'desc' in j && j.desc && <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>{j.desc}</div>}
+                  <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 11, color: '#8b6914' }}>{j.name}</span>
+                    <span style={{ fontSize: 11, color: '#8b6914' }}>›</span>
                   </a>
                 ))}
               </div>
@@ -256,23 +262,23 @@ export default function InsightsPage() {
           <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>👥 LOCAL 本地圈子</div>
           <div style={{ background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 10, padding: '9px 11px' }}>
             {city.local.platforms.length > 0 && (
-              <div style={{ marginBottom: 8 }}>
-                <div style={{ fontSize: 9, color: '#3c3489', marginBottom: 4 }}>本地社群平台</div>
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 10, color: '#3c3489', marginBottom: 5 }}>📍 本地社群平台</div>
                 {city.local.platforms.map(p => (
-                  <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', marginBottom: 4 }}>
-                    <div style={{ fontSize: 10, color: '#6b5bb5' }}>→ {p.name}</div>
-                    {'desc' in p && p.desc && <div style={{ fontSize: 9, color: '#3c3489' }}>{p.desc}</div>}
+                  <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 11, color: '#6b5bb5' }}>{p.name}</span>
+                    <span style={{ fontSize: 11, color: '#6b5bb5' }}>›</span>
                   </a>
                 ))}
               </div>
             )}
             {GLOBAL_COMMUNITIES.length > 0 && (
               <div>
-                <div style={{ fontSize: 9, color: '#3c3489', marginBottom: 4 }}>全球游民社群</div>
+                <div style={{ fontSize: 10, color: '#3c3489', marginBottom: 5 }}>🌍 全球游民社群</div>
                 {GLOBAL_COMMUNITIES.map(c => (
-                  <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', marginBottom: 4 }}>
-                    <div style={{ fontSize: 10, color: '#6b5bb5' }}>→ {c.name}</div>
-                    <div style={{ fontSize: 9, color: '#3c3489' }}>{c.desc}</div>
+                  <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 11, color: '#6b5bb5' }}>{c.name}</span>
+                    <span style={{ fontSize: 11, color: '#6b5bb5' }}>›</span>
                   </a>
                 ))}
               </div>

@@ -44,8 +44,8 @@ export default function ContactBubble() {
             textAlign: 'center',
           }}>
             <span style={{ fontWeight: 600, color: '#9a8a6a' }}>共创Nomadic</span><br />
-            有建议或故事？<br />
-            欢迎写信给Luna✉️
+            有建议、故事或合作意向？<br />
+            欢迎来信✉️
           </div>
         </div>
       </div>
