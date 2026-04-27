@@ -187,12 +187,14 @@ export default function InsightsPage() {
 
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌍 SOUL 城市灵魂</div>
-          <div onClick={() => setShowSoulModal(true)} style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 10, padding: '9px 11px', cursor: 'pointer' }}>
-            <div style={{ fontSize: 12, fontWeight: 500, color: '#3d2010', marginBottom: 2 }}>{city.soul.headline}</div>
-            {'body' in city.soul && city.soul.body && (
-              <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.55, marginTop: 5, marginBottom: 5 }}>{city.soul.body}</div>
-            )}
-            <div style={{ fontSize: 10, color: '#854f0b' }}>文化性格·经济支柱·节庆活动·代表人物 → 展开</div>
+          <div onClick={() => setShowSoulModal(true)} style={{ cursor: 'pointer' }}>
+            <div style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 10, padding: '9px 11px' }}>
+              <div style={{ fontSize: 12, fontWeight: 500, color: '#3d2010', marginBottom: 2 }}>{city.soul.headline}</div>
+              {'body' in city.soul && city.soul.body && (
+                <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.55, marginTop: 5 }}>{city.soul.body}</div>
+              )}
+            </div>
+            <div style={{ fontSize: 10, color: '#854f0b', marginTop: 5, textAlign: 'center' }}>文化性格·经济支柱·节庆活动·代表人物 → 展开</div>
           </div>
         </div>
 
@@ -227,8 +229,11 @@ export default function InsightsPage() {
             <div style={{ marginBottom: 10 }}>
               <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 5 }}>📋 政策环境</div>
               <a href={city.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', textDecoration: 'none' }}>
-                <span style={{ fontSize: 11, color: '#8b6914' }}>{city.chance.policy.label}</span>
-                <span style={{ fontSize: 11, color: '#8b6914' }}>›</span>
+                <span style={{ fontSize: 11, color: '#8b6914' }}>
+                  {city.chance.policy.label}
+                  {'desc' in city.chance.policy && city.chance.policy.desc && <span style={{ color: '#b8922a', fontWeight: 400 }}> | {city.chance.policy.desc}</span>}
+                </span>
+                <span style={{ fontSize: 11, color: '#8b6914', flexShrink: 0, marginLeft: 6 }}>›</span>
               </a>
             </div>
 
@@ -237,8 +242,11 @@ export default function InsightsPage() {
                 <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 5 }}>🏢 本地招聘平台</div>
                 {city.chance.localJobs.map(j => (
                   <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 5, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 11, color: '#8b6914' }}>{j.name}</span>
-                    <span style={{ fontSize: 11, color: '#8b6914' }}>›</span>
+                    <span style={{ fontSize: 11, color: '#8b6914' }}>
+                      {j.name}
+                      {'desc' in j && j.desc && <span style={{ color: '#b8922a', fontWeight: 400 }}> | {j.desc}</span>}
+                    </span>
+                    <span style={{ fontSize: 11, color: '#8b6914', flexShrink: 0, marginLeft: 6 }}>›</span>
                   </a>
                 ))}
               </div>
@@ -249,8 +257,11 @@ export default function InsightsPage() {
                 <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 5 }}>🌐 全球远程平台</div>
                 {city.chance.remoteJobs.map(j => (
                   <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 5, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 11, color: '#8b6914' }}>{j.name}</span>
-                    <span style={{ fontSize: 11, color: '#8b6914' }}>›</span>
+                    <span style={{ fontSize: 11, color: '#8b6914' }}>
+                      {j.name}
+                      {'desc' in j && j.desc && <span style={{ color: '#b8922a', fontWeight: 400 }}> | {j.desc}</span>}
+                    </span>
+                    <span style={{ fontSize: 11, color: '#8b6914', flexShrink: 0, marginLeft: 6 }}>›</span>
                   </a>
                 ))}
               </div>
@@ -266,8 +277,11 @@ export default function InsightsPage() {
                 <div style={{ fontSize: 10, color: '#3c3489', marginBottom: 5 }}>📍 本地社群平台</div>
                 {city.local.platforms.map(p => (
                   <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 5, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 11, color: '#6b5bb5' }}>{p.name}</span>
-                    <span style={{ fontSize: 11, color: '#6b5bb5' }}>›</span>
+                    <span style={{ fontSize: 11, color: '#6b5bb5' }}>
+                      {p.name}
+                      {'desc' in p && p.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {p.desc}</span>}
+                    </span>
+                    <span style={{ fontSize: 11, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
                   </a>
                 ))}
               </div>
@@ -277,8 +291,11 @@ export default function InsightsPage() {
                 <div style={{ fontSize: 10, color: '#3c3489', marginBottom: 5 }}>🌍 全球游民社群</div>
                 {GLOBAL_COMMUNITIES.map(c => (
                   <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 5, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 11, color: '#6b5bb5' }}>{c.name}</span>
-                    <span style={{ fontSize: 11, color: '#6b5bb5' }}>›</span>
+                    <span style={{ fontSize: 11, color: '#6b5bb5' }}>
+                      {c.name}
+                      {c.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {c.desc}</span>}
+                    </span>
+                    <span style={{ fontSize: 11, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
                   </a>
                 ))}
               </div>
