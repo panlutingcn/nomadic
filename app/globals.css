@@ -22,6 +22,11 @@ body {
   color: var(--text-primary);
 }
 
+@keyframes pulse-random {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(29,158,117,0); }
+  50% { box-shadow: 0 0 0 4px rgba(29,158,117,0.18); }
+}
+
 @keyframes grow-branch {
   0% { stroke-dashoffset: 600; opacity: 0; }
   18% { opacity: 1; }

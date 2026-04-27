@@ -20,7 +20,7 @@ export default function HomePage() {
   const [errorMessage, setErrorMessage] = useState('')
   const [randomCities, setRandomCities] = useState<NomadCity[]>([])
   const [hoveredCity, setHoveredCity] = useState<string | null>(null)
-  const searchBoxRef = useRef<SearchBoxHandle>(null)
+  const [hoveredQuadrant, setHoveredQuadrant] = useState<string | null>(null)
 
   useEffect(() => {
     const hasSeenGuide = localStorage.getItem('hasSeenGuide')
@@ -211,11 +211,17 @@ export default function HomePage() {
             ))}
           <button
             onClick={handleRandomExplore}
+            onMouseEnter={() => setHoveredCity('__random__')}
+            onMouseLeave={() => setHoveredCity(null)}
             style={{
-              fontSize: 11, fontWeight: 500, padding: '5px 11px', borderRadius: 8,
+              fontSize: 11, padding: '5px 11px', borderRadius: 8,
               background: 'var(--bg-card-2)', color: 'var(--text-secondary)',
-              border: '0.5px solid var(--border-light)', cursor: 'pointer',
-              transition: 'transform 100ms ease',
+              border: `${hoveredCity === '__random__' ? '1.5px' : '0.5px'} solid var(--border-light)`,
+              cursor: 'pointer',
+              fontWeight: hoveredCity === '__random__' ? 600 : 500,
+              transform: hoveredCity === '__random__' ? 'scale(1.06)' : 'scale(1)',
+              transition: 'all 120ms ease',
+              animation: hoveredCity === '__random__' ? 'none' : 'pulse-random 2.4s ease-in-out infinite',
             }}
           >
             随机 🎲
@@ -231,7 +237,22 @@ export default function HomePage() {
             { emoji: '💼', en: 'CHANCE', zh: '商业机会', desc: '链接当地的商业生态', bg: '#e8f0f5', border: '#b5cfe0', color: '#0c447c', descColor: '#185fa5' },
             { emoji: '🤝', en: 'LOCAL', zh: '本地圈子', desc: '遇见同频的灵魂', bg: '#f0edf8', border: '#cdc5e8', color: '#3c3489', descColor: '#534ab7' },
           ].map(q => (
-            <div key={q.en} onClick={handleQuadrantClick} style={{ background: q.bg, border: `0.5px solid ${q.border}`, borderRadius: 10, padding: '10px 11px', cursor: 'pointer' }}>
+            <div
+              key={q.en}
+              onClick={handleQuadrantClick}
+              onMouseEnter={() => setHoveredQuadrant(q.en)}
+              onMouseLeave={() => setHoveredQuadrant(null)}
+              style={{
+                background: q.bg,
+                border: `${hoveredQuadrant === q.en ? '1.5px' : '0.5px'} solid ${q.border}`,
+                borderRadius: 10,
+                padding: '10px 11px',
+                cursor: 'pointer',
+                transform: hoveredQuadrant === q.en ? 'scale(1.04)' : 'scale(1)',
+                transition: 'all 120ms ease',
+                boxShadow: hoveredQuadrant === q.en ? `0 4px 12px rgba(0,0,0,0.08)` : 'none',
+              }}
+            >
               <div style={{ fontSize: 18, lineHeight: 1, marginBottom: 5 }}>{q.emoji}</div>
               <div style={{ fontSize: 11, fontWeight: 500, color: q.color }}>{q.en} {q.zh}</div>
               <div style={{ fontSize: 10, color: q.descColor, marginTop: 3 }}>{q.desc}</div>
