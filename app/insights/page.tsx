@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { QRCodeSVG } from 'qrcode.react'
 import BottomNav from '@/components/BottomNav'
@@ -77,11 +77,25 @@ export default function InsightsPage() {
     : PLACEHOLDER_CITY
 
   const [showShare, setShowShare] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'failed'>('idle')
   const [showLogin, setShowLogin] = useState(false)
   const [loginMethod, setLoginMethod] = useState<'wechat' | 'email'>('wechat')
   const [loginEmail, setLoginEmail] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [pageUrl, setPageUrl] = useState('')
+
+  useEffect(() => {
+    setPageUrl(window.location.href)
+  }, [])
+
+  useEffect(() => {
+    if (!showShare) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowShare(false)
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [showShare])
 
   const handleSave = () => {
     if (!isLoggedIn) { setShowLogin(true); return }
@@ -228,23 +242,38 @@ export default function InsightsPage() {
       )}
 
       {showShare && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'flex-end' }}>
-          <div style={{ width: '100%', background: 'var(--bg-page)', borderRadius: '18px 18px 0 0', padding: '24px 20px 36px' }}>
+        <div
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'flex-end' }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowShare(false)
+          }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            style={{ width: '100%', background: 'var(--bg-page)', borderRadius: '18px 18px 0 0', padding: '24px 20px 36px' }}
+          >
             <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 4, textAlign: 'center' }}>
-              分享 {city.name}{city.nameZh ? ` ${city.nameZh}` : ''}
+              分享 {city.name}{city.nameZh && ` ${city.nameZh}`}
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', margin: '16px 0' }}>
-              <QRCodeSVG value={typeof window !== 'undefined' ? window.location.href : ''} size={160} />
+              <QRCodeSVG value={pageUrl} size={160} />
             </div>
             <button
               onClick={() => {
-                navigator.clipboard.writeText(window.location.href)
-                setCopied(true)
-                setTimeout(() => setCopied(false), 2000)
+                navigator.clipboard.writeText(pageUrl)
+                  .then(() => {
+                    setCopyStatus('copied')
+                    setTimeout(() => setCopyStatus('idle'), 2000)
+                  })
+                  .catch(() => {
+                    setCopyStatus('failed')
+                    setTimeout(() => setCopyStatus('idle'), 2000)
+                  })
               }}
-              style={{ width: '100%', padding: '11px', borderRadius: 12, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
+              style={{ width: '100%', padding: '12px', borderRadius: 12, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
             >
-              {copied ? '已复制' : '复制链接'}
+              {copyStatus === 'copied' ? '已复制' : copyStatus === 'failed' ? '复制失败' : '复制链接'}
             </button>
             <button onClick={() => setShowShare(false)} style={{ width: '100%', padding: '10px', borderRadius: 12, background: 'none', border: '0.5px solid var(--border-light)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer' }}>关闭</button>
           </div>
