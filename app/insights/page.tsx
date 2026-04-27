@@ -8,11 +8,43 @@ import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
 export default function InsightsPage() {
   const router = useRouter()
   const { selectedCity, isCitySaved, toggleSaveCity, searchContext, setSearchContext } = useApp()
-  const city = CITIES[selectedCity] ?? {
+  const city = CITIES[selectedCity] ?? (searchContext ? {
+    name: selectedCity,
+    nameZh: searchContext.cityNameZh || selectedCity,
+    country: searchContext.country || 'Unknown',
+    countryZh: searchContext.countryZh || '未知地区',
+    flag: searchContext.flag || '🌍',
+    match: Math.round((searchContext.confidence || 0.75) * 100),
+    soul: {
+      headline: searchContext.soulHeadline || '探索这座城市的独特魅力。',
+      sub: '文化 · 生活 · 工作'
+    },
+    base: {
+      wifi: searchContext.wifiSpeed || '未知',
+      cost: searchContext.costLevel || '$$',
+      visa: searchContext.visaInfo || '请查询当地签证政策',
+      welfare: '🏥 建议出行前购买国际医疗保险。'
+    },
+    chance: {
+      paragraph: searchContext.chanceParagraph || '该城市提供多样化的远程工作机会。',
+      policy: { label: '查询当地签证政策', url: 'https://www.iatatravelcentre.com' },
+      localJobs: [{ name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs' }],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
+      ]
+    },
+    local: {
+      platforms: [
+        { name: 'Meetup', url: `https://www.meetup.com/find/?location=${encodeURIComponent(selectedCity)}` },
+        { name: 'Eventbrite', url: `https://www.eventbrite.com/d/${selectedCity.toLowerCase()}/events/` },
+      ]
+    }
+  } : {
     ...CITIES['Berlin'],
     name: selectedCity, nameZh: selectedCity,
     country: 'Unknown', countryZh: '未知地区', flag: '🌍', match: 75,
-  }
+  })
 
   const [showLogin, setShowLogin] = useState(false)
   const [loginMethod, setLoginMethod] = useState<'wechat' | 'email'>('wechat')

@@ -2,10 +2,11 @@
 import { useEffect, useState } from 'react'
 
 interface ErrorToastProps {
+  message?: string
   onClose: () => void
 }
 
-export default function ErrorToast({ onClose }: ErrorToastProps) {
+export default function ErrorToast({ message = '哎呀没有理解你', onClose }: ErrorToastProps) {
   const [opacity, setOpacity] = useState(1)
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function ErrorToast({ onClose }: ErrorToastProps) {
       boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
       pointerEvents: 'none',
     }}>
-      哎呀没有理解你
+      {message}
     </div>
   )
 }

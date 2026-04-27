@@ -261,7 +261,7 @@ const CITY_COORDINATES: Record<string, { x: string; y: string }> = {
 const GENERIC_INSIGHTS = {
   soul: {
     headline: '每座城市都有自己的灵魂',
-    sub: '等待你去发现它的文化、历史与独特气质'
+    sub: '等待你去发现它的文化内核与独特气质'
   },
   base: {
     description: '了解一座城市的生存基准：网络、物价、签证、医疗'
@@ -474,7 +474,7 @@ export default function SearchBox() {
 1. 输入"巴黎" → 跳转到巴黎洞察页
 2. 输入"我想去佛罗伦萨找画廊工作" → 跳转到佛罗伦萨，显示 AI 描述，高亮商业机会板块
 3. 输入"florence" → 正确识别为 Florence
-4. 输入"我想去东京找科技工作" → AI 推荐曼谷
+4. 输入"我想去东京找科技工作" → AI 推荐东京
 5. 输入"法国" → 显示法国的国家级信息
 6. 点击"随机探索" → 跳转到随机城市
 7. 首次访问 → 显示操作引导弹窗

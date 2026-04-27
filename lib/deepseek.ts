@@ -1,26 +1,35 @@
 export interface SearchResult {
   cityName: string
   cityNameZh: string
+  country: string
+  countryZh: string
+  flag: string
   confidence: number
   userIntent: string
   relevantSections: ('soul' | 'base' | 'chance' | 'local')[]
   aiInsight: string
+  soulHeadline: string
+  wifiSpeed: string
+  costLevel: string
+  visaInfo: string
+  chanceParagraph: string
   fallbackCity: string | null
 }
 
 const SYSTEM_PROMPT = "You are a JSON API. Always respond with valid JSON only, no explanations, no markdown."
 
 const USER_PROMPT = (query: string) =>
-  `Pick the best matching city from [Berlin(柏林), Amsterdam(阿姆斯特丹), Lisbon(里斯本), Prague(布拉格), Vienna(维也纳), Paris(巴黎), Barcelona(巴塞罗那), Porto(波尔图), Dublin(都柏林), Florence(佛罗伦萨), Tallinn(塔林)] for this query. If the city is not in the list, recommend the closest match.
+  `Identify the city from this query and return nomad-friendly data about it.
 
-Return JSON only: {"cityName":"English name","cityNameZh":"中文名","confidence":0.0-1.0,"userIntent":"意图摘要","relevantSections":["soul"|"base"|"chance"|"local" array],"aiInsight":"50-100字中文描述","fallbackCity":"English name if recommended, else null"}
+Return JSON only:
+{"cityName":"English name","cityNameZh":"中文名","country":"Country","countryZh":"国家中文名","flag":"country flag emoji","confidence":0.0-1.0,"userIntent":"意图摘要","relevantSections":["soul","base","chance","local"],"aiInsight":"50-100字中文，说明这座城市对数字游民的吸引力","soulHeadline":"10-20字中文，描述城市灵魂与气质","wifiSpeed":"XX Mbps","costLevel":"$ or $$ or $$$","visaInfo":"签证信息如90天申根免签","chanceParagraph":"50-80字中文，描述商业与工作机会","fallbackCity":null}
 
 Query: ${query}`
 
 export async function searchCity(query: string): Promise<SearchResult> {
-  const apiKey = process.env.DEEPSEEK_API_KEY
+  const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
-    throw new Error('DEEPSEEK_API_KEY not configured')
+    throw new Error('ANTHROPIC_API_KEY not configured')
   }
 
   const response = await fetch('https://dragoncode.codes/v1/messages', {

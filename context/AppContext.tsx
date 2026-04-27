@@ -23,9 +23,19 @@ export interface Imprint {
 
 export interface SearchContext {
   cityName: string
+  cityNameZh: string
+  country: string
+  countryZh: string
+  flag: string
+  confidence: number
   userIntent: string
   relevantSections: string[]
   aiInsight: string
+  soulHeadline: string
+  wifiSpeed: string
+  costLevel: string
+  visaInfo: string
+  chanceParagraph: string
 }
 
 interface AppState {
