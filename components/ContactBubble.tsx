@@ -43,8 +43,9 @@ export default function ContactBubble() {
             lineHeight: 1.6,
             textAlign: 'center',
           }}>
-            这是Luna写给远方的信。<br />
-            如果你也在路上，欢迎回信 ✉️
+            共创Nomadic<br />
+            有建议、故事或合作意向？<br />
+            欢迎来信 ✉️
           </div>
         </div>
       </div>
