@@ -280,13 +280,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Hidden form for Netlify Forms build-time detection */}
-      <form name="contact" data-netlify="true" hidden>
-        <input type="email" name="user-email" />
-        <input type="text" name="subject" />
-        <textarea name="message"></textarea>
-      </form>
-
       <ContactBubble />
       <BottomNav />
       {showGuide && <GuideModal onClose={() => setShowGuide(false)} />}
