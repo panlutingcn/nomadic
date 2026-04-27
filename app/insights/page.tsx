@@ -1,21 +1,28 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { QRCodeSVG } from 'qrcode.react'
+import FocusTrap from 'focus-trap-react'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
 
-// Custom hook for Escape key handling
+// Custom hook for Escape key handling with stable callback reference
 function useEscapeKey(isOpen: boolean, onClose: () => void) {
+  const callbackRef = useRef(onClose)
+
+  useEffect(() => {
+    callbackRef.current = onClose
+  }, [onClose])
+
   useEffect(() => {
     if (!isOpen) return
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') callbackRef.current()
     }
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, onClose])
+  }, [isOpen])
 }
 
 export default function InsightsPage() {
@@ -105,9 +112,13 @@ export default function InsightsPage() {
     setPageUrl(window.location.href)
   }, [])
 
+  // Stable callback references for escape key handling
+  const closeShare = useCallback(() => setShowShare(false), [])
+  const closeSoulModal = useCallback(() => setShowSoulModal(false), [])
+
   // Use custom hook for Escape key handling
-  useEscapeKey(showShare, () => setShowShare(false))
-  useEscapeKey(showSoulModal, () => setShowSoulModal(false))
+  useEscapeKey(showShare, closeShare)
+  useEscapeKey(showSoulModal, closeSoulModal)
 
   // Body scroll lock when SOUL modal is open
   useEffect(() => {
@@ -325,12 +336,13 @@ export default function InsightsPage() {
             if (e.target === e.currentTarget) setShowSoulModal(false)
           }}
         >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="soul-modal-title"
-            style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 16, padding: '20px', overflow: 'auto' }}
-          >
+          <FocusTrap active={showSoulModal}>
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="soul-modal-title"
+              style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 16, padding: '20px', overflow: 'auto' }}
+            >
             <button
               ref={soulModalCloseButtonRef}
               onClick={() => setShowSoulModal(false)}
@@ -387,6 +399,7 @@ export default function InsightsPage() {
               </div>
             )}
           </div>
+          </FocusTrap>
         </div>
       )}
     </div>
