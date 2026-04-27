@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { QRCodeSVG } from 'qrcode.react'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
@@ -8,44 +9,75 @@ import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
 export default function InsightsPage() {
   const router = useRouter()
   const { selectedCity, isCitySaved, toggleSaveCity, searchContext, setSearchContext } = useApp()
-  const city = CITIES[selectedCity] ?? (searchContext ? {
-    name: selectedCity,
-    nameZh: searchContext.cityNameZh || selectedCity,
-    country: searchContext.country || 'Unknown',
-    countryZh: searchContext.countryZh || '未知地区',
-    flag: searchContext.flag || '🌍',
-    match: Math.round((searchContext.confidence || 0.75) * 100),
+
+  // Generic placeholder when no city selected
+  const PLACEHOLDER_CITY = {
+    name: '世界上的某个城市',
+    nameZh: '',
+    country: '地球上的某个国家',
+    countryZh: '',
+    flag: '🌍',
+    match: 0,
     soul: {
-      headline: searchContext.soulHeadline || '探索这座城市的独特魅力。',
+      headline: '每座城市都有自己的故事。',
+      body: '选择一座城市，开始探索它的灵魂、生存基准、商业机会和本地圈子。',
       sub: '文化 · 生活 · 工作'
     },
     base: {
-      wifi: searchContext.wifiSpeed || '未知',
-      cost: searchContext.costLevel || '$$',
-      visa: searchContext.visaInfo || '请查询当地签证政策',
-      welfare: '🏥 建议出行前购买国际医疗保险。'
+      wifi: '—', cost: '—', visa: '—',
+      welfare: '选择具体城市查看详细信息。'
     },
     chance: {
-      paragraph: searchContext.chanceParagraph || '该城市提供多样化的远程工作机会。',
-      policy: { label: '查询当地签证政策', url: 'https://www.iatatravelcentre.com' },
-      localJobs: [{ name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs' }],
-      remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-      ]
+      paragraph: '每座城市都有独特的商业生态和机会。',
+      policy: { label: '查询签证政策', url: '#' },
+      localJobs: [],
+      remoteJobs: []
     },
     local: {
-      platforms: [
-        { name: 'Meetup', url: `https://www.meetup.com/find/?location=${encodeURIComponent(selectedCity)}` },
-        { name: 'Eventbrite', url: `https://www.eventbrite.com/d/${selectedCity.toLowerCase()}/events/` },
-      ]
+      platforms: []
     }
-  } : {
-    ...CITIES['Berlin'],
-    name: selectedCity, nameZh: selectedCity,
-    country: 'Unknown', countryZh: '未知地区', flag: '🌍', match: 75,
-  })
+  }
 
+  // Three scenarios logic
+  const hasSelection = selectedCity && (selectedCity in CITIES || searchContext)
+  const city = hasSelection
+    ? (CITIES[selectedCity] ?? {
+        name: selectedCity,
+        nameZh: searchContext.cityNameZh || selectedCity,
+        country: searchContext.country || 'Unknown',
+        countryZh: searchContext.countryZh || '未知地区',
+        flag: searchContext.flag || '🌍',
+        match: Math.round((searchContext.confidence || 0.75) * 100),
+        soul: {
+          headline: searchContext.soulHeadline || '探索这座城市的独特魅力。',
+          sub: '文化 · 生活 · 工作'
+        },
+        base: {
+          wifi: searchContext.wifiSpeed || '未知',
+          cost: searchContext.costLevel || '$$',
+          visa: searchContext.visaInfo || '请查询当地签证政策',
+          welfare: '🏥 建议出行前购买国际医疗保险。'
+        },
+        chance: {
+          paragraph: searchContext.chanceParagraph || '该城市提供多样化的远程工作机会。',
+          policy: { label: '查询当地签证政策', url: 'https://www.iatatravelcentre.com' },
+          localJobs: [{ name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs' }],
+          remoteJobs: [
+            { name: 'Remote.co', url: 'https://remote.co' },
+            { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
+          ]
+        },
+        local: {
+          platforms: [
+            { name: 'Meetup', url: `https://www.meetup.com/find/?location=${encodeURIComponent(selectedCity)}` },
+            { name: 'Eventbrite', url: `https://www.eventbrite.com/d/${selectedCity.toLowerCase()}/events/` },
+          ]
+        }
+      })
+    : PLACEHOLDER_CITY
+
+  const [showShare, setShowShare] = useState(false)
+  const [copied, setCopied] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
   const [loginMethod, setLoginMethod] = useState<'wechat' | 'email'>('wechat')
   const [loginEmail, setLoginEmail] = useState('')
@@ -72,16 +104,19 @@ export default function InsightsPage() {
       <div style={{ flex: 1, padding: '14px 16px 10px' }}>
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
-          <div>
-            <button onClick={handleBack} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: 4 }}>← 返回</button>
-            <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--text-primary)' }}>{city.name} {city.nameZh}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 3 }}>{city.flag} {city.country} {city.countryZh}</div>
+          <div style={{ flex: 1 }}>
+            <button onClick={handleBack} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: 8 }}>← 返回</button>
+            <div style={{ height: '0.5px', background: 'var(--border)', marginBottom: 10 }} />
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--text-primary)' }}>{city.name} {city.nameZh}</div>
+              <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 3 }}>{city.flag} {city.country} {city.countryZh}</div>
+            </div>
           </div>
-          <div style={{ display: 'flex', gap: 5 }}>
+          <div style={{ display: 'flex', gap: 5, marginTop: 32 }}>
             <button onClick={handleSave} style={{ width: 30, height: 28, border: '0.5px solid var(--border-light)', borderRadius: 7, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: isCitySaved(city.name) ? 'var(--accent)' : 'var(--text-secondary)', cursor: 'pointer' }}>
               {isCitySaved(city.name) ? '♥' : '♡'}
             </button>
-            <button style={{ width: 30, height: 28, border: '0.5px solid var(--border-light)', borderRadius: 7, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--text-secondary)', cursor: 'pointer' }}>⤴</button>
+            <button onClick={() => setShowShare(true)} style={{ width: 30, height: 28, border: '0.5px solid var(--border-light)', borderRadius: 7, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--text-secondary)', cursor: 'pointer' }}>⤴</button>
           </div>
         </div>
 
@@ -188,6 +223,30 @@ export default function InsightsPage() {
               </>
             )}
             <button onClick={() => setShowLogin(false)} style={{ width: '100%', padding: '10px', borderRadius: 12, background: 'none', border: '0.5px solid var(--border-light)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer' }}>取消</button>
+          </div>
+        </div>
+      )}
+
+      {showShare && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'flex-end' }}>
+          <div style={{ width: '100%', background: 'var(--bg-page)', borderRadius: '18px 18px 0 0', padding: '24px 20px 36px' }}>
+            <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 4, textAlign: 'center' }}>
+              分享 {city.name}{city.nameZh ? ` ${city.nameZh}` : ''}
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', margin: '16px 0' }}>
+              <QRCodeSVG value={typeof window !== 'undefined' ? window.location.href : ''} size={160} />
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href)
+                setCopied(true)
+                setTimeout(() => setCopied(false), 2000)
+              }}
+              style={{ width: '100%', padding: '11px', borderRadius: 12, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
+            >
+              {copied ? '已复制' : '复制链接'}
+            </button>
+            <button onClick={() => setShowShare(false)} style={{ width: '100%', padding: '10px', borderRadius: 12, background: 'none', border: '0.5px solid var(--border-light)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer' }}>关闭</button>
           </div>
         </div>
       )}
