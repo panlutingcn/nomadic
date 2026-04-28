@@ -92,22 +92,22 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '阿姆斯特丹是欧洲科技初创与创意产业的重镇，英语普及率极高，对外籍人才极度友好。',
-      policy: { label: 'DAFT 自雇签证（美国公民适用）', url: 'https://ind.nl/en/residence-permits/work/self-employment' },
+      policy: { label: 'DAFT 自雇签证（美国公民适用）', url: 'https://ind.nl/en/residence-permits/work/self-employment', desc: '荷兰自雇居留许可，DAFT 条约适用于美国公民' },
       localJobs: [
-        { name: 'Nationalevacaturebank', url: 'https://www.nationalevacaturebank.nl' },
-        { name: 'LinkedIn NL Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'Nationalevacaturebank', url: 'https://www.nationalevacaturebank.nl', desc: '荷兰最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn NL Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-        { name: 'Toptal', url: 'https://www.toptal.com' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+        { name: 'Toptal', url: 'https://www.toptal.com', desc: '顶尖自由职业者网络，严格筛选机制' },
       ]
     },
     local: {
       paragraph: '阿姆斯特丹的外籍人士社群成熟活跃，英语是通用语言，各类专业社群和兴趣小组让融入变得轻松自然。',
       platforms: [
-        { name: 'Meetup Amsterdam', url: 'https://www.meetup.com/cities/nl/amsterdam/' },
-        { name: 'Eventbrite Amsterdam', url: 'https://www.eventbrite.nl/d/netherlands--amsterdam/events/' },
+        { name: 'Meetup Amsterdam', url: 'https://www.meetup.com/cities/nl/amsterdam/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Amsterdam', url: 'https://www.eventbrite.nl/d/netherlands--amsterdam/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
       ]
     }
   },
@@ -124,22 +124,22 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '里斯本物价低廉、气候宜人，已成为欧洲增长最快的数字游民聚集地，初创生态活跃。',
-      policy: { label: '数字游民签证（D8 Visa）', url: 'https://vistos.mne.gov.pt/en/national-visas/required-documentation/passive-income' },
+      policy: { label: '数字游民签证（D8 Visa）', url: 'https://vistos.mne.gov.pt/en/national-visas/required-documentation/passive-income', desc: '葡萄牙数字游民签证，适合远程收入者申请' },
       localJobs: [
-        { name: 'Net-Empregos', url: 'https://www.net-empregos.com' },
-        { name: 'LinkedIn PT Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'Net-Empregos', url: 'https://www.net-empregos.com', desc: '葡萄牙最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn PT Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-        { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+        { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs', desc: '数字游民社区旗下远程职位聚合平台' },
       ]
     },
     local: {
       paragraph: '里斯本的数字游民社群是欧洲最活跃的之一，共享办公空间遍布全城，游民聚会几乎每周都有。',
       platforms: [
-        { name: 'Meetup Lisbon', url: 'https://www.meetup.com/cities/pt/lisbon/' },
-        { name: 'Eventbrite Lisboa', url: 'https://www.eventbrite.pt/d/portugal--lisbon/events/' },
+        { name: 'Meetup Lisbon', url: 'https://www.meetup.com/cities/pt/lisbon/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Lisboa', url: 'https://www.eventbrite.pt/d/portugal--lisbon/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
       ]
     }
   },
@@ -156,23 +156,23 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '曼谷是东南亚商业枢纽，共享办公空间密集，消费成本极低，适合刚起步的数字游民。',
-      policy: { label: 'LTR 长期居留签证（高收入远程工作者）', url: 'https://ltr.boi.go.th/en/index.html' },
+      policy: { label: 'LTR 长期居留签证（高收入远程工作者）', url: 'https://ltr.boi.go.th/en/index.html', desc: '泰国高收入远程工作者长期居留签证' },
       localJobs: [
-        { name: 'JobsDB Thailand', url: 'https://th.jobsdb.com' },
-        { name: 'LinkedIn TH Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'JobsDB Thailand', url: 'https://th.jobsdb.com', desc: '东南亚领先招聘平台，泰国职位最全' },
+        { name: 'LinkedIn TH Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-        { name: 'Toptal', url: 'https://www.toptal.com' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+        { name: 'Toptal', url: 'https://www.toptal.com', desc: '顶尖自由职业者网络，严格筛选机制' },
       ]
     },
     local: {
       paragraph: '曼谷的外籍人士社群庞大且多元，从东南亚创业者到全球远程工作者，这里是亚洲数字游民密度最高的城市之一。',
       platforms: [
-        { name: 'Meetup Bangkok', url: 'https://www.meetup.com/cities/th/bangkok/' },
-        { name: 'Eventbrite Bangkok', url: 'https://www.eventbrite.com/d/thailand--bangkok/events/' },
-        { name: 'InterNations Bangkok', url: 'https://www.internations.org/bangkok-expats/' },
+        { name: 'Meetup Bangkok', url: 'https://www.meetup.com/cities/th/bangkok/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Bangkok', url: 'https://www.eventbrite.com/d/thailand--bangkok/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+        { name: 'InterNations Bangkok', url: 'https://www.internations.org/bangkok-expats/', desc: '全球最大外籍人士社群，曼谷分部活跃' },
       ]
     }
   },
@@ -189,21 +189,21 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '布拉格物价低于西欧三分之一，科技初创生态快速崛起，吸引大量欧洲远程工作者定居。',
-      policy: { label: '自由职业贸易许可证（Živnostenský list）', url: 'https://www.businessinfo.cz/en/starting-business/' },
+      policy: { label: '自由职业贸易许可证（Živnostenský list）', url: 'https://www.businessinfo.cz/en/starting-business/', desc: '捷克自由职业贸易许可证，适合自雇人士' },
       localJobs: [
-        { name: 'Jobs.cz', url: 'https://www.jobs.cz' },
-        { name: 'LinkedIn CZ Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'Jobs.cz', url: 'https://www.jobs.cz', desc: '捷克最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn CZ Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
     local: {
       paragraph: '布拉格的外籍人士社群以欧洲远程工作者为主，价格亲民的共享办公空间和活跃的创业社群让融入变得容易。',
       platforms: [
-        { name: 'Meetup Prague', url: 'https://www.meetup.com/cities/cz/prague/' },
-        { name: 'Eventbrite Prague', url: 'https://www.eventbrite.com/d/czech-republic--prague/events/' },
+        { name: 'Meetup Prague', url: 'https://www.meetup.com/cities/cz/prague/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Prague', url: 'https://www.eventbrite.com/d/czech-republic--prague/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
       ]
     }
   },
@@ -220,21 +220,21 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '维也纳是中欧商业中心，金融与文化创意产业并重，生活质量连续多年全球排名第一。',
-      policy: { label: '奥地利红白红卡（自雇类别）', url: 'https://www.migration.gv.at/en/types-of-immigration/permanent-immigration/self-employed-key-workers/' },
+      policy: { label: '奥地利红白红卡（自雇类别）', url: 'https://www.migration.gv.at/en/types-of-immigration/permanent-immigration/self-employed-key-workers/', desc: '奥地利自雇类居留许可，适合高技能人才' },
       localJobs: [
-        { name: 'karriere.at', url: 'https://www.karriere.at' },
-        { name: 'LinkedIn AT Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'karriere.at', url: 'https://www.karriere.at', desc: '奥地利最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn AT Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
     local: {
       paragraph: '维也纳的社群文化相对内敛，但外籍专业人士圈子成熟，文化活动丰富，适合喜欢高质量社交的游民。',
       platforms: [
-        { name: 'Meetup Vienna', url: 'https://www.meetup.com/cities/at/vienna/' },
-        { name: 'Eventbrite Vienna', url: 'https://www.eventbrite.at/d/austria--vienna/events/' },
+        { name: 'Meetup Vienna', url: 'https://www.meetup.com/cities/at/vienna/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Vienna', url: 'https://www.eventbrite.at/d/austria--vienna/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
       ]
     }
   },
@@ -251,23 +251,23 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '巴黎是全球时尚、奢侈品与创意产业的中心，科技初创生态（Station F）快速崛起，英语工作机会日益增多。',
-      policy: { label: '法国自由职业签证（Talent Passport）', url: 'https://www.service-public.fr/particuliers/vosdroits/F16922' },
+      policy: { label: '法国自由职业签证（Talent Passport）', url: 'https://www.service-public.fr/particuliers/vosdroits/F16922', desc: '法国人才护照，适合自由职业者与创业者' },
       localJobs: [
-        { name: 'Welcome to the Jungle', url: 'https://www.welcometothejungle.com' },
-        { name: 'LinkedIn FR Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'Welcome to the Jungle', url: 'https://www.welcometothejungle.com', desc: '法国新兴招聘平台，注重公司文化展示' },
+        { name: 'LinkedIn FR Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-        { name: 'Malt', url: 'https://www.malt.fr' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+        { name: 'Malt', url: 'https://www.malt.fr', desc: '法国领先自由职业平台，创意与科技人才首选' },
       ]
     },
     local: {
       paragraph: '巴黎的外籍人士社群以创意从业者和科技人才为主，Station F 周边聚集了大量初创圈子，社交机会丰富。',
       platforms: [
-        { name: 'Meetup Paris', url: 'https://www.meetup.com/cities/fr/paris/' },
-        { name: 'Eventbrite Paris', url: 'https://www.eventbrite.fr/d/france--paris/events/' },
-        { name: 'Station F Events', url: 'https://stationf.co' },
+        { name: 'Meetup Paris', url: 'https://www.meetup.com/cities/fr/paris/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Paris', url: 'https://www.eventbrite.fr/d/france--paris/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+        { name: 'Station F Events', url: 'https://stationf.co', desc: '全球最大创业园区，巴黎初创生态核心' },
       ]
     }
   },
@@ -284,23 +284,23 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '巴塞罗那是欧洲最具活力的创意与科技中心之一，Mobile World Congress 每年在此举办，初创生态活跃，英语工作机会多。',
-      policy: { label: '西班牙数字游民签证', url: 'https://www.exteriores.gob.es/en/ServiciosAlCiudadano/Paginas/Detalle-ficha-consular.aspx' },
+      policy: { label: '西班牙数字游民签证', url: 'https://www.exteriores.gob.es/en/ServiciosAlCiudadano/Paginas/Detalle-ficha-consular.aspx', desc: '西班牙数字游民签证，适合远程工作者申请' },
       localJobs: [
-        { name: 'InfoJobs', url: 'https://www.infojobs.net' },
-        { name: 'LinkedIn ES Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'InfoJobs', url: 'https://www.infojobs.net', desc: '西班牙最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn ES Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-        { name: 'Workana', url: 'https://www.workana.com' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+        { name: 'Workana', url: 'https://www.workana.com', desc: '拉美最大自由职业平台，西语市场首选' },
       ]
     },
     local: {
       paragraph: '巴塞罗那的游民社群充满活力，海滩、共享办公空间和各类创意活动让这里成为欧洲最受欢迎的游民目的地之一。',
       platforms: [
-        { name: 'Meetup Barcelona', url: 'https://www.meetup.com/cities/es/barcelona/' },
-        { name: 'Eventbrite Barcelona', url: 'https://www.eventbrite.es/d/spain--barcelona/events/' },
-        { name: 'Barcelona Activa', url: 'https://www.barcelonactiva.cat' },
+        { name: 'Meetup Barcelona', url: 'https://www.meetup.com/cities/es/barcelona/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Barcelona', url: 'https://www.eventbrite.es/d/spain--barcelona/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+        { name: 'Barcelona Activa', url: 'https://www.barcelonactiva.cat', desc: '巴塞罗那市政创业支持机构，提供资源与活动' },
       ]
     }
   },
@@ -317,22 +317,22 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '波尔图物价低廉、生活质量高，近年吸引大量远程工作者和创意人才，科技初创生态快速成长。',
-      policy: { label: '葡萄牙数字游民签证（D8）', url: 'https://vistos.mne.gov.pt/en/national-visas/required-documentation/passive-income' },
+      policy: { label: '葡萄牙数字游民签证（D8）', url: 'https://vistos.mne.gov.pt/en/national-visas/required-documentation/passive-income', desc: '葡萄牙数字游民签证，适合远程收入者申请' },
       localJobs: [
-        { name: 'Net-Empregos', url: 'https://www.net-empregos.com' },
-        { name: 'LinkedIn PT Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'Net-Empregos', url: 'https://www.net-empregos.com', desc: '葡萄牙最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn PT Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-        { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+        { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs', desc: '数字游民社区旗下远程职位聚合平台' },
       ]
     },
     local: {
       paragraph: '波尔图的游民社群规模虽小于里斯本，但氛围更加紧密，本地人与外籍人士的融合度高，容易建立真实的人际连接。',
       platforms: [
-        { name: 'Meetup Porto', url: 'https://www.meetup.com/cities/pt/porto/' },
-        { name: 'Eventbrite Porto', url: 'https://www.eventbrite.pt/d/portugal--porto/events/' },
+        { name: 'Meetup Porto', url: 'https://www.meetup.com/cities/pt/porto/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Porto', url: 'https://www.eventbrite.pt/d/portugal--porto/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
       ]
     }
   },
@@ -349,23 +349,23 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '都柏林是 Google、Meta、Apple 欧洲总部所在地，英语母语环境，科技与金融岗位密集，是进入欧洲市场的理想跳板。',
-      policy: { label: '爱尔兰创业签证（Start-up Entrepreneur Programme）', url: 'https://enterprise.gov.ie/en/what-we-do/supports-for-smes/start-up-entrepreneur-programme/' },
+      policy: { label: '爱尔兰创业签证（Start-up Entrepreneur Programme）', url: 'https://enterprise.gov.ie/en/what-we-do/supports-for-smes/start-up-entrepreneur-programme/', desc: '爱尔兰创业签证，适合高潜力创业者申请' },
       localJobs: [
-        { name: 'IrishJobs.ie', url: 'https://www.irishjobs.ie' },
-        { name: 'LinkedIn IE Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'IrishJobs.ie', url: 'https://www.irishjobs.ie', desc: '爱尔兰最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn IE Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-        { name: 'Toptal', url: 'https://www.toptal.com' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+        { name: 'Toptal', url: 'https://www.toptal.com', desc: '顶尖自由职业者网络，严格筛选机制' },
       ]
     },
     local: {
       paragraph: '都柏林的科技社群以欧洲科技公司员工和创业者为主，酒吧文化让社交变得自然，英语母语环境大幅降低融入门槛。',
       platforms: [
-        { name: 'Meetup Dublin', url: 'https://www.meetup.com/cities/ie/dublin/' },
-        { name: 'Eventbrite Dublin', url: 'https://www.eventbrite.ie/d/ireland--dublin/events/' },
-        { name: 'Silicon Docks Events', url: 'https://www.siliconrepublic.com/events' },
+        { name: 'Meetup Dublin', url: 'https://www.meetup.com/cities/ie/dublin/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Dublin', url: 'https://www.eventbrite.ie/d/ireland--dublin/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+        { name: 'Silicon Docks Events', url: 'https://www.siliconrepublic.com/events', desc: '都柏林科技圈活动聚合，初创与科技社群必备' },
       ]
     }
   },
@@ -382,22 +382,22 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '杜布罗夫尼克以旅游业为主，远程工作者可享受极高生活质量与低廉物价，克罗地亚数字游民签证是欧洲最早推出的之一。',
-      policy: { label: '克罗地亚数字游民签证', url: 'https://mup.gov.hr/aliens-281621/stay-and-work/temporary-stay-of-digital-nomads/286833' },
+      policy: { label: '克罗地亚数字游民签证', url: 'https://mup.gov.hr/aliens-281621/stay-and-work/temporary-stay-of-digital-nomads/286833', desc: '克罗地亚数字游民签证，欧洲最早推出之一' },
       localJobs: [
-        { name: 'MojPosao', url: 'https://www.mojposao.hr' },
-        { name: 'LinkedIn HR Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'MojPosao', url: 'https://www.mojposao.hr', desc: '克罗地亚最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn HR Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-        { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+        { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs', desc: '数字游民社区旗下远程职位聚合平台' },
       ]
     },
     local: {
       paragraph: '杜布罗夫尼克的游民社群以季节性为主，夏季活跃度极高，克罗地亚数字游民签证吸引了大量欧洲远程工作者。',
       platforms: [
-        { name: 'Meetup Croatia', url: 'https://www.meetup.com/cities/hr/zagreb/' },
-        { name: 'Eventbrite Croatia', url: 'https://www.eventbrite.com/d/croatia/events/' },
+        { name: 'Meetup Croatia', url: 'https://www.meetup.com/cities/hr/zagreb/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Croatia', url: 'https://www.eventbrite.com/d/croatia/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
       ]
     }
   },
@@ -414,22 +414,22 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '佛罗伦萨是全球时尚、皮革工艺与艺术设计的圣地，创意产业机会丰富，意大利语能力可大幅提升本地商业机会。',
-      policy: { label: '意大利数字游民签证', url: 'https://www.esteri.it/en/servizi-consolari-e-visti/stranieri-in-italia/visti-per-lItalia/' },
+      policy: { label: '意大利数字游民签证', url: 'https://www.esteri.it/en/servizi-consolari-e-visti/stranieri-in-italia/visti-per-lItalia/', desc: '意大利数字游民签证，适合远程工作者申请' },
       localJobs: [
-        { name: 'InfoJobs IT', url: 'https://www.infojobs.it' },
-        { name: 'LinkedIn IT Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'InfoJobs IT', url: 'https://www.infojobs.it', desc: '意大利最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn IT Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-        { name: 'Freelancer.com', url: 'https://www.freelancer.com' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+        { name: 'Freelancer.com', url: 'https://www.freelancer.com', desc: '全球最大自由职业接单平台，项目类型多样' },
       ]
     },
     local: {
       paragraph: '佛罗伦萨的外籍人士社群以艺术、设计和学术人士为主，意大利语能力可大幅提升融入深度，但英语社群同样活跃。',
       platforms: [
-        { name: 'Meetup Florence', url: 'https://www.meetup.com/cities/it/florence/' },
-        { name: 'Eventbrite Firenze', url: 'https://www.eventbrite.it/d/italy--florence/events/' },
+        { name: 'Meetup Florence', url: 'https://www.meetup.com/cities/it/florence/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Firenze', url: 'https://www.eventbrite.it/d/italy--florence/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
       ]
     }
   },
@@ -446,22 +446,22 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '塔林是全球数字游民签证的发源地，科技初创密度欧洲最高，e-Residency 项目让远程经营欧盟公司成为现实。',
-      policy: { label: '数字游民签证（Digital Nomad Visa）', url: 'https://www.politsei.ee/en/instructions/digital-nomad-visa' },
+      policy: { label: '数字游民签证（Digital Nomad Visa）', url: 'https://www.politsei.ee/en/instructions/digital-nomad-visa', desc: '爱沙尼亚数字游民签证，全球首个此类签证' },
       localJobs: [
-        { name: 'CV.ee', url: 'https://www.cv.ee' },
-        { name: 'LinkedIn EE Jobs', url: 'https://www.linkedin.com/jobs' },
+        { name: 'CV.ee', url: 'https://www.cv.ee', desc: '爱沙尼亚最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn EE Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
       ],
       remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
-        { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs' },
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+        { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs', desc: '数字游民社区旗下远程职位聚合平台' },
       ]
     },
     local: {
       paragraph: '塔林的数字游民社群是欧洲最具凝聚力的之一，e-Residency 持有者遍布全球，本地科技社群开放且国际化。',
       platforms: [
-        { name: 'Meetup Tallinn', url: 'https://www.meetup.com/cities/ee/tallinn/' },
-        { name: 'Eventbrite Tallinn', url: 'https://www.eventbrite.com/d/estonia--tallinn/events/' },
+        { name: 'Meetup Tallinn', url: 'https://www.meetup.com/cities/ee/tallinn/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Tallinn', url: 'https://www.eventbrite.com/d/estonia--tallinn/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
       ]
     }
   },
