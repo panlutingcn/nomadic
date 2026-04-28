@@ -106,7 +106,9 @@ export default function InsightsPage() {
   const [showBaseModal, setShowBaseModal] = useState(false)
 
   useEffect(() => {
-    setPageUrl(window.location.href)
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || window.location.origin
+    const path = window.location.pathname + window.location.search
+    setPageUrl(baseUrl + path)
   }, [])
 
   // Stable callback references for escape key handling
