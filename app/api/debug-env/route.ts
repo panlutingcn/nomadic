@@ -8,3 +8,5 @@ export async function GET() {
     keyLength: key?.length ?? 0,
   })
 }
+
+export const runtime = 'edge';

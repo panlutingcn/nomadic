@@ -34,3 +34,5 @@ export async function POST(req: NextRequest) {
   const text = message.content[0].type === 'text' ? message.content[0].text : ''
   return NextResponse.json({ narrative: text })
 }
+
+export const runtime = 'edge';
