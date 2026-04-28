@@ -32,9 +32,17 @@ export interface SearchContext {
   relevantSections: string[]
   aiInsight: string
   soulHeadline: string
+  soulPersonality: string
+  soulEconomy: string
+  soulFestivals: string
+  soulFigures: string
   wifiSpeed: string
   costLevel: string
   visaInfo: string
+  baseSafety: string
+  baseDailyCost: string
+  baseVisaDetail: string
+  baseSociety: string
   chanceParagraph: string
 }
 
@@ -54,7 +62,7 @@ interface AppState {
 const AppContext = createContext<AppState | null>(null)
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [selectedCity, setSelectedCity] = useState('Berlin')
+  const [selectedCity, setSelectedCity] = useState('')
   const [searchContext, setSearchContext] = useState<SearchContext | null>(null)
   const [savedCities, setSavedCities] = useState<SavedCity[]>([
     { name: 'Berlin', country: 'Germany', savedAt: '2025.01.14' },

@@ -33,7 +33,7 @@ export default function InsightsPage() {
   const PLACEHOLDER_CITY = {
     name: '世界上的某个城市',
     nameZh: '',
-    country: '地球上的某个国家',
+    country: '世界上的某个国家',
     countryZh: '',
     flag: '🌍',
     match: 0,
@@ -69,13 +69,21 @@ export default function InsightsPage() {
         match: Math.round((searchContext?.confidence || 0.75) * 100),
         soul: {
           headline: searchContext?.soulHeadline || '探索这座城市的独特魅力。',
-          sub: '文化 · 生活 · 工作'
+          sub: '文化 · 生活 · 工作',
+          personality: searchContext?.soulPersonality || '',
+          economy: searchContext?.soulEconomy || '',
+          festivals: searchContext?.soulFestivals || '',
+          figures: searchContext?.soulFigures || '',
         },
         base: {
           wifi: searchContext?.wifiSpeed || '未知',
           cost: searchContext?.costLevel || '$$',
           visa: searchContext?.visaInfo || '请查询当地签证政策',
-          welfare: '🏥 建议出行前购买国际医疗保险。'
+          welfare: '🏥 建议出行前购买国际医疗保险。',
+          safety: searchContext?.baseSafety || '',
+          dailyCost: searchContext?.baseDailyCost || '',
+          visaDetail: searchContext?.baseVisaDetail || '',
+          society: searchContext?.baseSociety || '',
         },
         chance: {
           paragraph: searchContext?.chanceParagraph || '该城市提供多样化的远程工作机会。',
@@ -431,8 +439,11 @@ export default function InsightsPage() {
                 )}
               </>
             ) : (
-              <div style={{ fontSize: 11, color: '#854f0b', lineHeight: 1.6, textAlign: 'center', padding: '20px 0' }}>
-                选择具体城市查看详细内容
+              <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>
+                <div style={{ marginBottom: 8 }}>{city.soul.headline}</div>
+                {'body' in city.soul && city.soul.body && (
+                  <div style={{ color: '#854f0b', marginTop: 8 }}>{city.soul.body}</div>
+                )}
               </div>
             )}
           </div>
@@ -497,8 +508,23 @@ export default function InsightsPage() {
                   )}
                 </>
               ) : (
-                <div style={{ fontSize: 11, color: '#6b8e23', lineHeight: 1.6, textAlign: 'center', padding: '20px 0' }}>
-                  选择具体城市查看详细内容
+                <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>网络速度</div>
+                    <div>{city.base.wifi}</div>
+                  </div>
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>物价水平</div>
+                    <div>{city.base.cost}</div>
+                  </div>
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证信息</div>
+                    <div>{city.base.visa}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>医疗建议</div>
+                    <div>{city.base.welfare}</div>
+                  </div>
                 </div>
               )}
             </div>

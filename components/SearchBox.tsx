@@ -109,9 +109,17 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
         relevantSections: result.relevantSections,
         aiInsight: result.aiInsight,
         soulHeadline: result.soulHeadline,
+        soulPersonality: result.soulPersonality,
+        soulEconomy: result.soulEconomy,
+        soulFestivals: result.soulFestivals,
+        soulFigures: result.soulFigures,
         wifiSpeed: result.wifiSpeed,
         costLevel: result.costLevel,
         visaInfo: result.visaInfo,
+        baseSafety: result.baseSafety,
+        baseDailyCost: result.baseDailyCost,
+        baseVisaDetail: result.baseVisaDetail,
+        baseSociety: result.baseSociety,
         chanceParagraph: result.chanceParagraph,
       })
 
