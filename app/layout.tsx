@@ -5,6 +5,7 @@ import { AppProvider } from '@/context/AppContext'
 export const metadata: Metadata = {
   title: 'Nomadic 此时此地',
   description: '在世界各地扎根，而不只是路过。',
+  icons: { icon: '/icon.svg' },
 }
 
 export const viewport = {
