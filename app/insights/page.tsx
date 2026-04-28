@@ -195,7 +195,7 @@ export default function InsightsPage() {
               )}
             </div>
             <div style={{ fontSize: 10, color: '#854f0b', marginTop: 5, textAlign: 'center' }}>
-              <div>文化性格·经济支柱·节庆活动·代表人物</div>
+              <div>文化性格｜经济支柱｜节庆活动｜代表人物</div>
               <div style={{ marginTop: 2 }}>点击展开详情 →</div>
             </div>
           </div>
@@ -220,7 +220,10 @@ export default function InsightsPage() {
             <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 7, padding: '7px 10px', marginTop: 5 }}>
               <span style={{ fontSize: 10, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{city.base.welfare}</span>
             </div>
-            <div style={{ fontSize: 10, color: '#6b8e23', marginTop: 5, textAlign: 'center' }}>点击展开详情 →</div>
+            <div style={{ fontSize: 10, color: '#6b8e23', marginTop: 5, textAlign: 'center' }}>
+              <div>治安与安全｜每日花销｜签证政策｜社会运转</div>
+              <div style={{ marginTop: 2 }}>点击展开详情 →</div>
+            </div>
           </div>
         </div>
 
