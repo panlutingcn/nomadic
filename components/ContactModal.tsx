@@ -57,16 +57,10 @@ export default function ContactModal({ onClose }: ContactModalProps) {
     setLoading(true)
     setSubmitError(null)
     try {
-      const body = new URLSearchParams({
-        'form-name': 'contact',
-        'user-email': email,
-        'subject': subject,
-        'message': message,
-      })
-      const res = await fetch('/__forms.html', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: body.toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, subject, message }),
       })
       if (!res.ok) throw new Error(`status ${res.status}`)
       setSuccess(true)
