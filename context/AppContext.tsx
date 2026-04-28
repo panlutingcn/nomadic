@@ -32,6 +32,7 @@ export interface SearchContext {
   relevantSections: string[]
   aiInsight: string
   soulHeadline: string
+  soulBody: string
   soulPersonality: string
   soulEconomy: string
   soulFestivals: string
@@ -44,6 +45,7 @@ export interface SearchContext {
   baseVisaDetail: string
   baseSociety: string
   chanceParagraph: string
+  localParagraph: string
 }
 
 interface AppState {

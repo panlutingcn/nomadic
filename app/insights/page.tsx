@@ -53,6 +53,7 @@ export default function InsightsPage() {
       remoteJobs: []
     },
     local: {
+      paragraph: '',
       platforms: []
     }
   }
@@ -69,6 +70,7 @@ export default function InsightsPage() {
         match: Math.round((searchContext?.confidence || 0.75) * 100),
         soul: {
           headline: searchContext?.soulHeadline || '探索这座城市的独特魅力。',
+          body: searchContext?.soulBody || '',
           sub: '文化 · 生活 · 工作',
           personality: searchContext?.soulPersonality || '',
           economy: searchContext?.soulEconomy || '',
@@ -95,6 +97,7 @@ export default function InsightsPage() {
           ]
         },
         local: {
+          paragraph: searchContext?.localParagraph || '',
           platforms: [
             { name: 'Meetup', url: `https://www.meetup.com/find/?location=${encodeURIComponent(selectedCity)}` },
             { name: 'Eventbrite', url: `https://www.eventbrite.com/d/${selectedCity.toLowerCase()}/events/` },
@@ -288,6 +291,9 @@ export default function InsightsPage() {
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 14, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>👥 LOCAL 本地圈子</div>
           <div style={{ background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 10, padding: '9px 11px' }}>
+            {'paragraph' in city.local && city.local.paragraph && (
+              <div style={{ fontSize: 10, color: '#3d3020', lineHeight: 1.55, marginBottom: 10 }}>{city.local.paragraph}</div>
+            )}
             {city.local.platforms.length > 0 && (
               <div style={{ marginBottom: 10 }}>
                 <div style={{ fontSize: 10, color: '#3c3489', marginBottom: 5 }}>📍 本地社群平台</div>

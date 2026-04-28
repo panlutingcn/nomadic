@@ -31,6 +31,7 @@ export interface CityData {
     remoteJobs: { name: string; url: string; desc?: string }[]
   }
   local: {
+    paragraph?: string
     platforms: { name: string; url: string; desc?: string }[]
   }
 }
@@ -71,8 +72,8 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '柏林的社群文化极度多元，从科技创业者到艺术家，从环保活动家到电子音乐爱好者，总能找到同频的人。',
       platforms: [
-        { name: 'Meetup Berlin', url: 'https://www.meetup.com/cities/de/berlin/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Berlin', url: 'https://www.eventbrite.de/d/germany--berlin/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
         { name: 'Berlin Startup Jobs Events', url: 'https://berlinstartupjobs.com/events/', desc: '柏林创业圈活动与招聘信息聚合' },
       ]
@@ -82,7 +83,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Amsterdam', nameZh: '阿姆斯特丹', country: 'Netherlands', countryZh: '荷兰', flag: '🇳🇱', match: 91,
     soul: {
       headline: '自由与秩序，在运河间共存。',
-      sub: '文化 · 历史 · 节庆 · 经济支柱'
+      sub: '文化 · 历史 · 节庆 · 经济支柱',
+      body: '阿姆斯特丹从不强迫你做选择——它让自由与秩序在同一条运河里共存。这座城市相信，规则是为了让更多人能够自由地生活，而不是限制生活本身。',
     },
     base: {
       wifi: '120 Mbps', cost: '$$$', visa: '90天申根免签',
@@ -102,6 +104,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '阿姆斯特丹的外籍人士社群成熟活跃，英语是通用语言，各类专业社群和兴趣小组让融入变得轻松自然。',
       platforms: [
         { name: 'Meetup Amsterdam', url: 'https://www.meetup.com/cities/nl/amsterdam/' },
         { name: 'Eventbrite Amsterdam', url: 'https://www.eventbrite.nl/d/netherlands--amsterdam/events/' },
@@ -112,7 +115,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Lisbon', nameZh: '里斯本', country: 'Portugal', countryZh: '葡萄牙', flag: '🇵🇹', match: 87,
     soul: {
       headline: '阳光、瓷砖与慢生活的哲学。',
-      sub: '文化 · 历史 · 节庆 · 经济支柱'
+      sub: '文化 · 历史 · 节庆 · 经济支柱',
+      body: '里斯本不急。它用了几个世纪学会了如何在失去帝国之后，依然优雅地面对大西洋。这里的慢，不是懒惰，而是一种经过历史淬炼的从容。',
     },
     base: {
       wifi: '85 Mbps', cost: '$', visa: '90天申根免签',
@@ -132,6 +136,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '里斯本的数字游民社群是欧洲最活跃的之一，共享办公空间遍布全城，游民聚会几乎每周都有。',
       platforms: [
         { name: 'Meetup Lisbon', url: 'https://www.meetup.com/cities/pt/lisbon/' },
         { name: 'Eventbrite Lisboa', url: 'https://www.eventbrite.pt/d/portugal--lisbon/events/' },
@@ -142,7 +147,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Bangkok', nameZh: '曼谷', country: 'Thailand', countryZh: '泰国', flag: '🇹🇭', match: 85,
     soul: {
       headline: '混沌中生长的东南亚能量之都。',
-      sub: '文化 · 历史 · 节庆 · 经济支柱'
+      sub: '文化 · 历史 · 节庆 · 经济支柱',
+      body: '曼谷是一座永远不会让你无聊的城市。它把混沌变成了一种生活方式，把嘈杂变成了一种能量。在这里，街头小吃和五星酒店可以在同一条街上共存，没有人觉得奇怪。',
     },
     base: {
       wifi: '74 Mbps', cost: '$', visa: '30天落地签',
@@ -162,6 +168,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '曼谷的外籍人士社群庞大且多元，从东南亚创业者到全球远程工作者，这里是亚洲数字游民密度最高的城市之一。',
       platforms: [
         { name: 'Meetup Bangkok', url: 'https://www.meetup.com/cities/th/bangkok/' },
         { name: 'Eventbrite Bangkok', url: 'https://www.eventbrite.com/d/thailand--bangkok/events/' },
@@ -173,7 +180,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Prague', nameZh: '布拉格', country: 'Czech Republic', countryZh: '捷克', flag: '🇨🇿', match: 82,
     soul: {
       headline: '中欧的童话古城，创意与历史共鸣。',
-      sub: '文化 · 历史 · 节庆 · 经济支柱'
+      sub: '文化 · 历史 · 节庆 · 经济支柱',
+      body: '布拉格像一本被时间遗忘的童话书——每一块石板路都藏着故事，每一座尖塔都指向某个被遗忘的传说。这座城市的美，是那种让你不敢大声说话的美。',
     },
     base: {
       wifi: '80 Mbps', cost: '$', visa: '90天申根免签',
@@ -192,6 +200,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '布拉格的外籍人士社群以欧洲远程工作者为主，价格亲民的共享办公空间和活跃的创业社群让融入变得容易。',
       platforms: [
         { name: 'Meetup Prague', url: 'https://www.meetup.com/cities/cz/prague/' },
         { name: 'Eventbrite Prague', url: 'https://www.eventbrite.com/d/czech-republic--prague/events/' },
@@ -202,7 +211,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Vienna', nameZh: '维也纳', country: 'Austria', countryZh: '奥地利', flag: '🇦🇹', match: 80,
     soul: {
       headline: '帝国余晖中的艺术与优雅。',
-      sub: '文化 · 历史 · 节庆 · 经济支柱'
+      sub: '文化 · 历史 · 节庆 · 经济支柱',
+      body: '维也纳是一座知道自己辉煌过的城市，但它从不炫耀。帝国的余晖渗透在每一座咖啡馆、每一场音乐会里，成为一种日常的优雅。',
     },
     base: {
       wifi: '90 Mbps', cost: '$$$', visa: '90天申根免签',
@@ -221,6 +231,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '维也纳的社群文化相对内敛，但外籍专业人士圈子成熟，文化活动丰富，适合喜欢高质量社交的游民。',
       platforms: [
         { name: 'Meetup Vienna', url: 'https://www.meetup.com/cities/at/vienna/' },
         { name: 'Eventbrite Vienna', url: 'https://www.eventbrite.at/d/austria--vienna/events/' },
@@ -231,7 +242,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Paris', nameZh: '巴黎', country: 'France', countryZh: '法国', flag: '🇫🇷', match: 89,
     soul: {
       headline: '时尚、哲学与美食的永恒之都。',
-      sub: '文化 · 艺术 · 时尚 · 美食'
+      sub: '文化 · 艺术 · 时尚 · 美食',
+      body: '巴黎不需要解释自己。它只是存在着，然后让你慢慢明白，为什么几个世纪以来，全世界的人都想来这里生活一次。',
     },
     base: {
       wifi: '100 Mbps', cost: '$$$', visa: '90天申根免签',
@@ -251,6 +263,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '巴黎的外籍人士社群以创意从业者和科技人才为主，Station F 周边聚集了大量初创圈子，社交机会丰富。',
       platforms: [
         { name: 'Meetup Paris', url: 'https://www.meetup.com/cities/fr/paris/' },
         { name: 'Eventbrite Paris', url: 'https://www.eventbrite.fr/d/france--paris/events/' },
@@ -262,7 +275,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Barcelona', nameZh: '巴塞罗那', country: 'Spain', countryZh: '西班牙', flag: '🇪🇸', match: 86,
     soul: {
       headline: '地中海的激情与建筑的诗意在此交汇。',
-      sub: '文化 · 建筑 · 美食 · 创意'
+      sub: '文化 · 建筑 · 美食 · 创意',
+      body: '巴塞罗那是一座用建筑说话的城市。高迪的曲线、地中海的光线、加泰罗尼亚人的骄傲——这一切混合在一起，创造出一种独一无二的城市气质。',
     },
     base: {
       wifi: '95 Mbps', cost: '$$', visa: '90天申根免签',
@@ -282,6 +296,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '巴塞罗那的游民社群充满活力，海滩、共享办公空间和各类创意活动让这里成为欧洲最受欢迎的游民目的地之一。',
       platforms: [
         { name: 'Meetup Barcelona', url: 'https://www.meetup.com/cities/es/barcelona/' },
         { name: 'Eventbrite Barcelona', url: 'https://www.eventbrite.es/d/spain--barcelona/events/' },
@@ -293,7 +308,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Porto', nameZh: '波尔图', country: 'Portugal', countryZh: '葡萄牙', flag: '🇵🇹', match: 84,
     soul: {
       headline: '葡萄酒、花砖与大西洋风的慢城哲学。',
-      sub: '文化 · 历史 · 美食 · 艺术'
+      sub: '文化 · 历史 · 美食 · 艺术',
+      body: '波尔图是里斯本的另一面——更粗粝，更真实，更不在乎被看见。这里的花砖会剥落，这里的葡萄酒会让你忘记时间，这里的人会在你迷路时主动带你找到目的地。',
     },
     base: {
       wifi: '80 Mbps', cost: '$', visa: '90天申根免签',
@@ -313,6 +329,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '波尔图的游民社群规模虽小于里斯本，但氛围更加紧密，本地人与外籍人士的融合度高，容易建立真实的人际连接。',
       platforms: [
         { name: 'Meetup Porto', url: 'https://www.meetup.com/cities/pt/porto/' },
         { name: 'Eventbrite Porto', url: 'https://www.eventbrite.pt/d/portugal--porto/events/' },
@@ -323,7 +340,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Dublin', nameZh: '都柏林', country: 'Ireland', countryZh: '爱尔兰', flag: '🇮🇪', match: 83,
     soul: {
       headline: '欧洲科技之都，文学与酒吧文化的故乡。',
-      sub: '文化 · 科技 · 文学 · 社群'
+      sub: '文化 · 科技 · 文学 · 社群',
+      body: '都柏林是一座用故事建造的城市。从乔伊斯到贝克特，从吉尼斯到硅谷，这里的人天生擅长把生活变成值得讲述的东西。',
     },
     base: {
       wifi: '105 Mbps', cost: '$$$', visa: '90天免签（非申根）',
@@ -343,6 +361,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '都柏林的科技社群以欧洲科技公司员工和创业者为主，酒吧文化让社交变得自然，英语母语环境大幅降低融入门槛。',
       platforms: [
         { name: 'Meetup Dublin', url: 'https://www.meetup.com/cities/ie/dublin/' },
         { name: 'Eventbrite Dublin', url: 'https://www.eventbrite.ie/d/ireland--dublin/events/' },
@@ -354,7 +373,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Dubrovnik', nameZh: '杜布罗夫尼克', country: 'Croatia', countryZh: '克罗地亚', flag: '🇭🇷', match: 78,
     soul: {
       headline: '亚得里亚海的珍珠，城墙内的永恒时光。',
-      sub: '文化 · 历史 · 海岸 · 美食'
+      sub: '文化 · 历史 · 海岸 · 美食',
+      body: '杜布罗夫尼克是一座被城墙保护的时间胶囊。亚得里亚海的蓝色会让你忘记外面的世界，而城墙内的石板路会让你觉得，某些美好值得被永远保存。',
     },
     base: {
       wifi: '70 Mbps', cost: '$$', visa: '90天申根免签',
@@ -374,6 +394,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '杜布罗夫尼克的游民社群以季节性为主，夏季活跃度极高，克罗地亚数字游民签证吸引了大量欧洲远程工作者。',
       platforms: [
         { name: 'Meetup Croatia', url: 'https://www.meetup.com/cities/hr/zagreb/' },
         { name: 'Eventbrite Croatia', url: 'https://www.eventbrite.com/d/croatia/events/' },
@@ -384,7 +405,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Florence', nameZh: '佛罗伦萨', country: 'Italy', countryZh: '意大利', flag: '🇮🇹', match: 81,
     soul: {
       headline: '文艺复兴的摇篮，美与创造力的永恒源泉。',
-      sub: '文化 · 艺术 · 美食 · 历史'
+      sub: '文化 · 艺术 · 美食 · 历史',
+      body: '佛罗伦萨是一座让你相信美可以改变世界的城市。文艺复兴不是历史课本里的词条，而是你走在街上随时可以触摸到的空气。',
     },
     base: {
       wifi: '85 Mbps', cost: '$$', visa: '90天申根免签',
@@ -404,6 +426,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '佛罗伦萨的外籍人士社群以艺术、设计和学术人士为主，意大利语能力可大幅提升融入深度，但英语社群同样活跃。',
       platforms: [
         { name: 'Meetup Florence', url: 'https://www.meetup.com/cities/it/florence/' },
         { name: 'Eventbrite Firenze', url: 'https://www.eventbrite.it/d/italy--florence/events/' },
@@ -414,7 +437,8 @@ export const CITIES: Record<string, CityData> = {
     name: 'Tallinn', nameZh: '塔林', country: 'Estonia', countryZh: '爱沙尼亚', flag: '🇪🇪', match: 88,
     soul: {
       headline: '世界上数字化程度最高的古城。',
-      sub: '文化 · 历史 · 节庆 · 经济支柱'
+      sub: '文化 · 历史 · 节庆 · 经济支柱',
+      body: '塔林是一座用中世纪的外壳装着未来的城市。当你站在老城的石板路上，口袋里的手机正在连接着全球最快的数字基础设施——这种反差，正是塔林最迷人的地方。',
     },
     base: {
       wifi: '110 Mbps', cost: '$', visa: '90天申根免签',
@@ -434,6 +458,7 @@ export const CITIES: Record<string, CityData> = {
       ]
     },
     local: {
+      paragraph: '塔林的数字游民社群是欧洲最具凝聚力的之一，e-Residency 持有者遍布全球，本地科技社群开放且国际化。',
       platforms: [
         { name: 'Meetup Tallinn', url: 'https://www.meetup.com/cities/ee/tallinn/' },
         { name: 'Eventbrite Tallinn', url: 'https://www.eventbrite.com/d/estonia--tallinn/events/' },

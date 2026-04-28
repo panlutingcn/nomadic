@@ -109,6 +109,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
         relevantSections: result.relevantSections,
         aiInsight: result.aiInsight,
         soulHeadline: result.soulHeadline,
+        soulBody: result.soulBody,
         soulPersonality: result.soulPersonality,
         soulEconomy: result.soulEconomy,
         soulFestivals: result.soulFestivals,
@@ -121,6 +122,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
         baseVisaDetail: result.baseVisaDetail,
         baseSociety: result.baseSociety,
         chanceParagraph: result.chanceParagraph,
+        localParagraph: result.localParagraph,
       })
 
       setSelectedCity(result.cityName)
