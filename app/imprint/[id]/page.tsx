@@ -67,7 +67,7 @@ export default function ImprintDetailPage() {
   const cityNameZh = CITY_NAME_MAP[imprint.city] || imprint.city
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80 }}>
+    <div style={{ minHeight: '100vh' }}>
       {/* Top Nav */}
       <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-page)', borderBottom: '1px solid var(--border)', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button onClick={() => router.back()} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--text-primary)' }}>←</button>
@@ -75,14 +75,24 @@ export default function ImprintDetailPage() {
       </div>
 
       {/* Photo */}
-      {imprint.photo && (
-        <div style={{ position: 'relative', height: 240, overflow: 'hidden' }}>
-          <img src={imprint.photo} alt={imprint.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', bottom: 12, left: 12, background: 'rgba(0,0,0,0.6)', color: 'white', padding: '4px 10px', borderRadius: 6, fontSize: 12 }}>
-            {cityNameZh}
+      {(() => {
+        const photoBg: Record<string, string> = { Berlin: '#ede8df', Amsterdam: '#e8edf0', Lisbon: '#e8e2d8', Prague: '#e8e8ed' }
+        const bg = photoBg[imprint.city] || '#ede8df'
+        return (
+          <div style={{ position: 'relative', height: 240, overflow: 'hidden', background: bg }}>
+            {imprint.photo ? (
+              <img src={imprint.photo} alt={imprint.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: 'rgba(0,0,0,0.3)' }}>
+                [ 照片 ]
+              </div>
+            )}
+            <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(0,0,0,0.6)', color: 'white', padding: '4px 10px', borderRadius: 6, fontSize: 12 }}>
+              {cityNameZh}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       {/* Content */}
       <div style={{ padding: '20px 16px' }}>
@@ -151,29 +161,29 @@ export default function ImprintDetailPage() {
             分享
           </button>
         </div>
-      </div>
 
-      {/* Bottom Nav */}
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, maxWidth: 480, margin: '0 auto', background: 'var(--bg-nav)', borderTop: '1px solid var(--border)', padding: '16px' }}>
-        <button
-          onClick={() => router.push(imprint.isPublic ? '/meet' : '/vault')}
-          style={{
-            width: '100%',
-            padding: '12px',
-            background: 'var(--accent)',
-            color: 'white',
-            border: 'none',
-            borderRadius: 8,
-            fontSize: 14,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 6,
-          }}
-        >
-          {imprint.isPublic ? '查看更多来自社区的印迹 →' : '返回我的领地 →'}
-        </button>
+        {/* Bottom Section */}
+        <div style={{ marginTop: 24 }}>
+          <button
+            onClick={() => router.push(imprint.isPublic ? '/meet' : '/vault')}
+            style={{
+              width: '100%',
+              padding: '12px',
+              background: 'var(--accent)',
+              color: 'white',
+              border: 'none',
+              borderRadius: 8,
+              fontSize: 14,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 6,
+            }}
+          >
+            {imprint.isPublic ? '查看更多来自社区的印迹 →' : '返回我的领地 →'}
+          </button>
+        </div>
       </div>
 
       {/* Toast */}
