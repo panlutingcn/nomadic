@@ -28,7 +28,7 @@ export default function ImprintDetailPage() {
 
   useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current) }, [])
 
-  const allImprints = [...allPublicImprints, ...imprints.filter(i => !i.isPublic)]
+  const allImprints = [...imprints, ...allPublicImprints.filter(i => !imprints.some(u => u.id === i.id))]
   const id = Array.isArray(params.id) ? params.id[0] : params.id
   const imprint = allImprints.find(i => i.id === id)
 
@@ -115,7 +115,7 @@ export default function ImprintDetailPage() {
         {/* Author */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
           <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--accent-text)' }}>
-            {imprint.author ? imprint.author[0] : '我'}
+            {imprint.author?.[1] ?? 'N'}
           </div>
           <div>
             <div style={{ fontSize: 14, color: 'var(--text-primary)' }}>{imprint.author || '我'}</div>
