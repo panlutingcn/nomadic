@@ -225,21 +225,25 @@ export default function InsightsPage() {
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌿 BASE 生存基准</div>
           <div onClick={() => setShowBaseModal(true)} style={{ cursor: 'pointer' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
-              {[
-                { num: city.base.wifi, label: 'WiFi' },
-                { num: city.base.cost, label: '物价' },
-                { num: ('visaDays' in city.base && city.base.visaDays) ? city.base.visaDays : city.base.visa, label: '签证' },
-              ].map(item => (
-                <div key={item.label} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '7px 6px', textAlign: 'center' }}>
-                  <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{item.num}</div>
-                  <div style={{ fontSize: 9, color: 'var(--text-muted)', marginTop: 1 }}>{item.label}</div>
+            {'wifi' in city.base && (
+              <>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
+                  {[
+                    { num: city.base.wifi, label: 'WiFi' },
+                    { num: city.base.cost, label: '物价' },
+                    { num: ('visaDays' in city.base && city.base.visaDays) ? city.base.visaDays : city.base.visa, label: '签证' },
+                  ].map(item => (
+                    <div key={item.label} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '7px 6px', textAlign: 'center' }}>
+                      <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{item.num}</div>
+                      <div style={{ fontSize: 9, color: 'var(--text-muted)', marginTop: 1 }}>{item.label}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 7, padding: '7px 10px', marginTop: 5 }}>
-              <span style={{ fontSize: 10, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{city.base.welfare}</span>
-            </div>
+                <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 7, padding: '7px 10px', marginTop: 5 }}>
+                  <span style={{ fontSize: 10, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{city.base.welfare}</span>
+                </div>
+              </>
+            )}
             <div style={{ fontSize: 10, color: '#6b8e23', marginTop: 5, textAlign: 'center' }}>
               <div>签证政策｜每日花销｜治安安全｜社会运转</div>
               <div style={{ marginTop: 2 }}>点击展开详情 →</div>
@@ -522,22 +526,30 @@ export default function InsightsPage() {
                 </>
               ) : (
                 <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>
-                  <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证政策</div>
-                    <div>{city.base.visa}</div>
-                  </div>
-                  <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>每日花销</div>
-                    <div>{city.base.cost}</div>
-                  </div>
-                  <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>治安安全</div>
-                    <div>{city.base.safety}</div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>社会运转</div>
-                    <div>{city.base.society}</div>
-                  </div>
+                  {'visa' in city.base && (
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证政策</div>
+                      <div>{city.base.visa}</div>
+                    </div>
+                  )}
+                  {'cost' in city.base && (
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>每日花销</div>
+                      <div>{city.base.cost}</div>
+                    </div>
+                  )}
+                  {'safety' in city.base && (
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>治安安全</div>
+                      <div>{city.base.safety}</div>
+                    </div>
+                  )}
+                  {'society' in city.base && (
+                    <div>
+                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>社会运转</div>
+                      <div>{city.base.society}</div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
