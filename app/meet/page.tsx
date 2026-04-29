@@ -1,9 +1,11 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 
 export default function MeetPage() {
+  const router = useRouter()
   const { allPublicImprints } = useApp()
   const [activeCity, setActiveCity] = useState('全部')
   const cities = ['全部', 'Berlin', 'Amsterdam', 'Lisbon', 'Prague']
@@ -34,7 +36,7 @@ export default function MeetPage() {
 
         <div style={{ padding: '0 16px' }}>
           {filtered.map(imp => (
-            <div key={imp.id} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 14, overflow: 'hidden', marginBottom: 10, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+            <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 14, overflow: 'hidden', marginBottom: 10, boxShadow: '0 1px 4px rgba(0,0,0,0.04)', cursor: 'pointer' }}>
               <div style={{ height: 110, background: photoBg[imp.city] ?? '#ede8df', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {imp.photo
                   ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

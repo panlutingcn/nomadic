@@ -51,7 +51,7 @@ export default function VaultPage() {
         {imprints.length === 0 ? (
           <div onClick={() => router.push('/story')} style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', padding: '12px 0', cursor: 'pointer' }}>还没有留下印迹，按下快门开始吧 ›</div>
         ) : imprints.map(imp => (
-          <div key={imp.id} style={{ display: 'flex', gap: 10, background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 12, overflow: 'hidden', marginBottom: 8, boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+          <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ display: 'flex', gap: 10, background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 12, overflow: 'hidden', marginBottom: 8, boxShadow: '0 1px 3px rgba(0,0,0,0.03)', cursor: 'pointer' }}>
             <div style={{ width: 72, height: 64, background: 'var(--bg-card-2)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {imp.photo
                 ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
