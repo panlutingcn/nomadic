@@ -98,17 +98,17 @@ export default function InsightsPage() {
         chance: {
           paragraph: searchContext?.chanceParagraph || '该城市提供多样化的远程工作机会。',
           policy: searchContext?.chancePolicy || { label: '选择城市查看商业支持政策', url: '#' },
-          localJobs: [{ name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs' }],
+          localJobs: [{ name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' }],
           remoteJobs: [
-            { name: 'Remote.co', url: 'https://remote.co' },
-            { name: 'We Work Remotely', url: 'https://weworkremotely.com' },
+            { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+            { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
           ]
         },
         local: {
           paragraph: searchContext?.localParagraph || '',
           platforms: [
-            { name: 'Meetup', url: `https://www.meetup.com/find/?location=${encodeURIComponent(selectedCity)}` },
-            { name: 'Eventbrite', url: `https://www.eventbrite.com/d/${selectedCity.toLowerCase()}/events/` },
+            { name: 'Meetup', url: `https://www.meetup.com/find/?location=${encodeURIComponent(selectedCity)}`, desc: '本地兴趣小组活动平台，覆盖各类社群' },
+            { name: 'Eventbrite', url: `https://www.eventbrite.com/d/${selectedCity.toLowerCase()}/events/`, desc: '活动票务与发现平台，涵盖各类线下活动' },
           ]
         }
       })

@@ -10,6 +10,8 @@ const LINE_PAUSE = 400
 export interface SearchBoxHandle {
   fill: (text: string) => void
   pulse: () => void
+  search: () => void
+  startLoading: () => void
 }
 
 interface SearchBoxProps {
@@ -49,6 +51,12 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
     pulse: () => {
       setPulsing(true)
       setTimeout(() => setPulsing(false), 700)
+    },
+    search: () => {
+      handleSearch()
+    },
+    startLoading: () => {
+      setLoading(true)
     },
   }))
 
@@ -183,18 +191,19 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
           onClick={handleSearch}
           disabled={loading || !query.trim()}
           style={{
-            background: loading ? 'var(--text-muted)' : 'var(--accent)',
-            color: '#fff',
+            background: loading ? '#e8f5ee' : 'var(--accent)',
+            color: loading ? 'var(--accent)' : '#fff',
             fontSize: '12px',
             fontWeight: 500,
             padding: '8px 16px',
             borderRadius: '8px',
-            border: 'none',
+            border: loading ? '0.5px solid var(--border-light)' : 'none',
             cursor: loading ? 'not-allowed' : 'pointer',
-            opacity: !query.trim() ? 0.5 : 1
+            opacity: !query.trim() ? 0.5 : 1,
+            animation: loading ? 'pulse-hero 2.4s ease-in-out infinite' : 'none'
           }}
         >
-          {loading ? '搜索中...' : 'GO'}
+          {loading ? '开启英雄之旅中……' : 'GO'}
         </button>
       </div>
     </div>

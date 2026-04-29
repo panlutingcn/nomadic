@@ -32,10 +32,16 @@ export default function HomePage() {
 
   const handleCityClick = (city: NomadCity) => {
     if (city.en in CITIES) {
-      setSelectedCity(city.en)
-      router.push('/insights')
+      searchBoxRef.current?.startLoading()
+      setTimeout(() => {
+        setSelectedCity(city.en)
+        router.push('/insights')
+      }, 400)
     } else {
       searchBoxRef.current?.fill(city.zh)
+      setTimeout(() => {
+        searchBoxRef.current?.search()
+      }, 100)
     }
   }
 
