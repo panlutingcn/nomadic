@@ -47,6 +47,7 @@ export interface SearchContext {
   baseVisaDetail: string
   baseSociety: string
   chanceParagraph: string
+  chancePolicy: { label: string; url: string; desc: string }
   localParagraph: string
 }
 

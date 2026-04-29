@@ -43,12 +43,14 @@ export default function InsightsPage() {
       sub: '文化 · 生活 · 工作'
     },
     base: {
-      wifi: '—', cost: '—', visa: '—',
-      welfare: '选择具体城市查看详细信息。'
+      visaDetail: '选择具体城市查看签证政策。',
+      dailyCost: '选择具体城市查看每日花销。',
+      safety: '选择具体城市查看治安安全信息。',
+      society: '选择具体城市查看社会运转情况。'
     },
     chance: {
       paragraph: '每座城市都有独特的商业生态和机会。',
-      policy: { label: '查询签证政策', url: '#' },
+      policy: { label: '选择城市查看商业支持政策', url: '#' },
       localJobs: [],
       remoteJobs: []
     },
@@ -91,7 +93,7 @@ export default function InsightsPage() {
         },
         chance: {
           paragraph: searchContext?.chanceParagraph || '该城市提供多样化的远程工作机会。',
-          policy: { label: '查询当地签证政策', url: 'https://www.iatatravelcentre.com' },
+          policy: searchContext?.chancePolicy || { label: '选择城市查看商业支持政策', url: '#' },
           localJobs: [{ name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs' }],
           remoteJobs: [
             { name: 'Remote.co', url: 'https://remote.co' },
@@ -517,20 +519,20 @@ export default function InsightsPage() {
               ) : (
                 <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>
                   <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>网络速度</div>
-                    <div>{city.base.wifi}</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证政策</div>
+                    <div>{city.base.visa}</div>
                   </div>
                   <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>物价水平</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>每日花销</div>
                     <div>{city.base.cost}</div>
                   </div>
                   <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证信息</div>
-                    <div>{city.base.visa}</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>治安安全</div>
+                    <div>{city.base.safety}</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>医疗建议</div>
-                    <div>{city.base.welfare}</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>社会运转</div>
+                    <div>{city.base.society}</div>
                   </div>
                 </div>
               )}

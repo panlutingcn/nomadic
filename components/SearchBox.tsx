@@ -124,6 +124,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
         baseVisaDetail: result.baseVisaDetail,
         baseSociety: result.baseSociety,
         chanceParagraph: result.chanceParagraph,
+        chancePolicy: result.chancePolicy,
         localParagraph: result.localParagraph,
       })
 

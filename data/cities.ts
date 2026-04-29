@@ -61,7 +61,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '柏林设计审美偏向理性实用主义，创意产业密集，品牌出海需求旺盛。Mittelstand 中小企业构成商业骨干，咨询、策划与内容类项目持续活跃。',
-      policy: { label: '自由职业签证（Freiberufler）', url: 'https://www.make-it-in-germany.com/en/visa-residence/types/self-employment', desc: '德国官方自雇签证指南' },
+      policy: { label: 'Germany Trade & Invest 创业支持', url: 'https://www.gtai.de/en/invest/investment-guide/establishing-a-company', desc: '德国官方投资促进机构，提供创业与投资指南' },
       localJobs: [
         { name: 'StepStone DE', url: 'https://www.stepstone.de', desc: '德国最大招聘平台，覆盖各行业职位' },
         { name: 'XING Jobs', url: 'https://www.xing.com/jobs', desc: '德语区职业社交网络，类似 LinkedIn' },
@@ -101,7 +101,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '阿姆斯特丹是欧洲科技初创与创意产业的重镇，英语普及率极高，对外籍人才极度友好。',
-      policy: { label: 'DAFT 自雇签证（美国公民适用）', url: 'https://ind.nl/en/residence-permits/work/self-employment', desc: '荷兰自雇居留许可，DAFT 条约适用于美国公民' },
+      policy: { label: 'Netherlands Foreign Investment Agency', url: 'https://investinholland.com/doing-business-here/setting-up-your-business/', desc: '荷兰官方投资促进机构，提供企业设立指南' },
       localJobs: [
         { name: 'Nationalevacaturebank', url: 'https://www.nationalevacaturebank.nl', desc: '荷兰最大招聘平台，覆盖各行业职位' },
         { name: 'LinkedIn NL Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -138,7 +138,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '里斯本物价低廉、气候宜人，已成为欧洲增长最快的数字游民聚集地，初创生态活跃。',
-      policy: { label: '数字游民签证（D8 Visa）', url: 'https://vistos.mne.gov.pt/en/national-visas/required-documentation/passive-income', desc: '葡萄牙数字游民签证，适合远程收入者申请' },
+      policy: { label: 'Startup Portugal 创业支持', url: 'https://www.startupportugal.com/startup-visa', desc: '葡萄牙官方创业签证与支持计划' },
       localJobs: [
         { name: 'Net-Empregos', url: 'https://www.net-empregos.com', desc: '葡萄牙最大招聘平台，覆盖各行业职位' },
         { name: 'LinkedIn PT Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -175,7 +175,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '曼谷是东南亚商业枢纽，共享办公空间密集，消费成本极低，适合刚起步的数字游民。',
-      policy: { label: 'LTR 长期居留签证（高收入远程工作者）', url: 'https://ltr.boi.go.th/en/index.html', desc: '泰国高收入远程工作者长期居留签证' },
+      policy: { label: 'Thailand Board of Investment 投资促进', url: 'https://www.boi.go.th/en/index/', desc: '泰国投资委员会官网，提供投资优惠与商业支持' },
       localJobs: [
         { name: 'JobsDB Thailand', url: 'https://th.jobsdb.com', desc: '东南亚领先招聘平台，泰国职位最全' },
         { name: 'LinkedIn TH Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -213,7 +213,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '布拉格物价低于西欧三分之一，科技初创生态快速崛起，吸引大量欧洲远程工作者定居。',
-      policy: { label: '自由职业贸易许可证（Živnostenský list）', url: 'https://www.businessinfo.cz/en/starting-business/', desc: '捷克自由职业贸易许可证，适合自雇人士' },
+      policy: { label: 'CzechInvest 投资促进', url: 'https://www.czechinvest.org/en/Doing-business-in-the-Czech-Republic', desc: '捷克官方投资促进机构，提供商业设立指南' },
       localJobs: [
         { name: 'Jobs.cz', url: 'https://www.jobs.cz', desc: '捷克最大招聘平台，覆盖各行业职位' },
         { name: 'LinkedIn CZ Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -249,7 +249,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '维也纳是中欧商业中心，金融与文化创意产业并重，生活质量连续多年全球排名第一。',
-      policy: { label: '奥地利红白红卡（自雇类别）', url: 'https://www.migration.gv.at/en/types-of-immigration/permanent-immigration/self-employed-key-workers/', desc: '奥地利自雇类居留许可，适合高技能人才' },
+      policy: { label: 'Austrian Business Agency 投资促进', url: 'https://investinaustria.at/en/business-location/setting-up-company.php', desc: '奥地利官方投资促进机构，提供企业设立支持' },
       localJobs: [
         { name: 'karriere.at', url: 'https://www.karriere.at', desc: '奥地利最大招聘平台，覆盖各行业职位' },
         { name: 'LinkedIn AT Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -285,7 +285,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '巴黎是全球时尚、奢侈品与创意产业的中心，科技初创生态（Station F）快速崛起，英语工作机会日益增多。',
-      policy: { label: '法国自由职业签证（Talent Passport）', url: 'https://www.service-public.fr/particuliers/vosdroits/F16922', desc: '法国人才护照，适合自由职业者与创业者' },
+      policy: { label: 'Business France 投资促进', url: 'https://www.businessfrance.fr/discover-france-regulations', desc: '法国官方投资促进机构，提供商业法规与设立指南' },
       localJobs: [
         { name: 'Welcome to the Jungle', url: 'https://www.welcometothejungle.com', desc: '法国新兴招聘平台，注重公司文化展示' },
         { name: 'LinkedIn FR Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -323,7 +323,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '巴塞罗那是欧洲最具活力的创意与科技中心之一，Mobile World Congress 每年在此举办，初创生态活跃，英语工作机会多。',
-      policy: { label: '西班牙数字游民签证', url: 'https://www.exteriores.gob.es/en/ServiciosAlCiudadano/Paginas/Detalle-ficha-consular.aspx', desc: '西班牙数字游民签证，适合远程工作者申请' },
+      policy: { label: 'ICEX 西班牙投资促进', url: 'https://www.investinspain.org/en/how-to-invest', desc: '西班牙官方投资促进机构，提供投资与创业指南' },
       localJobs: [
         { name: 'InfoJobs', url: 'https://www.infojobs.net', desc: '西班牙最大招聘平台，覆盖各行业职位' },
         { name: 'LinkedIn ES Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -361,7 +361,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '波尔图物价低廉、生活质量高，近年吸引大量远程工作者和创意人才，科技初创生态快速成长。',
-      policy: { label: '葡萄牙数字游民签证（D8）', url: 'https://vistos.mne.gov.pt/en/national-visas/required-documentation/passive-income', desc: '葡萄牙数字游民签证，适合远程收入者申请' },
+      policy: { label: 'Startup Portugal 创业支持', url: 'https://www.startupportugal.com/startup-visa', desc: '葡萄牙官方创业签证与支持计划' },
       localJobs: [
         { name: 'Net-Empregos', url: 'https://www.net-empregos.com', desc: '葡萄牙最大招聘平台，覆盖各行业职位' },
         { name: 'LinkedIn PT Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -398,7 +398,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '都柏林是 Google、Meta、Apple 欧洲总部所在地，英语母语环境，科技与金融岗位密集，是进入欧洲市场的理想跳板。',
-      policy: { label: '爱尔兰创业签证（Start-up Entrepreneur Programme）', url: 'https://enterprise.gov.ie/en/what-we-do/supports-for-smes/start-up-entrepreneur-programme/', desc: '爱尔兰创业签证，适合高潜力创业者申请' },
+      policy: { label: 'IDA Ireland 外商投资促进', url: 'https://www.idaireland.com/invest-in-ireland', desc: '爱尔兰官方外商投资促进机构，提供投资支持与政策指南' },
       localJobs: [
         { name: 'IrishJobs.ie', url: 'https://www.irishjobs.ie', desc: '爱尔兰最大招聘平台，覆盖各行业职位' },
         { name: 'LinkedIn IE Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -436,7 +436,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '杜布罗夫尼克以旅游业为主，远程工作者可享受极高生活质量与低廉物价，克罗地亚数字游民签证是欧洲最早推出的之一。',
-      policy: { label: '克罗地亚数字游民签证', url: 'https://mup.gov.hr/aliens-281621/stay-and-work/temporary-stay-of-digital-nomads/286833', desc: '克罗地亚数字游民签证，欧洲最早推出之一' },
+      policy: { label: 'HBOR 克罗地亚投资促进', url: 'https://www.hbor.hr/en/business-support/', desc: '克罗地亚官方发展银行，提供商业支持与融资服务' },
       localJobs: [
         { name: 'MojPosao', url: 'https://www.mojposao.hr', desc: '克罗地亚最大招聘平台，覆盖各行业职位' },
         { name: 'LinkedIn HR Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -473,7 +473,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '佛罗伦萨是全球时尚、皮革工艺与艺术设计的圣地，创意产业机会丰富，意大利语能力可大幅提升本地商业机会。',
-      policy: { label: '意大利数字游民签证', url: 'https://www.esteri.it/en/servizi-consolari-e-visti/stranieri-in-italia/visti-per-lItalia/', desc: '意大利数字游民签证，适合远程工作者申请' },
+      policy: { label: 'Invitalia 意大利投资促进', url: 'https://www.invitalia.it/en/what-we-do/support-for-businesses', desc: '意大利官方投资促进机构，提供企业支持与融资服务' },
       localJobs: [
         { name: 'InfoJobs IT', url: 'https://www.infojobs.it', desc: '意大利最大招聘平台，覆盖各行业职位' },
         { name: 'LinkedIn IT Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
@@ -510,7 +510,7 @@ export const CITIES: Record<string, CityData> = {
     },
     chance: {
       paragraph: '塔林是全球数字游民签证的发源地，科技初创密度欧洲最高，e-Residency 项目让远程经营欧盟公司成为现实。',
-      policy: { label: '数字游民签证（Digital Nomad Visa）', url: 'https://www.politsei.ee/en/instructions/digital-nomad-visa', desc: '爱沙尼亚数字游民签证，全球首个此类签证' },
+      policy: { label: 'e-Residency 数字创业计划', url: 'https://e-resident.gov.ee/start-a-company/', desc: '爱沙尼亚官方e-Residency计划，支持全球创业者在欧盟注册公司' },
       localJobs: [
         { name: 'CV.ee', url: 'https://www.cv.ee', desc: '爱沙尼亚最大招聘平台，覆盖各行业职位' },
         { name: 'LinkedIn EE Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
