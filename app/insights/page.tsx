@@ -81,6 +81,8 @@ export default function InsightsPage() {
           wifi: searchContext?.wifiSpeed || '未知',
           cost: searchContext?.costLevel || '$$',
           visa: searchContext?.visaInfo || '请查询当地签证政策',
+          visaDays: searchContext?.baseVisaDays || '',
+          visaDesc: searchContext?.baseVisaDesc || '',
           welfare: '🏥 建议出行前购买国际医疗保险。',
           safety: searchContext?.baseSafety || '',
           dailyCost: searchContext?.baseDailyCost || '',
@@ -221,11 +223,10 @@ export default function InsightsPage() {
               {[
                 { num: city.base.wifi, label: 'WiFi' },
                 { num: city.base.cost, label: '物价' },
-                { num: city.base.visa.split('天')[0] + (city.base.visa.includes('天') ? 'd' : ''), unit: city.base.visa.includes('申根') ? '申根' : city.base.visa.includes('落地') ? '落地签' : '', label: '签证' },
+                { num: ('visaDays' in city.base && city.base.visaDays) ? city.base.visaDays : city.base.visa, label: '签证' },
               ].map(item => (
                 <div key={item.label} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '7px 6px', textAlign: 'center' }}>
                   <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{item.num}</div>
-                  {'unit' in item && <div style={{ fontSize: 9, color: 'var(--text-secondary)' }}>{item.unit}</div>}
                   <div style={{ fontSize: 9, color: 'var(--text-muted)', marginTop: 1 }}>{item.label}</div>
                 </div>
               ))}
@@ -234,7 +235,7 @@ export default function InsightsPage() {
               <span style={{ fontSize: 10, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{city.base.welfare}</span>
             </div>
             <div style={{ fontSize: 10, color: '#6b8e23', marginTop: 5, textAlign: 'center' }}>
-              <div>治安与安全｜每日花销｜签证政策｜社会运转</div>
+              <div>签证政策｜每日花销｜治安安全｜社会运转</div>
               <div style={{ marginTop: 2 }}>点击展开详情 →</div>
             </div>
           </div>

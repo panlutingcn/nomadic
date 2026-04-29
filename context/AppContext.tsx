@@ -40,6 +40,8 @@ export interface SearchContext {
   wifiSpeed: string
   costLevel: string
   visaInfo: string
+  baseVisaDays: string
+  baseVisaDesc: string
   baseSafety: string
   baseDailyCost: string
   baseVisaDetail: string

@@ -117,6 +117,8 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
         wifiSpeed: result.wifiSpeed,
         costLevel: result.costLevel,
         visaInfo: result.visaInfo,
+        baseVisaDays: result.baseVisaDays,
+        baseVisaDesc: result.baseVisaDesc,
         baseSafety: result.baseSafety,
         baseDailyCost: result.baseDailyCost,
         baseVisaDetail: result.baseVisaDetail,

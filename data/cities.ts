@@ -18,6 +18,8 @@ export interface CityData {
     wifi: string
     cost: string
     visa: string
+    visaDays?: string
+    visaDesc?: string
     welfare: string
     safety?: string
     dailyCost?: string
@@ -50,6 +52,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '98 Mbps', cost: '$$', visa: '90天申根免签',
+      visaDays: '90天', visaDesc: '🛂 申根区90天免签，自由职业签证（Freiberufler）可长期居留，审批周期2-4个月。',
       welfare: '🏥 持有效签证可加入法定医保（GKV），公立医院覆盖广泛，费用较低。',
       safety: '柏林整体安全，犯罪率低于欧洲多数大城市。需注意：地铁站和夜间娱乐区（如 Görlitzer Park）有扒窃风险；独自夜行建议选择灯光充足的路线。女性独行整体安全感较高，当地人普遍尊重个人边界。',
       dailyCost: '每日预算参考：\n• 餐饮：$20–30（自煮早餐 + 午餐外食 + 偶尔下馆子）\n• 住宿：$40–60（Airbnb 单间或合租公寓，按月租更划算）\n• 交通：$5–8（月票约 $90，日均约 $3；偶尔打车）\n• 合计：约 $65–100/天',
@@ -93,6 +96,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '120 Mbps', cost: '$$$', visa: '90天申根免签',
+      visaDays: '90天', visaDesc: '🛂 申根区90天免签，荷兰自雇居留许可（DAFT）适合美国公民，其他国籍可申请创业签证。',
       welfare: '🏥 工作满一定时间可享受荷兰社保，医疗保险强制购买，质量高且报销比例大。'
     },
     chance: {
@@ -129,6 +133,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '85 Mbps', cost: '$', visa: '90天申根免签',
+      visaDays: '365天', visaDesc: '🛂 数字游民签证（D8）有效期1年，可续签，适合月收入超过€3,040的远程工作者。',
       welfare: '🏥 持 D8 签证可访问公共医疗系统（SNS），费用低廉；长期居民可申请 NHR 税务优惠。'
     },
     chance: {
@@ -165,6 +170,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '74 Mbps', cost: '$', visa: '30天落地签',
+      visaDays: '180天', visaDesc: '🛂 多次入境旅游签证（METV）可停留6个月，LTR签证适合高收入远程工作者长期居留。',
       welfare: '🏥 外籍人士不纳入泰国社保体系，建议自行购买国际医疗保险，费用约 $50–$150/月。'
     },
     chance: {
@@ -202,6 +208,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '80 Mbps', cost: '$', visa: '90天申根免签',
+      visaDays: '90天', visaDesc: '🛂 申根区90天免签，自由职业贸易许可证（Živnostenský list）可合法自雇经营。',
       welfare: '🏥 申根区内医疗资源完善，建议购买旅行医疗保险，私立诊所英语服务良好。'
     },
     chance: {
@@ -237,6 +244,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '90 Mbps', cost: '$$$', visa: '90天申根免签',
+      visaDays: '90天', visaDesc: '🛂 申根区90天免签，红白红卡（自雇类别）适合高技能人才申请长期居留。',
       welfare: '🏥 奥地利医疗体系完善，持有效居留许可者可参加社会保险，公立医疗质量极高。'
     },
     chance: {
@@ -272,6 +280,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '100 Mbps', cost: '$$$', visa: '90天申根免签',
+      visaDays: '90天', visaDesc: '🛂 申根区90天免签，人才护照（Talent Passport）适合自由职业者与创业者申请长期居留。',
       welfare: '🏥 法国医疗体系全球顶尖，持有效居留许可者可加入社会保险（Sécurité Sociale）。'
     },
     chance: {
@@ -309,6 +318,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '95 Mbps', cost: '$$', visa: '90天申根免签',
+      visaDays: '365天', visaDesc: '🛂 西班牙数字游民签证有效期1年，可续签至5年，适合月收入超过€2,334的远程工作者。',
       welfare: '🏥 西班牙公共医疗体系完善，持居留许可者可享受免费公立医疗，私立诊所英语服务普遍。'
     },
     chance: {
@@ -346,6 +356,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '80 Mbps', cost: '$', visa: '90天申根免签',
+      visaDays: '365天', visaDesc: '🛂 数字游民签证（D8）有效期1年，可续签，适合月收入超过€3,040的远程工作者。',
       welfare: '🏥 葡萄牙公共医疗系统（SNS）覆盖广泛，持 D8 签证可低价就医，生活成本远低于西欧。'
     },
     chance: {
@@ -382,6 +393,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '105 Mbps', cost: '$$$', visa: '90天免签（非申根）',
+      visaDays: '90天', visaDesc: '🛂 爱尔兰非申根区，90天免签入境，创业签证（STEP）适合高潜力创业者申请长期居留。',
       welfare: '🏥 爱尔兰公共医疗（HSE）质量高，持有效签证可享受部分公共医疗服务，私立医疗保险推荐购买。'
     },
     chance: {
@@ -419,6 +431,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '70 Mbps', cost: '$$', visa: '90天申根免签',
+      visaDays: '365天', visaDesc: '🛂 克罗地亚数字游民签证有效期1年，不可续签，适合非欧盟公民远程工作者申请。',
       welfare: '🏥 克罗地亚医疗体系完善，公立医院覆盖基本需求，建议购买旅行医疗保险。'
     },
     chance: {
@@ -455,6 +468,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '85 Mbps', cost: '$$', visa: '90天申根免签',
+      visaDays: '365天', visaDesc: '🛂 意大利数字游民签证有效期1年，可续签，适合月收入超过€2,700的远程工作者。',
       welfare: '🏥 意大利国家医疗服务（SSN）覆盖广泛，持居留许可者可免费或低价就医，私立诊所质量高。'
     },
     chance: {
@@ -491,6 +505,7 @@ export const CITIES: Record<string, CityData> = {
     },
     base: {
       wifi: '110 Mbps', cost: '$', visa: '90天申根免签',
+      visaDays: '365天', visaDesc: '🛂 爱沙尼亚数字游民签证有效期1年，e-Residency可在欧盟注册公司，全球首个此类签证。',
       welfare: '🏥 爱沙尼亚数字游民签证持有者须自行购买医疗保险，本地私立诊所费用合理。'
     },
     chance: {
