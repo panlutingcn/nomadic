@@ -1,7 +1,7 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 const CITY_NAME_MAP: Record<string, string> = {
   Berlin: '柏林',
@@ -11,15 +11,26 @@ const CITY_NAME_MAP: Record<string, string> = {
   Tallinn: '塔林',
 }
 
+const PHOTO_BG: Record<string, string> = {
+  Berlin: '#ede8df',
+  Amsterdam: '#e8edf0',
+  Lisbon: '#e8e2d8',
+  Prague: '#e8e8ed',
+}
+
 export default function ImprintDetailPage() {
   const params = useParams()
   const router = useRouter()
   const { allPublicImprints, imprints } = useApp()
   const [showToast, setShowToast] = useState(false)
   const [liked, setLiked] = useState(false)
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current) }, [])
 
   const allImprints = [...allPublicImprints, ...imprints.filter(i => !i.isPublic)]
-  const imprint = allImprints.find(i => i.id === params.id)
+  const id = Array.isArray(params.id) ? params.id[0] : params.id
+  const imprint = allImprints.find(i => i.id === id)
 
   if (!imprint) {
     return (
@@ -52,9 +63,13 @@ export default function ImprintDetailPage() {
         // User cancelled or error
       }
     } else {
-      await navigator.clipboard.writeText(url)
-      setShowToast(true)
-      setTimeout(() => setShowToast(false), 3000)
+      try {
+        await navigator.clipboard.writeText(url)
+        setShowToast(true)
+        toastTimer.current = setTimeout(() => setShowToast(false), 3000)
+      } catch (err) {
+        // Non-HTTPS or clipboard access denied
+      }
     }
   }
 
@@ -70,14 +85,13 @@ export default function ImprintDetailPage() {
     <div style={{ minHeight: '100vh' }}>
       {/* Top Nav */}
       <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-page)', borderBottom: '1px solid var(--border)', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <button onClick={() => router.back()} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--text-primary)' }}>←</button>
-        <button onClick={handleShare} style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: 'var(--text-primary)' }}>⤴</button>
+        <button aria-label="返回" onClick={() => router.back()} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--text-primary)' }}>←</button>
+        <button aria-label="分享" onClick={handleShare} style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: 'var(--text-primary)' }}>⤴</button>
       </div>
 
       {/* Photo */}
       {(() => {
-        const photoBg: Record<string, string> = { Berlin: '#ede8df', Amsterdam: '#e8edf0', Lisbon: '#e8e2d8', Prague: '#e8e8ed' }
-        const bg = photoBg[imprint.city] || '#ede8df'
+        const bg = PHOTO_BG[imprint.city] || '#ede8df'
         return (
           <div style={{ position: 'relative', height: 240, overflow: 'hidden', background: bg }}>
             {imprint.photo ? (
@@ -116,8 +130,8 @@ export default function ImprintDetailPage() {
 
         {/* Tags */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
-          {imprint.tags.map((tag, i) => (
-            <span key={i} style={{ padding: '4px 10px', background: 'var(--bg-card-2)', borderRadius: 6, fontSize: 12, color: 'var(--text-secondary)' }}>
+          {imprint.tags.map((tag) => (
+            <span key={tag} style={{ padding: '4px 10px', background: 'var(--bg-card-2)', borderRadius: 6, fontSize: 12, color: 'var(--text-secondary)' }}>
               {tag}
             </span>
           ))}
