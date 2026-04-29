@@ -1,0 +1,198 @@
+'use client'
+import { useParams, useRouter } from 'next/navigation'
+import { useApp } from '@/context/AppContext'
+import { useState } from 'react'
+
+const CITY_NAME_MAP: Record<string, string> = {
+  Berlin: '柏林',
+  Amsterdam: '阿姆斯特丹',
+  Lisbon: '里斯本',
+  Prague: '布拉格',
+  Tallinn: '塔林',
+}
+
+export default function ImprintDetailPage() {
+  const params = useParams()
+  const router = useRouter()
+  const { allPublicImprints, imprints } = useApp()
+  const [showToast, setShowToast] = useState(false)
+  const [liked, setLiked] = useState(false)
+
+  const allImprints = [...allPublicImprints, ...imprints.filter(i => !i.isPublic)]
+  const imprint = allImprints.find(i => i.id === params.id)
+
+  if (!imprint) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 20px' }}>
+        <div style={{ fontSize: 16, color: 'var(--text-secondary)', marginBottom: 20 }}>印迹不存在</div>
+        <button
+          onClick={() => router.back()}
+          style={{
+            padding: '10px 24px',
+            background: 'var(--accent)',
+            color: 'white',
+            border: 'none',
+            borderRadius: 8,
+            fontSize: 14,
+            cursor: 'pointer',
+          }}
+        >
+          返回
+        </button>
+      </div>
+    )
+  }
+
+  const handleShare = async () => {
+    const url = window.location.href
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: imprint.title, url })
+      } catch (err) {
+        // User cancelled or error
+      }
+    } else {
+      await navigator.clipboard.writeText(url)
+      setShowToast(true)
+      setTimeout(() => setShowToast(false), 3000)
+    }
+  }
+
+  const handleLike = () => {
+    if (imprint.isPublic) {
+      setLiked(!liked)
+    }
+  }
+
+  const cityNameZh = CITY_NAME_MAP[imprint.city] || imprint.city
+
+  return (
+    <div style={{ minHeight: '100vh', paddingBottom: 80 }}>
+      {/* Top Nav */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-page)', borderBottom: '1px solid var(--border)', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <button onClick={() => router.back()} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--text-primary)' }}>←</button>
+        <button onClick={handleShare} style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: 'var(--text-primary)' }}>⤴</button>
+      </div>
+
+      {/* Photo */}
+      {imprint.photo && (
+        <div style={{ position: 'relative', height: 240, overflow: 'hidden' }}>
+          <img src={imprint.photo} alt={imprint.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div style={{ position: 'absolute', bottom: 12, left: 12, background: 'rgba(0,0,0,0.6)', color: 'white', padding: '4px 10px', borderRadius: 6, fontSize: 12 }}>
+            {cityNameZh}
+          </div>
+        </div>
+      )}
+
+      {/* Content */}
+      <div style={{ padding: '20px 16px' }}>
+        <h1 style={{ fontSize: 20, fontWeight: 500, marginBottom: 16, color: 'var(--text-primary)' }}>{imprint.title}</h1>
+
+        {/* Author */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+          <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--accent-text)' }}>
+            {imprint.author ? imprint.author[0] : '我'}
+          </div>
+          <div>
+            <div style={{ fontSize: 14, color: 'var(--text-primary)' }}>{imprint.author || '我'}</div>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{imprint.createdAt}</div>
+          </div>
+        </div>
+
+        {/* Narrative */}
+        <div style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--text-primary)', marginBottom: 20, whiteSpace: 'pre-wrap' }}>
+          {imprint.narrative}
+        </div>
+
+        {/* Tags */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
+          {imprint.tags.map((tag, i) => (
+            <span key={i} style={{ padding: '4px 10px', background: 'var(--bg-card-2)', borderRadius: 6, fontSize: 12, color: 'var(--text-secondary)' }}>
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        {/* Actions */}
+        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+          {imprint.isPublic && (
+            <button
+              onClick={handleLike}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '8px 14px',
+                background: liked ? 'var(--accent-dim)' : 'var(--bg-card-2)',
+                border: liked ? '1px solid var(--accent-border)' : '1px solid var(--border)',
+                borderRadius: 8,
+                fontSize: 14,
+                cursor: 'pointer',
+                color: liked ? 'var(--accent-text)' : 'var(--text-secondary)',
+                transition: 'all 0.2s',
+              }}
+            >
+              <span>{liked ? '❤️' : '🤍'}</span>
+              <span>{(imprint.likes || 0) + (liked ? 1 : 0)}</span>
+            </button>
+          )}
+          <button
+            onClick={handleShare}
+            style={{
+              padding: '8px 14px',
+              background: 'var(--bg-card-2)',
+              border: '1px solid var(--border)',
+              borderRadius: 8,
+              fontSize: 14,
+              cursor: 'pointer',
+              color: 'var(--text-secondary)',
+            }}
+          >
+            分享
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom Nav */}
+      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, maxWidth: 480, margin: '0 auto', background: 'var(--bg-nav)', borderTop: '1px solid var(--border)', padding: '16px' }}>
+        <button
+          onClick={() => router.push(imprint.isPublic ? '/meet' : '/vault')}
+          style={{
+            width: '100%',
+            padding: '12px',
+            background: 'var(--accent)',
+            color: 'white',
+            border: 'none',
+            borderRadius: 8,
+            fontSize: 14,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 6,
+          }}
+        >
+          {imprint.isPublic ? '查看更多来自社区的印迹 →' : '返回我的领地 →'}
+        </button>
+      </div>
+
+      {/* Toast */}
+      {showToast && (
+        <div style={{
+          position: 'fixed',
+          bottom: 100,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: 'rgba(0,0,0,0.8)',
+          color: 'white',
+          padding: '10px 20px',
+          borderRadius: 8,
+          fontSize: 14,
+          zIndex: 1000,
+        }}>
+          链接已复制
+        </div>
+      )}
+    </div>
+  )
+}
