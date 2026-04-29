@@ -40,7 +40,11 @@ export default function InsightsPage() {
     soul: {
       headline: '每座城市都有自己的故事。',
       body: '选择一座城市，开始探索它的灵魂、生存基准、商业机会和本地圈子。',
-      sub: '文化 · 生活 · 工作'
+      sub: '文化 · 生活 · 工作',
+      personality: '选择具体城市查看文化性格。',
+      economy: '选择具体城市查看经济支柱。',
+      festivals: '选择具体城市查看节庆活动。',
+      figures: '选择具体城市查看代表人物。',
     },
     base: {
       visaDetail: '选择具体城市查看签证政策。',
