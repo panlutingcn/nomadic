@@ -7,6 +7,7 @@ export default function MeetPage() {
   const { allPublicImprints } = useApp()
   const [activeCity, setActiveCity] = useState('全部')
   const cities = ['全部', 'Berlin', 'Amsterdam', 'Lisbon', 'Prague']
+  const cityZh: Record<string, string> = { Berlin: '柏林', Amsterdam: '阿姆斯特丹', Lisbon: '里斯本', Prague: '布拉格', Tallinn: '塔林' }
 
   const filtered = activeCity === '全部'
     ? allPublicImprints
@@ -25,7 +26,7 @@ export default function MeetPage() {
         <div style={{ display: 'flex', gap: 6, overflowX: 'auto', padding: '0 16px 12px', scrollbarWidth: 'none' }}>
           {cities.map(city => (
             <button key={city} onClick={() => setActiveCity(city)} style={{ fontSize: 11, fontWeight: 500, padding: '5px 12px', borderRadius: 20, whiteSpace: 'nowrap', cursor: 'pointer', background: activeCity === city ? 'var(--accent)' : 'var(--bg-card)', color: activeCity === city ? '#fff' : 'var(--text-secondary)', border: activeCity === city ? 'none' : '0.5px solid var(--border-light)' }}>
-              {city}
+              {city === '全部' ? '全部' : cityZh[city]}
             </button>
           ))}
           <button style={{ fontSize: 11, fontWeight: 500, padding: '5px 12px', borderRadius: 20, whiteSpace: 'nowrap', cursor: 'pointer', background: 'var(--bg-card)', color: 'var(--text-secondary)', border: '0.5px solid var(--border-light)' }}>更多</button>
@@ -39,7 +40,7 @@ export default function MeetPage() {
                   ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   : <span style={{ fontSize: 10, color: '#c8bfaa' }}>[ 照片 ]</span>
                 }
-                <span style={{ position: 'absolute', top: 8, left: 8, background: 'rgba(245,240,232,0.92)', color: '#3d3020', fontSize: 10, fontWeight: 500, padding: '3px 9px', borderRadius: 8 }}>{imp.city}</span>
+                <span style={{ position: 'absolute', top: 8, left: 8, background: 'rgba(245,240,232,0.92)', color: '#3d3020', fontSize: 10, fontWeight: 500, padding: '3px 9px', borderRadius: 8 }}>{cityZh[imp.city] ?? imp.city}</span>
               </div>
               <div style={{ padding: '11px 13px 12px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>

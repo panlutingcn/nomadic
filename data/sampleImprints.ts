@@ -9,6 +9,7 @@ export const SAMPLE_IMPRINTS = [
     isPublic: true,
     likes: 32,
     createdAt: '2026.03.07',
+    photo: 'https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=600&q=80',
   },
   {
     id: 'sample-2',
@@ -20,6 +21,7 @@ export const SAMPLE_IMPRINTS = [
     isPublic: true,
     likes: 47,
     createdAt: '2026.02.14',
+    photo: 'https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&w=600&q=80',
   },
   {
     id: 'sample-3',
@@ -31,5 +33,6 @@ export const SAMPLE_IMPRINTS = [
     isPublic: true,
     likes: 41,
     createdAt: '2026.01.22',
+    photo: 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=600&q=80',
   },
 ]

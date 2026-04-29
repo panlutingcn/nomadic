@@ -6,6 +6,7 @@ import { useApp } from '@/context/AppContext'
 export default function VaultPage() {
   const router = useRouter()
   const { savedCities, imprints, setSelectedCity } = useApp()
+  const cityZh: Record<string, string> = { Berlin: '柏林', Amsterdam: '阿姆斯特丹', Lisbon: '里斯本', Prague: '布拉格', Tallinn: '塔林' }
 
   const handleViewInsights = (cityName: string) => {
     setSelectedCity(cityName)
@@ -35,7 +36,7 @@ export default function VaultPage() {
             <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 6 }}>我的城市收藏</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {savedCities.map(city => (
-                <button key={city.name} onClick={() => handleViewInsights(city.name)} style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, background: 'var(--accent-dim)', color: 'var(--accent-text)', border: '0.5px solid var(--accent-border)', cursor: 'pointer' }}>{city.name}</button>
+                <button key={city.name} onClick={() => handleViewInsights(city.name)} style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, background: 'var(--accent-dim)', color: 'var(--accent-text)', border: '0.5px solid var(--accent-border)', cursor: 'pointer' }}>{cityZh[city.name] ?? city.name}</button>
               ))}
             </div>
           </div>
@@ -62,7 +63,7 @@ export default function VaultPage() {
                 <span style={{ fontSize: 9, padding: '2px 7px', borderRadius: 6, fontWeight: 500, background: imp.isPublic ? 'rgba(29,158,117,0.1)' : '#f0ebe2', color: imp.isPublic ? 'var(--accent-text)' : 'var(--text-secondary)', border: `0.5px solid ${imp.isPublic ? 'rgba(29,158,117,0.2)' : 'var(--border-light)'}` }}>
                   {imp.isPublic ? '公开' : '私藏'}
                 </span>
-                <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>{imp.city}</span>
+                <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>{cityZh[imp.city] ?? imp.city}</span>
               </div>
               <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 2 }}>{imp.title}</div>
               <div style={{ fontSize: 10, color: 'var(--text-secondary)', lineHeight: 1.45 }}>{imp.narrative?.slice(0, 30)}…</div>
