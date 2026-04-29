@@ -486,10 +486,10 @@ export default function InsightsPage() {
 
               {('safety' in city.base && city.base.safety) || ('dailyCost' in city.base && city.base.dailyCost) || ('visaDetail' in city.base && city.base.visaDetail) || ('society' in city.base && city.base.society) ? (
                 <>
-                  {'safety' in city.base && city.base.safety && (
+                  {'visaDetail' in city.base && city.base.visaDetail && (
                     <div style={{ marginBottom: 16 }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>治安与安全</div>
-                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.safety}</div>
+                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证政策</div>
+                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.visaDetail}</div>
                     </div>
                   )}
 
@@ -500,10 +500,10 @@ export default function InsightsPage() {
                     </div>
                   )}
 
-                  {'visaDetail' in city.base && city.base.visaDetail && (
+                  {'safety' in city.base && city.base.safety && (
                     <div style={{ marginBottom: 16 }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证政策</div>
-                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.visaDetail}</div>
+                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>治安与安全</div>
+                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.safety}</div>
                     </div>
                   )}
 
