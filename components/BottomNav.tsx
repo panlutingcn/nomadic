@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation'
 export default function BottomNav() {
   const router = useRouter()
   const pathname = usePathname()
-  const isActive = (path: string) => pathname === path
+  const isActive = (path: string) => pathname === path || pathname.startsWith(path + '/')
   const [hoveredNav, setHoveredNav] = useState<string | null>(null)
 
   return (
@@ -33,7 +33,7 @@ export default function BottomNav() {
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flex: 1 }}>
         <button
-          onClick={() => router.push('/story')}
+          onClick={() => router.push('/story/camera')}
           onMouseEnter={() => setHoveredNav('/story')}
           onMouseLeave={() => setHoveredNav(null)}
           style={{
