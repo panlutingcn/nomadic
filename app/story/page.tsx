@@ -29,6 +29,7 @@ export default function StoryPage() {
   const [tagInput, setTagInput] = useState('')
   const [showTagInput, setShowTagInput] = useState(false)
   const TAG_LIMIT = 10
+  const prevCityRef = useRef(city)
 
   useEffect(() => {
     const pending = sessionStorage.getItem('pendingPhoto')
@@ -37,6 +38,21 @@ export default function StoryPage() {
       sessionStorage.removeItem('pendingPhoto')
     }
   }, [])
+
+  useEffect(() => {
+    if (prevCityRef.current !== city) {
+      setTags(prev => prev.map(tag => tag === prevCityRef.current ? city : tag))
+      prevCityRef.current = city
+    }
+  }, [city])
+
+  useEffect(() => {
+    return () => {
+      if (photo && photo.startsWith('blob:')) {
+        URL.revokeObjectURL(photo)
+      }
+    }
+  }, [photo])
 
   const narrativeBase = AI_NARRATIVES[city] ?? AI_NARRATIVES['default']
   const narrativeVariants = [narrativeBase, narrativeBase.split('。').reverse().join('。') + '。']
@@ -75,7 +91,12 @@ export default function StoryPage() {
 
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) setPhoto(URL.createObjectURL(file))
+    if (file) {
+      if (photo && photo.startsWith('blob:')) {
+        URL.revokeObjectURL(photo)
+      }
+      setPhoto(URL.createObjectURL(file))
+    }
   }
 
   const handleAddTag = () => {
