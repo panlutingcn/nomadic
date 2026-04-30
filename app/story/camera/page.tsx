@@ -57,7 +57,24 @@ export default function CameraPage() {
   const handleConfirm = () => {
     if (!preview) return
     sessionStorage.setItem('pendingPhoto', preview)
-    router.push('/story')
+
+    if (!navigator.geolocation) {
+      router.push('/story')
+      return
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        sessionStorage.setItem('pendingGPS', JSON.stringify({
+          lat: pos.coords.latitude,
+          lon: pos.coords.longitude,
+          timestamp: Date.now(),
+        }))
+        router.push('/story')
+      },
+      () => router.push('/story'),
+      { timeout: 3000, maximumAge: 60000 }
+    )
   }
 
   return (
