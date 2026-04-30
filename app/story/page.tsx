@@ -103,19 +103,6 @@ export default function StoryPage() {
     }
   }, [])
 
-  // 城市变化时同步更新标签中的城市标签
-  useEffect(() => {
-    if (prevCityRef.current !== city && prevCityRef.current !== '') {
-      const oldCity = prevCityRef.current
-      setTags(prev => {
-        if (prev.includes(oldCity)) return prev.map(t => t === oldCity ? city : t)
-        if (!prev.includes(city)) return [...prev, city]
-        return prev
-      })
-      prevCityRef.current = city
-    }
-  }, [city])
-
   // GPS识别城市后自动触发AI生成
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -161,6 +148,35 @@ export default function StoryPage() {
     }
   }
 
+  const getPhotoDataUrl = async (): Promise<string | undefined> => {
+    if (!photo) return undefined
+    if (!photo.startsWith('blob:')) return photo
+    try {
+      const res = await fetch(photo)
+      const blob = await res.blob()
+      return new Promise<string>(resolve => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(reader.result as string)
+        reader.readAsDataURL(blob)
+      })
+    } catch {
+      return photo
+    }
+  }
+
+  const handleConfirmCity = () => {
+    setEditingCity(false)
+    const trimmed = city.trim()
+    if (!trimmed) return
+    const year = String(new Date().getFullYear())
+    setTags(prev => {
+      const withoutOldCity = prevCityRef.current ? prev.filter(t => t !== prevCityRef.current) : prev
+      const withCity = withoutOldCity.includes(trimmed) ? withoutOldCity : [trimmed, ...withoutOldCity]
+      return withCity.includes(year) ? withCity : [...withCity, year]
+    })
+    prevCityRef.current = trimmed
+  }
+
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
@@ -197,7 +213,7 @@ export default function StoryPage() {
     }
   }
 
-  const handlePublish = (isPublic: boolean) => {
+  const handlePublish = async (isPublic: boolean) => {
     const trimmedCity = city.trim()
     if (!trimmedCity) {
       triggerFlash('city')
@@ -212,16 +228,18 @@ export default function StoryPage() {
       setShowLogin(true)
       return
     }
-    addImprint({ city: trimmedCity, title: `${trimmedCity} 的印迹`, narrative, tags, isPublic, photo })
+    const photoUrl = await getPhotoDataUrl()
+    addImprint({ city: trimmedCity, title: `${trimmedCity} 的印迹`, narrative, tags, isPublic, photo: photoUrl })
     router.push(isPublic ? '/meet' : '/vault')
   }
 
-  const handleLoginConfirm = () => {
+  const handleLoginConfirm = async () => {
     setIsLoggedIn(true)
     setShowLogin(false)
     if (pendingPublish !== null) {
       if (!city.trim() || !tags.includes(city.trim())) return
-      addImprint({ city: city.trim(), title: `${city.trim()} 的印迹`, narrative, tags, isPublic: pendingPublish, photo })
+      const photoUrl = await getPhotoDataUrl()
+      addImprint({ city: city.trim(), title: `${city.trim()} 的印迹`, narrative, tags, isPublic: pendingPublish, photo: photoUrl })
       router.push(pendingPublish ? '/meet' : '/vault')
     }
   }
@@ -253,11 +271,21 @@ export default function StoryPage() {
             50% { border-color: #c04040; }
           }
           .flash-border { animation: borderFlash 0.45s ease 2; }
+          @keyframes gpsPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+          }
+          .gps-pulse { animation: gpsPulse 0.8s ease-in-out infinite; }
+          @keyframes aiGlow {
+            0%, 100% { border-color: var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+            50% { border-color: #1d9e75; box-shadow: 0 0 0 3px rgba(29,158,117,0.1); }
+          }
+          .ai-glow { animation: aiGlow 1.4s ease-in-out infinite; }
         `}</style>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
           <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>城市归属 <span style={{ color: '#c04040' }}>*</span></span>
-          <span style={{ fontSize: 10, color: gpsLoading ? 'var(--accent)' : 'var(--text-muted)' }}>
+          <span className={gpsLoading ? 'gps-pulse' : ''} style={{ fontSize: 10, color: gpsLoading ? 'var(--accent)' : 'var(--text-muted)' }}>
             {gpsLoading ? 'GPS 识别中…' : 'GPS 自动识别'}
           </span>
         </div>
@@ -267,17 +295,19 @@ export default function StoryPage() {
                 autoFocus
                 value={city}
                 onChange={e => setCity(e.target.value)}
-                onBlur={() => setEditingCity(false)}
+                onBlur={handleConfirmCity}
+                onKeyDown={e => { if (e.key === 'Enter') handleConfirmCity() }}
                 style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--accent)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)' }}
               />
             : <div
                 className={flashCity ? 'flash-border' : ''}
-                style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: city ? 'var(--text-primary)' : 'var(--text-muted)' }}
+                onClick={() => setEditingCity(true)}
+                style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: city ? 'var(--text-primary)' : 'var(--text-muted)', cursor: 'text' }}
               >
                 {city || '等待GPS识别或手动输入…'}
               </div>
           }
-          <button onClick={() => setEditingCity(true)} style={{ background: 'var(--bg-card-2)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 10, color: 'var(--text-secondary)', cursor: 'pointer', whiteSpace: 'nowrap' }}>修改城市</button>
+          <button onClick={handleConfirmCity} style={{ background: 'var(--bg-card-2)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 10, color: 'var(--text-secondary)', cursor: 'pointer', whiteSpace: 'nowrap' }}>确认城市</button>
         </div>
         <div style={{ fontSize: 9, color: '#c8bfaa', marginBottom: 12 }}>若拍摄地与当前位置不同，可手动调整</div>
 
@@ -291,6 +321,7 @@ export default function StoryPage() {
           value={narrative}
           onChange={e => setNarrative(e.target.value)}
           rows={4}
+          className={generating ? 'ai-glow' : ''}
           style={{ width: '100%', background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '10px 12px', marginBottom: 4, boxShadow: '0 1px 3px rgba(0,0,0,0.03)', fontSize: 11, color: '#3d3020', lineHeight: 1.65, resize: 'vertical', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit' }}
         />
         <div style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--text-muted)', textAlign: 'right', marginBottom: 10, cursor: generating ? 'default' : 'pointer' }} onClick={generating ? undefined : generateWithAI}>

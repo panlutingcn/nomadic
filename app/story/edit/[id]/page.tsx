@@ -33,13 +33,6 @@ export default function EditImprintPage() {
   const [generating, setGenerating] = useState(false)
 
   useEffect(() => {
-    if (prevCityRef.current !== city) {
-      setTags(prev => prev.map(tag => tag === prevCityRef.current ? city : tag))
-      prevCityRef.current = city
-    }
-  }, [city])
-
-  useEffect(() => {
     return () => {
       if (photo && photo.startsWith('blob:')) {
         URL.revokeObjectURL(photo)
@@ -83,6 +76,19 @@ export default function EditImprintPage() {
     } finally {
       setGenerating(false)
     }
+  }
+
+  const handleConfirmCity = () => {
+    setEditingCity(false)
+    const trimmed = city.trim()
+    if (!trimmed) return
+    const year = String(new Date().getFullYear())
+    setTags(prev => {
+      const withoutOldCity = prevCityRef.current ? prev.filter(t => t !== prevCityRef.current) : prev
+      const withCity = withoutOldCity.includes(trimmed) ? withoutOldCity : [trimmed, ...withoutOldCity]
+      return withCity.includes(year) ? withCity : [...withCity, year]
+    })
+    prevCityRef.current = trimmed
   }
 
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,12 +151,20 @@ export default function EditImprintPage() {
         </div>
         <div style={{ display: 'flex', gap: 6, marginBottom: 3 }}>
           {editingCity
-            ? <input autoFocus value={city} onChange={e => setCity(e.target.value)} onBlur={() => setEditingCity(false)} style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--accent)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)' }} />
-            : <div style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)' }}>{city}, {city === 'Berlin' ? 'Germany' : city === 'Bangkok' ? 'Thailand' : city === 'Lisbon' ? 'Portugal' : city === 'Amsterdam' ? 'Netherlands' : 'Europe'}</div>
+            ? <input autoFocus value={city} onChange={e => setCity(e.target.value)} onBlur={handleConfirmCity} onKeyDown={e => { if (e.key === 'Enter') handleConfirmCity() }} style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--accent)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)' }} />
+            : <div onClick={() => setEditingCity(true)} style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)', cursor: 'text' }}>{city}</div>
           }
-          <button onClick={() => setEditingCity(true)} style={{ background: 'var(--bg-card-2)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 10, color: 'var(--text-secondary)', cursor: 'pointer', whiteSpace: 'nowrap' }}>修改城市</button>
+          <button onClick={handleConfirmCity} style={{ background: 'var(--bg-card-2)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 10, color: 'var(--text-secondary)', cursor: 'pointer', whiteSpace: 'nowrap' }}>确认城市</button>
         </div>
         <div style={{ fontSize: 9, color: '#c8bfaa', marginBottom: 12 }}>若拍摄地与当前位置不同，可手动调整</div>
+
+        <style>{`
+          @keyframes aiGlow {
+            0%, 100% { border-color: var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+            50% { border-color: #1d9e75; box-shadow: 0 0 0 3px rgba(29,158,117,0.1); }
+          }
+          .ai-glow { animation: aiGlow 1.4s ease-in-out infinite; }
+        `}</style>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
           <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>印迹故事</span>
@@ -162,6 +176,7 @@ export default function EditImprintPage() {
           value={narrative}
           onChange={e => setNarrative(e.target.value)}
           rows={4}
+          className={generating ? 'ai-glow' : ''}
           style={{ width: '100%', background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '10px 12px', marginBottom: 4, boxShadow: '0 1px 3px rgba(0,0,0,0.03)', fontSize: 11, color: '#3d3020', lineHeight: 1.65, resize: 'vertical', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit' }}
         />
         <div style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--text-muted)', textAlign: 'right', marginBottom: 10, cursor: generating ? 'default' : 'pointer' }} onClick={generating ? undefined : generateWithAI}>
