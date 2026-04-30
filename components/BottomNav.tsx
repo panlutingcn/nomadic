@@ -38,20 +38,20 @@ export default function BottomNav() {
           onMouseLeave={() => setHoveredNav(null)}
           style={{
             width: 48, height: 48, borderRadius: '50%',
-            border: isActive('/story') ? '1.5px solid var(--accent)' : '1.5px solid #c8bfaa',
+            border: (isActive('/story/camera') || isActive('/story')) ? '1.5px solid var(--accent)' : '1.5px solid #c8bfaa',
             background: 'var(--bg-page)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             marginTop: -10, cursor: 'pointer',
-            boxShadow: isActive('/story') ? '0 2px 8px rgba(29,158,117,0.2)' : '0 2px 8px rgba(0,0,0,0.09)',
+            boxShadow: (isActive('/story/camera') || isActive('/story')) ? '0 2px 8px rgba(29,158,117,0.2)' : '0 2px 8px rgba(0,0,0,0.09)',
             transform: hoveredNav === '/story' ? 'scale(1.18)' : 'scale(1)',
             transition: 'transform 120ms ease',
           }}
         >
-          <div style={{ width: 34, height: 34, borderRadius: '50%', border: isActive('/story') ? '0.5px solid rgba(29,158,117,0.35)' : '0.5px solid var(--border-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ width: 20, height: 20, borderRadius: '50%', background: isActive('/story') ? 'rgba(29,158,117,0.18)' : 'rgba(0,0,0,0.08)' }} />
+          <div style={{ width: 34, height: 34, borderRadius: '50%', border: (isActive('/story/camera') || isActive('/story')) ? '0.5px solid rgba(29,158,117,0.35)' : '0.5px solid var(--border-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 20, height: 20, borderRadius: '50%', background: (isActive('/story/camera') || isActive('/story')) ? 'rgba(29,158,117,0.18)' : 'rgba(0,0,0,0.08)' }} />
           </div>
         </button>
-        <span style={{ fontSize: 10, color: isActive('/story') ? 'var(--accent)' : 'var(--text-secondary)', fontWeight: isActive('/story') ? 500 : 400, marginTop: 2 }}>印迹</span>
+        <span style={{ fontSize: 10, color: (isActive('/story/camera') || isActive('/story')) ? 'var(--accent)' : 'var(--text-secondary)', fontWeight: (isActive('/story/camera') || isActive('/story')) ? 500 : 400, marginTop: 2 }}>印迹</span>
       </div>
 
       <button onClick={() => router.push('/meet')} onMouseEnter={() => setHoveredNav('/meet')} onMouseLeave={() => setHoveredNav(null)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer', transform: hoveredNav === '/meet' ? 'scale(1.18)' : 'scale(1)', transition: 'transform 120ms ease' }}>
