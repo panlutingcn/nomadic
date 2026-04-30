@@ -8,7 +8,6 @@ export default function CameraPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
-  const previewRef = useRef<string | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [cameraAvailable, setCameraAvailable] = useState(true)
 
@@ -28,8 +27,6 @@ export default function CameraPage() {
     return () => {
       active = false
       streamRef.current?.getTracks().forEach(t => t.stop())
-      // Revoke any pending preview blob URL to prevent memory leak
-      if (previewRef.current) URL.revokeObjectURL(previewRef.current)
     }
   }, [])
 
@@ -37,50 +34,30 @@ export default function CameraPage() {
     const video = videoRef.current
     const canvas = canvasRef.current
     if (!video || !canvas) return
-    if (!video.videoWidth || !video.videoHeight) return
     canvas.width = video.videoWidth
     canvas.height = video.videoHeight
     canvas.getContext('2d')?.drawImage(video, 0, 0)
     canvas.toBlob(blob => {
       if (!blob) return
-      const url = URL.createObjectURL(blob)
-      previewRef.current = url
-      setPreview(url)
+      setPreview(URL.createObjectURL(blob))
     }, 'image/jpeg', 0.9)
   }
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      // Revoke previous blob URL before creating a new one
-      if (previewRef.current) URL.revokeObjectURL(previewRef.current)
-      const url = URL.createObjectURL(file)
-      previewRef.current = url
-      setPreview(url)
-    }
+    if (file) setPreview(URL.createObjectURL(file))
   }
 
   const handleRetake = () => {
     if (preview) URL.revokeObjectURL(preview)
-    previewRef.current = null
     setPreview(null)
     if (fileRef.current) fileRef.current.value = ''
   }
 
   const handleConfirm = () => {
     if (!preview) return
-    const reader = new FileReader()
-    fetch(preview)
-      .then(r => r.blob())
-      .then(blob => {
-        reader.onloadend = () => {
-          sessionStorage.setItem('pendingPhoto', reader.result as string)
-          URL.revokeObjectURL(preview)
-          previewRef.current = null
-          router.push('/story')
-        }
-        reader.readAsDataURL(blob)
-      })
+    sessionStorage.setItem('pendingPhoto', preview)
+    router.push('/story')
   }
 
   return (
