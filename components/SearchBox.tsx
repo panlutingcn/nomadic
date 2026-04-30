@@ -189,7 +189,6 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button
           onClick={handleSearch}
-          disabled={loading || !query.trim()}
           style={{
             background: loading ? '#e8f5ee' : 'var(--accent)',
             color: loading ? 'var(--accent)' : '#fff',
@@ -198,8 +197,9 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
             padding: '8px 16px',
             borderRadius: '8px',
             border: loading ? '0.5px solid var(--border-light)' : 'none',
-            cursor: loading ? 'not-allowed' : 'pointer',
+            cursor: loading || !query.trim() ? 'not-allowed' : 'pointer',
             opacity: !query.trim() ? 0.5 : 1,
+            pointerEvents: loading ? 'none' : 'auto',
             animation: loading ? 'pulse-hero 2.4s ease-in-out infinite' : 'none'
           }}
         >

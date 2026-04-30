@@ -80,13 +80,14 @@ export default function StoryPage() {
         setGpsLoading(true)
         fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${gpsData.lat}&lon=${gpsData.lon}`,
-          { headers: { 'Accept-Language': 'en' } }
+          { headers: { 'Accept-Language': 'zh' } }
         )
           .then(r => r.json())
           .then(data => {
             const addr = data.address || {}
-            const cityEn: string = addr.city || addr.town || addr.village || addr.county || ''
-            const cityZh = CITY_NAME_MAP[cityEn] ?? cityEn
+            // Prefer city (市级) over county/district (区/县级), then strip admin suffixes
+            const raw: string = addr.city || addr.town || addr.village || addr.county || ''
+            const cityZh = raw.replace(/[市区县镇乡]$/, '')
             if (cityZh) {
               const year = String(new Date(gpsData.timestamp).getFullYear())
               setCity(cityZh)
@@ -307,7 +308,7 @@ export default function StoryPage() {
                 {city || '等待GPS识别或手动输入…'}
               </div>
           }
-          <button onClick={handleConfirmCity} style={{ background: 'var(--bg-card-2)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 10, color: 'var(--text-secondary)', cursor: 'pointer', whiteSpace: 'nowrap' }}>确认城市</button>
+          <button onClick={handleConfirmCity} style={{ background: 'var(--accent)', border: 'none', borderRadius: 8, padding: '8px 10px', fontSize: 10, color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap', fontWeight: 500 }}>确认城市</button>
         </div>
         <div style={{ fontSize: 9, color: '#c8bfaa', marginBottom: 12 }}>若拍摄地与当前位置不同，可手动调整</div>
 
@@ -354,13 +355,13 @@ export default function StoryPage() {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
-          <button onClick={() => handlePublish(true)} style={{ padding: '11px 10px', borderRadius: 12, background: '#fff5f0', border: '0.5px solid #f0c4a8', cursor: 'pointer', textAlign: 'center' }}>
-            <div style={{ fontSize: 12, fontWeight: 500, color: '#7a3010' }}>发布到社区</div>
-            <div style={{ fontSize: 9, color: '#b87050', marginTop: 2 }}>公开 · 所有人可见</div>
+          <button onClick={() => handlePublish(true)} style={{ padding: '11px 10px', borderRadius: 12, background: 'var(--accent)', border: 'none', cursor: 'pointer', textAlign: 'center' }}>
+            <div style={{ fontSize: 12, fontWeight: 500, color: '#fff' }}>发布到社区</div>
+            <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.75)', marginTop: 2 }}>公开 · 所有人可见</div>
           </button>
-          <button onClick={() => handlePublish(false)} style={{ padding: '11px 10px', borderRadius: 12, background: '#f0ebe2', border: '0.5px solid var(--border-light)', cursor: 'pointer', textAlign: 'center' }}>
-            <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)' }}>存入我的领地</div>
-            <div style={{ fontSize: 9, color: 'var(--text-secondary)', marginTop: 2 }}>私藏 · 仅自己可见</div>
+          <button onClick={() => handlePublish(false)} style={{ padding: '11px 10px', borderRadius: 12, background: '#fff', border: '0.5px solid var(--accent)', cursor: 'pointer', textAlign: 'center' }}>
+            <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--accent)' }}>存入我的领地</div>
+            <div style={{ fontSize: 9, color: 'var(--accent-text)', marginTop: 2 }}>私藏 · 仅自己可见</div>
           </button>
         </div>
         <div style={{ fontSize: 9, color: '#c8bfaa', textAlign: 'center' }}>完成后自动跳转至「我的印迹」</div>
