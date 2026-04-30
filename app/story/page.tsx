@@ -188,6 +188,7 @@ export default function StoryPage() {
 
   const triggerFlash = (field: 'city' | 'tags') => {
     if (field === 'city') {
+      setEditingCity(false)
       setFlashCity(true)
       setTimeout(() => setFlashCity(false), 900)
     } else {
@@ -197,11 +198,12 @@ export default function StoryPage() {
   }
 
   const handlePublish = (isPublic: boolean) => {
-    if (!city.trim()) {
+    const trimmedCity = city.trim()
+    if (!trimmedCity) {
       triggerFlash('city')
       return
     }
-    if (!tags.includes(city)) {
+    if (!tags.includes(trimmedCity)) {
       triggerFlash('tags')
       return
     }
@@ -210,7 +212,7 @@ export default function StoryPage() {
       setShowLogin(true)
       return
     }
-    addImprint({ city, title: `${city} 的印迹`, narrative, tags, isPublic, photo })
+    addImprint({ city: trimmedCity, title: `${trimmedCity} 的印迹`, narrative, tags, isPublic, photo })
     router.push(isPublic ? '/meet' : '/vault')
   }
 
@@ -218,7 +220,8 @@ export default function StoryPage() {
     setIsLoggedIn(true)
     setShowLogin(false)
     if (pendingPublish !== null) {
-      addImprint({ city, title: `${city} 的印迹`, narrative, tags, isPublic: pendingPublish, photo })
+      if (!city.trim() || !tags.includes(city.trim())) return
+      addImprint({ city: city.trim(), title: `${city.trim()} 的印迹`, narrative, tags, isPublic: pendingPublish, photo })
       router.push(pendingPublish ? '/meet' : '/vault')
     }
   }
