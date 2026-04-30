@@ -59,6 +59,8 @@ interface AppState {
   isCitySaved: (name: string) => boolean
   imprints: Imprint[]
   addImprint: (imprint: Omit<Imprint, 'id' | 'createdAt'>) => void
+  updateImprint: (id: string, updates: Partial<Omit<Imprint, 'id' | 'createdAt'>>) => void
+  deleteImprint: (id: string) => void
   allPublicImprints: Imprint[]
   searchContext: SearchContext | null
   setSearchContext: (context: SearchContext | null) => void
@@ -101,6 +103,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setImprints(prev => [newImprint, ...prev])
   }
 
+  const updateImprint = (id: string, updates: Partial<Omit<Imprint, 'id' | 'createdAt'>>) => {
+    setImprints(prev => prev.map(imp => imp.id === id ? { ...imp, ...updates } : imp))
+  }
+
+  const deleteImprint = (id: string) => {
+    setImprints(prev => prev.filter(imp => imp.id !== id))
+  }
+
   const samplePublic: Imprint[] = SAMPLE_IMPRINTS.map(s => ({ ...s, author: s.author, likes: s.likes }))
   const allPublicImprints = [
     ...imprints.filter(i => i.isPublic),
@@ -111,7 +121,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     <AppContext.Provider value={{
       selectedCity, setSelectedCity,
       savedCities, toggleSaveCity, isCitySaved,
-      imprints, addImprint,
+      imprints, addImprint, updateImprint, deleteImprint,
       allPublicImprints,
       searchContext, setSearchContext,
     }}>

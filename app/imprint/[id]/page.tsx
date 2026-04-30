@@ -21,15 +21,28 @@ const PHOTO_BG: Record<string, string> = {
 export default function ImprintDetailPage() {
   const params = useParams()
   const router = useRouter()
-  const { allPublicImprints, imprints } = useApp()
+  const { allPublicImprints, imprints, deleteImprint } = useApp()
   const [showToast, setShowToast] = useState(false)
   const [liked, setLiked] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current) }, [])
 
   const allImprints = [...imprints, ...allPublicImprints.filter(i => !imprints.some(u => u.id === i.id))]
   const id = Array.isArray(params.id) ? params.id[0] : params.id
+
+  if (!id) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 20px' }}>
+        <div style={{ fontSize: 16, color: 'var(--text-secondary)', marginBottom: 20 }}>印迹不存在</div>
+        <button onClick={() => router.back()} style={{ padding: '10px 24px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: 8, fontSize: 14, cursor: 'pointer' }}>
+          返回
+        </button>
+      </div>
+    )
+  }
+
   const imprint = allImprints.find(i => i.id === id)
 
   if (!imprint) {
@@ -79,6 +92,13 @@ export default function ImprintDetailPage() {
     }
   }
 
+  const handleDelete = () => {
+    deleteImprint(id)
+    setShowDeleteConfirm(false)
+    router.push('/vault')
+  }
+
+  const isMyImprint = imprints.some(i => i.id === id)
   const cityNameZh = CITY_NAME_MAP[imprint.city] || imprint.city
 
   return (
@@ -174,6 +194,38 @@ export default function ImprintDetailPage() {
           >
             分享
           </button>
+          {isMyImprint && (
+            <>
+              <button
+                onClick={() => router.push(`/story/edit/${id}`)}
+                style={{
+                  padding: '8px 14px',
+                  background: 'var(--bg-card-2)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 8,
+                  fontSize: 14,
+                  cursor: 'pointer',
+                  color: 'var(--text-secondary)',
+                }}
+              >
+                编辑
+              </button>
+              <button
+                onClick={() => setShowDeleteConfirm(true)}
+                style={{
+                  padding: '8px 14px',
+                  background: 'none',
+                  border: '1px solid #f0c4c4',
+                  borderRadius: 8,
+                  fontSize: 14,
+                  cursor: 'pointer',
+                  color: '#c04040',
+                }}
+              >
+                删除
+              </button>
+            </>
+          )}
         </div>
 
         {/* Bottom Section */}
@@ -215,6 +267,24 @@ export default function ImprintDetailPage() {
           zIndex: 1000,
         }}>
           链接已复制
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'flex-end' }}>
+          <div style={{ width: '100%', background: 'var(--bg-page)', borderRadius: '18px 18px 0 0', padding: '24px 20px 36px' }}>
+            <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 8 }}>确认删除印迹？</div>
+            <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 20 }}>删除后无法恢复</div>
+
+            <button onClick={handleDelete} style={{ width: '100%', padding: '12px', borderRadius: 12, background: '#f0c4c4', border: '1px solid #c04040', color: '#c04040', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 12 }}>
+              确认删除
+            </button>
+
+            <button onClick={() => setShowDeleteConfirm(false)} style={{ width: '100%', padding: '10px', borderRadius: 12, background: 'none', border: '0.5px solid var(--border-light)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer' }}>
+              取消
+            </button>
+          </div>
         </div>
       )}
     </div>
