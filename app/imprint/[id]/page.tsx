@@ -272,18 +272,32 @@ export default function ImprintDetailPage() {
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'flex-end' }}>
-          <div style={{ width: '100%', background: 'var(--bg-page)', borderRadius: '18px 18px 0 0', padding: '24px 20px 36px' }}>
-            <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 8 }}>确认删除印迹？</div>
-            <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 20 }}>删除后三天内可在垃圾桶里找回</div>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px' }}>
+          <div style={{ position: 'relative', background: '#f0ebe0', borderRadius: 14, padding: '16px 20px', maxWidth: 320, width: '100%', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+            {/* Speech bubble tail */}
+            <div style={{
+              position: 'absolute',
+              bottom: -8,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: 0,
+              height: 0,
+              borderLeft: '8px solid transparent',
+              borderRight: '8px solid transparent',
+              borderTop: '8px solid #f0ebe0',
+            }} />
 
-            <button onClick={handleDelete} style={{ width: '100%', padding: '12px', borderRadius: 12, background: '#f0c4c4', border: '1px solid #c04040', color: '#c04040', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 12 }}>
-              确认删除
-            </button>
+            <div style={{ fontSize: 14, fontWeight: 500, color: '#3d3020', marginBottom: 6, textAlign: 'center' }}>确认删除印迹？</div>
+            <div style={{ fontSize: 11, color: '#7a6a50', marginBottom: 16, textAlign: 'center', lineHeight: 1.5 }}>删除后三天内可在垃圾桶里找回</div>
 
-            <button onClick={() => setShowDeleteConfirm(false)} style={{ width: '100%', padding: '10px', borderRadius: 12, background: 'none', border: '0.5px solid var(--border-light)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer' }}>
-              取消
-            </button>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, padding: '8px 12px', borderRadius: 8, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                取消
+              </button>
+              <button onClick={handleDelete} style={{ flex: 1, padding: '8px 12px', borderRadius: 8, background: '#f0c4c4', border: '0.5px solid #c04040', color: '#c04040', fontSize: 12, fontWeight: 500, cursor: 'pointer' }}>
+                确认删除
+              </button>
+            </div>
           </div>
         </div>
       )}
