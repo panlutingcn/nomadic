@@ -164,9 +164,7 @@ export default function StoryPage() {
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      if (photo && photo.startsWith('blob:')) {
-        URL.revokeObjectURL(photo)
-      }
+      if (photo && photo.startsWith('blob:')) URL.revokeObjectURL(photo)
       setPhoto(URL.createObjectURL(file))
     }
   }
@@ -188,7 +186,25 @@ export default function StoryPage() {
     setTags(prev => prev.filter(t => t !== tag))
   }
 
+  const triggerFlash = (field: 'city' | 'tags') => {
+    if (field === 'city') {
+      setFlashCity(true)
+      setTimeout(() => setFlashCity(false), 900)
+    } else {
+      setFlashTags(true)
+      setTimeout(() => setFlashTags(false), 900)
+    }
+  }
+
   const handlePublish = (isPublic: boolean) => {
+    if (!city.trim()) {
+      triggerFlash('city')
+      return
+    }
+    if (!tags.includes(city)) {
+      triggerFlash('tags')
+      return
+    }
     if (!isLoggedIn) {
       setPendingPublish(isPublic)
       setShowLogin(true)
@@ -228,14 +244,33 @@ export default function StoryPage() {
           }
         </div>
 
+        <style>{`
+          @keyframes borderFlash {
+            0%, 100% { border-color: var(--border); }
+            50% { border-color: #c04040; }
+          }
+          .flash-border { animation: borderFlash 0.45s ease 2; }
+        `}</style>
+
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>城市归属</span>
-          <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>GPS 自动识别</span>
+          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>城市归属 <span style={{ color: '#c04040' }}>*</span></span>
+          <span style={{ fontSize: 10, color: gpsLoading ? 'var(--accent)' : 'var(--text-muted)' }}>
+            {gpsLoading ? 'GPS 识别中…' : 'GPS 自动识别'}
+          </span>
         </div>
         <div style={{ display: 'flex', gap: 6, marginBottom: 3 }}>
           {editingCity
-            ? <input autoFocus value={city} onChange={e => setCity(e.target.value)} onBlur={() => setEditingCity(false)} style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--accent)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)' }} />
-            : <div style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: city ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+            ? <input
+                autoFocus
+                value={city}
+                onChange={e => setCity(e.target.value)}
+                onBlur={() => setEditingCity(false)}
+                style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--accent)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)' }}
+              />
+            : <div
+                className={flashCity ? 'flash-border' : ''}
+                style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: city ? 'var(--text-primary)' : 'var(--text-muted)' }}
+              >
                 {city || '等待GPS识别或手动输入…'}
               </div>
           }
@@ -259,8 +294,8 @@ export default function StoryPage() {
           {generating ? '生成中…' : '重新生成 ↺'}
         </div>
 
-        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标签</div>
-        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 14 }}>
+        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标签 <span style={{ color: '#c04040' }}>*</span></div>
+        <div className={flashTags ? 'flash-border' : ''} style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 14, border: '0.5px solid transparent', borderRadius: 8, padding: '2px 0' }}>
           {tags.map(tag => (
             <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, padding: '3px 7px 3px 9px', borderRadius: 8, background: 'var(--bg-card-2)', color: 'var(--text-secondary)', border: '0.5px solid var(--border-light)' }}>
               {tag}
@@ -299,31 +334,70 @@ export default function StoryPage() {
       <BottomNav />
 
       {showLogin && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'flex-end' }}>
-          <div style={{ width: '100%', background: 'var(--bg-page)', borderRadius: '18px 18px 0 0', padding: '24px 20px 36px' }}>
-            <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 4 }}>登录后发布印迹</div>
-            <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
-              <button onClick={() => setLoginMethod('phone')} style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'phone' ? '#07C160' : 'var(--border-light)'}`, background: loginMethod === 'phone' ? 'rgba(7,193,96,0.08)' : 'var(--bg-card)', fontSize: 12, color: loginMethod === 'phone' ? '#07C160' : 'var(--text-secondary)', cursor: 'pointer' }}>手机登录</button>
-              <button onClick={() => setLoginMethod('email')} style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'email' ? 'var(--accent)' : 'var(--border-light)'}`, background: loginMethod === 'email' ? 'var(--accent-dim)' : 'var(--bg-card)', fontSize: 12, color: loginMethod === 'email' ? 'var(--accent-text)' : 'var(--text-secondary)', cursor: 'pointer' }}>邮箱登录</button>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px' }}>
+          <div style={{ position: 'relative', background: '#f0ebe0', borderRadius: 14, padding: '20px 20px 16px', maxWidth: 320, width: '100%', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+            {/* Speech bubble tail */}
+            <div style={{
+              position: 'absolute',
+              bottom: -8,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: 0,
+              height: 0,
+              borderLeft: '8px solid transparent',
+              borderRight: '8px solid transparent',
+              borderTop: '8px solid #f0ebe0',
+            }} />
+
+            <div style={{ fontSize: 14, fontWeight: 500, color: '#3d3020', marginBottom: 4, textAlign: 'center' }}>登录后发布印迹</div>
+
+            <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+              <button
+                onClick={() => setLoginMethod('phone')}
+                style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'phone' ? 'var(--accent)' : '#c8bfaa'}`, background: loginMethod === 'phone' ? 'var(--accent-dim)' : 'transparent', fontSize: 12, color: loginMethod === 'phone' ? 'var(--accent-text)' : '#7a6a50', cursor: 'pointer' }}
+              >
+                手机号登录
+              </button>
+              <button
+                onClick={() => setLoginMethod('email')}
+                style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'email' ? 'var(--accent)' : '#c8bfaa'}`, background: loginMethod === 'email' ? 'var(--accent-dim)' : 'transparent', fontSize: 12, color: loginMethod === 'email' ? 'var(--accent-text)' : '#7a6a50', cursor: 'pointer' }}
+              >
+                邮箱登录
+              </button>
             </div>
 
             {loginMethod === 'phone' ? (
-              <button onClick={handleLoginConfirm} style={{ width: '100%', padding: '12px', borderRadius: 12, background: '#07C160', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 12 }}>
-                手机一键登录
-              </button>
+              <input
+                value={loginPhone}
+                onChange={e => setLoginPhone(e.target.value)}
+                placeholder="输入你的手机号"
+                type="tel"
+                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '0.5px solid #c8bfaa', background: 'rgba(255,255,255,0.6)', fontSize: 12, color: '#3d3020', boxSizing: 'border-box', outline: 'none', marginBottom: 10 }}
+              />
             ) : (
-              <>
-                <input value={loginEmail} onChange={e => setLoginEmail(e.target.value)} placeholder="输入你的邮箱" type="email"
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '0.5px solid var(--border)', background: 'var(--bg-card)', fontSize: 12, color: 'var(--text-primary)', boxSizing: 'border-box', outline: 'none', marginBottom: 8 }} />
-                <button onClick={handleLoginConfirm} style={{ width: '100%', padding: '11px', borderRadius: 12, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 12 }}>
-                  确认登录
-                </button>
-              </>
+              <input
+                value={loginEmail}
+                onChange={e => setLoginEmail(e.target.value)}
+                placeholder="输入你的邮箱"
+                type="email"
+                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '0.5px solid #c8bfaa', background: 'rgba(255,255,255,0.6)', fontSize: 12, color: '#3d3020', boxSizing: 'border-box', outline: 'none', marginBottom: 10 }}
+              />
             )}
 
-            <button onClick={() => setShowLogin(false)} style={{ width: '100%', padding: '10px', borderRadius: 12, background: 'none', border: '0.5px solid var(--border-light)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer' }}>
-              取消
-            </button>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                onClick={() => setShowLogin(false)}
+                style={{ flex: 1, padding: '8px 12px', borderRadius: 8, background: 'transparent', border: '0.5px solid #c8bfaa', fontSize: 12, color: '#7a6a50', cursor: 'pointer' }}
+              >
+                取消
+              </button>
+              <button
+                onClick={handleLoginConfirm}
+                style={{ flex: 1, padding: '8px 12px', borderRadius: 8, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 500, cursor: 'pointer' }}
+              >
+                确认登录
+              </button>
+            </div>
           </div>
         </div>
       )}
