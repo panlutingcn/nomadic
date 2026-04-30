@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
@@ -25,6 +25,18 @@ export default function StoryPage() {
   const [loginMethod, setLoginMethod] = useState<'wechat' | 'email'>('wechat')
   const [loginEmail, setLoginEmail] = useState('')
   const [pendingPublish, setPendingPublish] = useState<boolean | null>(null)
+  const [tags, setTags] = useState<string[]>([city])
+  const [tagInput, setTagInput] = useState('')
+  const [showTagInput, setShowTagInput] = useState(false)
+  const TAG_LIMIT = 10
+
+  useEffect(() => {
+    const pending = sessionStorage.getItem('pendingPhoto')
+    if (pending) {
+      setPhoto(pending)
+      sessionStorage.removeItem('pendingPhoto')
+    }
+  }, [])
 
   const narrativeBase = AI_NARRATIVES[city] ?? AI_NARRATIVES['default']
   const narrativeVariants = [narrativeBase, narrativeBase.split('。').reverse().join('。') + '。']
@@ -66,13 +78,30 @@ export default function StoryPage() {
     if (file) setPhoto(URL.createObjectURL(file))
   }
 
+  const handleAddTag = () => {
+    const trimmed = tagInput.trim()
+    if (!trimmed || tags.includes(trimmed)) {
+      setTagInput('')
+      setShowTagInput(false)
+      return
+    }
+    if (tags.length >= TAG_LIMIT) return
+    setTags(prev => [...prev, trimmed])
+    setTagInput('')
+    setShowTagInput(false)
+  }
+
+  const handleRemoveTag = (tag: string) => {
+    setTags(prev => prev.filter(t => t !== tag))
+  }
+
   const handlePublish = (isPublic: boolean) => {
     if (!isLoggedIn) {
       setPendingPublish(isPublic)
       setShowLogin(true)
       return
     }
-    addImprint({ city, title: `${city} 的印迹`, narrative, tags: [city, '2025'], isPublic, photo })
+    addImprint({ city, title: `${city} 的印迹`, narrative, tags, isPublic, photo })
     router.push(isPublic ? '/meet' : '/vault')
   }
 
@@ -80,7 +109,7 @@ export default function StoryPage() {
     setIsLoggedIn(true)
     setShowLogin(false)
     if (pendingPublish !== null) {
-      addImprint({ city, title: `${city} 的印迹`, narrative, tags: [city, '2025'], isPublic: pendingPublish, photo })
+      addImprint({ city, title: `${city} 的印迹`, narrative, tags, isPublic: pendingPublish, photo })
       router.push(pendingPublish ? '/meet' : '/vault')
     }
   }
@@ -137,10 +166,27 @@ export default function StoryPage() {
 
         <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标签</div>
         <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 14 }}>
-          {[city, '2025'].map(tag => (
-            <span key={tag} style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, background: 'var(--bg-card-2)', color: 'var(--text-secondary)', border: '0.5px solid var(--border-light)' }}>{tag}</span>
+          {tags.map(tag => (
+            <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, padding: '3px 7px 3px 9px', borderRadius: 8, background: 'var(--bg-card-2)', color: 'var(--text-secondary)', border: '0.5px solid var(--border-light)' }}>
+              {tag}
+              <button onClick={() => handleRemoveTag(tag)} style={{ fontSize: 9, color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 1 }}>✕</button>
+            </span>
           ))}
-          <span style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, color: 'var(--text-muted)', border: '0.5px dashed var(--border-light)', cursor: 'pointer' }}>+ 添加</span>
+          {showTagInput ? (
+            <input
+              autoFocus
+              value={tagInput}
+              onChange={e => setTagInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleAddTag() }}
+              onBlur={handleAddTag}
+              placeholder="输入标签"
+              style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, border: '0.5px solid var(--accent)', background: 'var(--bg-card)', color: 'var(--text-primary)', outline: 'none', width: 80 }}
+            />
+          ) : tags.length >= TAG_LIMIT ? (
+            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>最多添加 10 个标签</span>
+          ) : (
+            <span onClick={() => setShowTagInput(true)} style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, color: 'var(--text-muted)', border: '0.5px dashed var(--border-light)', cursor: 'pointer' }}>+ 添加</span>
+          )}
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
