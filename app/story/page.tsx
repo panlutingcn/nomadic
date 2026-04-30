@@ -235,7 +235,9 @@ export default function StoryPage() {
         <div style={{ display: 'flex', gap: 6, marginBottom: 3 }}>
           {editingCity
             ? <input autoFocus value={city} onChange={e => setCity(e.target.value)} onBlur={() => setEditingCity(false)} style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--accent)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)' }} />
-            : <div style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)' }}>{city}, {city === 'Berlin' ? 'Germany' : city === 'Bangkok' ? 'Thailand' : city === 'Lisbon' ? 'Portugal' : city === 'Amsterdam' ? 'Netherlands' : 'Europe'}</div>
+            : <div style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: city ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                {city || '等待GPS识别或手动输入…'}
+              </div>
           }
           <button onClick={() => setEditingCity(true)} style={{ background: 'var(--bg-card-2)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 10, color: 'var(--text-secondary)', cursor: 'pointer', whiteSpace: 'nowrap' }}>修改城市</button>
         </div>
