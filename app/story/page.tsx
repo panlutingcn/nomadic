@@ -4,65 +4,133 @@ import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 
-const AI_NARRATIVES: Record<string, string> = {
-  Berlin: '这是你在柏林扎下的第一个根。这座城市的理性气质，正悄悄渗透你的品牌叙事方式——少一点修辞，多一点锋芒。Mittelstand 的务实美学，或许正是你下一个项目的起点。',
-  Amsterdam: '阿姆斯特丹不会让你停下来，但它会让你思考为什么出发。运河边的每一个清晨，都藏着一种温柔的自由主义，那是这座城市送给游民最好的礼物。',
-  Lisbon: '里斯本的光线是全欧洲最温柔的。你在这里慢下来，不是因为懒惰，而是因为这座城市告诉你，扎根不需要急。',
-  Bangkok: '曼谷不会让你安静，但它会让你兴奋。这里的商业节奏快而直接，每一个街角都藏着一个正在运转的生意。来这里，是为了被激活。',
-  default: '这是你在这座城市留下的印迹。每一座城市都是一段未完成的句子，而你正在续写它，一个坐标一个坐标地，构建属于自己的世界版图。',
+const CITY_NAME_MAP: Record<string, string> = {
+  Berlin: '柏林',
+  Amsterdam: '阿姆斯特丹',
+  Lisbon: '里斯本',
+  Prague: '布拉格',
+  Tallinn: '塔林',
+  Hamburg: '汉堡',
+  Munich: '慕尼黑',
+  Vienna: '维也纳',
+  Zurich: '苏黎世',
+  Barcelona: '巴塞罗那',
+  Madrid: '马德里',
+  Paris: '巴黎',
+  London: '伦敦',
+  Rome: '罗马',
+  Milan: '米兰',
+  Budapest: '布达佩斯',
+  Warsaw: '华沙',
+  Stockholm: '斯德哥尔摩',
+  Copenhagen: '哥本哈根',
+  Helsinki: '赫尔辛基',
+  Oslo: '奥斯陆',
+  Riga: '里加',
+  Vilnius: '维尔纽斯',
+  Bangkok: '曼谷',
+  Singapore: '新加坡',
+  Tokyo: '东京',
+  Seoul: '首尔',
+  Taipei: '台北',
+  Shanghai: '上海',
+  Beijing: '北京',
+  Chengdu: '成都',
+  Dubai: '迪拜',
 }
 
 export default function StoryPage() {
   const router = useRouter()
-  const { selectedCity, addImprint } = useApp()
-  const [city, setCity] = useState(selectedCity || 'Berlin')
+  const { addImprint } = useApp()
+  const [city, setCity] = useState('')
   const [editingCity, setEditingCity] = useState(false)
   const [photo, setPhoto] = useState<string | undefined>(undefined)
-  const [narrativeIdx, setNarrativeIdx] = useState(0)
   const fileRef = useRef<HTMLInputElement>(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
-  const [loginMethod, setLoginMethod] = useState<'wechat' | 'email'>('wechat')
+  const [loginMethod, setLoginMethod] = useState<'phone' | 'email'>('phone')
+  const [loginPhone, setLoginPhone] = useState('')
   const [loginEmail, setLoginEmail] = useState('')
   const [pendingPublish, setPendingPublish] = useState<boolean | null>(null)
-  const [tags, setTags] = useState<string[]>([city])
+  const [tags, setTags] = useState<string[]>([])
   const [tagInput, setTagInput] = useState('')
   const [showTagInput, setShowTagInput] = useState(false)
+  const [narrative, setNarrative] = useState('')
+  const [generating, setGenerating] = useState(false)
+  const [gpsLoading, setGpsLoading] = useState(false)
+  const [flashCity, setFlashCity] = useState(false)
+  const [flashTags, setFlashTags] = useState(false)
   const TAG_LIMIT = 10
-  const prevCityRef = useRef(city)
+  const prevCityRef = useRef('')
+  const gpsDetectedRef = useRef(false)
 
+  // 读取 sessionStorage 中的照片和GPS数据
   useEffect(() => {
     const pending = sessionStorage.getItem('pendingPhoto')
     if (pending) {
       setPhoto(pending)
       sessionStorage.removeItem('pendingPhoto')
     }
+
+    const gpsRaw = sessionStorage.getItem('pendingGPS')
+    if (gpsRaw) {
+      sessionStorage.removeItem('pendingGPS')
+      try {
+        const gpsData = JSON.parse(gpsRaw) as { lat: number; lon: number; timestamp: number }
+        setGpsLoading(true)
+        fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${gpsData.lat}&lon=${gpsData.lon}`,
+          { headers: { 'Accept-Language': 'en' } }
+        )
+          .then(r => r.json())
+          .then(data => {
+            const addr = data.address || {}
+            const cityEn: string = addr.city || addr.town || addr.village || addr.county || ''
+            const cityZh = CITY_NAME_MAP[cityEn] ?? cityEn
+            if (cityZh) {
+              const year = String(new Date(gpsData.timestamp).getFullYear())
+              setCity(cityZh)
+              setTags([cityZh, year])
+              prevCityRef.current = cityZh
+              gpsDetectedRef.current = true
+            }
+          })
+          .catch(() => {})
+          .finally(() => setGpsLoading(false))
+      } catch {
+        setGpsLoading(false)
+      }
+    }
   }, [])
 
+  // 城市变化时同步更新标签中的城市标签
   useEffect(() => {
-    if (prevCityRef.current !== city) {
-      setTags(prev => prev.map(tag => tag === prevCityRef.current ? city : tag))
+    if (prevCityRef.current !== city && prevCityRef.current !== '') {
+      const oldCity = prevCityRef.current
+      setTags(prev => {
+        if (prev.includes(oldCity)) return prev.map(t => t === oldCity ? city : t)
+        if (!prev.includes(city)) return [...prev, city]
+        return prev
+      })
       prevCityRef.current = city
     }
   }, [city])
 
+  // GPS识别城市后自动触发AI生成
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (gpsDetectedRef.current && city) {
+      gpsDetectedRef.current = false
+      generateWithAI()
+    }
+  }, [city])
+
+  // 清理 blob URL
   useEffect(() => {
     return () => {
-      if (photo && photo.startsWith('blob:')) {
-        URL.revokeObjectURL(photo)
-      }
+      if (photo && photo.startsWith('blob:')) URL.revokeObjectURL(photo)
     }
   }, [photo])
-
-  const narrativeBase = AI_NARRATIVES[city] ?? AI_NARRATIVES['default']
-  const narrativeVariants = [narrativeBase, narrativeBase.split('。').reverse().join('。') + '。']
-  const [narrative, setNarrative] = useState(narrativeVariants[0])
-  const [generating, setGenerating] = useState(false)
-
-  const cycleNarrative = () => {
-    setNarrativeIdx(i => i + 1)
-    setNarrative(narrativeVariants[(narrativeIdx + 1) % 2])
-  }
 
   const generateWithAI = async () => {
     setGenerating(true)
@@ -80,7 +148,11 @@ export default function StoryPage() {
       const res = await fetch('/api/generate-narrative', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ city, imageBase64 }),
+        body: JSON.stringify({
+          city,
+          imageBase64,
+          userInput: narrative.trim() || undefined,
+        }),
       })
       const data = await res.json()
       if (data.narrative) setNarrative(data.narrative)
@@ -229,13 +301,13 @@ export default function StoryPage() {
           <div style={{ width: '100%', background: 'var(--bg-page)', borderRadius: '18px 18px 0 0', padding: '24px 20px 36px' }}>
             <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 4 }}>登录后发布印迹</div>
             <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
-              <button onClick={() => setLoginMethod('wechat')} style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'wechat' ? '#07C160' : 'var(--border-light)'}`, background: loginMethod === 'wechat' ? 'rgba(7,193,96,0.08)' : 'var(--bg-card)', fontSize: 12, color: loginMethod === 'wechat' ? '#07C160' : 'var(--text-secondary)', cursor: 'pointer' }}>微信登录</button>
+              <button onClick={() => setLoginMethod('phone')} style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'phone' ? '#07C160' : 'var(--border-light)'}`, background: loginMethod === 'phone' ? 'rgba(7,193,96,0.08)' : 'var(--bg-card)', fontSize: 12, color: loginMethod === 'phone' ? '#07C160' : 'var(--text-secondary)', cursor: 'pointer' }}>手机登录</button>
               <button onClick={() => setLoginMethod('email')} style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'email' ? 'var(--accent)' : 'var(--border-light)'}`, background: loginMethod === 'email' ? 'var(--accent-dim)' : 'var(--bg-card)', fontSize: 12, color: loginMethod === 'email' ? 'var(--accent-text)' : 'var(--text-secondary)', cursor: 'pointer' }}>邮箱登录</button>
             </div>
 
-            {loginMethod === 'wechat' ? (
+            {loginMethod === 'phone' ? (
               <button onClick={handleLoginConfirm} style={{ width: '100%', padding: '12px', borderRadius: 12, background: '#07C160', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 12 }}>
-                微信一键登录
+                手机一键登录
               </button>
             ) : (
               <>
