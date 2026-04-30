@@ -275,7 +275,7 @@ export default function ImprintDetailPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'flex-end' }}>
           <div style={{ width: '100%', background: 'var(--bg-page)', borderRadius: '18px 18px 0 0', padding: '24px 20px 36px' }}>
             <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 8 }}>确认删除印迹？</div>
-            <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 20 }}>删除后无法恢复</div>
+            <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 20 }}>删除后三天内可在垃圾桶里找回</div>
 
             <button onClick={handleDelete} style={{ width: '100%', padding: '12px', borderRadius: 12, background: '#f0c4c4', border: '1px solid #c04040', color: '#c04040', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 12 }}>
               确认删除
