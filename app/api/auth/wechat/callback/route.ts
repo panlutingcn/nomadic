@@ -32,7 +32,12 @@ export async function GET(request: NextRequest) {
   const infoRes = await fetch(
     `https://api.weixin.qq.com/sns/userinfo?access_token=${access_token}&openid=${openid}&lang=zh_CN`
   )
-  const userInfo = await infoRes.json() as { nickname: string; headimgurl: string }
+  const wxUserInfo = await infoRes.json() as { nickname?: string; headimgurl?: string; errcode?: number; errmsg?: string }
+  if (wxUserInfo.errcode) {
+    console.error('[wechat callback] userinfo error:', wxUserInfo)
+    return NextResponse.redirect(`${baseUrl}/?auth_error=wechat_userinfo`)
+  }
+  const userInfo = wxUserInfo as { nickname: string; headimgurl: string }
 
   // 3. Find existing Supabase user by wechat_openid in profiles
   const { data: existingProfile } = await supabaseAdmin
@@ -66,12 +71,16 @@ export async function GET(request: NextRequest) {
     userEmail = `${openid}@wx.nomadic.placeholder`
 
     // 4b. Insert profile row
-    await supabaseAdmin.from('profiles').insert({
+    const { error: insertError } = await supabaseAdmin.from('profiles').insert({
       id: userId,
       nickname: userInfo.nickname || 'Nomadic 用户',
       avatar_url: userInfo.headimgurl || null,
       wechat_openid: openid,
     })
+    if (insertError) {
+      console.error('[wechat callback] profile insert error:', insertError)
+      return NextResponse.redirect(`${baseUrl}/?auth_error=profile_create`)
+    }
   }
 
   // 5. Generate a one-time magic link to sign in this user
