@@ -39,9 +39,7 @@ export default function ContactBubble() {
             letterSpacing: '0.06em',
             flexShrink: 0,
           }}>COLLAB</span>
-          <span style={{ fontSize: 11, color: '#5a4a30', whiteSpace: 'nowrap' }}>
-            联系共创 ✦ <span style={{ color: '#9a8a6a' }}>期待听到你的想法与故事</span>
-          </span>
+          <span style={{ fontSize: 11, color: '#5a4a30', whiteSpace: 'nowrap' }}>联系共创 ✦</span>
         </div>
       </div>
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
