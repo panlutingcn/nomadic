@@ -71,7 +71,7 @@ export default function BottomBubbles() {
             <>
               <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                 <div style={{ width: 22, height: 22, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: 'var(--accent)', flexShrink: 0 }}>
-                  {(user.user_metadata?.nickname ?? user.email ?? '?')[0].toUpperCase()}
+                  {((user.user_metadata?.nickname || user.email || '?')[0] ?? '?').toUpperCase()}
                 </div>
                 <div style={{ fontSize: 11, fontWeight: 600, color: '#7a6a50' }}>我的领地</div>
               </div>
