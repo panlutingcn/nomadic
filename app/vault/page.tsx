@@ -414,7 +414,14 @@ export default function VaultPage() {
       {showNicknamePrompt && user && (
         <NicknamePrompt
           userId={user.id}
-          onComplete={(n) => { setNickname(n); setShowNicknamePrompt(false) }}
+          onComplete={(n) => {
+            setNickname(n)
+            setShowNicknamePrompt(false)
+            if (!localStorage.getItem('nomadic_welcomed')) {
+              localStorage.setItem('nomadic_welcomed', '1')
+              setShowWelcome(true)
+            }
+          }}
         />
       )}
       <BottomNav />
