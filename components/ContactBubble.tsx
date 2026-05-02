@@ -8,15 +8,18 @@ export default function ContactBubble() {
 
   return (
     <>
+      <style>{`
+        @keyframes border-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(200, 191, 170, 0); }
+          50% { box-shadow: 0 0 0 4px rgba(200, 191, 170, 0.6); }
+        }
+      `}</style>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: 32, marginBottom: 40 }}>
         <div
           onClick={() => setShowModal(true)}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
             background: 'rgba(255,255,255,0.6)',
             backdropFilter: 'blur(8px)',
             WebkitBackdropFilter: 'blur(8px)',
@@ -25,15 +28,14 @@ export default function ContactBubble() {
             padding: '10px 14px',
             width: 220,
             cursor: 'pointer',
+            textAlign: 'center' as const,
             transform: hovered ? 'scale(1.03)' : 'scale(1)',
             transition: 'transform 150ms ease',
+            animation: 'border-pulse 2.6s ease-in-out infinite',
           }}
         >
-          <span style={{ fontSize: 16, flexShrink: 0 }}>📮</span>
-          <div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#3d3020', marginBottom: 2 }}>联系共创 Nomadic ✦</div>
-            <div style={{ fontSize: 10, color: '#7a6a50' }}>期待听到你的想法与故事</div>
-          </div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#3d3020', marginBottom: 2 }}>📮 联系共创 Nomadic ✦</div>
+          <div style={{ fontSize: 10, color: '#7a6a50' }}>期待听到你的想法与故事</div>
         </div>
       </div>
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}

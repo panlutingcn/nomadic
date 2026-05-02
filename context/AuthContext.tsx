@@ -7,7 +7,7 @@ interface AuthState {
   user: User | null
   loading: boolean
   sendEmailOTP: (email: string, redirectTo?: string) => Promise<{ error: string | null }>
-  loginWithEmail: (email: string, password: string, nickname?: string) => Promise<{ error: string | null }>
+  loginWithEmail: (email: string, password: string, nickname?: string) => Promise<{ error: string | null; needsConfirmation?: boolean }>
   loginWithGoogle: (redirectPath?: string) => void
   loginWithWeChat: (redirectPath?: string) => void
   updateProfile: (fields: { nickname?: string; avatarUrl?: string }) => Promise<{ error: string | null }>
@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginWithEmail = useCallback(async (email: string, password: string, nickname?: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (!error) return { error: null }
+    if (error.code === 'email_not_confirmed') return { error: null, needsConfirmation: true }
     if (error.code === 'invalid_credentials') {
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
@@ -48,13 +49,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         options: { data: { nickname } },
       })
       if (signUpError) return { error: signUpError.message }
-      if (data.user) {
+      if (data.user && window.location.hostname !== 'localhost') {
         await supabase.from('profiles').insert({
           id: data.user.id,
           nickname: nickname || 'Nomadic 用户',
         })
       }
-      return { error: null }
+      return { error: null, needsConfirmation: true }
     }
     return { error: error.message }
   }, [])
@@ -62,7 +63,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginWithGoogle = useCallback((redirectPath = '/vault') => {
     supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}${redirectPath}` },
+      options: {
+        redirectTo: `${window.location.origin}${redirectPath}`,
+        queryParams: { prompt: 'select_account' },
+      },
     })
   }, [])
 

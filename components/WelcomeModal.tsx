@@ -12,6 +12,7 @@ export default function WelcomeModal({ nickname, onClose }: WelcomeModalProps) {
   const [show, setShow] = useState(true)
 
   useEffect(() => {
+    if (window.location.hostname === 'localhost') return
     supabase
       .from('profiles')
       .select('id', { count: 'exact', head: true })

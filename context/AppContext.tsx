@@ -79,10 +79,10 @@ const SAMPLE_SAVED_CITIES: SavedCity[] = [
 ]
 
 const SAMPLE_USER_IMPRINTS: Imprint[] = [
-  { id: 'my-1', city: 'Berlin', title: 'Markthalle IX 的一个下午', narrative: '柏林人对空间再利用的想象力让我重新思考创意的边界。', tags: ['柏林', '创意'], isPublic: true, likes: 12, createdAt: '2026.03.18', photo: 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=600&q=80' },
-  { id: 'my-2', city: 'Amsterdam', title: '约旦区的周六早市', narrative: '阿姆斯特丹人把生活过得像一门手艺，每一个摊位背后都是一个认真经营的小世界。', tags: ['阿姆斯特丹', '生活方式'], isPublic: false, createdAt: '2026.02.05', photo: 'https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?auto=format&fit=crop&w=600&q=80' },
-  { id: 'my-3', city: 'Lisbon', title: '里斯本的第一杯 Ginjinha', narrative: '在阿尔法玛区迷路的那个傍晚，我突然明白为什么这么多人选择留下来。', tags: ['里斯本', '慢生活'], isPublic: true, likes: 8, createdAt: '2026.01.30', photo: 'https://images.unsplash.com/photo-1585208798174-6cedd86e019a?auto=format&fit=crop&w=600&q=80' },
-  { id: 'my-4', city: 'Prague', title: '布拉格的咖啡馆工作日', narrative: '一杯咖啡，三小时，窗外是中世纪的屋顶。效率反而比在办公室高了三倍。', tags: ['布拉格', '远程工作'], isPublic: false, createdAt: '2025.12.10', photo: 'https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=600&q=80' },
+  { id: 'my-1', city: 'Berlin', title: '那个下午，柏林让我看见了创意本来的样子', narrative: '那是一个废弃了三十年的仓库，现在每周四下午，菜贩、酿酒师、手工艺人挤在一起叫卖。\n我站在人群里，喝着三块钱的本地精酿，忽然想通了一件事。\n柏林人所谓的"创意"，不是想出什么新东西，而是舍不得丢掉旧的。\n这座城市教我的第一件事：好的空间，是有记忆的。', tags: ['柏林', '创意'], isPublic: true, likes: 12, createdAt: '2026.03.18', photo: 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=600&q=80' },
+  { id: 'my-2', city: 'Amsterdam', title: '每个摊位背后，都是一门认真经营的手艺', narrative: '约旦区的周六早市，卖奶酪的老头已经在这里站了二十三年。\n他递给我一块试吃，问我猜几岁的奶酪。我没猜对，但我们聊了半小时。\n阿姆斯特丹人不会问你"做什么工作"，他们更想知道你"在做什么"。\n这一字之差，是整座城市的气质所在。', tags: ['阿姆斯特丹', '生活方式'], isPublic: false, createdAt: '2026.02.05', photo: 'https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?auto=format&fit=crop&w=600&q=80' },
+  { id: 'my-3', city: 'Lisbon', title: '里斯本的第一杯 Ginjinha', narrative: '在阿尔法玛区迷路是必须的。那些坡陡到让人停下来喘气的小巷，反而给了你抬头看海的理由。\n黄昏时分，橙色的阳光把每一扇破旧的门都变成画。\n我在一家没有招牌的小酒馆喝下第一杯 Ginjinha。\n那一刻我知道，有些城市不是用来打卡的，是用来慢慢读完的。', tags: ['里斯本', '慢生活'], isPublic: true, likes: 8, createdAt: '2026.01.30', photo: 'https://images.unsplash.com/photo-1585208798174-6cedd86e019a?auto=format&fit=crop&w=600&q=80' },
+  { id: 'my-4', city: 'Prague', title: '布拉格的咖啡馆工作日', narrative: '布拉格的咖啡馆有一种魔力：你坐下来"只是工作两小时"，然后抬头一看，外面已经黄昏了。\n窗外是中世纪的屋顶，杯子早就空了，思路却比在办公室清晰三倍。\n这里的网速出奇地好，房租出奇地低，街上走的人出奇地不着急。\n也许效率的敌人从来不是懒惰，而是错误的地点。', tags: ['布拉格', '远程工作'], isPublic: false, createdAt: '2025.12.10', photo: 'https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=600&q=80' },
 ]
 
 function formatDate(iso: string): string {
@@ -214,9 +214,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const trashedImprints = imprints.filter(i => i.deletedAt && now - new Date(i.deletedAt).getTime() < THREE_DAYS_MS)
 
   const samplePublic: Imprint[] = SAMPLE_IMPRINTS.map(s => ({ ...s, author: s.author, likes: s.likes }))
+  const userPublicIds = new Set(activeImprints.filter(i => i.isPublic).map(i => i.id))
   const allPublicImprints = [
     ...activeImprints.filter(i => i.isPublic),
-    ...samplePublic,
+    ...samplePublic.filter(s => !userPublicIds.has(s.id)),
   ]
 
   return (
