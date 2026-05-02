@@ -42,13 +42,20 @@ export default function VaultPage() {
       updateProfile({ nickname: pendingNickname }).then(() => setNickname(pendingNickname))
     }
     supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single().then(({ data, error }) => {
+      const isFirstVisit = !localStorage.getItem('nomadic_welcomed')
       if (error || !data) {
-        setShowNicknamePrompt(true)
+        if (isFirstVisit) {
+          localStorage.setItem('nomadic_welcomed', '1')
+          setShowWelcome(true)
+          // NicknamePrompt will show after WelcomeModal closes
+        } else {
+          setShowNicknamePrompt(true)
+        }
         return
       }
       setNickname(data.nickname ?? null)
       setAvatarUrl(data.avatar_url ?? null)
-      if (!localStorage.getItem('nomadic_welcomed')) {
+      if (isFirstVisit) {
         localStorage.setItem('nomadic_welcomed', '1')
         setShowWelcome(true)
       }
@@ -408,20 +415,19 @@ export default function VaultPage() {
       </div>
 
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} redirectPath="/vault" />}
-      {showWelcome && nickname && (
-        <WelcomeModal nickname={nickname} onClose={() => setShowWelcome(false)} />
+      {showWelcome && (
+        <WelcomeModal
+          nickname={nickname ?? undefined}
+          onClose={() => {
+            setShowWelcome(false)
+            if (!nickname) setShowNicknamePrompt(true)
+          }}
+        />
       )}
       {showNicknamePrompt && user && (
         <NicknamePrompt
           userId={user.id}
-          onComplete={(n) => {
-            setNickname(n)
-            setShowNicknamePrompt(false)
-            if (!localStorage.getItem('nomadic_welcomed')) {
-              localStorage.setItem('nomadic_welcomed', '1')
-              setShowWelcome(true)
-            }
-          }}
+          onComplete={(n) => { setNickname(n); setShowNicknamePrompt(false) }}
         />
       )}
       <BottomNav />
