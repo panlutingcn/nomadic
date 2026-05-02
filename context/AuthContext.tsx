@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase'
 interface AuthState {
   user: User | null
   loading: boolean
-  sendEmailOTP: (email: string) => Promise<{ error: string | null }>
+  sendEmailOTP: (email: string, redirectTo?: string) => Promise<{ error: string | null }>
   loginWithWeChat: (redirectPath?: string) => void
   logout: () => Promise<void>
 }
@@ -26,10 +26,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  const sendEmailOTP = useCallback(async (email: string) => {
+  const sendEmailOTP = useCallback(async (email: string, redirectTo?: string) => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/` },
+      options: { emailRedirectTo: redirectTo ?? `${window.location.origin}/` },
     })
     return { error: error?.message ?? null }
   }, [])

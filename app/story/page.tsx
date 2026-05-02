@@ -124,13 +124,16 @@ export default function StoryPage() {
     const pending = sessionStorage.getItem('pendingImprint')
     if (!pending) return
     sessionStorage.removeItem('pendingImprint')
-    try {
-      const data = JSON.parse(pending) as { city: string; narrative: string; tags: string[]; isPublic: boolean; photo?: string }
-      addImprint({ city: data.city, title: `${data.city} 的印迹`, narrative: data.narrative, tags: data.tags, isPublic: data.isPublic, photo: data.photo })
-      router.push(data.isPublic ? '/meet' : '/vault')
-    } catch {
-      // ignore malformed sessionStorage data
-    }
+    ;(async () => {
+      try {
+        const data = JSON.parse(pending) as { city: string; narrative: string; tags: string[]; isPublic: boolean; photo?: string }
+        await addImprint({ city: data.city, title: `${data.city} 的印迹`, narrative: data.narrative, tags: data.tags, isPublic: data.isPublic, photo: data.photo })
+        router.push(data.isPublic ? '/meet' : '/vault')
+      } catch {
+        // ignore malformed sessionStorage data
+      }
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id])
 
   const generateWithAI = async () => {
@@ -239,13 +242,16 @@ export default function StoryPage() {
     }
     if (!user) {
       const photoUrl = await getPhotoDataUrl()
-      sessionStorage.setItem('pendingImprint', JSON.stringify({
-        city: trimmedCity,
-        narrative,
-        tags,
-        isPublic,
-        photo: photoUrl,
-      }))
+      const payload = JSON.stringify({ city: trimmedCity, narrative, tags, isPublic, photo: photoUrl })
+      try {
+        sessionStorage.setItem('pendingImprint', payload)
+      } catch {
+        try {
+          sessionStorage.setItem('pendingImprint', JSON.stringify({ city: trimmedCity, narrative, tags, isPublic }))
+        } catch {
+          // sessionStorage unavailable; publish will not auto-resume after login
+        }
+      }
       setShowLogin(true)
       return
     }

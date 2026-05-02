@@ -38,7 +38,7 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/' }: L
     }
     setError(null)
     setLoading(true)
-    const { error: err } = await sendEmailOTP(trimmed)
+    const { error: err } = await sendEmailOTP(trimmed, `${window.location.origin}${redirectPath}`)
     setLoading(false)
     if (err) { setError(err); return }
     setSent(true)
