@@ -50,7 +50,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
     },
     pulse: () => {
       setPulsing(true)
-      setTimeout(() => setPulsing(false), 700)
+      setTimeout(() => setPulsing(false), 2400)
     },
     search: () => {
       handleSearch()
@@ -153,7 +153,8 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
   }
 
   const borderColor = pulsing ? 'var(--accent)' : 'var(--border-light)'
-  const boxShadow = pulsing ? '0 0 0 4px rgba(29,158,117,0.2)' : '0 2px 6px rgba(0,0,0,0.06)'
+  const boxShadow = pulsing ? 'none' : '0 2px 6px rgba(0,0,0,0.06)'
+  const containerAnimation = pulsing ? 'pulse-random 2.4s ease-in-out infinite' : 'none'
 
   return (
     <div style={{
@@ -166,7 +167,8 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
       gap: '10px',
       margin: '14px 0 4px',
       boxShadow,
-      transition: 'border-color 200ms ease, box-shadow 200ms ease'
+      animation: containerAnimation,
+      transition: pulsing ? 'border-color 200ms ease' : 'border-color 200ms ease, box-shadow 200ms ease',
     }}>
       <textarea
         ref={textareaRef}
@@ -197,8 +199,8 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
             padding: '8px 16px',
             borderRadius: '8px',
             border: loading ? '0.5px solid var(--border-light)' : 'none',
-            cursor: loading || !query.trim() ? 'not-allowed' : 'pointer',
-            opacity: !query.trim() ? 0.5 : 1,
+            cursor: loading ? 'not-allowed' : 'pointer',
+            opacity: 1,
             pointerEvents: loading ? 'none' : 'auto',
             animation: loading ? 'pulse-hero 2.4s ease-in-out infinite' : 'none'
           }}

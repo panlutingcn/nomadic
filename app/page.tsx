@@ -6,8 +6,9 @@ import SearchBox, { SearchBoxHandle } from '@/components/SearchBox'
 import GuideModal from '@/components/GuideModal'
 import ErrorToast from '@/components/ErrorToast'
 import GlobeMap from '@/components/GlobeMap'
-import BottomBubbles from '@/components/BottomBubbles'
+import ContactBubble from '@/components/ContactBubble'
 import { useApp } from '@/context/AppContext'
+import { useAuth } from '@/context/AuthContext'
 import { CITIES } from '@/data/cities'
 import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
 import { shuffle } from '@/utils/shuffle'
@@ -17,6 +18,7 @@ const RANDOM_COUNT = 9
 export default function HomePage() {
   const router = useRouter()
   const { setSelectedCity, imprints, savedCities } = useApp()
+  const { user } = useAuth()
   const [showGuide, setShowGuide] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [randomCities, setRandomCities] = useState<NomadCity[]>([])
@@ -271,7 +273,7 @@ export default function HomePage() {
         <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, padding: '11px 13px', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
             <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>我的全球版图</span>
-            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>走过 {new Set(savedCities.map(c => c.country)).size} 个国家 · {new Set(imprints.map(i => i.city)).size} 个城市</span>
+            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>走过 {user ? new Set(savedCities.map(c => c.country)).size : 2} 个国家 · {user ? new Set(imprints.map(i => i.city)).size : 2} 个城市</span>
           </div>
           <div style={{ height: 160, position: 'relative', background: 'var(--bg-page)', borderRadius: 8, overflow: 'hidden' }}>
             <GlobeMap
@@ -286,7 +288,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <BottomBubbles />
+      <ContactBubble />
       <BottomNav />
       {showGuide && <GuideModal onClose={() => setShowGuide(false)} />}
       {errorMessage && <ErrorToast onClose={() => setErrorMessage('')} />}

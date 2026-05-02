@@ -8,43 +8,34 @@ export default function ContactBubble() {
 
   return (
     <>
+      <style>{`
+        @keyframes border-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(200, 191, 170, 0); }
+          50% { box-shadow: 0 0 0 4px rgba(200, 191, 170, 0.6); }
+        }
+      `}</style>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: 32, marginBottom: 40 }}>
         <div
           onClick={() => setShowModal(true)}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           style={{
-            position: 'relative',
-            background: '#f0ebe0',
+            background: 'rgba(255,255,255,0.6)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            border: '0.5px solid rgba(200,191,170,0.5)',
             borderRadius: 14,
-            padding: '10px 16px',
-            maxWidth: 280,
+            padding: '10px 14px',
+            width: 220,
             cursor: 'pointer',
+            textAlign: 'center' as const,
             transform: hovered ? 'scale(1.03)' : 'scale(1)',
             transition: 'transform 150ms ease',
-            boxShadow: hovered ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
+            animation: 'border-pulse 2.6s ease-in-out infinite',
           }}
         >
-          <div style={{
-            position: 'absolute',
-            left: -7,
-            top: 14,
-            width: 0,
-            height: 0,
-            borderTop: '6px solid transparent',
-            borderBottom: '6px solid transparent',
-            borderRight: '8px solid #f0ebe0',
-          }} />
-          <div style={{
-            fontSize: 11,
-            color: '#b8a98a',
-            lineHeight: 1.6,
-            textAlign: 'center',
-          }}>
-            <span style={{ fontWeight: 600, color: '#9a8a6a' }}>共创Nomadic</span><br />
-            有建议、故事或合作意向？<br />
-            欢迎来信✉️
-          </div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#3d3020', marginBottom: 2 }}>📮 联系共创 Nomadic ✦</div>
+          <div style={{ fontSize: 10, color: '#7a6a50' }}>期待听到你的想法与故事</div>
         </div>
       </div>
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
