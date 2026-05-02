@@ -51,7 +51,7 @@ export default function WelcomeModal({ nickname, onClose }: WelcomeModalProps) {
         <div style={{ fontSize: 32, marginBottom: 16 }}>🌍</div>
         <div style={{ fontSize: 14, color: '#3d3020', lineHeight: 1.8, marginBottom: 20 }}>
           Hi {nickname}，<br />
-          欢迎你来到 Nomadic 此时此地！<br />
+          欢迎来到 Nomadic 此时此地！<br />
           {userCount !== null && (
             <>你是这里的第 <strong style={{ color: '#1D9E75' }}>{userCount}</strong> 位大旅行家。<br /></>
           )}

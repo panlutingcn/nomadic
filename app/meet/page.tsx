@@ -11,9 +11,10 @@ export default function MeetPage() {
   const cities = ['全部', 'Berlin', 'Amsterdam', 'Lisbon', 'Prague']
   const cityZh: Record<string, string> = { Berlin: '柏林', Amsterdam: '阿姆斯特丹', Lisbon: '里斯本', Prague: '布拉格', Tallinn: '塔林' }
 
-  const filtered = activeCity === '全部'
+  const filtered = (activeCity === '全部'
     ? allPublicImprints
     : allPublicImprints.filter(i => i.city === activeCity)
+  ).slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt))
 
   const photoBg: Record<string, string> = { Berlin: '#ede8df', Amsterdam: '#e8edf0', Lisbon: '#e8e2d8', Prague: '#e8e8ed' }
 

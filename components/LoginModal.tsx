@@ -66,13 +66,15 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/vault'
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    padding: '12px',
+    height: 48,
     borderRadius: 11,
     border: '1px solid #e0d8cc',
     background: '#fff',
     cursor: 'pointer',
     transition: 'transform 150ms ease',
     marginBottom: 8,
+    width: '100%',
+    boxSizing: 'border-box',
   }
 
   return (
@@ -101,14 +103,22 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/vault'
         }}
         onClick={e => e.stopPropagation()}
       >
-        <button
-          onClick={handleClose}
-          style={{ position: 'absolute', top: 12, right: 12, background: 'none', border: 'none', fontSize: 20, color: '#9a8a6a', cursor: 'pointer', padding: 4, lineHeight: 1 }}
-          aria-label="关闭"
-        >×</button>
-
-        <div style={{ fontSize: 15, fontWeight: 600, color: '#3d3020', textAlign: 'center', marginBottom: 18 }}>
-          登录 Nomadic
+        {/* Header row: 返回 | 登录 Nomadic | × */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+          {screen === 'email' ? (
+            <button
+              onClick={() => { setScreen('method'); setError(null); setEmailSent(false) }}
+              style={{ background: 'none', border: 'none', color: '#7a6a50', fontSize: 12, cursor: 'pointer', padding: 0, minWidth: 40 }}
+            >← 返回</button>
+          ) : (
+            <div style={{ minWidth: 40 }} />
+          )}
+          <div style={{ fontSize: 15, fontWeight: 600, color: '#3d3020' }}>登录 Nomadic</div>
+          <button
+            onClick={handleClose}
+            style={{ background: 'none', border: 'none', fontSize: 20, color: '#9a8a6a', cursor: 'pointer', padding: 4, lineHeight: 1, minWidth: 40, textAlign: 'right' }}
+            aria-label="关闭"
+          >×</button>
         </div>
 
         {screen === 'method' && (
@@ -148,18 +158,14 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/vault'
 
         {screen === 'email' && (
           <>
-            <button
-              onClick={() => { setScreen('method'); setError(null); setEmailSent(false) }}
-              style={{ background: 'none', border: 'none', color: '#7a6a50', fontSize: 12, cursor: 'pointer', marginBottom: 14, padding: 0 }}
-            >← 返回</button>
-
             {emailSent ? (
-              <div style={{ textAlign: 'center', padding: '20px 0' }}>
-                <div style={{ fontSize: 28, marginBottom: 12 }}>✉️</div>
+              <div style={{ textAlign: 'center', paddingTop: 4 }}>
+                <div style={{ fontSize: 28, marginBottom: 10 }}>✉️</div>
                 <div style={{ fontSize: 13, fontWeight: 500, color: '#3d3020', marginBottom: 8 }}>确认邮件已发送</div>
                 <div style={{ fontSize: 12, color: '#7a6a50', lineHeight: 1.6 }}>
-                  请前往 <span style={{ fontWeight: 500, color: '#3d3020' }}>{email}</span> 点击邮件中的确认链接，完成登录。
+                  请前往 <span style={{ fontWeight: 500, color: '#3d3020' }}>{email}</span> 点击完成登录。
                 </div>
+                <div style={{ height: 16 }} />
               </div>
             ) : (
               <>
