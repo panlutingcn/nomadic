@@ -29,7 +29,7 @@ export default function ContactBubble() {
           }}
         >
           <span style={{ fontSize: 14, lineHeight: 1, flexShrink: 0 }}>📮</span>
-          <span style={{ fontSize: 11, color: '#5a4a30', whiteSpace: 'nowrap' }}>联系共创Nomadic ✦</span>
+          <span style={{ fontSize: 11, color: '#5a4a30', whiteSpace: 'nowrap' }}>联系共创 Nomadic ✦</span>
         </div>
       </div>
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
