@@ -43,10 +43,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!error) return { error: null }
     if (error.code === 'email_not_confirmed') return { error: null, needsConfirmation: true }
     if (error.code === 'invalid_credentials') {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? window.location.origin
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { nickname } },
+        options: {
+          data: { nickname },
+          emailRedirectTo: `${baseUrl}/vault`,
+        },
       })
       if (signUpError) return { error: signUpError.message }
       if (data.user && window.location.hostname !== 'localhost') {
