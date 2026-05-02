@@ -25,6 +25,7 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/' }: L
   }, [])
 
   const handleClose = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
     setShow(false)
     closeTimerRef.current = setTimeout(onClose, 200)
   }
@@ -92,7 +93,7 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/' }: L
         onClick={e => e.stopPropagation()}
       >
         {/* Speech bubble tail pointing down */}
-        <div style={{
+        <div aria-hidden="true" style={{
           position: 'absolute',
           bottom: -9,
           left: '50%',
