@@ -14,23 +14,34 @@ export default function ContactBubble() {
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           style={{
-            position: 'relative',
-            width: 180,
-            background: 'linear-gradient(135deg, #f0ebe0 0%, #e8e0d0 100%)',
-            border: '1.5px solid #c8bfaa',
-            borderRadius: 20,
-            boxShadow: '0 4px 16px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.5)',
-            padding: '12px 14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            background: 'rgba(255,255,255,0.6)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            border: '0.5px solid rgba(200,191,170,0.5)',
+            borderRadius: 12,
+            padding: '8px 12px',
             cursor: 'pointer',
             transform: hovered ? 'scale(1.03)' : 'scale(1)',
             transition: 'transform 150ms ease',
           }}
         >
-          <div style={{ position: 'absolute', top: 10, right: 12, width: 8, height: 8, borderRadius: '50%', background: 'rgba(29,158,117,0.5)' }} />
-          <div style={{ position: 'absolute', top: 14, right: 22, width: 5, height: 5, borderRadius: '50%', background: 'rgba(29,158,117,0.3)' }} />
-          <div style={{ fontSize: 12, fontWeight: 600, color: '#3d3020', marginBottom: 4 }}>联系共创 ✦</div>
-          <div style={{ fontSize: 10, color: '#7a6a50', marginBottom: 8, lineHeight: 1.5 }}>期待听到你的想法与故事</div>
-          <div style={{ fontSize: 11, color: '#1D9E75', fontWeight: 500 }}>给主创 Luna 写信 →</div>
+          <span style={{
+            fontSize: 9,
+            fontWeight: 600,
+            color: '#7a6a50',
+            background: 'rgba(200,191,170,0.3)',
+            border: '0.5px solid rgba(200,191,170,0.6)',
+            borderRadius: 5,
+            padding: '2px 6px',
+            letterSpacing: '0.06em',
+            flexShrink: 0,
+          }}>COLLAB</span>
+          <span style={{ fontSize: 11, color: '#5a4a30', whiteSpace: 'nowrap' }}>
+            联系共创 ✦ <span style={{ color: '#9a8a6a' }}>期待听到你的想法与故事</span>
+          </span>
         </div>
       </div>
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
