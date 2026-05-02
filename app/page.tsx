@@ -6,7 +6,7 @@ import SearchBox, { SearchBoxHandle } from '@/components/SearchBox'
 import GuideModal from '@/components/GuideModal'
 import ErrorToast from '@/components/ErrorToast'
 import GlobeMap from '@/components/GlobeMap'
-import ContactBubble from '@/components/ContactBubble'
+import BottomBubbles from '@/components/BottomBubbles'
 import { useApp } from '@/context/AppContext'
 import { CITIES } from '@/data/cities'
 import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
@@ -286,7 +286,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <ContactBubble />
+      <BottomBubbles />
       <BottomNav />
       {showGuide && <GuideModal onClose={() => setShowGuide(false)} />}
       {errorMessage && <ErrorToast onClose={() => setErrorMessage('')} />}
