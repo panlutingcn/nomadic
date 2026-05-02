@@ -61,7 +61,7 @@ interface AppState {
   toggleSaveCity: (name: string, country: string) => void
   isCitySaved: (name: string) => boolean
   imprints: Imprint[]
-  addImprint: (imprint: Omit<Imprint, 'id' | 'createdAt'>) => void
+  addImprint: (imprint: Omit<Imprint, 'id' | 'createdAt'>) => void | Promise<void>
   updateImprint: (id: string, updates: Partial<Omit<Imprint, 'id' | 'createdAt'>>) => void
   deleteImprint: (id: string) => void
   restoreImprint: (id: string) => void
@@ -99,6 +99,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [imprints, setImprints] = useState<Imprint[]>(SAMPLE_USER_IMPRINTS)
 
   useEffect(() => {
+    let cancelled = false
+
     if (!user) {
       setImprints(SAMPLE_USER_IMPRINTS)
       setSavedCities(SAMPLE_SAVED_CITIES)
@@ -108,7 +110,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     Promise.all([
       supabase.from('imprints').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
       supabase.from('saved_cities').select('*').eq('user_id', user.id).order('saved_at', { ascending: false }),
-    ]).then(([{ data: impData }, { data: cityData }]) => {
+    ]).then(([{ data: impData, error: impErr }, { data: cityData, error: cityErr }]) => {
+      if (cancelled) return
+      if (impErr) console.error('[AppContext] Failed to load imprints:', impErr)
+      if (cityErr) console.error('[AppContext] Failed to load saved_cities:', cityErr)
       if (impData) {
         setImprints(impData.map(r => ({
           id: r.id,
@@ -131,32 +136,34 @@ export function AppProvider({ children }: { children: ReactNode }) {
         })))
       }
     })
+
+    return () => { cancelled = true }
   }, [user?.id])
 
   const toggleSaveCity = (name: string, country: string) => {
-    setSavedCities(prev => {
-      const exists = prev.find(c => c.name === name)
-      if (exists) {
-        if (user) supabase.from('saved_cities').delete().eq('user_id', user.id).eq('city_name', name).then(() => {})
-        return prev.filter(c => c.name !== name)
-      }
+    const exists = savedCities.find(c => c.name === name)
+    if (exists) {
+      if (user) supabase.from('saved_cities').delete().eq('user_id', user.id).eq('city_name', name).then(() => {})
+      setSavedCities(prev => prev.filter(c => c.name !== name))
+    } else {
       const savedAt = new Date().toLocaleDateString('zh-CN').replace(/\//g, '.')
       if (user) supabase.from('saved_cities').insert({ user_id: user.id, city_name: name, country }).then(() => {})
-      return [{ name, country, savedAt }, ...prev]
-    })
+      setSavedCities(prev => [{ name, country, savedAt }, ...prev])
+    }
   }
 
   const isCitySaved = (name: string) => savedCities.some(c => c.name === name)
 
-  const addImprint = (imprint: Omit<Imprint, 'id' | 'createdAt'>) => {
+  const addImprint = async (imprint: Omit<Imprint, 'id' | 'createdAt'>) => {
+    const tempId = `imprint-${Date.now()}`
     const newImprint: Imprint = {
       ...imprint,
-      id: `imprint-${Date.now()}`,
+      id: tempId,
       createdAt: new Date().toLocaleDateString('zh-CN').replace(/\//g, '.'),
     }
     setImprints(prev => [newImprint, ...prev])
     if (user) {
-      supabase.from('imprints').insert({
+      const { data } = await supabase.from('imprints').insert({
         user_id: user.id,
         city: imprint.city,
         title: imprint.title,
@@ -164,7 +171,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
         tags: imprint.tags,
         is_public: imprint.isPublic,
         photo_url: imprint.photo ?? null,
-      }).then(() => {})
+      }).select('id').single()
+      if (data?.id) {
+        setImprints(prev => prev.map(i => i.id === tempId ? { ...i, id: data.id } : i))
+      }
     }
   }
 
