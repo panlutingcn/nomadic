@@ -1,8 +1,11 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
+import { useAuth } from '@/context/AuthContext'
+import { supabase } from '@/lib/supabase'
+import LoginModal from '@/components/LoginModal'
 
 const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000
 
@@ -10,6 +13,16 @@ export default function VaultPage() {
   const router = useRouter()
   const { savedCities, imprints, setSelectedCity, trashedImprints, restoreImprint, permanentlyDeleteImprint } = useApp()
   const cityZh: Record<string, string> = { Berlin: '柏林', Amsterdam: '阿姆斯特丹', Lisbon: '里斯本', Prague: '布拉格', Tallinn: '塔林' }
+  const { user } = useAuth()
+  const [nickname, setNickname] = useState<string | null>(null)
+  const [showLogin, setShowLogin] = useState(false)
+
+  useEffect(() => {
+    if (!user) return
+    supabase.from('profiles').select('nickname').eq('id', user.id).single().then(({ data }) => {
+      if (data) setNickname(data.nickname)
+    })
+  }, [user?.id])
 
   useEffect(() => {
     const now = Date.now()
@@ -29,13 +42,41 @@ export default function VaultPage() {
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 1, padding: '14px 16px 10px' }}>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 14, padding: '12px 14px', marginBottom: 14, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-          <div style={{ width: 46, height: 46, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 500, color: 'var(--accent)', flexShrink: 0 }}>N</div>
-          <div>
-            <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-primary)' }}>Nomadic 用户</div>
-            <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginTop: 3 }}>{savedCities.length} 个城市 · {imprints.length} 个印迹</div>
+        {!user ? (
+          <div
+            onClick={() => setShowLogin(true)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              background: 'var(--accent-dim)',
+              border: '0.5px solid var(--accent-border)',
+              borderRadius: 14,
+              padding: '12px 14px',
+              marginBottom: 14,
+              cursor: 'pointer',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+            }}
+          >
+            <div style={{ width: 46, height: 46, borderRadius: '50%', background: 'rgba(29,158,117,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>🔑</div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--accent-text)' }}>登录解锁你的全球领地</div>
+              <div style={{ fontSize: 10, color: 'var(--accent)', marginTop: 3 }}>点击登录 · 保存你的城市与印迹 →</div>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 14, padding: '12px 14px', marginBottom: 14, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+            <div style={{ width: 46, height: 46, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 500, color: 'var(--accent)', flexShrink: 0 }}>
+              {(nickname ?? user.user_metadata?.nickname ?? 'N')[0].toUpperCase()}
+            </div>
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-primary)' }}>
+                {nickname ?? user.user_metadata?.nickname ?? 'Nomadic 用户'}
+              </div>
+              <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginTop: 3 }}>{savedCities.length} 个城市 · {imprints.length} 个印迹</div>
+            </div>
+          </div>
+        )}
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
           <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)' }}>收藏夹</span>
@@ -145,6 +186,7 @@ export default function VaultPage() {
           </>
         )}
       </div>
+      {showLogin && <LoginModal onClose={() => setShowLogin(false)} redirectPath="/vault" />}
       <BottomNav />
     </div>
   )
