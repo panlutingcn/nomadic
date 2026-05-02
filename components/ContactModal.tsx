@@ -129,7 +129,7 @@ export default function ContactModal({ onClose }: ContactModalProps) {
         {/* Header */}
         <div style={{ marginBottom: 16 }}>
           <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 }}>
-            给Luna写信
+            给主创Luna写信
           </div>
           <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
             收件人: panluting.cn@gmail.com
@@ -186,7 +186,7 @@ export default function ContactModal({ onClose }: ContactModalProps) {
                 name="message"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
-                placeholder="想对Luna说的话..."
+                placeholder="任何你的想法与故事......"
                 disabled={loading}
                 rows={6}
                 style={{ ...inputStyle(!!errors.message), resize: 'vertical', minHeight: 100 }}
