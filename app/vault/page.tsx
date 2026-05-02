@@ -379,21 +379,27 @@ export default function VaultPage() {
               <div
                 onClick={() => setShowLogin(true)}
                 style={{
-                  background: 'linear-gradient(135deg, #e8f5ee 0%, #f5faf7 100%)',
-                  border: '0.5px solid rgba(29,158,117,0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  background: 'rgba(255,255,255,0.6)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  border: '0.5px solid rgba(200,191,170,0.5)',
                   borderRadius: 14,
                   padding: '10px 14px',
+                  width: 220,
                   cursor: 'pointer',
                   transition: 'transform 150ms ease',
-                  textAlign: 'center',
-                  width: 220,
                 }}
                 onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.03)' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)' }}
               >
-                <div style={{ fontSize: 16, marginBottom: 4 }}>🔑</div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: '#1a5c3a', marginBottom: 2 }}>登录账号 ✦</div>
-                <div style={{ fontSize: 10, color: '#4a8c6a' }}>保存你的城市与印迹</div>
+                <span style={{ fontSize: 16, flexShrink: 0 }}>🔑</span>
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: '#3d3020', marginBottom: 2 }}>登录账号 ✦</div>
+                  <div style={{ fontSize: 10, color: '#7a6a50' }}>保存你的城市与印迹</div>
+                </div>
               </div>
             </div>
           </>

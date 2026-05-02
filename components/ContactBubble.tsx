@@ -14,20 +14,26 @@ export default function ContactBubble() {
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           style={{
-            background: 'linear-gradient(135deg, #e8f5ee 0%, #f5faf7 100%)',
-            border: '0.5px solid rgba(29,158,117,0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            background: 'rgba(255,255,255,0.6)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            border: '0.5px solid rgba(200,191,170,0.5)',
             borderRadius: 14,
             padding: '10px 14px',
+            width: 220,
             cursor: 'pointer',
             transform: hovered ? 'scale(1.03)' : 'scale(1)',
             transition: 'transform 150ms ease',
-            textAlign: 'center',
-            width: 220,
           }}
         >
-          <div style={{ fontSize: 16, marginBottom: 4 }}>📮</div>
-          <div style={{ fontSize: 12, fontWeight: 600, color: '#1a5c3a', marginBottom: 2 }}>联系共创 Nomadic ✦</div>
-          <div style={{ fontSize: 10, color: '#4a8c6a' }}>期待听到你的想法与故事</div>
+          <span style={{ fontSize: 16, flexShrink: 0 }}>📮</span>
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#3d3020', marginBottom: 2 }}>联系共创 Nomadic ✦</div>
+            <div style={{ fontSize: 10, color: '#7a6a50' }}>期待听到你的想法与故事</div>
+          </div>
         </div>
       </div>
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
