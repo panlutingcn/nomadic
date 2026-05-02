@@ -18,10 +18,12 @@ export default function VaultPage() {
   const [showLogin, setShowLogin] = useState(false)
 
   useEffect(() => {
-    if (!user) return
+    if (!user) { setNickname(null); return }
+    let cancelled = false
     supabase.from('profiles').select('nickname').eq('id', user.id).single().then(({ data }) => {
-      if (data) setNickname(data.nickname)
+      if (!cancelled && data) setNickname(data.nickname)
     })
+    return () => { cancelled = true }
   }, [user?.id])
 
   useEffect(() => {
@@ -67,7 +69,7 @@ export default function VaultPage() {
         ) : (
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 14, padding: '12px 14px', marginBottom: 14, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
             <div style={{ width: 46, height: 46, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 500, color: 'var(--accent)', flexShrink: 0 }}>
-              {(nickname ?? user.user_metadata?.nickname ?? 'N')[0].toUpperCase()}
+              {((nickname || user.user_metadata?.nickname || 'N')[0] ?? 'N').toUpperCase()}
             </div>
             <div>
               <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-primary)' }}>
