@@ -28,17 +28,7 @@ export default function ContactBubble() {
             transition: 'transform 150ms ease',
           }}
         >
-          <span style={{
-            fontSize: 9,
-            fontWeight: 600,
-            color: '#7a6a50',
-            background: 'rgba(200,191,170,0.3)',
-            border: '0.5px solid rgba(200,191,170,0.6)',
-            borderRadius: 5,
-            padding: '2px 6px',
-            letterSpacing: '0.06em',
-            flexShrink: 0,
-          }}>COLLAB</span>
+          <span style={{ fontSize: 14, lineHeight: 1, flexShrink: 0 }}>📮</span>
           <span style={{ fontSize: 11, color: '#5a4a30', whiteSpace: 'nowrap' }}>联系共创 ✦</span>
         </div>
       </div>
