@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
+import { useAuth } from '@/context/AuthContext'
+import LoginModal from '@/components/LoginModal'
 
 const CITY_NAME_MAP: Record<string, string> = {
   Berlin: '柏林',
@@ -42,16 +44,12 @@ const CITY_NAME_MAP: Record<string, string> = {
 export default function StoryPage() {
   const router = useRouter()
   const { addImprint } = useApp()
+  const { user } = useAuth()
   const [city, setCity] = useState('')
   const [editingCity, setEditingCity] = useState(false)
   const [photo, setPhoto] = useState<string | undefined>(undefined)
   const fileRef = useRef<HTMLInputElement>(null)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
-  const [loginMethod, setLoginMethod] = useState<'phone' | 'email'>('phone')
-  const [loginPhone, setLoginPhone] = useState('')
-  const [loginEmail, setLoginEmail] = useState('')
-  const [pendingPublish, setPendingPublish] = useState<boolean | null>(null)
   const [tags, setTags] = useState<string[]>([])
   const [tagInput, setTagInput] = useState('')
   const [showTagInput, setShowTagInput] = useState(false)
@@ -119,6 +117,21 @@ export default function StoryPage() {
       if (photo && photo.startsWith('blob:')) URL.revokeObjectURL(photo)
     }
   }, [photo])
+
+  // Restore and auto-publish after OAuth redirect
+  useEffect(() => {
+    if (!user) return
+    const pending = sessionStorage.getItem('pendingImprint')
+    if (!pending) return
+    sessionStorage.removeItem('pendingImprint')
+    try {
+      const data = JSON.parse(pending) as { city: string; narrative: string; tags: string[]; isPublic: boolean; photo?: string }
+      addImprint({ city: data.city, title: `${data.city} 的印迹`, narrative: data.narrative, tags: data.tags, isPublic: data.isPublic, photo: data.photo })
+      router.push(data.isPublic ? '/meet' : '/vault')
+    } catch {
+      // ignore malformed sessionStorage data
+    }
+  }, [user?.id])
 
   const generateWithAI = async () => {
     setGenerating(true)
@@ -224,25 +237,21 @@ export default function StoryPage() {
       triggerFlash('tags')
       return
     }
-    if (!isLoggedIn) {
-      setPendingPublish(isPublic)
+    if (!user) {
+      const photoUrl = await getPhotoDataUrl()
+      sessionStorage.setItem('pendingImprint', JSON.stringify({
+        city: trimmedCity,
+        narrative,
+        tags,
+        isPublic,
+        photo: photoUrl,
+      }))
       setShowLogin(true)
       return
     }
     const photoUrl = await getPhotoDataUrl()
     addImprint({ city: trimmedCity, title: `${trimmedCity} 的印迹`, narrative, tags, isPublic, photo: photoUrl })
     router.push(isPublic ? '/meet' : '/vault')
-  }
-
-  const handleLoginConfirm = async () => {
-    setIsLoggedIn(true)
-    setShowLogin(false)
-    if (pendingPublish !== null) {
-      if (!city.trim() || !tags.includes(city.trim())) return
-      const photoUrl = await getPhotoDataUrl()
-      addImprint({ city: city.trim(), title: `${city.trim()} 的印迹`, narrative, tags, isPublic: pendingPublish, photo: photoUrl })
-      router.push(pendingPublish ? '/meet' : '/vault')
-    }
   }
 
   return (
@@ -369,72 +378,10 @@ export default function StoryPage() {
       <BottomNav />
 
       {showLogin && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px' }}>
-          <div style={{ position: 'relative', background: '#f0ebe0', borderRadius: 14, padding: '20px 20px 16px', maxWidth: 320, width: '100%', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
-            {/* Speech bubble tail */}
-            <div style={{
-              position: 'absolute',
-              bottom: -8,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 0,
-              height: 0,
-              borderLeft: '8px solid transparent',
-              borderRight: '8px solid transparent',
-              borderTop: '8px solid #f0ebe0',
-            }} />
-
-            <div style={{ fontSize: 14, fontWeight: 500, color: '#3d3020', marginBottom: 4, textAlign: 'center' }}>登录后发布印迹</div>
-
-            <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-              <button
-                onClick={() => setLoginMethod('phone')}
-                style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'phone' ? 'var(--accent)' : '#c8bfaa'}`, background: loginMethod === 'phone' ? 'var(--accent-dim)' : 'transparent', fontSize: 12, color: loginMethod === 'phone' ? 'var(--accent-text)' : '#7a6a50', cursor: 'pointer' }}
-              >
-                手机号登录
-              </button>
-              <button
-                onClick={() => setLoginMethod('email')}
-                style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'email' ? 'var(--accent)' : '#c8bfaa'}`, background: loginMethod === 'email' ? 'var(--accent-dim)' : 'transparent', fontSize: 12, color: loginMethod === 'email' ? 'var(--accent-text)' : '#7a6a50', cursor: 'pointer' }}
-              >
-                邮箱登录
-              </button>
-            </div>
-
-            {loginMethod === 'phone' ? (
-              <input
-                value={loginPhone}
-                onChange={e => setLoginPhone(e.target.value)}
-                placeholder="输入你的手机号"
-                type="tel"
-                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '0.5px solid #c8bfaa', background: 'rgba(255,255,255,0.6)', fontSize: 12, color: '#3d3020', boxSizing: 'border-box', outline: 'none', marginBottom: 10 }}
-              />
-            ) : (
-              <input
-                value={loginEmail}
-                onChange={e => setLoginEmail(e.target.value)}
-                placeholder="输入你的邮箱"
-                type="email"
-                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '0.5px solid #c8bfaa', background: 'rgba(255,255,255,0.6)', fontSize: 12, color: '#3d3020', boxSizing: 'border-box', outline: 'none', marginBottom: 10 }}
-              />
-            )}
-
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                onClick={() => setShowLogin(false)}
-                style={{ flex: 1, padding: '8px 12px', borderRadius: 8, background: 'transparent', border: '0.5px solid #c8bfaa', fontSize: 12, color: '#7a6a50', cursor: 'pointer' }}
-              >
-                取消
-              </button>
-              <button
-                onClick={handleLoginConfirm}
-                style={{ flex: 1, padding: '8px 12px', borderRadius: 8, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 500, cursor: 'pointer' }}
-              >
-                确认登录
-              </button>
-            </div>
-          </div>
-        </div>
+        <LoginModal
+          onClose={() => setShowLogin(false)}
+          redirectPath="/story"
+        />
       )}
     </div>
   )
