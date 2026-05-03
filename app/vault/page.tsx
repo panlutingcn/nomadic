@@ -51,6 +51,14 @@ export default function VaultPage() {
         if (pendingNickname) sessionStorage.removeItem('nomadic_pending_nickname')
         await supabase.from('profiles').insert({ id: user.id, nickname: autoNickname })
         setNickname(autoNickname)
+        // Send welcome email for first-time users
+        if (user.email) {
+          fetch('/api/auth/welcome-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: user.email, nickname: autoNickname }),
+          }).catch(() => {})
+        }
         if (isFirstVisit) {
           localStorage.setItem('nomadic_welcomed', '1')
           setShowWelcome(true)
