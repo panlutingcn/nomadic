@@ -13,10 +13,10 @@ export default function WelcomeModal({ nickname, onClose }: WelcomeModalProps) {
 
   useEffect(() => {
     if (window.location.hostname === 'localhost') return
-    supabase
-      .from('profiles')
-      .select('id', { count: 'exact', head: true })
+    fetch('/api/user-count')
+      .then(r => r.json())
       .then(({ count }) => setUserCount(count))
+      .catch(() => {})
   }, [])
 
   const handleClose = () => {
