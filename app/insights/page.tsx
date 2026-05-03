@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext'
 import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
 import ShareSheet from '@/components/ShareSheet'
 import CityCard from '@/components/cards/CityCard'
-import { supabase } from '@/lib/supabase'
+import { useUserProfile } from '@/hooks/useUserProfile'
 
 // Custom hook for Escape key handling with stable callback reference
 function useEscapeKey(isOpen: boolean, onClose: () => void) {
@@ -119,19 +119,7 @@ export default function InsightsPage() {
 
   const { user } = useAuth()
   const cityCardRef = useRef<HTMLDivElement>(null)
-  const [profileNickname, setProfileNickname] = useState<string>('探索者')
-  const [profileAvatar, setProfileAvatar] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!user) { setProfileNickname('探索者'); setProfileAvatar(null); return }
-    supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
-      .then(({ data }) => {
-        if (data) {
-          setProfileNickname(data.nickname ?? user.user_metadata?.nickname ?? '探索者')
-          setProfileAvatar(data.avatar_url ?? null)
-        }
-      })
-  }, [user?.id])
+  const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
 
   const [showShare, setShowShare] = useState(false)
   const [showLogin, setShowLogin] = useState(false)

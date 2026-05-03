@@ -15,7 +15,7 @@ import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
 import { shuffle } from '@/utils/shuffle'
 import ShareSheet from '@/components/ShareSheet'
 import BrandCard from '@/components/cards/BrandCard'
-import { supabase } from '@/lib/supabase'
+import { useUserProfile } from '@/hooks/useUserProfile'
 
 const RANDOM_COUNT = 9
 
@@ -25,19 +25,7 @@ export default function HomePage() {
   const { user } = useAuth()
   const [showShareSheet, setShowShareSheet] = useState(false)
   const brandCardRef = useRef<HTMLDivElement>(null)
-  const [profileNickname, setProfileNickname] = useState<string>('探索者')
-  const [profileAvatar, setProfileAvatar] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!user) { setProfileNickname('探索者'); setProfileAvatar(null); return }
-    supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
-      .then(({ data }) => {
-        if (data) {
-          setProfileNickname(data.nickname ?? user.user_metadata?.nickname ?? '探索者')
-          setProfileAvatar(data.avatar_url ?? null)
-        }
-      })
-  }, [user?.id])
+  const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
 
   const [showGuide, setShowGuide] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')

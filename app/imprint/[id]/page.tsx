@@ -2,12 +2,11 @@
 export const runtime = 'edge'
 import { useParams, useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import ShareSheet from '@/components/ShareSheet'
 import ImprintCard from '@/components/cards/ImprintCard'
-import { useAuth } from '@/context/AuthContext'
 import { CITIES } from '@/data/cities'
-import { supabase } from '@/lib/supabase'
+import { useUserProfile } from '@/hooks/useUserProfile'
 
 const CITY_NAME_MAP: Record<string, string> = {
   Berlin: '柏林',
@@ -30,22 +29,9 @@ export default function ImprintDetailPage() {
   const { allPublicImprints, imprints, deleteImprint } = useApp()
   const [liked, setLiked] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const { user } = useAuth()
   const [showShareSheet, setShowShareSheet] = useState(false)
   const imprintCardRef = useRef<HTMLDivElement>(null)
-  const [profileNickname, setProfileNickname] = useState<string>('探索者')
-  const [profileAvatar, setProfileAvatar] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!user) { setProfileNickname('探索者'); setProfileAvatar(null); return }
-    supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
-      .then(({ data }) => {
-        if (data) {
-          setProfileNickname(data.nickname ?? user.user_metadata?.nickname ?? '探索者')
-          setProfileAvatar(data.avatar_url ?? null)
-        }
-      })
-  }, [user?.id])
+  const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
 
   const allImprints = [...imprints, ...allPublicImprints.filter(i => !imprints.some(u => u.id === i.id))]
   const id = Array.isArray(params.id) ? params.id[0] : params.id
