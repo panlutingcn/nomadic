@@ -42,8 +42,13 @@ export default function VaultPage() {
       const isFirstVisit = !localStorage.getItem('nomadic_welcomed')
 
       if (error || !data) {
+        // Verify session is still valid server-side (catches stale session after account deletion)
+        const { data: { user: validUser } } = await supabase.auth.getUser()
+        if (!validUser) {
+          await supabase.auth.signOut()
+          return
+        }
         if (pendingNickname) {
-          // Email signup: nickname was saved before redirect — create profile now
           sessionStorage.removeItem('nomadic_pending_nickname')
           await supabase.from('profiles').insert({ id: user.id, nickname: pendingNickname })
           setNickname(pendingNickname)
