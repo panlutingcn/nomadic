@@ -1,11 +1,14 @@
 'use client'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { QRCodeSVG } from 'qrcode.react'
 import FocusTrap from 'focus-trap-react'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
+import { useAuth } from '@/context/AuthContext'
 import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
+import ShareSheet from '@/components/ShareSheet'
+import CityCard from '@/components/cards/CityCard'
+import { supabase } from '@/lib/supabase'
 
 // Custom hook for Escape key handling with stable callback reference
 function useEscapeKey(isOpen: boolean, onClose: () => void) {
@@ -114,8 +117,23 @@ export default function InsightsPage() {
       })
     : PLACEHOLDER_CITY
 
+  const { user } = useAuth()
+  const cityCardRef = useRef<HTMLDivElement>(null)
+  const [profileNickname, setProfileNickname] = useState<string>('探索者')
+  const [profileAvatar, setProfileAvatar] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!user) { setProfileNickname('探索者'); setProfileAvatar(null); return }
+    supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
+      .then(({ data }) => {
+        if (data) {
+          setProfileNickname(data.nickname ?? user.user_metadata?.nickname ?? '探索者')
+          setProfileAvatar(data.avatar_url ?? null)
+        }
+      })
+  }, [user?.id])
+
   const [showShare, setShowShare] = useState(false)
-  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'failed'>('idle')
   const [showLogin, setShowLogin] = useState(false)
   const [loginMethod, setLoginMethod] = useState<'wechat' | 'email'>('wechat')
   const [loginEmail, setLoginEmail] = useState('')
@@ -360,44 +378,28 @@ export default function InsightsPage() {
         </div>
       )}
 
-      {showShare && (
-        <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'flex-end' }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setShowShare(false)
-          }}
-        >
-          <div
-            role="dialog"
-            aria-modal="true"
-            style={{ width: '100%', background: 'var(--bg-page)', borderRadius: '18px 18px 0 0', padding: '24px 20px 36px' }}
-          >
-            <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 4, textAlign: 'center' }}>
-              分享 {city.name}{city.nameZh && ` ${city.nameZh}`}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', margin: '16px 0' }}>
-              <QRCodeSVG value={pageUrl} size={160} />
-            </div>
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(pageUrl)
-                  .then(() => {
-                    setCopyStatus('copied')
-                    setTimeout(() => setCopyStatus('idle'), 2000)
-                  })
-                  .catch(() => {
-                    setCopyStatus('failed')
-                    setTimeout(() => setCopyStatus('idle'), 2000)
-                  })
-              }}
-              style={{ width: '100%', padding: '12px', borderRadius: 12, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
-            >
-              {copyStatus === 'copied' ? '已复制' : copyStatus === 'failed' ? '复制失败' : '复制链接'}
-            </button>
-            <button onClick={() => setShowShare(false)} style={{ width: '100%', padding: '10px', borderRadius: 12, background: 'none', border: '0.5px solid var(--border-light)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer' }}>关闭</button>
-          </div>
+      {/* Hidden city card for html2canvas capture */}
+      <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
+        <div ref={cityCardRef}>
+          <CityCard
+            nickname={profileNickname}
+            avatarUrl={profileAvatar}
+            cityNameZh={city.nameZh || ''}
+            cityNameEn={city.name}
+            countryZh={city.countryZh || searchContext?.countryZh || ''}
+            flag={city.flag || searchContext?.flag || '🌍'}
+            description={city.soul.body || searchContext?.soulBody || ''}
+          />
         </div>
-      )}
+      </div>
+
+      <ShareSheet
+        isOpen={showShare}
+        onClose={closeShare}
+        cardRef={cityCardRef}
+        showCopyLink={true}
+        copyUrl={pageUrl}
+      />
 
       {showSoulModal && (
         <div
