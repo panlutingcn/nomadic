@@ -10,6 +10,7 @@ interface AuthState {
   loginWithEmail: (email: string, password: string, nickname?: string) => Promise<{ error: string | null; needsConfirmation?: boolean }>
   loginWithGoogle: (redirectPath?: string) => void
   loginWithWeChat: (redirectPath?: string) => void
+  resetPassword: (email: string) => Promise<{ error: string | null }>
   updateProfile: (fields: { nickname?: string; avatarUrl?: string }) => Promise<{ error: string | null }>
   updateEmail: (newEmail: string) => Promise<{ error: string | null }>
   deleteAccount: () => Promise<{ error: string | null }>
@@ -79,6 +80,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     window.location.href = `/api/auth/wechat?redirect=${encodeURIComponent(redirectPath)}`
   }, [])
 
+  const resetPassword = useCallback(async (email: string) => {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? window.location.origin
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${baseUrl}/auth/reset-password`,
+    })
+    return { error: error?.message ?? null }
+  }, [])
+
   const updateProfile = useCallback(async (fields: { nickname?: string; avatarUrl?: string }) => {
     if (!user) return { error: 'Not logged in' }
     const update: Record<string, string> = {}
@@ -116,7 +125,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider value={{
       user, loading,
       sendEmailOTP, loginWithEmail, loginWithGoogle, loginWithWeChat,
-      updateProfile, updateEmail, deleteAccount, logout,
+      resetPassword, updateProfile, updateEmail, deleteAccount, logout,
     }}>
       {children}
     </AuthContext.Provider>
