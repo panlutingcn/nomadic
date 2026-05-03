@@ -29,7 +29,6 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/vault'
   const [show, setShow] = useState(true)
   const [screen, setScreen] = useState<Screen>('method')
   const [email, setEmail] = useState('')
-  const [nickname, setNickname] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -54,7 +53,7 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/vault'
     }
     setLoading(true)
     setError(null)
-    const { error: err, needsConfirmation } = await loginWithEmail(email.trim(), password, nickname.trim() || undefined)
+    const { error: err, needsConfirmation } = await loginWithEmail(email.trim(), password)
     setLoading(false)
     if (err) { setError(err); return }
     if (needsConfirmation) { setEmailSent(true); return }
@@ -171,7 +170,6 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/vault'
             ) : (
               <>
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="邮箱地址" style={inputStyle} />
-                <input type="text" value={nickname} onChange={e => setNickname(e.target.value)} placeholder="昵称" style={inputStyle} />
                 <input
                   type="password"
                   value={password}
