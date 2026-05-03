@@ -8,7 +8,6 @@ import { supabase } from '@/lib/supabase'
 import { CITIES } from '@/data/cities'
 import LoginModal from '@/components/LoginModal'
 import WelcomeModal from '@/components/WelcomeModal'
-import NicknamePrompt from '@/components/NicknamePrompt'
 
 const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000
 
@@ -30,7 +29,6 @@ export default function VaultPage() {
   const [hoverAvatar, setHoverAvatar] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
-  const [showNicknamePrompt, setShowNicknamePrompt] = useState(false)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -48,19 +46,14 @@ export default function VaultPage() {
           await supabase.auth.signOut()
           return
         }
-        if (pendingNickname) {
-          sessionStorage.removeItem('nomadic_pending_nickname')
-          await supabase.from('profiles').insert({ id: user.id, nickname: pendingNickname })
-          setNickname(pendingNickname)
-          if (isFirstVisit) {
-            localStorage.setItem('nomadic_welcomed', '1')
-            setShowWelcome(true)
-          }
-        } else if (isFirstVisit) {
+        // Auto-generate nickname: use pending nickname (email signup) or email prefix
+        const autoNickname = pendingNickname?.trim() || user.email?.split('@')[0] || 'Nomadic 用户'
+        if (pendingNickname) sessionStorage.removeItem('nomadic_pending_nickname')
+        await supabase.from('profiles').insert({ id: user.id, nickname: autoNickname })
+        setNickname(autoNickname)
+        if (isFirstVisit) {
           localStorage.setItem('nomadic_welcomed', '1')
           setShowWelcome(true)
-        } else {
-          setShowNicknamePrompt(true)
         }
         return
       }
@@ -250,7 +243,7 @@ export default function VaultPage() {
                           style={{ width: '100%', padding: '8px 10px', borderRadius: 8, border: '0.5px solid #c8bfaa', background: 'rgba(255,255,255,0.6)', fontSize: 12, color: '#3d3020', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit', marginBottom: 8 }}
                         />
                         <button
-                          onClick={async () => { if (deleteInput === 'DELETE') { await deleteAccount(); router.push('/') } }}
+                          onClick={async () => { if (deleteInput === 'DELETE') { localStorage.removeItem('nomadic_welcomed'); await deleteAccount(); router.push('/') } }}
                           disabled={deleteInput !== 'DELETE'}
                           style={{ width: '100%', padding: '8px', borderRadius: 8, background: deleteInput === 'DELETE' ? '#c04040' : '#f0ebe0', border: '0.5px solid #c8bfaa', color: deleteInput === 'DELETE' ? '#fff' : '#c8bfaa', fontSize: 12, cursor: deleteInput === 'DELETE' ? 'pointer' : 'not-allowed', fontFamily: 'inherit' }}
                         >
@@ -431,16 +424,7 @@ export default function VaultPage() {
       {showWelcome && (
         <WelcomeModal
           nickname={nickname ?? undefined}
-          onClose={() => {
-            setShowWelcome(false)
-            if (!nickname) setShowNicknamePrompt(true)
-          }}
-        />
-      )}
-      {showNicknamePrompt && user && (
-        <NicknamePrompt
-          userId={user.id}
-          onComplete={(n) => { setNickname(n); setShowNicknamePrompt(false) }}
+          onClose={() => setShowWelcome(false)}
         />
       )}
       <BottomNav />
