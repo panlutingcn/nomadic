@@ -37,8 +37,6 @@ export default function VaultPage() {
     const pendingNickname = sessionStorage.getItem('nomadic_pending_nickname')
 
     supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single().then(async ({ data, error }) => {
-      const isFirstVisit = !localStorage.getItem('nomadic_welcomed')
-
       if (error || !data) {
         // Verify session is still valid server-side (catches stale session after account deletion)
         const { data: { user: validUser } } = await supabase.auth.getUser()
@@ -46,12 +44,12 @@ export default function VaultPage() {
           await supabase.auth.signOut()
           return
         }
-        // Auto-generate nickname: use pending nickname (email signup) or email prefix
+        // New user — auto-generate nickname and create profile
         const autoNickname = pendingNickname?.trim() || user.email?.split('@')[0] || 'Nomadic 用户'
         if (pendingNickname) sessionStorage.removeItem('nomadic_pending_nickname')
         await supabase.from('profiles').insert({ id: user.id, nickname: autoNickname })
         setNickname(autoNickname)
-        // Send welcome email for first-time users
+        // Send welcome email
         if (user.email) {
           fetch('/api/auth/welcome-email', {
             method: 'POST',
@@ -59,20 +57,15 @@ export default function VaultPage() {
             body: JSON.stringify({ email: user.email, nickname: autoNickname }),
           }).catch(() => {})
         }
-        if (isFirstVisit) {
-          localStorage.setItem('nomadic_welcomed', '1')
-          setShowWelcome(true)
-        }
+        // Always show welcome for new users (no localStorage dependency)
+        setShowWelcome(true)
         return
       }
 
+      // Returning user — load profile, no welcome modal
       if (pendingNickname) sessionStorage.removeItem('nomadic_pending_nickname')
       setNickname(data.nickname ?? null)
       setAvatarUrl(data.avatar_url ?? null)
-      if (isFirstVisit) {
-        localStorage.setItem('nomadic_welcomed', '1')
-        setShowWelcome(true)
-      }
     })
   }, [user?.id])
 
@@ -251,7 +244,7 @@ export default function VaultPage() {
                           style={{ width: '100%', padding: '8px 10px', borderRadius: 8, border: '0.5px solid #c8bfaa', background: 'rgba(255,255,255,0.6)', fontSize: 12, color: '#3d3020', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit', marginBottom: 8 }}
                         />
                         <button
-                          onClick={async () => { if (deleteInput === 'DELETE') { localStorage.removeItem('nomadic_welcomed'); await deleteAccount(); router.push('/') } }}
+                          onClick={async () => { if (deleteInput === 'DELETE') { await deleteAccount(); router.push('/') } }}
                           disabled={deleteInput !== 'DELETE'}
                           style={{ width: '100%', padding: '8px', borderRadius: 8, background: deleteInput === 'DELETE' ? '#c04040' : '#f0ebe0', border: '0.5px solid #c8bfaa', color: deleteInput === 'DELETE' ? '#fff' : '#c8bfaa', fontSize: 12, cursor: deleteInput === 'DELETE' ? 'pointer' : 'not-allowed', fontFamily: 'inherit' }}
                         >
