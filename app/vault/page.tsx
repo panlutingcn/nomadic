@@ -37,22 +37,30 @@ export default function VaultPage() {
   useEffect(() => {
     if (!user) return
     const pendingNickname = sessionStorage.getItem('nomadic_pending_nickname')
-    if (pendingNickname) {
-      sessionStorage.removeItem('nomadic_pending_nickname')
-      updateProfile({ nickname: pendingNickname }).then(() => setNickname(pendingNickname))
-    }
-    supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single().then(({ data, error }) => {
+
+    supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single().then(async ({ data, error }) => {
       const isFirstVisit = !localStorage.getItem('nomadic_welcomed')
+
       if (error || !data) {
-        if (isFirstVisit) {
+        if (pendingNickname) {
+          // Email signup: nickname was saved before redirect — create profile now
+          sessionStorage.removeItem('nomadic_pending_nickname')
+          await supabase.from('profiles').insert({ id: user.id, nickname: pendingNickname })
+          setNickname(pendingNickname)
+          if (isFirstVisit) {
+            localStorage.setItem('nomadic_welcomed', '1')
+            setShowWelcome(true)
+          }
+        } else if (isFirstVisit) {
           localStorage.setItem('nomadic_welcomed', '1')
           setShowWelcome(true)
-          // NicknamePrompt will show after WelcomeModal closes
         } else {
           setShowNicknamePrompt(true)
         }
         return
       }
+
+      if (pendingNickname) sessionStorage.removeItem('nomadic_pending_nickname')
       setNickname(data.nickname ?? null)
       setAvatarUrl(data.avatar_url ?? null)
       if (isFirstVisit) {

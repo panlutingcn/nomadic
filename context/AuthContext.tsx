@@ -43,6 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!error) return { error: null }
     if (error.code === 'email_not_confirmed') return { error: null, needsConfirmation: true }
     if (error.code === 'invalid_credentials') {
+      if (nickname?.trim()) sessionStorage.setItem('nomadic_pending_nickname', nickname.trim())
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? window.location.origin
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
