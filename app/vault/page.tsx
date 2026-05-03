@@ -26,6 +26,7 @@ export default function VaultPage() {
   const [emailSent, setEmailSent] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [deleteInput, setDeleteInput] = useState('')
+  const [deleting, setDeleting] = useState(false)
   const [hoverAvatar, setHoverAvatar] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
@@ -243,12 +244,24 @@ export default function VaultPage() {
                           placeholder="输入 DELETE 确认"
                           style={{ width: '100%', padding: '8px 10px', borderRadius: 8, border: '0.5px solid #c8bfaa', background: 'rgba(255,255,255,0.6)', fontSize: 12, color: '#3d3020', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit', marginBottom: 8 }}
                         />
+                        {deleting && (
+                          <div style={{ fontSize: 11, color: '#c04040', marginBottom: 8, textAlign: 'center' }}>账号删除中，请稍候…</div>
+                        )}
                         <button
-                          onClick={async () => { if (deleteInput === 'DELETE') { await deleteAccount(); router.push('/') } }}
-                          disabled={deleteInput !== 'DELETE'}
-                          style={{ width: '100%', padding: '8px', borderRadius: 8, background: deleteInput === 'DELETE' ? '#c04040' : '#f0ebe0', border: '0.5px solid #c8bfaa', color: deleteInput === 'DELETE' ? '#fff' : '#c8bfaa', fontSize: 12, cursor: deleteInput === 'DELETE' ? 'pointer' : 'not-allowed', fontFamily: 'inherit' }}
+                          onClick={async () => {
+                            if (deleteInput !== 'DELETE') return
+                            setDeleting(true)
+                            const { error } = await deleteAccount()
+                            if (error) {
+                              setDeleting(false)
+                              return
+                            }
+                            router.push('/')
+                          }}
+                          disabled={deleteInput !== 'DELETE' || deleting}
+                          style={{ width: '100%', padding: '8px', borderRadius: 8, background: deleteInput === 'DELETE' ? '#c04040' : '#f0ebe0', border: '0.5px solid #c8bfaa', color: deleteInput === 'DELETE' ? '#fff' : '#c8bfaa', fontSize: 12, cursor: (deleteInput === 'DELETE' && !deleting) ? 'pointer' : 'not-allowed', fontFamily: 'inherit', opacity: deleting ? 0.7 : 1 }}
                         >
-                          确认删除
+                          {deleting ? '删除中…' : '确认删除'}
                         </button>
                       </div>
                     )}
