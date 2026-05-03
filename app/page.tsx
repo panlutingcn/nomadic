@@ -13,6 +13,9 @@ import { useAuth } from '@/context/AuthContext'
 import { CITIES } from '@/data/cities'
 import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
 import { shuffle } from '@/utils/shuffle'
+import ShareSheet from '@/components/ShareSheet'
+import BrandCard from '@/components/cards/BrandCard'
+import { supabase } from '@/lib/supabase'
 
 const RANDOM_COUNT = 9
 
@@ -20,6 +23,22 @@ export default function HomePage() {
   const router = useRouter()
   const { setSelectedCity, imprints, savedCities } = useApp()
   const { user } = useAuth()
+  const [showShareSheet, setShowShareSheet] = useState(false)
+  const brandCardRef = useRef<HTMLDivElement>(null)
+  const [profileNickname, setProfileNickname] = useState<string>('探索者')
+  const [profileAvatar, setProfileAvatar] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!user) { setProfileNickname('探索者'); setProfileAvatar(null); return }
+    supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
+      .then(({ data }) => {
+        if (data) {
+          setProfileNickname(data.nickname ?? user.user_metadata?.nickname ?? '探索者')
+          setProfileAvatar(data.avatar_url ?? null)
+        }
+      })
+  }, [user?.id])
+
   const [showGuide, setShowGuide] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [randomCities, setRandomCities] = useState<NomadCity[]>([])
@@ -63,6 +82,14 @@ export default function HomePage() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
+      {/* Share button */}
+      <button
+        onClick={() => setShowShareSheet(true)}
+        aria-label="分享"
+        style={{ position: 'fixed', top: 16, right: 16, zIndex: 10, width: 34, height: 32, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--text-secondary)', cursor: 'pointer' }}
+      >
+        ⤴
+      </button>
       <div style={{ flex: 1, padding: '0 16px 10px' }}>
 
         <div style={{ position: 'relative', height: 200, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 12, overflow: 'visible' }}>
@@ -293,6 +320,20 @@ export default function HomePage() {
       <BottomNav />
       {showGuide && <GuideModal onClose={() => setShowGuide(false)} />}
       {errorMessage && <ErrorToast onClose={() => setErrorMessage('')} />}
+
+      {/* Hidden card for html2canvas capture */}
+      <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
+        <div ref={brandCardRef}>
+          <BrandCard nickname={profileNickname} avatarUrl={profileAvatar} />
+        </div>
+      </div>
+
+      <ShareSheet
+        isOpen={showShareSheet}
+        onClose={() => setShowShareSheet(false)}
+        cardRef={brandCardRef}
+        showCopyLink={false}
+      />
     </div>
   )
 }
