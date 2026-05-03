@@ -244,8 +244,11 @@ export default function VaultPage() {
                           placeholder="输入 DELETE 确认"
                           style={{ width: '100%', padding: '8px 10px', borderRadius: 8, border: '0.5px solid #c8bfaa', background: 'rgba(255,255,255,0.6)', fontSize: 12, color: '#3d3020', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit', marginBottom: 8 }}
                         />
-                        {deleting && (
+                        {deleting && deleteInput !== '__done__' && (
                           <div style={{ fontSize: 11, color: '#c04040', marginBottom: 8, textAlign: 'center' }}>账号删除中，请稍候…</div>
+                        )}
+                        {deleteInput === '__done__' && (
+                          <div style={{ fontSize: 11, color: '#1D9E75', marginBottom: 8, textAlign: 'center', fontWeight: 500 }}>账号已删除！</div>
                         )}
                         <button
                           onClick={async () => {
@@ -256,7 +259,8 @@ export default function VaultPage() {
                               setDeleting(false)
                               return
                             }
-                            router.push('/')
+                            setDeleteInput('__done__')
+                            setTimeout(() => router.push('/'), 1500)
                           }}
                           disabled={deleteInput !== 'DELETE' || deleting}
                           style={{ width: '100%', padding: '8px', borderRadius: 8, background: deleteInput === 'DELETE' ? '#c04040' : '#f0ebe0', border: '0.5px solid #c8bfaa', color: deleteInput === 'DELETE' ? '#fff' : '#c8bfaa', fontSize: 12, cursor: (deleteInput === 'DELETE' && !deleting) ? 'pointer' : 'not-allowed', fontFamily: 'inherit', opacity: deleting ? 0.7 : 1 }}
