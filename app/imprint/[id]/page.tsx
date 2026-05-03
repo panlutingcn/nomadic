@@ -3,6 +3,11 @@ export const runtime = 'edge'
 import { useParams, useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
 import { useState, useRef, useEffect } from 'react'
+import ShareSheet from '@/components/ShareSheet'
+import ImprintCard from '@/components/cards/ImprintCard'
+import { useAuth } from '@/context/AuthContext'
+import { CITIES } from '@/data/cities'
+import { supabase } from '@/lib/supabase'
 
 const CITY_NAME_MAP: Record<string, string> = {
   Berlin: '柏林',
@@ -23,12 +28,24 @@ export default function ImprintDetailPage() {
   const params = useParams()
   const router = useRouter()
   const { allPublicImprints, imprints, deleteImprint } = useApp()
-  const [showToast, setShowToast] = useState(false)
   const [liked, setLiked] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const { user } = useAuth()
+  const [showShareSheet, setShowShareSheet] = useState(false)
+  const imprintCardRef = useRef<HTMLDivElement>(null)
+  const [profileNickname, setProfileNickname] = useState<string>('探索者')
+  const [profileAvatar, setProfileAvatar] = useState<string | null>(null)
 
-  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current) }, [])
+  useEffect(() => {
+    if (!user) { setProfileNickname('探索者'); setProfileAvatar(null); return }
+    supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
+      .then(({ data }) => {
+        if (data) {
+          setProfileNickname(data.nickname ?? user.user_metadata?.nickname ?? '探索者')
+          setProfileAvatar(data.avatar_url ?? null)
+        }
+      })
+  }, [user?.id])
 
   const allImprints = [...imprints, ...allPublicImprints.filter(i => !imprints.some(u => u.id === i.id))]
   const id = Array.isArray(params.id) ? params.id[0] : params.id
@@ -68,25 +85,6 @@ export default function ImprintDetailPage() {
     )
   }
 
-  const handleShare = async () => {
-    const url = window.location.href
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: imprint.title, url })
-      } catch (err) {
-        // User cancelled or error
-      }
-    } else {
-      try {
-        await navigator.clipboard.writeText(url)
-        setShowToast(true)
-        toastTimer.current = setTimeout(() => setShowToast(false), 3000)
-      } catch (err) {
-        // Non-HTTPS or clipboard access denied
-      }
-    }
-  }
-
   const handleLike = () => {
     if (imprint.isPublic) {
       setLiked(!liked)
@@ -101,13 +99,20 @@ export default function ImprintDetailPage() {
 
   const isMyImprint = imprints.some(i => i.id === id)
   const cityNameZh = CITY_NAME_MAP[imprint.city] || imprint.city
+  const cityEntry = CITIES[imprint.city]
+  const imprintCountryZh = cityEntry?.countryZh ?? ''
+  const imprintFlag = cityEntry?.flag ?? ''
+  const CITY_BG: Record<string, string> = {
+    Berlin: '#ede8df', Amsterdam: '#e8edf0', Lisbon: '#e8e2d8', Prague: '#e8e8ed',
+  }
+  const cityBg = CITY_BG[imprint.city] ?? '#ede8df'
 
   return (
     <div style={{ minHeight: '100vh' }}>
       {/* Top Nav */}
       <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-page)', borderBottom: '1px solid var(--border)', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button aria-label="返回" onClick={() => router.back()} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--text-primary)' }}>←</button>
-        <button aria-label="分享" onClick={handleShare} style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: 'var(--text-primary)' }}>⤴</button>
+        <button aria-label="分享" onClick={() => setShowShareSheet(true)} style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: 'var(--text-primary)' }}>⤴</button>
       </div>
 
       {/* Photo */}
@@ -182,7 +187,7 @@ export default function ImprintDetailPage() {
             </button>
           )}
           <button
-            onClick={handleShare}
+            onClick={() => setShowShareSheet(true)}
             style={{
               padding: '8px 14px',
               background: 'var(--bg-card-2)',
@@ -253,24 +258,6 @@ export default function ImprintDetailPage() {
         </div>
       </div>
 
-      {/* Toast */}
-      {showToast && (
-        <div style={{
-          position: 'fixed',
-          bottom: 100,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(0,0,0,0.8)',
-          color: 'white',
-          padding: '10px 20px',
-          borderRadius: 8,
-          fontSize: 14,
-          zIndex: 1000,
-        }}>
-          链接已复制
-        </div>
-      )}
-
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px' }}>
@@ -302,6 +289,29 @@ export default function ImprintDetailPage() {
           </div>
         </div>
       )}
+
+      {/* Hidden imprint card for html2canvas capture */}
+      <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
+        <div ref={imprintCardRef}>
+          <ImprintCard
+            nickname={profileNickname}
+            avatarUrl={profileAvatar}
+            photo={imprint.photo}
+            narrative={imprint.narrative}
+            cityNameZh={cityNameZh}
+            countryZh={imprintCountryZh}
+            flag={imprintFlag}
+            cityBgColor={cityBg}
+          />
+        </div>
+      </div>
+
+      <ShareSheet
+        isOpen={showShareSheet}
+        onClose={() => setShowShareSheet(false)}
+        cardRef={imprintCardRef}
+        showCopyLink={false}
+      />
     </div>
   )
 }
