@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     siteName: 'Nomadic',
     images: [
       {
-        url: 'https://nomadictree.io/og-default.png',
+        url: 'https://nomadictree.io/og-default',
         width: 1200,
         height: 630,
         alt: 'Nomadic 城市洞察',

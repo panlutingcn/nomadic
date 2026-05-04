@@ -8,7 +8,7 @@ export async function generateCardImage(element: HTMLElement): Promise<File> {
     logging: false,
   })
   return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => {
+    canvas.toBlob((blob: Blob | null) => {
       if (!blob) { reject(new Error('canvas.toBlob returned null')); return }
       resolve(new File([blob], 'nomadic-card.png', { type: 'image/png' }))
     }, 'image/png')
