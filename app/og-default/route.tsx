@@ -84,9 +84,11 @@ export async function GET() {
           width: 136,
         }}>
           <img src={qrDataUrl} width={136} height={136} style={{ borderRadius: 6 }} />
-          <span style={{ fontSize: 18, color: '#1D9E75', fontWeight: 700, whiteSpace: 'nowrap', width: '100%', textAlign: 'center' }}>
-            nomadictree.io
-          </span>
+          <div style={{ width: 136, display: 'flex', justifyContent: 'center' }}>
+            <span style={{ fontSize: 18, color: '#1D9E75', fontWeight: 700 }}>
+              nomadictree.io
+            </span>
+          </div>
         </div>
       </div>
     ),
