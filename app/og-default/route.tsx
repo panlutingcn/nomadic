@@ -51,7 +51,7 @@ export async function GET() {
                 <span style={{ fontSize: 80, fontWeight: 800, color: '#3d3020', letterSpacing: '-2px', lineHeight: 1 }}>
                   Nomadic
                 </span>
-                <span style={{ fontSize: 42, color: '#8a7560', letterSpacing: '4px', lineHeight: 1, paddingBottom: 14 }}>
+                <span style={{ fontSize: 42, color: '#3d3020', letterSpacing: '4px', lineHeight: 1, paddingBottom: 14 }}>
                   此时此地
                 </span>
               </div>
