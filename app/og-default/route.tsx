@@ -4,7 +4,7 @@ import QRCode from 'qrcode'
 export async function GET() {
   const qrDataUrl = await QRCode.toDataURL('https://nomadictree.io', {
     margin: 1,
-    width: 140,
+    width: 136,
     color: { dark: '#3d3020', light: '#00000000' },
   })
 
@@ -81,10 +81,10 @@ export async function GET() {
           flexDirection: 'column',
           alignItems: 'center',
           gap: 10,
-          width: 152,
+          width: 136,
         }}>
-          <img src={qrDataUrl} width={152} height={152} style={{ borderRadius: 6 }} />
-          <span style={{ fontSize: 18, color: '#1D9E75', fontWeight: 700, letterSpacing: '1px', whiteSpace: 'nowrap', width: '100%', textAlign: 'center' }}>
+          <img src={qrDataUrl} width={136} height={136} style={{ borderRadius: 6 }} />
+          <span style={{ fontSize: 18, color: '#1D9E75', fontWeight: 700, whiteSpace: 'nowrap', width: '100%', textAlign: 'center' }}>
             nomadictree.io
           </span>
         </div>
