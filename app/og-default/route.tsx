@@ -51,7 +51,7 @@ export async function GET() {
                 <span style={{ fontSize: 80, fontWeight: 800, color: '#3d3020', letterSpacing: '-2px', lineHeight: 1 }}>
                   Nomadic
                 </span>
-                <span style={{ fontSize: 42, color: '#8a7560', letterSpacing: '4px', lineHeight: 1, paddingBottom: 8 }}>
+                <span style={{ fontSize: 42, color: '#8a7560', letterSpacing: '4px', lineHeight: 1, paddingBottom: 14 }}>
                   此时此地
                 </span>
               </div>
@@ -83,7 +83,7 @@ export async function GET() {
           gap: 10,
           width: 152,
         }}>
-          <img src={qrDataUrl} width={100} height={100} style={{ borderRadius: 6 }} />
+          <img src={qrDataUrl} width={152} height={152} style={{ borderRadius: 6 }} />
           <span style={{ fontSize: 18, color: '#1D9E75', fontWeight: 700, letterSpacing: '1px', whiteSpace: 'nowrap', width: '100%', textAlign: 'center' }}>
             nomadictree.io
           </span>
