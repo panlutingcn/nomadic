@@ -14,15 +14,15 @@ const QUADRANTS = [
 
 export default function BrandCard({ nickname, avatarUrl }: BrandCardProps) {
   return (
-    <CardShell nickname={nickname} avatarUrl={avatarUrl}>
-      <div style={{ marginBottom: 4 }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: '#3d3020', marginBottom: 14, letterSpacing: 0.3 }}>探索每座城市的四个维度</div>
+    <CardShell nickname={nickname} avatarUrl={avatarUrl} qrValue="https://nomadictree.io">
+      <div>
+        <div style={{ fontSize: 12, fontWeight: 600, color: '#8a7560', marginBottom: 10, letterSpacing: 1, textTransform: 'uppercase' as const }}>探索每座城市的四个维度</div>
         {QUADRANTS.map((q) => (
-          <div key={q.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 12 }}>
-            <span style={{ fontSize: 18, lineHeight: 1.3 }}>{q.icon}</span>
+          <div key={q.label} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <span style={{ fontSize: 16, lineHeight: 1, flexShrink: 0 }}>{q.icon}</span>
             <div>
               <span style={{ fontSize: 13, fontWeight: 600, color: '#3d3020' }}>{q.label}</span>
-              <span style={{ fontSize: 12, color: '#8a7560', marginLeft: 6 }}>— {q.desc}</span>
+              <span style={{ fontSize: 11, color: '#8a7560', marginLeft: 5 }}>— {q.desc}</span>
             </div>
           </div>
         ))}

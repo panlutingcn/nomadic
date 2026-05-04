@@ -3,13 +3,17 @@ import { QRCodeSVG } from 'qrcode.react'
 interface CardShellProps {
   nickname: string
   avatarUrl: string | null
+  qrValue?: string
   children: React.ReactNode
 }
 
-export default function CardShell({ nickname, avatarUrl, children }: CardShellProps) {
+export default function CardShell({ nickname, avatarUrl, qrValue = 'https://nomadictree.io', children }: CardShellProps) {
   return (
     <div style={{
       width: 375,
+      height: 500,
+      display: 'flex',
+      flexDirection: 'column',
       background: 'linear-gradient(160deg, #f5f0e8 0%, #ede4d4 100%)',
       borderRadius: 16,
       overflow: 'hidden',
@@ -18,11 +22,12 @@ export default function CardShell({ nickname, avatarUrl, children }: CardShellPr
     }}>
       {/* Top zone */}
       <div style={{
-        padding: '18px 20px 14px',
+        padding: '18px 22px 14px',
         borderBottom: '0.5px solid rgba(61,48,32,0.12)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        flexShrink: 0,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ fontSize: 22 }}>🌳</span>
@@ -45,24 +50,25 @@ export default function CardShell({ nickname, avatarUrl, children }: CardShellPr
         </div>
       </div>
 
-      {/* Content zone */}
-      <div style={{ padding: '20px 20px 16px' }}>
+      {/* Content zone — flex: 1, vertically centered */}
+      <div style={{ flex: 1, padding: '20px 22px 12px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         {children}
       </div>
 
       {/* Bottom zone */}
       <div style={{
-        padding: '14px 20px 20px',
+        padding: '14px 22px 20px',
         borderTop: '0.5px solid rgba(61,48,32,0.12)',
         background: 'rgba(255,255,255,0.35)',
+        flexShrink: 0,
       }}>
-        <div style={{ fontSize: 12, color: '#8a7560', lineHeight: 1.7, marginBottom: 12 }}>
-          <div>在世界各地扎根，而不只是路过。</div>
-          <div>一个给数字游民的灵感与商机社区。</div>
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ fontSize: 14, fontWeight: 500, color: '#5a4a38', lineHeight: 1.7 }}>在世界各地扎根，而不只是路过。</div>
+          <div style={{ fontSize: 13, color: '#8a7560', lineHeight: 1.7 }}>一个给数字游民的灵感与商机社区。</div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ fontSize: 13, color: '#1D9E75', fontWeight: 600, letterSpacing: 0.3 }}>nomadictree.io</div>
-          <QRCodeSVG value="https://nomadictree.io" size={64} bgColor="transparent" fgColor="#3d3020" />
+          <QRCodeSVG value={qrValue} size={64} bgColor="transparent" fgColor="#3d3020" />
         </div>
       </div>
     </div>

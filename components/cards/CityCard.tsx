@@ -8,13 +8,14 @@ interface CityCardProps {
   countryZh: string
   flag: string
   description: string
+  qrValue?: string
 }
 
-export default function CityCard({ nickname, avatarUrl, cityNameZh, cityNameEn, countryZh, flag, description }: CityCardProps) {
+export default function CityCard({ nickname, avatarUrl, cityNameZh, cityNameEn, countryZh, flag, description, qrValue }: CityCardProps) {
   const truncated = description.length > 100 ? description.slice(0, 100) + '…' : description
 
   return (
-    <CardShell nickname={nickname} avatarUrl={avatarUrl}>
+    <CardShell nickname={nickname} avatarUrl={avatarUrl} qrValue={qrValue}>
       <div>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
           <span style={{ fontSize: 28, fontWeight: 700, color: '#3d3020', lineHeight: 1.2 }}>{cityNameZh || cityNameEn}</span>

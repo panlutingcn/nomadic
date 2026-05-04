@@ -377,6 +377,7 @@ export default function InsightsPage() {
             countryZh={city.countryZh || searchContext?.countryZh || ''}
             flag={city.flag || searchContext?.flag || '🌍'}
             description={city.soul.body || searchContext?.soulBody || ''}
+            qrValue={pageUrl || 'https://nomadictree.io/insights'}
           />
         </div>
       </div>

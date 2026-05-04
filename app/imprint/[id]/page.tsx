@@ -288,6 +288,7 @@ export default function ImprintDetailPage() {
             countryZh={imprintCountryZh}
             flag={imprintFlag}
             cityBgColor={cityBg}
+            qrValue={`https://nomadictree.io/imprint/${id}`}
           />
         </div>
       </div>
