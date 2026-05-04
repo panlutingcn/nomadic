@@ -1,0 +1,134 @@
+<h2>登录流程 — 三步设计</h2>
+<p class="subtitle">邮箱登录是注册+登录合一。以下是完整的登录弹窗流程，共三屏，请确认每一步的设计方向。</p>
+
+<div class="section">
+  <div class="label">第一屏 · 选择登录方式</div>
+  <div style="display:flex; gap:16px; margin-top:12px; flex-wrap:wrap;">
+    <div style="flex:1; min-width:200px;">
+      <div style="background:#f0ebe0; border-radius:20px; padding:20px 18px; box-shadow:0 6px 20px rgba(0,0,0,0.12); max-width:280px;">
+        <div style="font-size:14px; font-weight:600; color:#3d3020; text-align:center; margin-bottom:4px;">登录 Nomadic</div>
+        <div style="font-size:10px; color:#b8a98a; text-align:center; margin-bottom:18px;">选择你的登录方式</div>
+
+        <!-- WeChat option -->
+        <div style="background:#07C160; border-radius:12px; padding:12px 14px; margin-bottom:8px; display:flex; align-items:center; gap:10px; cursor:pointer;">
+          <div style="width:28px; height:28px; background:rgba(255,255,255,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px;">💬</div>
+          <div>
+            <div style="font-size:13px; font-weight:600; color:#fff;">微信登录</div>
+            <div style="font-size:10px; color:rgba(255,255,255,0.75);">自动导入昵称与头像</div>
+          </div>
+        </div>
+
+        <!-- Gmail option -->
+        <div style="background:#fff; border:1px solid #e0d8cc; border-radius:12px; padding:12px 14px; margin-bottom:8px; display:flex; align-items:center; gap:10px; cursor:pointer;">
+          <div style="width:28px; height:28px; background:#f5f5f5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px;">G</div>
+          <div>
+            <div style="font-size:13px; font-weight:600; color:#3d3020;">Gmail 登录</div>
+            <div style="font-size:10px; color:#9a8a6a;">使用 Google 账号一键登录</div>
+          </div>
+        </div>
+
+        <!-- Email option -->
+        <div style="background:#fff; border:1px solid #e0d8cc; border-radius:12px; padding:12px 14px; display:flex; align-items:center; gap:10px; cursor:pointer;">
+          <div style="width:28px; height:28px; background:#f5f5f5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px;">✉</div>
+          <div>
+            <div style="font-size:13px; font-weight:600; color:#3d3020;">邮箱登录</div>
+            <div style="font-size:10px; color:#9a8a6a;">邮箱 + 昵称 + 密码</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1; min-width:180px; font-size:12px; color:#666; line-height:1.8;">
+      <b>说明：</b><br>
+      · 三个选项上下平铺<br>
+      · 微信绿色突出，Gmail/邮箱白底<br>
+      · 点击任意一项进入对应的第二屏
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="label">第二屏A · 微信登录 — 选择昵称/头像来源</div>
+  <div style="display:flex; gap:16px; margin-top:12px; flex-wrap:wrap;">
+    <div style="flex:1; min-width:200px;">
+      <div style="background:#f0ebe0; border-radius:20px; padding:20px 18px; box-shadow:0 6px 20px rgba(0,0,0,0.12); max-width:280px;">
+        <div style="font-size:13px; font-weight:600; color:#3d3020; text-align:center; margin-bottom:4px;">微信授权成功 ✓</div>
+        <div style="font-size:10px; color:#b8a98a; text-align:center; margin-bottom:16px;">选择你在 Nomadic 的身份</div>
+
+        <div style="background:#fff; border:1.5px solid #1D9E75; border-radius:12px; padding:12px 14px; margin-bottom:8px; cursor:pointer;">
+          <div style="font-size:12px; font-weight:600; color:#1D9E75; margin-bottom:2px;">使用微信昵称与头像</div>
+          <div style="font-size:10px; color:#9a8a6a;">直接用微信资料，省时省力</div>
+        </div>
+
+        <div style="background:#fff; border:1px solid #e0d8cc; border-radius:12px; padding:12px 14px; cursor:pointer;">
+          <div style="font-size:12px; font-weight:600; color:#3d3020; margin-bottom:2px;">自定义 Nomadic 昵称</div>
+          <div style="font-size:10px; color:#9a8a6a;">头像可选，登录后随时上传</div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1; min-width:180px; font-size:12px; color:#666; line-height:1.8;">
+      <b>说明：</b><br>
+      · 选"使用微信"→ 直接完成登录<br>
+      · 选"自定义"→ 出现昵称输入框<br>
+      · 头像始终可选，不强制
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="label">第二屏B · 邮箱登录 — 填写信息</div>
+  <div style="display:flex; gap:16px; margin-top:12px; flex-wrap:wrap;">
+    <div style="flex:1; min-width:200px;">
+      <div style="background:#f0ebe0; border-radius:20px; padding:20px 18px; box-shadow:0 6px 20px rgba(0,0,0,0.12); max-width:280px;">
+        <div style="font-size:13px; font-weight:600; color:#3d3020; text-align:center; margin-bottom:16px;">邮箱登录 / 注册</div>
+
+        <div style="margin-bottom:10px;">
+          <div style="font-size:10px; color:#7a6a50; margin-bottom:4px;">邮箱地址</div>
+          <div style="background:rgba(255,255,255,0.6); border:0.5px solid #c8bfaa; border-radius:8px; padding:9px 11px; font-size:12px; color:#9a8a6a;">your@email.com</div>
+        </div>
+        <div style="margin-bottom:10px;">
+          <div style="font-size:10px; color:#7a6a50; margin-bottom:4px;">昵称</div>
+          <div style="background:rgba(255,255,255,0.6); border:0.5px solid #c8bfaa; border-radius:8px; padding:9px 11px; font-size:12px; color:#9a8a6a;">你的 Nomadic 名字</div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div style="font-size:10px; color:#7a6a50; margin-bottom:4px;">密码</div>
+          <div style="background:rgba(255,255,255,0.6); border:0.5px solid #c8bfaa; border-radius:8px; padding:9px 11px; font-size:12px; color:#9a8a6a;">••••••••</div>
+        </div>
+
+        <div style="background:#1D9E75; border-radius:10px; padding:10px; text-align:center; font-size:13px; font-weight:600; color:#fff;">登录 / 注册</div>
+        <div style="font-size:10px; color:#b8a98a; text-align:center; margin-top:8px;">没有账号？填写后自动创建</div>
+      </div>
+    </div>
+    <div style="flex:1; min-width:180px; font-size:12px; color:#666; line-height:1.8;">
+      <b>说明：</b><br>
+      · 三个字段：邮箱、昵称、密码<br>
+      · 邮箱已存在 → 用密码登录<br>
+      · 邮箱不存在 → 自动注册新账号<br>
+      · 昵称在注册时写入 profiles 表
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="label">第三屏 · 首次登录欢迎弹窗</div>
+  <div style="display:flex; gap:16px; margin-top:12px; flex-wrap:wrap;">
+    <div style="flex:1; min-width:200px;">
+      <div style="background:linear-gradient(160deg,#f0ebe0 0%,#e8f5ee 100%); border-radius:20px; padding:24px 20px; box-shadow:0 6px 20px rgba(0,0,0,0.12); max-width:280px; text-align:center;">
+        <div style="font-size:28px; margin-bottom:10px;">🌍</div>
+        <div style="font-size:15px; font-weight:600; color:#3d3020; margin-bottom:6px;">Hi Luna，</div>
+        <div style="font-size:12px; color:#5a4a30; line-height:1.7; margin-bottom:12px;">
+          欢迎来到 Nomadic 此时此地！<br>
+          你是 Nomadic 第 <b style="color:#1D9E75;">42</b> 位大旅行家，<br>
+          让我们一起把世界变成你的领地吧。
+        </div>
+        <div style="background:#1D9E75; border-radius:10px; padding:9px; font-size:12px; font-weight:600; color:#fff; cursor:pointer;">开始探索 →</div>
+      </div>
+    </div>
+    <div style="flex:1; min-width:180px; font-size:12px; color:#666; line-height:1.8;">
+      <b>说明：</b><br>
+      · 仅首次登录触发（localStorage 标记）<br>
+      · 用户编号从 Supabase profiles 表 count 获取<br>
+      · 点击"开始探索"关闭弹窗<br>
+      · 3秒后也可自动关闭（可选）
+    </div>
+  </div>
+</div>

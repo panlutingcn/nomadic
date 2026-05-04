@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>用户资料卡展开方式对比</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'PingFang SC', sans-serif; background: #f5f0e8; color: #3d3020; padding: 20px 16px 40px; }
+
+  h2 { font-size: 16px; font-weight: 600; text-align: center; margin-bottom: 6px; }
+  .subtitle { font-size: 12px; color: #9a8a6a; text-align: center; margin-bottom: 24px; }
+
+  .demos { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+  .demo-col { flex: 1; min-width: 280px; max-width: 340px; }
+  .demo-label { font-size: 11px; font-weight: 600; color: #7a6a50; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; text-align: center; }
+
+  /* Phone frame */
+  .phone { background: #fff; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.15); position: relative; height: 480px; border: 1.5px solid #e0d8cc; }
+  .phone-inner { background: #f5f0e8; height: 100%; position: relative; overflow: hidden; }
+
+  /* Vault page base */
+  .vault-bg { padding: 14px 14px 0; }
+  .profile-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px 14px;
+    border: 0.5px solid #e0d8cc;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: box-shadow 150ms;
+  }
+  .avatar { width: 42px; height: 42px; border-radius: 50%; background: rgba(29,158,117,0.15); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; color: #1D9E75; flex-shrink: 0; }
+  .profile-info { flex: 1; }
+  .profile-name { font-size: 13px; font-weight: 600; color: #3d3020; }
+  .profile-sub { font-size: 10px; color: #9a8a6a; margin-top: 2px; }
+  .profile-actions { display: flex; gap: 6px; }
+  .btn-edit { font-size: 10px; padding: 4px 10px; border-radius: 8px; background: rgba(29,158,117,0.1); color: #1D9E75; border: 0.5px solid rgba(29,158,117,0.25); cursor: pointer; font-weight: 500; }
+  .btn-logout { font-size: 10px; padding: 4px 10px; border-radius: 8px; background: #f5f0e8; color: #9a8a6a; border: 0.5px solid #ddd5c5; cursor: pointer; }
+
+  .content-rows { padding: 0 14px; }
+  .row { height: 10px; background: #e8e0d0; border-radius: 6px; margin-bottom: 8px; opacity: 0.5; }
+  .row.short { width: 60%; }
+
+  /* ── OPTION A: Bottom drawer ── */
+  .drawer-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.35);
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .drawer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: #f0ebe0;
+    border-radius: 20px 20px 0 0;
+    padding: 16px 16px 24px;
+    transform: translateY(100%);
+    transition: transform 320ms cubic-bezier(0.32,0.72,0,1);
+    z-index: 11;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.12);
+  }
+  .drawer-handle { width: 36px; height: 4px; background: #c8bfaa; border-radius: 2px; margin: 0 auto 14px; }
+  .drawer-title { font-size: 14px; font-weight: 600; color: #3d3020; margin-bottom: 14px; }
+  .field-row { margin-bottom: 10px; }
+  .field-label { font-size: 10px; color: #7a6a50; margin-bottom: 3px; }
+  .field-input { background: rgba(255,255,255,0.7); border: 0.5px solid #c8bfaa; border-radius: 8px; padding: 8px 10px; font-size: 12px; color: #3d3020; width: 100%; }
+  .drawer-btns { display: flex; gap: 8px; margin-top: 14px; }
+  .btn-confirm { flex: 1; background: #1D9E75; color: #fff; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .btn-cancel { flex: 1; background: transparent; color: #9a8a6a; border: 0.5px solid #c8bfaa; border-radius: 10px; padding: 10px; font-size: 12px; cursor: pointer; }
+  .delete-link { font-size: 10px; color: #c8bfaa; text-align: center; margin-top: 10px; cursor: pointer; }
+
+  /* ── OPTION B: In-place expand ── */
+  .profile-card-expand {
+    background: #fff;
+    border-radius: 14px;
+    border: 0.5px solid #e0d8cc;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all 300ms ease;
+  }
+  .profile-card-header {
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer;
+  }
+  .expand-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 350ms cubic-bezier(0.4,0,0.2,1);
+    background: #faf7f2;
+    border-top: 0.5px solid #e8e0d0;
+  }
+  .expand-body-inner { padding: 14px; }
+  .chevron { font-size: 10px; color: #b8a98a; transition: transform 300ms; margin-left: auto; }
+
+  /* Interactive states */
+  #demo-a .profile-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  #demo-b .profile-card-header:hover { background: #faf7f2; }
+
+  .tap-hint { font-size: 11px; color: #9a8a6a; text-align: center; margin-top: 10px; }
+  .selected-badge {
+    display: inline-block;
+    background: #1D9E75;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin: 8px auto 0;
+    display: none;
+  }
+  .demo-col.chosen .selected-badge { display: block; text-align: center; }
+  .demo-col.chosen .demo-label { color: #1D9E75; }
+</style>
+</head>
+<body>
+
+<h2>用户资料卡 — 展开方式对比</h2>
+<p class="subtitle">点击手机里的"编辑"按钮，体验两种交互效果</p>
+
+<div class="demos">
+
+  <!-- OPTION A: Bottom Drawer -->
+  <div class="demo-col" id="demo-a">
+    <div class="demo-label">A · 从底部滑出的抽屉</div>
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="vault-bg">
+          <div class="profile-card">
+            <div class="avatar">L</div>
+            <div class="profile-info">
+              <div class="profile-name">Luna的领地</div>
+              <div class="profile-sub">3 个城市 · 5 个印迹</div>
+            </div>
+            <div class="profile-actions">
+              <button class="btn-edit" onclick="openDrawer()">编辑</button>
+              <button class="btn-logout">退出</button>
+            </div>
+          </div>
+        </div>
+        <div class="content-rows">
+          <div class="row"></div>
+          <div class="row short"></div>
+          <div class="row"></div>
+          <div class="row short"></div>
+          <div class="row"></div>
+        </div>
+
+        <!-- Drawer overlay -->
+        <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+
+        <!-- Drawer -->
+        <div class="drawer" id="drawer">
+          <div class="drawer-handle"></div>
+          <div class="drawer-title">编辑资料</div>
+          <div class="field-row">
+            <div class="field-label">昵称</div>
+            <div class="field-input">Luna</div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">头像</div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="avatar" style="width:36px;height:36px;font-size:14px;">L</div>
+              <div style="font-size:11px; color:#9a8a6a; background:#f0ebe0; border-radius:8px; padding:6px 12px; cursor:pointer;">上传头像</div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">邮箱</div>
+            <div class="field-input">luna@example.com</div>
+          </div>
+          <div class="drawer-btns">
+            <button class="btn-cancel" onclick="closeDrawer()">取消</button>
+            <button class="btn-confirm" onclick="closeDrawer()">确认保存</button>
+          </div>
+          <div class="delete-link">删除账号</div>
+        </div>
+      </div>
+    </div>
+    <div class="tap-hint">↑ 点击"编辑"体验</div>
+    <div class="selected-badge">✓ 已选择</div>
+  </div>
+
+  <!-- OPTION B: In-place expand -->
+  <div class="demo-col" id="demo-b">
+    <div class="demo-label">B · 原地展开</div>
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="vault-bg">
+          <div class="profile-card-expand" id="expand-card">
+            <div class="profile-card-header" onclick="toggleExpand()">
+              <div class="avatar">L</div>
+              <div class="profile-info">
+                <div class="profile-name">Luna的领地</div>
+                <div class="profile-sub">3 个城市 · 5 个印迹</div>
+              </div>
+              <div class="profile-actions">
+                <button class="btn-edit" onclick="event.stopPropagation(); toggleExpand()">编辑</button>
+                <button class="btn-logout" onclick="event.stopPropagation()">退出</button>
+              </div>
+              <div class="chevron" id="chevron">▼</div>
+            </div>
+            <div class="expand-body" id="expand-body">
+              <div class="expand-body-inner">
+                <div class="field-row">
+                  <div class="field-label">昵称</div>
+                  <div class="field-input">Luna</div>
+                </div>
+                <div class="field-row">
+                  <div class="field-label">头像</div>
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <div class="avatar" style="width:32px;height:32px;font-size:13px;">L</div>
+                    <div style="font-size:11px; color:#9a8a6a; background:#f0ebe0; border-radius:8px; padding:5px 10px; cursor:pointer;">上传头像</div>
+                  </div>
+                </div>
+                <div class="field-row">
+                  <div class="field-label">邮箱</div>
+                  <div class="field-input">luna@example.com</div>
+                </div>
+                <div class="drawer-btns">
+                  <button class="btn-cancel" onclick="toggleExpand()">取消</button>
+                  <button class="btn-confirm" onclick="toggleExpand()">确认保存</button>
+                </div>
+                <div class="delete-link">删除账号</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-rows">
+          <div class="row"></div>
+          <div class="row short"></div>
+          <div class="row"></div>
+          <div class="row short"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tap-hint">↑ 点击"编辑"体验</div>
+    <div class="selected-badge">✓ 已选择</div>
+  </div>
+
+</div>
+
+<script>
+// Drawer logic
+function openDrawer() {
+  document.getElementById('drawer').style.transform = 'translateY(0)';
+  document.getElementById('drawer-overlay').style.opacity = '1';
+  document.getElementById('drawer-overlay').style.pointerEvents = 'auto';
+  document.getElementById('demo-a').classList.add('chosen');
+}
+function closeDrawer() {
+  document.getElementById('drawer').style.transform = 'translateY(100%)';
+  document.getElementById('drawer-overlay').style.opacity = '0';
+  document.getElementById('drawer-overlay').style.pointerEvents = 'none';
+}
+
+// Expand logic
+let expanded = false;
+function toggleExpand() {
+  expanded = !expanded;
+  const body = document.getElementById('expand-body');
+  const chevron = document.getElementById('chevron');
+  if (expanded) {
+    body.style.maxHeight = '300px';
+    chevron.style.transform = 'rotate(180deg)';
+    document.getElementById('demo-b').classList.add('chosen');
+  } else {
+    body.style.maxHeight = '0';
+    chevron.style.transform = 'rotate(0deg)';
+  }
+}
+</script>
+</body>
+</html>

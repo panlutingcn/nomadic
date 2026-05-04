@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>资料卡原地展开 — 头像可点击</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'PingFang SC', sans-serif; background: #f5f0e8; color: #3d3020; padding: 20px 16px 40px; }
+  h2 { font-size: 16px; font-weight: 600; text-align: center; margin-bottom: 6px; }
+  .subtitle { font-size: 12px; color: #9a8a6a; text-align: center; margin-bottom: 24px; }
+
+  .demo-wrap { display: flex; justify-content: center; }
+  .phone { background: #fff; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.15); position: relative; width: 300px; border: 1.5px solid #e0d8cc; }
+  .phone-inner { background: #f5f0e8; position: relative; overflow: hidden; }
+  .vault-bg { padding: 14px 14px 0; }
+
+  .profile-card-expand {
+    background: #fff;
+    border-radius: 14px;
+    border: 0.5px solid #e0d8cc;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .profile-card-header {
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  /* Avatar — clickable when expanded */
+  .avatar-wrap { position: relative; flex-shrink: 0; cursor: default; }
+  .avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(29,158,117,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 600; color: #1D9E75;
+    transition: filter 200ms;
+  }
+  .avatar-overlay {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: rgba(0,0,0,0.38);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 200ms;
+    pointer-events: none;
+  }
+  .avatar-overlay svg { width: 16px; height: 16px; fill: #fff; }
+  .avatar-wrap.editable { cursor: pointer; }
+  .avatar-wrap.editable:hover .avatar-overlay,
+  .avatar-wrap.editable:active .avatar-overlay { opacity: 1; }
+  .avatar-wrap.editable .avatar { filter: brightness(0.92); }
+
+  .avatar-hint {
+    font-size: 9px; color: #1D9E75; text-align: center;
+    margin-top: 3px; opacity: 0; transition: opacity 200ms;
+    white-space: nowrap;
+  }
+  .avatar-wrap.editable .avatar-hint { opacity: 1; }
+
+  .profile-info { flex: 1; }
+  .profile-name { font-size: 13px; font-weight: 600; color: #3d3020; }
+  .profile-sub { font-size: 10px; color: #9a8a6a; margin-top: 2px; }
+  .profile-actions { display: flex; gap: 6px; }
+  .btn-edit { font-size: 10px; padding: 4px 10px; border-radius: 8px; background: rgba(29,158,117,0.1); color: #1D9E75; border: 0.5px solid rgba(29,158,117,0.25); cursor: pointer; font-weight: 500; }
+  .btn-logout { font-size: 10px; padding: 4px 10px; border-radius: 8px; background: #f5f0e8; color: #9a8a6a; border: 0.5px solid #ddd5c5; cursor: pointer; }
+
+  .expand-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 350ms cubic-bezier(0.4,0,0.2,1);
+    background: #faf7f2;
+    border-top: 0.5px solid #e8e0d0;
+  }
+  .expand-body-inner { padding: 14px; }
+
+  .field-row { margin-bottom: 10px; }
+  .field-label { font-size: 10px; color: #7a6a50; margin-bottom: 3px; }
+  .field-input {
+    background: rgba(255,255,255,0.7); border: 0.5px solid #c8bfaa;
+    border-radius: 8px; padding: 8px 10px; font-size: 12px; color: #3d3020; width: 100%;
+  }
+  .drawer-btns { display: flex; gap: 8px; margin-top: 14px; }
+  .btn-confirm { flex: 1; background: #1D9E75; color: #fff; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .btn-cancel { flex: 1; background: transparent; color: #9a8a6a; border: 0.5px solid #c8bfaa; border-radius: 10px; padding: 10px; font-size: 12px; cursor: pointer; }
+  .delete-link { font-size: 10px; color: #c8bfaa; text-align: center; margin-top: 10px; cursor: pointer; }
+
+  .content-rows { padding: 0 14px 14px; }
+  .row { height: 10px; background: #e8e0d0; border-radius: 6px; margin-bottom: 8px; opacity: 0.4; }
+  .row.short { width: 60%; }
+
+  .tap-hint { font-size: 11px; color: #9a8a6a; text-align: center; margin-top: 12px; }
+
+  /* Upload flash */
+  .upload-flash {
+    position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
+    background: #3d3020; color: #fff; font-size: 11px; padding: 7px 16px;
+    border-radius: 20px; opacity: 0; transition: opacity 200ms; pointer-events: none;
+    white-space: nowrap;
+  }
+  .upload-flash.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<h2>资料卡 — 原地展开 + 头像可点击</h2>
+<p class="subtitle">点击"编辑"展开，展开后头像变为可点击上传</p>
+
+<div class="demo-wrap">
+  <div>
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="vault-bg">
+          <div class="profile-card-expand">
+            <div class="profile-card-header">
+              <!-- Avatar: becomes clickable when editing -->
+              <div class="avatar-wrap" id="avatar-wrap" onclick="handleAvatarClick()">
+                <div class="avatar" id="avatar-display">L</div>
+                <div class="avatar-overlay" id="avatar-overlay">
+                  <svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 0 12 8.8a3.2 3.2 0 0 0 0 6.4zm0-8.4a5.2 5.2 0 1 1 0 10.4A5.2 5.2 0 0 1 12 6.8zM9 2l-1.83 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"/></svg>
+                </div>
+                <div class="avatar-hint" id="avatar-hint">点击上传</div>
+              </div>
+
+              <div class="profile-info">
+                <div class="profile-name">Luna的领地</div>
+                <div class="profile-sub">3 个城市 · 5 个印迹</div>
+              </div>
+              <div class="profile-actions">
+                <button class="btn-edit" id="edit-btn" onclick="toggleExpand()">编辑</button>
+                <button class="btn-logout">退出</button>
+              </div>
+            </div>
+
+            <div class="expand-body" id="expand-body">
+              <div class="expand-body-inner">
+                <div class="field-row">
+                  <div class="field-label">昵称</div>
+                  <div class="field-input">Luna</div>
+                </div>
+                <div class="field-row">
+                  <div class="field-label">邮箱</div>
+                  <div class="field-input">luna@example.com</div>
+                </div>
+                <div class="field-row">
+                  <div class="field-label">微信</div>
+                  <div class="field-input" style="color:#b8a98a;">未绑定</div>
+                </div>
+                <div class="drawer-btns">
+                  <button class="btn-cancel" onclick="toggleExpand()">取消</button>
+                  <button class="btn-confirm" onclick="toggleExpand()">确认保存</button>
+                </div>
+                <div class="delete-link">删除账号</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-rows">
+          <div class="row"></div>
+          <div class="row short"></div>
+          <div class="row"></div>
+          <div class="row short"></div>
+          <div class="row"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tap-hint">点击"编辑" → 头像变为可点击上传</div>
+  </div>
+</div>
+
+<div class="upload-flash" id="upload-flash">📷 选择照片（模拟）</div>
+
+<script>
+let expanded = false;
+
+function toggleExpand() {
+  expanded = !expanded;
+  const body = document.getElementById('expand-body');
+  const avatarWrap = document.getElementById('avatar-wrap');
+  const editBtn = document.getElementById('edit-btn');
+
+  if (expanded) {
+    body.style.maxHeight = '280px';
+    avatarWrap.classList.add('editable');
+    editBtn.textContent = '收起';
+    editBtn.style.background = 'rgba(29,158,117,0.18)';
+  } else {
+    body.style.maxHeight = '0';
+    avatarWrap.classList.remove('editable');
+    editBtn.textContent = '编辑';
+    editBtn.style.background = '';
+  }
+}
+
+function handleAvatarClick() {
+  if (!expanded) return;
+  const flash = document.getElementById('upload-flash');
+  flash.classList.add('show');
+  setTimeout(() => flash.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>

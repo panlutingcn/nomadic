@@ -1,0 +1,5 @@
+{"type":"server-started","port":59713,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:59713","screen_dir":"/Users/alicepan/Desktop/FemAI/nomadic-app/.superpowers/brainstorm/94582-1777502642/content","state_dir":"/Users/alicepan/Desktop/FemAI/nomadic-app/.superpowers/brainstorm/94582-1777502642/state"}
+{"type":"screen-added","file":"/Users/alicepan/Desktop/FemAI/nomadic-app/.superpowers/brainstorm/94582-1777502642/content/flow-options.html"}
+{"type":"screen-added","file":"/Users/alicepan/Desktop/FemAI/nomadic-app/.superpowers/brainstorm/94582-1777502642/content/camera-layout.html"}
+{"type":"screen-added","file":"/Users/alicepan/Desktop/FemAI/nomadic-app/.superpowers/brainstorm/94582-1777502642/content/waiting.html"}
+{"type":"server-stopped","reason":"idle timeout"}

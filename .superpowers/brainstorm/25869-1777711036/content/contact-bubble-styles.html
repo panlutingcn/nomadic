@@ -1,0 +1,58 @@
+<h2>首页联系共创气泡 — 选择风格</h2>
+<p class="subtitle">登录气泡已移除，只保留联系共创，居中显示。以下是三种气泡设计方向，哪种感觉最符合 Nomadic 的调性？</p>
+
+<div class="cards">
+
+  <!-- Option A: Soft speech bubble with emoji accent -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f5f0e8; padding:24px 20px; display:flex; justify-content:center;">
+      <div style="position:relative; background:#ede8df; border-radius:18px; padding:16px 22px; max-width:240px; width:100%; text-align:center; border:1px solid #ddd5c5; box-shadow:0 3px 12px rgba(0,0,0,0.08);">
+        <!-- tail pointing down -->
+        <div style="position:absolute; bottom:-9px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:9px solid transparent; border-right:9px solid transparent; border-top:9px solid #ede8df;"></div>
+        <div style="font-size:20px; margin-bottom:6px;">✉️</div>
+        <div style="font-size:13px; font-weight:600; color:#3d3020; margin-bottom:4px;">联系共创</div>
+        <div style="font-size:11px; color:#9a8a6a; line-height:1.5;">期待听到你的想法与故事</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A · 经典气泡 + emoji</h3>
+      <p>圆角卡片，底部有对话尾巴，顶部加一个信封 emoji 作为视觉焦点。简洁温暖，不抢眼。</p>
+    </div>
+  </div>
+
+  <!-- Option B: Pill/badge style with subtle gradient -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f5f0e8; padding:24px 20px; display:flex; justify-content:center;">
+      <div style="background:linear-gradient(135deg,#f0ebe0 0%,#e8e0d0 100%); border-radius:24px; padding:14px 28px; max-width:240px; width:100%; text-align:center; border:1px solid #d8cfc0; box-shadow:0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.6);">
+        <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(29,158,117,0.12); border-radius:20px; padding:3px 10px; margin-bottom:8px;">
+          <span style="font-size:10px; color:#1D9E75; font-weight:600; letter-spacing:0.05em;">COLLAB</span>
+        </div>
+        <div style="font-size:13px; font-weight:600; color:#3d3020; margin-bottom:4px;">联系共创</div>
+        <div style="font-size:11px; color:#9a8a6a; line-height:1.5;">期待听到你的想法与故事</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B · 渐变卡片 + 标签</h3>
+      <p>轻微渐变背景，顶部有一个绿色小标签"COLLAB"，有品牌感，稍微更现代。</p>
+    </div>
+  </div>
+
+  <!-- Option C: Floating bubble with dotted border and wave feel -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f5f0e8; padding:24px 20px; display:flex; justify-content:center;">
+      <div style="position:relative; background:#faf7f2; border-radius:20px; padding:16px 22px; max-width:240px; width:100%; text-align:center; border:1.5px dashed #c8bfaa; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <!-- small decorative dots -->
+        <div style="position:absolute; top:-5px; right:20px; width:8px; height:8px; border-radius:50%; background:#1D9E75; opacity:0.5;"></div>
+        <div style="position:absolute; top:-3px; right:32px; width:5px; height:5px; border-radius:50%; background:#1D9E75; opacity:0.3;"></div>
+        <div style="font-size:13px; font-weight:600; color:#3d3020; margin-bottom:4px;">联系共创 ✦</div>
+        <div style="font-size:11px; color:#9a8a6a; line-height:1.5;">期待听到你的想法与故事</div>
+        <div style="margin-top:8px; font-size:10px; color:#b8a98a;">给主创 Luna 写信 →</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C · 虚线边框 + 装饰点</h3>
+      <p>虚线边框给人手写便条感，右上角有小绿点装饰，底部直接露出"给主创 Luna 写信 →"的行动引导。</p>
+    </div>
+  </div>
+
+</div>

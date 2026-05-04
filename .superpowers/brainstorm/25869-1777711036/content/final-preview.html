@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nomadic 设计预览</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'PingFang SC', sans-serif; background: #eee8dc; color: #3d3020; padding: 20px 16px 60px; }
+
+h2 { font-size: 17px; font-weight: 600; text-align: center; margin-bottom: 4px; color: #3d3020; }
+.page-sub { font-size: 12px; color: #9a8a6a; text-align: center; margin-bottom: 28px; }
+
+/* ── Section headers ── */
+.section-title {
+  font-size: 11px; font-weight: 700; color: #7a6a50;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin: 28px 0 12px; text-align: center;
+}
+
+/* ── Phone frame ── */
+.phones { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.phone-label { font-size: 11px; color: #9a8a6a; font-weight: 500; }
+.phone {
+  width: 220px;
+  background: #f5f0e8;
+  border-radius: 28px;
+  border: 1.5px solid #d8d0c0;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+  overflow: hidden;
+  position: relative;
+}
+.phone-screen { padding: 16px 12px 20px; }
+
+/* ── Nomadic app styles ── */
+.app-title { font-size: 16px; font-weight: 500; color: #3d3020; text-align: center; letter-spacing: 0.05em; margin-bottom: 2px; }
+.app-sub { font-size: 10px; color: #7a6a50; text-align: center; margin-bottom: 14px; }
+
+/* Contact bubble — C style border + B gradient */
+.contact-bubble-wrap { display: flex; justify-content: center; padding: 8px 0 20px; }
+.contact-bubble {
+  position: relative;
+  background: linear-gradient(135deg, #f0ebe0 0%, #e8e0d0 100%);
+  border-radius: 20px;
+  padding: 14px 24px;
+  width: 180px;
+  text-align: center;
+  border: 1.5px dashed #c8bfaa;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: transform 150ms ease;
+}
+.contact-bubble:hover { transform: scale(1.03); }
+.dot1 { position: absolute; top: -5px; right: 22px; width: 8px; height: 8px; border-radius: 50%; background: #1D9E75; opacity: 0.5; }
+.dot2 { position: absolute; top: -3px; right: 34px; width: 5px; height: 5px; border-radius: 50%; background: #1D9E75; opacity: 0.3; }
+.bubble-title { font-size: 13px; font-weight: 600; color: #3d3020; margin-bottom: 3px; }
+.bubble-sub { font-size: 10px; color: #9a8a6a; line-height: 1.5; margin-bottom: 6px; }
+.bubble-cta { font-size: 10px; color: #b8a98a; }
+
+/* Vault page */
+.profile-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 0.5px solid #e0d8cc;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.profile-header { padding: 10px 12px; display: flex; align-items: center; gap: 9px; }
+.avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(29,158,117,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 600; color: #1D9E75; flex-shrink: 0;
+  position: relative; cursor: pointer;
+}
+.avatar-cam {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: rgba(0,0,0,0.35);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; opacity: 0; transition: opacity 150ms;
+}
+.avatar:hover .avatar-cam { opacity: 1; }
+.pname { font-size: 12px; font-weight: 600; color: #3d3020; }
+.psub { font-size: 9px; color: #9a8a6a; margin-top: 1px; }
+.pbtns { display: flex; gap: 5px; margin-left: auto; }
+.pbtn-edit { font-size: 9px; padding: 3px 8px; border-radius: 7px; background: rgba(29,158,117,0.1); color: #1D9E75; border: 0.5px solid rgba(29,158,117,0.25); cursor: pointer; }
+.pbtn-out { font-size: 9px; padding: 3px 8px; border-radius: 7px; background: #f5f0e8; color: #9a8a6a; border: 0.5px solid #ddd5c5; cursor: pointer; }
+
+.expand-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 350ms cubic-bezier(0.4,0,0.2,1);
+  background: #faf7f2; border-top: 0.5px solid #e8e0d0;
+}
+.expand-inner { padding: 12px; }
+.fl { font-size: 9px; color: #7a6a50; margin-bottom: 2px; }
+.fi { background: rgba(255,255,255,0.7); border: 0.5px solid #c8bfaa; border-radius: 7px; padding: 6px 9px; font-size: 11px; color: #3d3020; width: 100%; margin-bottom: 8px; }
+.fi.muted { color: #b8a98a; }
+.ebtns { display: flex; gap: 6px; margin-top: 4px; }
+.ebtn-ok { flex:1; background:#1D9E75; color:#fff; border:none; border-radius:8px; padding:8px; font-size:11px; font-weight:600; cursor:pointer; }
+.ebtn-cancel { flex:1; background:transparent; color:#9a8a6a; border:0.5px solid #c8bfaa; border-radius:8px; padding:8px; font-size:11px; cursor:pointer; }
+.del-link { font-size:9px; color:#c8bfaa; text-align:center; margin-top:8px; cursor:pointer; }
+
+/* Login bubble in vault (guest) */
+.login-bubble {
+  position: relative;
+  background: linear-gradient(135deg, #f0ebe0 0%, #e8e0d0 100%);
+  border-radius: 20px;
+  padding: 13px 20px;
+  text-align: center;
+  border: 1.5px dashed #c8bfaa;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.5);
+  cursor: pointer;
+  margin: 16px 0 8px;
+}
+.login-bubble .dot1 { right: 18px; }
+.login-bubble .dot2 { right: 30px; }
+
+/* Divider */
+.divider { height: 0.5px; background: #ddd5c5; margin: 10px 0; }
+
+/* Content rows placeholder */
+.row { height: 8px; background: #e0d8cc; border-radius: 5px; margin-bottom: 7px; opacity: 0.45; }
+.row.s { width: 55%; }
+
+/* Login modal */
+.modal-bg {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 20; padding: 0 12px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 200ms;
+}
+.modal-bg.show { opacity: 1; pointer-events: auto; }
+.modal {
+  background: #f0ebe0;
+  border-radius: 20px;
+  padding: 20px 16px 18px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  transform: scale(0.95);
+  transition: transform 200ms;
+  position: relative;
+}
+.modal-bg.show .modal { transform: scale(1); }
+.modal-close { position: absolute; top: 10px; right: 12px; background: none; border: none; font-size: 18px; color: #9a8a6a; cursor: pointer; line-height: 1; }
+.modal-title { font-size: 14px; font-weight: 600; color: #3d3020; text-align: center; margin-bottom: 3px; }
+.modal-sub { font-size: 10px; color: #b8a98a; text-align: center; margin-bottom: 14px; }
+
+/* Login options */
+.login-opt {
+  border-radius: 11px; padding: 10px 12px;
+  display: flex; align-items: center; gap: 9px;
+  margin-bottom: 7px; cursor: pointer;
+  transition: transform 120ms;
+}
+.login-opt:hover { transform: scale(1.02); }
+.login-opt:last-child { margin-bottom: 0; }
+.opt-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.opt-title { font-size: 12px; font-weight: 600; }
+.opt-sub { font-size: 9px; margin-top: 1px; }
+
+.opt-email { background: #fff; border: 1px solid #e0d8cc; }
+.opt-email .opt-icon { background: #f5f0e8; }
+.opt-email .opt-title { color: #3d3020; }
+.opt-email .opt-sub { color: #9a8a6a; }
+
+.opt-gmail { background: #fff; border: 1px solid #e0d8cc; }
+.opt-gmail .opt-icon { background: #f5f0e8; font-weight: 700; color: #4285F4; font-size: 14px; }
+.opt-gmail .opt-title { color: #3d3020; }
+.opt-gmail .opt-sub { color: #9a8a6a; }
+
+.opt-wechat { background: #07C160; border: none; }
+.opt-wechat .opt-icon { background: rgba(255,255,255,0.2); }
+.opt-wechat .opt-title { color: #fff; }
+.opt-wechat .opt-sub { color: rgba(255,255,255,0.75); }
+
+/* Email form screen */
+.email-form { display: none; }
+.back-btn { font-size: 10px; color: #9a8a6a; cursor: pointer; margin-bottom: 12px; display: flex; align-items: center; gap: 4px; }
+.form-field { margin-bottom: 9px; }
+.form-label { font-size: 10px; color: #7a6a50; margin-bottom: 3px; }
+.form-input { background: rgba(255,255,255,0.6); border: 0.5px solid #c8bfaa; border-radius: 8px; padding: 8px 10px; font-size: 12px; color: #9a8a6a; width: 100%; }
+.submit-btn { width: 100%; background: #1D9E75; color: #fff; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 4px; }
+.form-hint { font-size: 9px; color: #b8a98a; text-align: center; margin-top: 6px; }
+
+/* Welcome modal */
+.welcome-bg {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 30; padding: 0 12px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 200ms;
+}
+.welcome-bg.show { opacity: 1; pointer-events: auto; }
+.welcome-card {
+  background: linear-gradient(160deg, #f0ebe0 0%, #e8f5ee 100%);
+  border-radius: 20px;
+  padding: 22px 18px 18px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  text-align: center;
+  transform: scale(0.95);
+  transition: transform 200ms;
+}
+.welcome-bg.show .welcome-card { transform: scale(1); }
+.welcome-globe { font-size: 32px; margin-bottom: 10px; }
+.welcome-hi { font-size: 15px; font-weight: 600; color: #3d3020; margin-bottom: 8px; }
+.welcome-body { font-size: 12px; color: #5a4a30; line-height: 1.8; margin-bottom: 14px; }
+.welcome-num { color: #1D9E75; font-weight: 700; }
+.welcome-btn { background: #1D9E75; color: #fff; border: none; border-radius: 10px; padding: 10px 24px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+/* Nav bar placeholder */
+.nav-bar { display: flex; justify-content: space-around; padding: 10px 0 6px; background: #fff; border-top: 0.5px solid #e0d8cc; }
+.nav-item { font-size: 9px; color: #b8a98a; text-align: center; }
+.nav-item.active { color: #1D9E75; }
+</style>
+</head>
+<body>
+
+<h2>Nomadic — 设计最终预览</h2>
+<p class="page-sub">点击各元素体验交互效果</p>
+
+<div class="phones">
+
+  <!-- ── PHONE 1: Home page ── -->
+  <div class="phone-wrap">
+    <div class="phone-label">首页</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="app-title">Nomadic</div>
+        <div class="app-sub">在世界各地扎根，而不只是路过。</div>
+
+        <!-- Search bar placeholder -->
+        <div style="background:rgba(255,255,255,0.7);border:0.5px solid #c8bfaa;border-radius:10px;padding:8px 12px;font-size:11px;color:#b8a98a;margin-bottom:12px;">🔍 搜索城市...</div>
+
+        <!-- City tags -->
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;justify-content:center;">
+          <span style="font-size:10px;padding:3px 9px;border-radius:7px;background:rgba(29,158,117,0.1);color:#1D9E75;border:0.5px solid rgba(29,158,117,0.2);">柏林</span>
+          <span style="font-size:10px;padding:3px 9px;border-radius:7px;background:rgba(29,158,117,0.1);color:#1D9E75;border:0.5px solid rgba(29,158,117,0.2);">里斯本</span>
+          <span style="font-size:10px;padding:3px 9px;border-radius:7px;background:rgba(29,158,117,0.1);color:#1D9E75;border:0.5px solid rgba(29,158,117,0.2);">清迈</span>
+          <span style="font-size:10px;padding:3px 9px;border-radius:7px;background:rgba(29,158,117,0.1);color:#1D9E75;border:0.5px solid rgba(29,158,117,0.2);">巴厘岛</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Globe map placeholder -->
+        <div style="background:rgba(255,255,255,0.5);border-radius:10px;height:70px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;border:0.5px solid #e0d8cc;">
+          <span style="font-size:10px;color:#b8a98a;">🌍 全球版图</span>
+        </div>
+
+        <!-- Contact bubble — centered, single -->
+        <div class="contact-bubble-wrap">
+          <div class="contact-bubble" onclick="document.getElementById('contact-modal').classList.add('show')">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+            <div class="bubble-title">联系共创 ✦</div>
+            <div class="bubble-sub">期待听到你的想法与故事</div>
+            <div class="bubble-cta">给主创 Luna 写信 →</div>
+          </div>
+        </div>
+
+        <!-- Contact modal -->
+        <div class="modal-bg" id="contact-modal" onclick="this.classList.remove('show')">
+          <div class="modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="document.getElementById('contact-modal').classList.remove('show')">×</button>
+            <div class="modal-title">给主创Luna写信</div>
+            <div class="modal-sub">收件人: panluting.cn@gmail.com</div>
+            <div class="form-field"><div class="form-label">你的邮箱</div><div class="form-input">your@email.com</div></div>
+            <div class="form-field"><div class="form-label">主题</div><div class="form-input">邮件主题</div></div>
+            <div class="form-field"><div class="form-label">内容</div><div class="form-input" style="height:52px;display:flex;align-items:flex-start;padding-top:8px;">任何你的想法与故事......</div></div>
+            <div style="display:flex;gap:6px;margin-top:8px;">
+              <button style="flex:1;padding:8px;border-radius:8px;border:0.5px solid #c8bfaa;background:transparent;font-size:11px;color:#9a8a6a;cursor:pointer;" onclick="document.getElementById('contact-modal').classList.remove('show')">取消</button>
+              <button style="flex:1;padding:8px;border-radius:8px;border:none;background:#1D9E75;font-size:11px;color:#fff;font-weight:600;cursor:pointer;">发送</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <div class="nav-item active">🏠 首页</div>
+        <div class="nav-item">🌿 印迹</div>
+        <div class="nav-item">✍️ 写故事</div>
+        <div class="nav-item">🗺️ 领地</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHONE 2: Vault — guest ── -->
+  <div class="phone-wrap">
+    <div class="phone-label">领地（未登录）</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div style="font-size:12px;font-weight:600;color:#3d3020;margin-bottom:8px;">收藏夹</div>
+        <div class="row"></div>
+        <div class="row s"></div>
+        <div class="divider" style="margin:10px 0;"></div>
+        <div style="font-size:12px;font-weight:600;color:#3d3020;margin-bottom:8px;">我的印迹</div>
+        <div class="row"></div>
+        <div class="row s"></div>
+        <div class="row"></div>
+
+        <!-- Divider + login bubble -->
+        <div class="divider" style="margin:14px 0 0;"></div>
+        <div class="login-bubble" onclick="document.getElementById('login-modal').classList.add('show')">
+          <div class="dot1"></div>
+          <div class="dot2"></div>
+          <div class="bubble-title">登录账号 ✦</div>
+          <div class="bubble-sub">保存你的城市与印迹</div>
+          <div class="bubble-cta">点击登录 →</div>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <div class="nav-item">🏠 首页</div>
+        <div class="nav-item">🌿 印迹</div>
+        <div class="nav-item">✍️ 写故事</div>
+        <div class="nav-item active">🗺️ 领地</div>
+      </div>
+
+      <!-- Login modal -->
+      <div class="modal-bg" id="login-modal" onclick="this.classList.remove('show'); showLoginOptions()">
+        <div class="modal" onclick="event.stopPropagation()">
+          <button class="modal-close" onclick="document.getElementById('login-modal').classList.remove('show'); showLoginOptions()">×</button>
+
+          <!-- Screen 1: options -->
+          <div id="login-options">
+            <div class="modal-title">登录 Nomadic</div>
+            <div class="modal-sub">选择你的登录方式</div>
+            <div class="login-opt opt-email" onclick="showEmailForm()">
+              <div class="opt-icon">✉</div>
+              <div><div class="opt-title">邮箱登录</div><div class="opt-sub">邮箱 + 昵称 + 密码</div></div>
+            </div>
+            <div class="login-opt opt-gmail">
+              <div class="opt-icon" style="font-weight:700;color:#4285F4;font-size:14px;">G</div>
+              <div><div class="opt-title">Gmail 登录</div><div class="opt-sub">使用 Google 账号一键登录</div></div>
+            </div>
+            <div class="login-opt opt-wechat">
+              <div class="opt-icon">💬</div>
+              <div><div class="opt-title">微信登录</div><div class="opt-sub">自动导入昵称与头像</div></div>
+            </div>
+          </div>
+
+          <!-- Screen 2: email form -->
+          <div id="email-form" class="email-form">
+            <div class="back-btn" onclick="showLoginOptions()">← 返回</div>
+            <div class="modal-title">邮箱登录 / 注册</div>
+            <div style="height:10px;"></div>
+            <div class="form-field"><div class="form-label">邮箱地址</div><div class="form-input">your@email.com</div></div>
+            <div class="form-field"><div class="form-label">昵称</div><div class="form-input">你的 Nomadic 名字</div></div>
+            <div class="form-field"><div class="form-label">密码</div><div class="form-input">••••••••</div></div>
+            <button class="submit-btn" onclick="showWelcome()">登录 / 注册</button>
+            <div class="form-hint">没有账号？填写后自动创建</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Welcome modal -->
+      <div class="welcome-bg" id="welcome-modal">
+        <div class="welcome-card">
+          <div class="welcome-globe">🌍</div>
+          <div class="welcome-hi">Hi Luna，</div>
+          <div class="welcome-body">
+            欢迎你来到 Nomadic 此时此地！<br>
+            你是这里的第 <span class="welcome-num">42</span> 位大旅行家。<br>
+            我们一起探索这个世界吧！
+          </div>
+          <button class="welcome-btn" onclick="document.getElementById('welcome-modal').classList.remove('show'); document.getElementById('login-modal').classList.remove('show')">开始探索 →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHONE 3: Vault — logged in ── -->
+  <div class="phone-wrap">
+    <div class="phone-label">领地（已登录）</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <!-- Profile card with in-place expand -->
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="avatar" id="vault-avatar" onclick="handleAvatarClick()">
+              L
+              <div class="avatar-cam" id="avatar-cam">📷</div>
+            </div>
+            <div>
+              <div class="pname">Luna的领地</div>
+              <div class="psub">3 个城市 · 5 个印迹</div>
+            </div>
+            <div class="pbtns">
+              <button class="pbtn-edit" id="vault-edit-btn" onclick="toggleVaultExpand()">编辑</button>
+              <button class="pbtn-out">退出</button>
+            </div>
+          </div>
+          <div class="expand-body" id="vault-expand">
+            <div class="expand-inner">
+              <div class="fl">昵称</div>
+              <div class="fi">Luna</div>
+              <div class="fl">邮箱</div>
+              <div class="fi">luna@example.com</div>
+              <div class="fl">微信</div>
+              <div class="fi muted">未绑定</div>
+              <div class="ebtns">
+                <button class="ebtn-cancel" onclick="toggleVaultExpand()">取消</button>
+                <button class="ebtn-ok" onclick="toggleVaultExpand()">确认保存</button>
+              </div>
+              <div class="del-link">删除账号</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size:11px;font-weight:500;color:#3d3020;margin-bottom:7px;">收藏夹</div>
+        <div class="row"></div>
+        <div class="row s"></div>
+        <div class="divider"></div>
+        <div style="font-size:11px;font-weight:500;color:#3d3020;margin-bottom:7px;">我的印迹</div>
+        <div class="row"></div>
+        <div class="row s"></div>
+        <div class="row"></div>
+      </div>
+      <div class="nav-bar">
+        <div class="nav-item">🏠 首页</div>
+        <div class="nav-item">🌿 印迹</div>
+        <div class="nav-item">✍️ 写故事</div>
+        <div class="nav-item active">🗺️ 领地</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Login flow
+function showLoginOptions() {
+  document.getElementById('login-options').style.display = 'block';
+  document.getElementById('email-form').style.display = 'none';
+}
+function showEmailForm() {
+  document.getElementById('login-options').style.display = 'none';
+  document.getElementById('email-form').style.display = 'block';
+}
+function showWelcome() {
+  document.getElementById('login-modal').classList.remove('show');
+  document.getElementById('welcome-modal').classList.add('show');
+}
+
+// Vault expand
+let vaultExpanded = false;
+function toggleVaultExpand() {
+  vaultExpanded = !vaultExpanded;
+  const body = document.getElementById('vault-expand');
+  const btn = document.getElementById('vault-edit-btn');
+  const avatarCam = document.getElementById('avatar-cam');
+  if (vaultExpanded) {
+    body.style.maxHeight = '260px';
+    btn.textContent = '收起';
+    avatarCam.style.opacity = '1';
+  } else {
+    body.style.maxHeight = '0';
+    btn.textContent = '编辑';
+    avatarCam.style.opacity = '';
+  }
+}
+function handleAvatarClick() {
+  if (!vaultExpanded) return;
+  alert('📷 选择照片上传（实际会打开文件选择器）');
+}
+</script>
+</body>
+</html>
