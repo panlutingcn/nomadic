@@ -1,8 +1,13 @@
 import { ImageResponse } from 'next/og'
-
-export const runtime = 'edge'
+import QRCode from 'qrcode'
 
 export async function GET() {
+  const qrDataUrl = await QRCode.toDataURL('https://nomadictree.io', {
+    margin: 1,
+    width: 140,
+    color: { dark: '#3d3020', light: '#00000000' },
+  })
+
   return new ImageResponse(
     (
       <div
@@ -18,7 +23,7 @@ export async function GET() {
           position: 'relative',
         }}
       >
-        {/* Subtle grid pattern overlay */}
+        {/* Subtle dot grid */}
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -30,49 +35,31 @@ export async function GET() {
         {/* Green accent bar top */}
         <div style={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
+          top: 0, left: 0, right: 0,
           height: 6,
           background: '#1D9E75',
           display: 'flex',
         }} />
 
         {/* Main content */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
-          {/* Tree + wordmark */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 32 }}>
-            <span style={{ fontSize: 96, lineHeight: 1 }}>🌳</span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {/* Logo row: tree + Nomadic 此时此地 on same line */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 36 }}>
+            <span style={{ fontSize: 88, lineHeight: 1 }}>🌳</span>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{
-                fontSize: 80,
-                fontWeight: 800,
-                color: '#3d3020',
-                letterSpacing: '-2px',
-                lineHeight: 1,
-              }}>
-                Nomadic
-              </span>
-              <span style={{
-                fontSize: 36,
-                color: '#8a7560',
-                letterSpacing: '6px',
-                marginTop: 6,
-              }}>
-                此时此地
-              </span>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 20 }}>
+                <span style={{ fontSize: 80, fontWeight: 800, color: '#3d3020', letterSpacing: '-2px', lineHeight: 1 }}>
+                  Nomadic
+                </span>
+                <span style={{ fontSize: 42, color: '#8a7560', letterSpacing: '4px', lineHeight: 1 }}>
+                  此时此地
+                </span>
+              </div>
             </div>
           </div>
 
           {/* Divider */}
-          <div style={{
-            width: 80,
-            height: 3,
-            background: '#1D9E75',
-            borderRadius: 2,
-            marginBottom: 32,
-            display: 'flex',
-          }} />
+          <div style={{ width: 80, height: 3, background: '#1D9E75', borderRadius: 2, marginBottom: 36, display: 'flex' }} />
 
           {/* Taglines */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
@@ -85,28 +72,23 @@ export async function GET() {
           </div>
         </div>
 
-        {/* URL badge bottom right */}
+        {/* Bottom right: QR code + URL */}
         <div style={{
           position: 'absolute',
           bottom: 40,
-          right: 60,
+          right: 56,
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          gap: 8,
-          background: 'rgba(29,158,117,0.12)',
-          border: '1.5px solid rgba(29,158,117,0.3)',
-          borderRadius: 12,
-          padding: '10px 20px',
+          gap: 10,
         }}>
-          <span style={{ fontSize: 22, color: '#1D9E75', fontWeight: 700, letterSpacing: '0.5px' }}>
+          <img src={qrDataUrl} width={120} height={120} style={{ borderRadius: 8 }} />
+          <span style={{ fontSize: 18, color: '#1D9E75', fontWeight: 700, letterSpacing: '0.5px' }}>
             nomadictree.io
           </span>
         </div>
       </div>
     ),
-    {
-      width: 1200,
-      height: 630,
-    }
+    { width: 1200, height: 630 }
   )
 }
