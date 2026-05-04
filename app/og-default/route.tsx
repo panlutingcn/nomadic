@@ -47,7 +47,7 @@ export async function GET() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 36 }}>
             <span style={{ fontSize: 88, lineHeight: 1 }}>🌳</span>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 20 }}>
                 <span style={{ fontSize: 80, fontWeight: 800, color: '#3d3020', letterSpacing: '-2px', lineHeight: 1 }}>
                   Nomadic
                 </span>
@@ -72,7 +72,7 @@ export async function GET() {
           </div>
         </div>
 
-        {/* Bottom right: QR code + URL */}
+        {/* Bottom right: QR code centered above nomadictree.io */}
         <div style={{
           position: 'absolute',
           bottom: 40,
@@ -81,9 +81,10 @@ export async function GET() {
           flexDirection: 'column',
           alignItems: 'center',
           gap: 10,
+          width: 160,
         }}>
-          <img src={qrDataUrl} width={120} height={120} style={{ borderRadius: 8 }} />
-          <span style={{ fontSize: 18, color: '#1D9E75', fontWeight: 700, letterSpacing: '0.5px' }}>
+          <img src={qrDataUrl} width={100} height={100} style={{ borderRadius: 6 }} />
+          <span style={{ fontSize: 18, color: '#1D9E75', fontWeight: 700, letterSpacing: '1px', whiteSpace: 'nowrap' }}>
             nomadictree.io
           </span>
         </div>
