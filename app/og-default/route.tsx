@@ -1,13 +1,8 @@
 import { ImageResponse } from 'next/og'
-import QRCode from 'qrcode'
+
+export const runtime = 'edge'
 
 export async function GET() {
-  const qrDataUrl = await QRCode.toDataURL('https://nomadictree.io', {
-    margin: 1,
-    width: 136,
-    color: { dark: '#3d3020', light: '#00000000' },
-  })
-
   return new ImageResponse(
     (
       <div
@@ -43,7 +38,6 @@ export async function GET() {
 
         {/* Main content */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {/* Logo row: tree + Nomadic 此时此地 on same line */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 36 }}>
             <span style={{ fontSize: 88, lineHeight: 1 }}>🌳</span>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -58,10 +52,8 @@ export async function GET() {
             </div>
           </div>
 
-          {/* Divider */}
           <div style={{ width: 80, height: 3, background: '#1D9E75', borderRadius: 2, marginBottom: 36, display: 'flex' }} />
 
-          {/* Taglines */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
             <span style={{ fontSize: 28, color: '#5a4a38', letterSpacing: '1px' }}>
               在世界各地扎根，而不只是路过。
@@ -72,23 +64,16 @@ export async function GET() {
           </div>
         </div>
 
-        {/* Bottom right: QR code centered above nomadictree.io */}
+        {/* Bottom right: URL */}
         <div style={{
           position: 'absolute',
           bottom: 40,
           right: 56,
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 10,
-          width: 136,
         }}>
-          <img src={qrDataUrl} width={136} height={136} style={{ borderRadius: 6 }} />
-          <div style={{ width: 136, display: 'flex', justifyContent: 'center' }}>
-            <span style={{ fontSize: 18, color: '#1D9E75', fontWeight: 700 }}>
-              nomadictree.io
-            </span>
-          </div>
+          <span style={{ fontSize: 22, color: '#1D9E75', fontWeight: 700 }}>
+            nomadictree.io
+          </span>
         </div>
       </div>
     ),

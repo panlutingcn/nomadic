@@ -1,4 +1,5 @@
 'use client'
+export const runtime = 'edge'
 import BrandCard from '@/components/cards/BrandCard'
 import CityCard from '@/components/cards/CityCard'
 import ImprintCard from '@/components/cards/ImprintCard'
