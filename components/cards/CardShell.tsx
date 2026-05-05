@@ -11,7 +11,7 @@ export default function CardShell({ nickname, avatarUrl, qrValue = 'https://noma
   return (
     <div style={{
       width: 375,
-      height: 500,
+      height: 667,
       display: 'flex',
       flexDirection: 'column',
       background: 'linear-gradient(160deg, #f5f0e8 0%, #ede4d4 100%)',

@@ -2,8 +2,10 @@
 import BrandCard from '@/components/cards/BrandCard'
 import CityCard from '@/components/cards/CityCard'
 import ImprintCard from '@/components/cards/ImprintCard'
+import { CITIES } from '@/data/cities'
 
 const MOCK_USER = { nickname: 'Alice', avatarUrl: null }
+const LISBON = CITIES['Lisbon']
 
 export default function PreviewCardsPage() {
   return (
@@ -30,12 +32,15 @@ export default function PreviewCardsPage() {
         <CityCard
           nickname={MOCK_USER.nickname}
           avatarUrl={MOCK_USER.avatarUrl}
-          cityNameZh="里斯本"
-          cityNameEn="Lisbon"
-          countryZh="葡萄牙"
-          flag="🇵🇹"
-          description="里斯本是一座慢节奏的城市——不是因为它懒散，而是因为它学会了享受。阳光、海风、法朵音乐与廉价的本地红酒，构成了这座城市独特的生活美学。"
+          cityNameZh={LISBON.nameZh}
+          cityNameEn={LISBON.name}
+          countryZh={LISBON.countryZh}
+          flag={LISBON.flag}
+          description={LISBON.soul.body ?? ''}
+          personality={LISBON.soul.personality}
+          economy={LISBON.soul.economy}
           qrValue="https://nomadictree.io/insights?city=Lisbon"
+          cityKey="Lisbon"
         />
       </div>
 
@@ -45,7 +50,8 @@ export default function PreviewCardsPage() {
           nickname={MOCK_USER.nickname}
           avatarUrl={MOCK_USER.avatarUrl}
           photo="https://images.unsplash.com/photo-1585208798174-6cedd86e019a?auto=format&fit=crop&w=600&q=80"
-          narrative="在阿尔法玛区迷路是必须的。那些坡陡到让人停下来喘气的小巷，反而给了你抬头看海的理由。黄昏时分，橙色的阳光把每一扇破旧的门都变成画。"
+          title="在阿尔法玛迷路的那个黄昏"
+          narrative="在阿尔法玛区迷路是必须的。那些坡陡到让人停下来喘气的小巷，反而给了你抬头看海的理由。黄昏时分，橙色的阳光把每一扇破旧的门都变成画。我站在某个无名台阶上，听见远处传来法朵，不知道唱的是什么，却莫名想哭。"
           cityNameZh="里斯本"
           countryZh="葡萄牙"
           flag="🇵🇹"

@@ -4,6 +4,7 @@ interface ImprintCardProps {
   nickname: string
   avatarUrl: string | null
   photo: string | undefined
+  title?: string
   narrative: string
   cityNameZh: string
   countryZh: string
@@ -13,9 +14,8 @@ interface ImprintCardProps {
 }
 
 export default function ImprintCard({
-  nickname, avatarUrl, photo, narrative, cityNameZh, countryZh, flag, cityBgColor = '#ede8df', qrValue
+  nickname, avatarUrl, photo, title, narrative, cityNameZh, countryZh, flag, cityBgColor = '#ede8df', qrValue
 }: ImprintCardProps) {
-  const excerpt = narrative.length > 80 ? narrative.slice(0, 80) + '…' : narrative
 
   return (
     <CardShell nickname={nickname} avatarUrl={avatarUrl} qrValue={qrValue}>
@@ -29,7 +29,14 @@ export default function ImprintCard({
             </div>
           )}
         </div>
-        <div style={{ fontSize: 13, color: '#5a4a38', lineHeight: 1.8, marginBottom: 10 }}>{excerpt}</div>
+        {title && (
+          <div style={{ fontSize: 15, fontWeight: 700, color: '#3d3020', lineHeight: 1.3, marginBottom: 8 }}>{title}</div>
+        )}
+        <div style={{
+          fontSize: 13, color: '#5a4a38', lineHeight: 1.8, marginBottom: 10,
+          display: '-webkit-box', WebkitLineClamp: 3,
+          WebkitBoxOrient: 'vertical' as const, overflow: 'hidden',
+        }}>{narrative}</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#8a7560' }}>
           <span>📍</span>
           <span>{cityNameZh}{countryZh ? ` · ${flag} ${countryZh}` : ''}</span>
