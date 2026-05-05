@@ -37,21 +37,21 @@ export default function CardShell({ nickname, avatarUrl, qrValue = 'https://noma
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ fontSize: 12, color: '#5a4a38', maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <div style={{ fontSize: 12, color: '#5a4a38', maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', height: 32, lineHeight: '32px' }}>
             {nickname}
           </div>
           {avatarUrl ? (
             <img src={avatarUrl} alt={nickname} style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} crossOrigin="anonymous" />
           ) : (
-            <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#1D9E75', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: '#fff', fontWeight: 600 }}>
+            <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#1D9E75', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: '#fff', fontWeight: 600, lineHeight: 1 }}>
               {(nickname[0] ?? 'N').toUpperCase()}
             </div>
           )}
         </div>
       </div>
 
-      {/* Content zone — flex: 1, vertically centered */}
-      <div style={{ flex: 1, padding: '20px 22px 12px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      {/* Content zone — flex: 1, overflow hidden prevents pushing bottom zone */}
+      <div style={{ flex: 1, minHeight: 0, padding: '20px 22px 12px', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }}>
         {children}
       </div>
 

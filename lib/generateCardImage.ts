@@ -1,18 +1,28 @@
 import html2canvas from 'html2canvas'
 
-export async function generateCardImage(element: HTMLElement): Promise<File> {
-  const canvas = await html2canvas(element, {
-    scale: 2,
-    useCORS: true,
-    backgroundColor: null,
-    logging: false,
-  })
+async function renderCanvas(element: HTMLElement) {
+  return html2canvas(element, { scale: 2, useCORS: true, backgroundColor: null, logging: false })
+}
+
+function canvasToFile(canvas: HTMLCanvasElement): Promise<File> {
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob: Blob | null) => {
       if (!blob) { reject(new Error('canvas.toBlob returned null')); return }
       resolve(new File([blob], 'nomadic-card.png', { type: 'image/png' }))
     }, 'image/png')
   })
+}
+
+export async function generateCardImage(element: HTMLElement): Promise<File> {
+  const canvas = await renderCanvas(element)
+  return canvasToFile(canvas)
+}
+
+export async function generateCardPreview(element: HTMLElement): Promise<{ dataUrl: string; file: File }> {
+  const canvas = await renderCanvas(element)
+  const dataUrl = canvas.toDataURL('image/png')
+  const file = await canvasToFile(canvas)
+  return { dataUrl, file }
 }
 
 export async function shareOrDownloadCard(element: HTMLElement): Promise<void> {

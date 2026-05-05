@@ -23,7 +23,7 @@ export default function HomePage() {
   const router = useRouter()
   const { setSelectedCity, imprints, savedCities } = useApp()
   const { user } = useAuth()
-  const [showShareSheet, setShowShareSheet] = useState(false)
+  const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const brandCardRef = useRef<HTMLDivElement>(null)
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
 
@@ -70,17 +70,15 @@ export default function HomePage() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
-      {/* Share button */}
-      <button
-        onClick={() => setShowShareSheet(true)}
-        aria-label="分享"
-        style={{ position: 'fixed', top: 16, right: 16, zIndex: 10, width: 34, height: 32, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--text-secondary)', cursor: 'pointer' }}
-      >
-        ⤴
-      </button>
       <div style={{ flex: 1, padding: '0 16px 10px' }}>
 
         <div style={{ position: 'relative', height: 200, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 12, overflow: 'visible' }}>
+          {/* Share button — top-right, aligns with search box right edge */}
+          <button
+            onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())}
+            aria-label="分享"
+            style={{ position: 'absolute', top: 16, right: 0, zIndex: 4, width: 32, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--text-secondary)', cursor: 'pointer' }}
+          >⤴</button>
           <svg style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', overflow: 'visible', pointerEvents: 'none', zIndex: 1, opacity: 0.13 }} width="290" height="190" viewBox="0 0 290 190">
             <line className="tree-branch b0" x1="145" y1="162" x2="120" y2="182" stroke="#6b4520" strokeWidth="3.5" strokeLinecap="round"/>
             <line className="tree-branch b0" x1="145" y1="162" x2="170" y2="182" stroke="#6b4520" strokeWidth="3.5" strokeLinecap="round"/>
@@ -258,10 +256,10 @@ export default function HomePage() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7, marginBottom: 12 }}>
           {[
-            { emoji: '🌍', en: 'SOUL', zh: '城市灵魂', desc: '读懂一座城市的内核', bg: '#faeeda', border: '#e8c98a', color: '#633806', descColor: '#854f0b' },
-            { emoji: '🌿', en: 'BASE', zh: '生存基准', desc: '确认适合你居住', bg: '#e8f5ee', border: '#9fd4b8', color: '#085041', descColor: '#0f6e56' },
-            { emoji: '💼', en: 'CHANCE', zh: '商业机会', desc: '链接当地的商业生态', bg: '#e8f0f5', border: '#b5cfe0', color: '#0c447c', descColor: '#185fa5' },
-            { emoji: '👥', en: 'LOCAL', zh: '本地圈子', desc: '遇见同频的灵魂', bg: '#f0edf8', border: '#cdc5e8', color: '#3c3489', descColor: '#534ab7' },
+            { emoji: '🌍', en: 'SOUL', zh: '城市灵魂', desc: '读懂一座城市的内核', bg: '#fde4a0', border: '#c8a830', color: '#633806', descColor: '#854f0b' },
+            { emoji: '🌿', en: 'BASE', zh: '生存基准', desc: '确认适合你居住', bg: '#d4ede0', border: '#9fd4b8', color: '#085041', descColor: '#0f6e56' },
+            { emoji: '💼', en: 'CHANCE', zh: '商业机会', desc: '链接当地的商业生态', bg: '#c8dcf0', border: '#84b8d8', color: '#0c447c', descColor: '#185fa5' },
+            { emoji: '👥', en: 'LOCAL', zh: '本地圈子', desc: '遇见同频的灵魂', bg: '#dbd2f0', border: '#b8a8e0', color: '#3c3489', descColor: '#534ab7' },
           ].map(q => (
             <div
               key={q.en}
@@ -317,10 +315,11 @@ export default function HomePage() {
       </div>
 
       <ShareSheet
-        isOpen={showShareSheet}
-        onClose={() => setShowShareSheet(false)}
+        anchorRect={shareAnchor}
+        onClose={() => setShareAnchor(null)}
         cardRef={brandCardRef}
-        showCopyLink={false}
+        showCopyLink={true}
+        copyUrl="https://nomadictree.io"
       />
     </div>
   )

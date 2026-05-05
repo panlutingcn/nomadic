@@ -34,10 +34,8 @@ export default function CityCard({
   const [lon, lat] = coords ?? [0, 0]
   const hasCoords = !!coords
 
-  const raw1 = personality || description
-  const raw2 = economy ?? ''
-  const p1 = raw1.length > 80 ? raw1.slice(0, 80) + '…' : raw1
-  const p2 = raw2.length > 80 ? raw2.slice(0, 80) + '…' : raw2
+  const p1 = personality || description
+  const p2 = economy ?? ''
 
   return (
     <CardShell nickname={nickname} avatarUrl={avatarUrl} qrValue={qrValue}>
@@ -45,14 +43,14 @@ export default function CityCard({
         {/* Globe map panel */}
         {hasCoords && (
           <div style={{
-            width: '100%', height: 160, borderRadius: 10, overflow: 'hidden',
-            background: '#e8f4f0', marginBottom: 14, position: 'relative',
+            width: '100%', height: 130, borderRadius: 10, overflow: 'hidden',
+            background: '#e8f4f0', marginBottom: 10, position: 'relative',
           }}>
             <ComposableMap
               projection="geoOrthographic"
               projectionConfig={{ scale: 150, rotate: [-lon, -lat, 0] }}
               width={331}
-              height={160}
+              height={130}
               style={{ width: '100%', height: '100%' }}
             >
               <Geographies geography={GEO_URL}>
@@ -114,16 +112,16 @@ export default function CityCard({
             <span style={{ fontSize: 13, color: '#8a7560' }}>{cityNameEn}</span>
           )}
         </div>
-        <div style={{ fontSize: 13, color: '#5a4a38', marginBottom: 12 }}>
+        <div style={{ fontSize: 13, color: '#5a4a38', marginBottom: 8 }}>
           {flag} {countryZh}
         </div>
-        <div style={{ height: '0.5px', background: 'rgba(61,48,32,0.15)', marginBottom: 12 }} />
+        <div style={{ height: '0.5px', background: 'rgba(61,48,32,0.15)', marginBottom: 10 }} />
 
         {/* 文化内核 */}
-        <div style={{ fontSize: 12.5, color: '#5a4a38', lineHeight: 1.85, marginBottom: 10 }}>{p1}</div>
+        <div style={{ fontSize: 12.5, color: '#5a4a38', lineHeight: 1.75, marginBottom: 8, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>{p1}</div>
 
         {/* 经济支柱 */}
-        {p2 && <div style={{ fontSize: 12.5, color: '#5a4a38', lineHeight: 1.85 }}>{p2}</div>}
+        {p2 && <div style={{ fontSize: 12.5, color: '#5a4a38', lineHeight: 1.75, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>{p2}</div>}
       </div>
     </CardShell>
   )

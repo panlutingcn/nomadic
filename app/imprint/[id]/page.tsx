@@ -2,7 +2,7 @@
 export const runtime = 'edge'
 import { useParams, useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import ShareSheet from '@/components/ShareSheet'
 import ImprintCard from '@/components/cards/ImprintCard'
 import { CITIES } from '@/data/cities'
@@ -29,9 +29,14 @@ export default function ImprintDetailPage() {
   const { allPublicImprints, imprints, deleteImprint } = useApp()
   const [liked, setLiked] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const [showShareSheet, setShowShareSheet] = useState(false)
+  const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
+  const [pageUrl, setPageUrl] = useState('')
   const imprintCardRef = useRef<HTMLDivElement>(null)
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
+
+  useEffect(() => {
+    setPageUrl(window.location.href)
+  }, [])
 
   const allImprints = [...imprints, ...allPublicImprints.filter(i => !imprints.some(u => u.id === i.id))]
   const id = Array.isArray(params.id) ? params.id[0] : params.id
@@ -98,7 +103,7 @@ export default function ImprintDetailPage() {
       {/* Top Nav */}
       <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-page)', borderBottom: '1px solid var(--border)', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button aria-label="返回" onClick={() => router.back()} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--text-primary)' }}>←</button>
-        <button aria-label="分享" onClick={() => setShowShareSheet(true)} style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: 'var(--text-primary)' }}>⤴</button>
+        <button aria-label="分享" onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())} style={{ width: 32, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--text-secondary)', cursor: 'pointer' }}>⤴</button>
       </div>
 
       {/* Photo */}
@@ -173,7 +178,7 @@ export default function ImprintDetailPage() {
             </button>
           )}
           <button
-            onClick={() => setShowShareSheet(true)}
+            onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())}
             style={{
               padding: '8px 14px',
               background: 'var(--bg-card-2)',
@@ -283,6 +288,7 @@ export default function ImprintDetailPage() {
             nickname={profileNickname}
             avatarUrl={profileAvatar}
             photo={imprint.photo}
+            title={imprint.title}
             narrative={imprint.narrative}
             cityNameZh={cityNameZh}
             countryZh={imprintCountryZh}
@@ -294,10 +300,11 @@ export default function ImprintDetailPage() {
       </div>
 
       <ShareSheet
-        isOpen={showShareSheet}
-        onClose={() => setShowShareSheet(false)}
+        anchorRect={shareAnchor}
+        onClose={() => setShareAnchor(null)}
         cardRef={imprintCardRef}
-        showCopyLink={false}
+        showCopyLink={true}
+        copyUrl={pageUrl}
       />
     </div>
   )

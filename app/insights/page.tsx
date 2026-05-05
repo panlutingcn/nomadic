@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import FocusTrap from 'focus-trap-react'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
@@ -121,15 +120,12 @@ export default function InsightsPage() {
   const cityCardRef = useRef<HTMLDivElement>(null)
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
 
-  const [showShare, setShowShare] = useState(false)
+  const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const [showLogin, setShowLogin] = useState(false)
   const [loginMethod, setLoginMethod] = useState<'wechat' | 'email'>('wechat')
   const [loginEmail, setLoginEmail] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [pageUrl, setPageUrl] = useState('')
-  const [showSoulModal, setShowSoulModal] = useState(false)
-  const [showBaseModal, setShowBaseModal] = useState(false)
-
   useEffect(() => {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || window.location.origin
     const path = window.location.pathname + window.location.search
@@ -137,34 +133,9 @@ export default function InsightsPage() {
   }, [])
 
   // Stable callback references for escape key handling
-  const closeShare = useCallback(() => setShowShare(false), [])
-  const closeSoulModal = useCallback(() => setShowSoulModal(false), [])
-  const closeBaseModal = useCallback(() => setShowBaseModal(false), [])
+  const closeShare = useCallback(() => setShareAnchor(null), [])
 
-  // Use custom hook for Escape key handling
-  useEscapeKey(showShare, closeShare)
-  useEscapeKey(showSoulModal, closeSoulModal)
-  useEscapeKey(showBaseModal, closeBaseModal)
-
-  // Body scroll lock when SOUL modal is open
-  useEffect(() => {
-    if (showSoulModal) {
-      document.body.style.overflow = 'hidden'
-      return () => {
-        document.body.style.overflow = ''
-      }
-    }
-  }, [showSoulModal])
-
-  // Body scroll lock when BASE modal is open
-  useEffect(() => {
-    if (showBaseModal) {
-      document.body.style.overflow = 'hidden'
-      return () => {
-        document.body.style.overflow = ''
-      }
-    }
-  }, [showBaseModal])
+  useEscapeKey(!!shareAnchor, closeShare)
 
   const handleSave = () => {
     if (!isLoggedIn) { setShowLogin(true); return }
@@ -199,7 +170,11 @@ export default function InsightsPage() {
             <button onClick={handleSave} style={{ width: 30, height: 28, border: '0.5px solid var(--border-light)', borderRadius: 7, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: isCitySaved(city.name) ? 'var(--accent)' : 'var(--text-secondary)', cursor: 'pointer' }}>
               {isCitySaved(city.name) ? '♥' : '♡'}
             </button>
-            <button onClick={() => setShowShare(true)} style={{ width: 30, height: 28, border: '0.5px solid var(--border-light)', borderRadius: 7, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--text-secondary)', cursor: 'pointer' }}>⤴</button>
+            <button
+              onClick={(e) => { if (selectedCity) setShareAnchor(e.currentTarget.getBoundingClientRect()) }}
+              aria-label="分享"
+              style={{ width: 32, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: selectedCity ? 'var(--text-secondary)' : 'var(--border)', cursor: selectedCity ? 'pointer' : 'default' }}
+            >⤴</button>
           </div>
         </div>
 
@@ -213,76 +188,116 @@ export default function InsightsPage() {
         )}
 
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌍 SOUL 城市灵魂</div>
-          <div onClick={() => setShowSoulModal(true)} style={{ cursor: 'pointer' }}>
-            <div style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 10, padding: '9px 11px' }}>
-              <div style={{ fontSize: 12, fontWeight: 500, color: '#3d2010', marginBottom: 2 }}>{city.soul.headline}</div>
-              {'body' in city.soul && city.soul.body && (
-                <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.55, marginTop: 5 }}>{city.soul.body}</div>
-              )}
-            </div>
-            <div style={{ fontSize: 10, color: '#854f0b', marginTop: 5, textAlign: 'center' }}>
-              <div>文化性格｜经济支柱｜节庆活动｜代表人物</div>
-              <div style={{ marginTop: 2 }}>点击展开详情 →</div>
-            </div>
-          </div>
-        </div>
-
-        <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>🌿 BASE 生存基准</div>
-          <div onClick={() => setShowBaseModal(true)} style={{ cursor: 'pointer' }}>
-            {'wifi' in city.base && (
-              <>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
-                  {[
-                    { num: city.base.wifi, label: 'WiFi' },
-                    { num: city.base.cost, label: '物价' },
-                    { num: ('visaDays' in city.base && city.base.visaDays) ? city.base.visaDays : city.base.visa, label: '签证' },
-                  ].map(item => (
-                    <div key={item.label} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '7px 6px', textAlign: 'center' }}>
-                      <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{item.num}</div>
-                      <div style={{ fontSize: 9, color: 'var(--text-muted)', marginTop: 1 }}>{item.label}</div>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 7, padding: '7px 10px', marginTop: 5 }}>
-                  <span style={{ fontSize: 10, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{city.base.welfare}</span>
-                </div>
-              </>
+          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6, padding: '10px 10px', borderRadius: 7, background: '#fde4a0', border: '0.5px solid #c8a830', color: '#633806' }}>🌍 SOUL 城市灵魂</div>
+          <div style={{ background: '#fde4a0', border: '0.5px solid #c8a830', borderRadius: 10, padding: '9px 11px', marginBottom: 6 }}>
+            <div style={{ fontSize: 12, fontWeight: 500, color: '#3d2010', marginBottom: 2 }}>{city.soul.headline}</div>
+            {'body' in city.soul && city.soul.body && (
+              <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.55, marginTop: 5 }}>{city.soul.body}</div>
             )}
-            <div style={{ fontSize: 10, color: '#6b8e23', marginTop: 5, textAlign: 'center' }}>
-              <div>签证政策｜每日花销｜治安安全｜社会运转</div>
-              <div style={{ marginTop: 2 }}>点击展开详情 →</div>
-            </div>
+          </div>
+          <div style={{ background: '#fde4a0', border: '0.5px solid #c8a830', borderRadius: 10, padding: '10px 11px' }}>
+            {'personality' in city.soul && city.soul.personality && (
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 500, color: '#854f0b', marginBottom: 4 }}>文化性格</div>
+                <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.personality}</div>
+              </div>
+            )}
+            {'economy' in city.soul && city.soul.economy && (
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 500, color: '#854f0b', marginBottom: 4 }}>经济支柱</div>
+                <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.economy}</div>
+              </div>
+            )}
+            {'festivals' in city.soul && city.soul.festivals && (
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 500, color: '#854f0b', marginBottom: 4 }}>节庆活动</div>
+                <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.festivals}</div>
+              </div>
+            )}
+            {'figures' in city.soul && city.soul.figures && (
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 500, color: '#854f0b', marginBottom: 4 }}>代表人物</div>
+                <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.figures}</div>
+              </div>
+            )}
           </div>
         </div>
 
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>💼 CHANCE 商业机会</div>
-          <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '9px 11px' }}>
-            <div style={{ fontSize: 10, color: '#3d3020', lineHeight: 1.55, marginBottom: 10 }}>{city.chance.paragraph}</div>
+          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6, padding: '10px 10px', borderRadius: 7, background: '#d4ede0', border: '0.5px solid #9fd4b8', color: '#085041' }}>🌿 BASE 生存基准</div>
+          {'wifi' in city.base && (
+            <>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5, marginBottom: 5 }}>
+                {[
+                  { num: city.base.wifi, label: 'WiFi' },
+                  { num: city.base.cost, label: '物价' },
+                  { num: ('visaDays' in city.base && city.base.visaDays) ? city.base.visaDays : city.base.visa, label: '签证' },
+                ].map(item => (
+                  <div key={item.label} style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 8, padding: '7px 6px', textAlign: 'center' }}>
+                    <div style={{ fontSize: 13, fontWeight: 500, color: '#085041' }}>{item.num}</div>
+                    <div style={{ fontSize: 9, color: '#3a8a64', marginTop: 1 }}>{item.label}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 7, padding: '7px 10px', marginBottom: 6 }}>
+                <span style={{ fontSize: 10, color: '#085041', lineHeight: 1.5 }}>{city.base.welfare}</span>
+              </div>
+            </>
+          )}
+          <div style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 10, padding: '10px 11px' }}>
+            {'visaDetail' in city.base && city.base.visaDetail && (
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 500, color: '#085041', marginBottom: 4 }}>签证政策</div>
+                <div style={{ fontSize: 10, color: '#085041', lineHeight: 1.6 }}>{city.base.visaDetail}</div>
+              </div>
+            )}
+            {'dailyCost' in city.base && city.base.dailyCost && (
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 500, color: '#085041', marginBottom: 4 }}>每日花销</div>
+                <div style={{ fontSize: 10, color: '#085041', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{city.base.dailyCost}</div>
+              </div>
+            )}
+            {'safety' in city.base && city.base.safety && (
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 500, color: '#085041', marginBottom: 4 }}>治安与安全</div>
+                <div style={{ fontSize: 10, color: '#085041', lineHeight: 1.6 }}>{city.base.safety}</div>
+              </div>
+            )}
+            {'society' in city.base && city.base.society && (
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 500, color: '#085041', marginBottom: 4 }}>社会运转</div>
+                <div style={{ fontSize: 10, color: '#085041', lineHeight: 1.6 }}>{city.base.society}</div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6, padding: '10px 10px', borderRadius: 7, background: '#c8dcf0', border: '0.5px solid #84b8d8', color: '#0c447c' }}>💼 CHANCE 商业机会</div>
+          <div style={{ background: '#c8dcf0', border: '0.5px solid #84b8d8', borderRadius: 10, padding: '9px 11px' }}>
+            <div style={{ fontSize: 10, color: '#0c447c', lineHeight: 1.55, marginBottom: 10 }}>{city.chance.paragraph}</div>
 
             <div style={{ marginBottom: 10 }}>
-              <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 5 }}>📋 政策环境</div>
-              <a href={city.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', textDecoration: 'none' }}>
-                <span style={{ fontSize: 11, color: '#8b6914' }}>
+              <div style={{ fontSize: 10, color: '#0c447c', marginBottom: 5 }}>📋 政策环境</div>
+              <a href={city.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ddeaf8', border: '0.5px solid #84b8d8', textDecoration: 'none' }}>
+                <span style={{ fontSize: 11, color: '#185fa5' }}>
                   {city.chance.policy.label}
-                  {'desc' in city.chance.policy && city.chance.policy.desc && <span style={{ color: '#b8922a', fontWeight: 400 }}> | {city.chance.policy.desc}</span>}
+                  {'desc' in city.chance.policy && city.chance.policy.desc && <span style={{ color: '#3a7fc0', fontWeight: 400 }}> | {city.chance.policy.desc}</span>}
                 </span>
-                <span style={{ fontSize: 11, color: '#8b6914', flexShrink: 0, marginLeft: 6 }}>›</span>
+                <span style={{ fontSize: 11, color: '#185fa5', flexShrink: 0, marginLeft: 6 }}>›</span>
               </a>
             </div>
 
             {city.chance.localJobs.length > 0 && (
               <div style={{ marginBottom: 10 }}>
-                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 5 }}>🏢 本地招聘平台</div>
+                <div style={{ fontSize: 10, color: '#0c447c', marginBottom: 5 }}>🏢 本地招聘平台</div>
                 {city.chance.localJobs.map(j => (
-                  <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 5, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 11, color: '#8b6914' }}>
+                  <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ddeaf8', border: '0.5px solid #84b8d8', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 11, color: '#185fa5' }}>
                       {j.name}
-                      {'desc' in j && j.desc && <span style={{ color: '#b8922a', fontWeight: 400 }}> | {j.desc}</span>}
+                      {'desc' in j && j.desc && <span style={{ color: '#3a7fc0', fontWeight: 400 }}> | {j.desc}</span>}
                     </span>
-                    <span style={{ fontSize: 11, color: '#8b6914', flexShrink: 0, marginLeft: 6 }}>›</span>
+                    <span style={{ fontSize: 11, color: '#185fa5', flexShrink: 0, marginLeft: 6 }}>›</span>
                   </a>
                 ))}
               </div>
@@ -290,14 +305,14 @@ export default function InsightsPage() {
 
             {city.chance.remoteJobs.length > 0 && (
               <div>
-                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 5 }}>🌐 全球远程平台</div>
+                <div style={{ fontSize: 10, color: '#0c447c', marginBottom: 5 }}>🌐 全球远程平台</div>
                 {city.chance.remoteJobs.map(j => (
-                  <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#fff8e8', border: '0.5px solid #e8d5a0', marginBottom: 5, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 11, color: '#8b6914' }}>
+                  <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ddeaf8', border: '0.5px solid #84b8d8', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 11, color: '#185fa5' }}>
                       {j.name}
-                      {'desc' in j && j.desc && <span style={{ color: '#b8922a', fontWeight: 400 }}> | {j.desc}</span>}
+                      {'desc' in j && j.desc && <span style={{ color: '#3a7fc0', fontWeight: 400 }}> | {j.desc}</span>}
                     </span>
-                    <span style={{ fontSize: 11, color: '#8b6914', flexShrink: 0, marginLeft: 6 }}>›</span>
+                    <span style={{ fontSize: 11, color: '#185fa5', flexShrink: 0, marginLeft: 6 }}>›</span>
                   </a>
                 ))}
               </div>
@@ -306,8 +321,8 @@ export default function InsightsPage() {
         </div>
 
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 14, color: 'var(--text-secondary)', fontWeight: 500, marginBottom: 6, paddingBottom: 5, borderBottom: '0.5px solid var(--border)' }}>👥 LOCAL 本地圈子</div>
-          <div style={{ background: '#f0edf8', border: '0.5px solid #cdc5e8', borderRadius: 10, padding: '9px 11px' }}>
+          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6, padding: '10px 10px', borderRadius: 7, background: '#dbd2f0', border: '0.5px solid #b8a8e0', color: '#3c3489' }}>👥 LOCAL 本地圈子</div>
+          <div style={{ background: '#dbd2f0', border: '0.5px solid #b8a8e0', borderRadius: 10, padding: '9px 11px' }}>
             {'paragraph' in city.local && city.local.paragraph && (
               <div style={{ fontSize: 10, color: '#3d3020', lineHeight: 1.55, marginBottom: 10 }}>{city.local.paragraph}</div>
             )}
@@ -315,7 +330,7 @@ export default function InsightsPage() {
               <div style={{ marginBottom: 10 }}>
                 <div style={{ fontSize: 10, color: '#3c3489', marginBottom: 5 }}>📍 本地社群平台</div>
                 {city.local.platforms.map(p => (
-                  <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 5, textDecoration: 'none' }}>
+                  <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
                     <span style={{ fontSize: 11, color: '#6b5bb5' }}>
                       {p.name}
                       {'desc' in p && p.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {p.desc}</span>}
@@ -329,7 +344,7 @@ export default function InsightsPage() {
               <div>
                 <div style={{ fontSize: 10, color: '#3c3489', marginBottom: 5 }}>🌍 全球游民社群</div>
                 {GLOBAL_COMMUNITIES.map(c => (
-                  <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ede9f8', border: '0.5px solid #cdc5e8', marginBottom: 5, textDecoration: 'none' }}>
+                  <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
                     <span style={{ fontSize: 11, color: '#6b5bb5' }}>
                       {c.name}
                       {c.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {c.desc}</span>}
@@ -377,176 +392,21 @@ export default function InsightsPage() {
             countryZh={city.countryZh || searchContext?.countryZh || ''}
             flag={city.flag || searchContext?.flag || '🌍'}
             description={city.soul.body || searchContext?.soulBody || ''}
+            personality={'personality' in city.soul ? city.soul.personality : undefined}
+            economy={'economy' in city.soul ? city.soul.economy : undefined}
+            cityKey={selectedCity || undefined}
             qrValue={pageUrl || 'https://nomadictree.io/insights'}
           />
         </div>
       </div>
 
       <ShareSheet
-        isOpen={showShare}
+        anchorRect={shareAnchor}
         onClose={closeShare}
         cardRef={cityCardRef}
         showCopyLink={true}
         copyUrl={pageUrl}
       />
-
-      {showSoulModal && (
-        <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setShowSoulModal(false)
-          }}
-        >
-          <FocusTrap active={showSoulModal} focusTrapOptions={{ escapeDeactivates: false }}>
-            <div
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="soul-modal-title"
-              style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 16, padding: '20px', overflow: 'auto' }}
-            >
-            <button
-              onClick={() => setShowSoulModal(false)}
-              aria-label="关闭"
-              style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, border: 'none', background: 'rgba(61, 32, 16, 0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#3d2010', cursor: 'pointer', lineHeight: 1 }}
-            >
-              ×
-            </button>
-
-            <div id="soul-modal-title" style={{ fontSize: 16, fontWeight: 500, color: '#3d2010', marginBottom: 16, paddingRight: 40 }}>
-              🌍 {city.name}{city.nameZh && ` ${city.nameZh}`} 的灵魂
-            </div>
-
-            {('personality' in city.soul && city.soul.personality) || ('economy' in city.soul && city.soul.economy) || ('festivals' in city.soul && city.soul.festivals) || ('figures' in city.soul && city.soul.figures) ? (
-              <>
-                {'personality' in city.soul && city.soul.personality && (
-                  <div style={{ marginBottom: 16 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>文化性格</div>
-                    <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.personality}</div>
-                  </div>
-                )}
-
-                {'economy' in city.soul && city.soul.economy && (
-                  <div style={{ marginBottom: 16 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>经济支柱</div>
-                    <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.economy}</div>
-                  </div>
-                )}
-
-                {'festivals' in city.soul && city.soul.festivals && (
-                  <div style={{ marginBottom: 16 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>节庆活动</div>
-                    <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.festivals}</div>
-                  </div>
-                )}
-
-                {'figures' in city.soul && city.soul.figures && (
-                  <div style={{ marginBottom: 0 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#854f0b', marginBottom: 6 }}>代表人物</div>
-                    <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>{city.soul.figures}</div>
-                  </div>
-                )}
-              </>
-            ) : (
-              <div style={{ fontSize: 11, color: '#3d2010', lineHeight: 1.6 }}>
-                <div style={{ marginBottom: 8 }}>{city.soul.headline}</div>
-                {'body' in city.soul && city.soul.body && (
-                  <div style={{ color: '#854f0b', marginTop: 8 }}>{city.soul.body}</div>
-                )}
-              </div>
-            )}
-          </div>
-          </FocusTrap>
-        </div>
-      )}
-
-      {showBaseModal && (
-        <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setShowBaseModal(false)
-          }}
-        >
-          <FocusTrap active={showBaseModal} focusTrapOptions={{ escapeDeactivates: false }}>
-            <div
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="base-modal-title"
-              style={{ position: 'relative', width: '100%', maxWidth: 500, maxHeight: '80vh', background: '#f0f8f0', border: '0.5px solid #a8d5a8', borderRadius: 16, padding: '20px', overflow: 'auto' }}
-            >
-              <button
-                onClick={() => setShowBaseModal(false)}
-                aria-label="关闭"
-                style={{ position: 'absolute', top: 16, right: 16, width: 32, height: 32, border: 'none', background: 'rgba(107, 142, 35, 0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#6b8e23', cursor: 'pointer', lineHeight: 1 }}
-              >
-                ×
-              </button>
-
-              <div id="base-modal-title" style={{ fontSize: 16, fontWeight: 500, color: '#2d5016', marginBottom: 16, paddingRight: 40 }}>
-                🌿 {city.name}{city.nameZh && ` ${city.nameZh}`} 的生存基准
-              </div>
-
-              {('safety' in city.base && city.base.safety) || ('dailyCost' in city.base && city.base.dailyCost) || ('visaDetail' in city.base && city.base.visaDetail) || ('society' in city.base && city.base.society) ? (
-                <>
-                  {'visaDetail' in city.base && city.base.visaDetail && (
-                    <div style={{ marginBottom: 16 }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证政策</div>
-                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.visaDetail}</div>
-                    </div>
-                  )}
-
-                  {'dailyCost' in city.base && city.base.dailyCost && (
-                    <div style={{ marginBottom: 16 }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>每日花销</div>
-                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{city.base.dailyCost}</div>
-                    </div>
-                  )}
-
-                  {'safety' in city.base && city.base.safety && (
-                    <div style={{ marginBottom: 16 }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>治安与安全</div>
-                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.safety}</div>
-                    </div>
-                  )}
-
-                  {'society' in city.base && city.base.society && (
-                    <div style={{ marginBottom: 0 }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>社会运转</div>
-                      <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>{city.base.society}</div>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div style={{ fontSize: 11, color: '#2d5016', lineHeight: 1.6 }}>
-                  {'visa' in city.base && (
-                    <div style={{ marginBottom: 12 }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>签证政策</div>
-                      <div>{city.base.visa}</div>
-                    </div>
-                  )}
-                  {'cost' in city.base && (
-                    <div style={{ marginBottom: 12 }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>每日花销</div>
-                      <div>{city.base.cost}</div>
-                    </div>
-                  )}
-                  {'safety' in city.base && (
-                    <div style={{ marginBottom: 12 }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>治安安全</div>
-                      <div>{city.base.safety}</div>
-                    </div>
-                  )}
-                  {'society' in city.base && (
-                    <div>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#6b8e23', marginBottom: 6 }}>社会运转</div>
-                      <div>{city.base.society}</div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </FocusTrap>
-        </div>
-      )}
 
     </div>
   )
