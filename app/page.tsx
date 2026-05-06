@@ -1,13 +1,13 @@
 'use client'
-export const runtime = 'edge'
+export const dynamic = 'force-static'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
 import SearchBox, { SearchBoxHandle } from '@/components/SearchBox'
 import GuideModal from '@/components/GuideModal'
 import ErrorToast from '@/components/ErrorToast'
-import dynamic from 'next/dynamic'
-const GlobeMap = dynamic(() => import('@/components/GlobeMap'), { ssr: false })
+import dynamicImport from 'next/dynamic'
+const GlobeMap = dynamicImport(() => import('@/components/GlobeMap'), { ssr: false })
 import ContactBubble from '@/components/ContactBubble'
 import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'

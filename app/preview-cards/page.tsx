@@ -1,5 +1,5 @@
 'use client'
-export const runtime = 'edge'
+export const dynamic = 'force-static'
 import BrandCard from '@/components/cards/BrandCard'
 import CityCard from '@/components/cards/CityCard'
 import ImprintCard from '@/components/cards/ImprintCard'

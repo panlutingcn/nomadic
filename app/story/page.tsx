@@ -1,5 +1,5 @@
 'use client'
-export const runtime = 'edge'
+export const dynamic = 'force-static'
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
