@@ -1,6 +1,5 @@
-import html2canvas from 'html2canvas'
-
 async function renderCanvas(element: HTMLElement) {
+  const html2canvas = (await import('html2canvas')).default
   return html2canvas(element, { scale: 2, useCORS: true, backgroundColor: null, logging: false })
 }
 
