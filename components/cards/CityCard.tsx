@@ -53,9 +53,9 @@ export default function CityCard({
         </div>
         <div style={{ height: '0.5px', background: 'rgba(61,48,32,0.15)', marginBottom: 10 }} />
 
-        <div style={{ fontSize: 12.5, color: '#5a4a38', lineHeight: 1.75, marginBottom: 8, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>{p1}</div>
+        <div style={{ fontSize: 12.5, color: '#5a4a38', lineHeight: 1.75, marginBottom: 8, overflow: 'hidden', maxHeight: '66px' }}>{p1}</div>
 
-        {p2 && <div style={{ fontSize: 12.5, color: '#5a4a38', lineHeight: 1.75, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>{p2}</div>}
+        {p2 && <div style={{ fontSize: 12.5, color: '#5a4a38', lineHeight: 1.75, overflow: 'hidden', maxHeight: '66px' }}>{p2}</div>}
       </div>
     </CardShell>
   )

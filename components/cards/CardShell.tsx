@@ -1,4 +1,4 @@
-import { QRCodeSVG } from 'qrcode.react'
+import { QRCodeCanvas } from 'qrcode.react'
 
 interface CardShellProps {
   nickname: string
@@ -68,7 +68,7 @@ export default function CardShell({ nickname, avatarUrl, qrValue = 'https://noma
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ fontSize: 13, color: '#1D9E75', fontWeight: 600, letterSpacing: 0.3 }}>nomadictree.io</div>
-          <QRCodeSVG value={qrValue} size={64} bgColor="transparent" fgColor="#3d3020" />
+          <QRCodeCanvas value={qrValue} size={64} bgColor="transparent" fgColor="#3d3020" />
         </div>
       </div>
     </div>

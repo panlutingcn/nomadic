@@ -3,6 +3,7 @@ import { useState, RefObject } from 'react'
 import { generateCardPreview } from '@/lib/generateCardImage'
 
 type Phase = 'menu' | 'generating' | 'preview'
+type SaveStatus = 'idle' | 'saving' | 'saved'
 
 interface ShareSheetProps {
   anchorRect: DOMRect | null
@@ -15,14 +16,17 @@ interface ShareSheetProps {
 export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink = false, copyUrl }: ShareSheetProps) {
   const [phase, setPhase] = useState<Phase>('menu')
   const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle')
-  const [previewData, setPreviewData] = useState<{ dataUrl: string; file: File } | null>(null)
+  const [previewData, setPreviewData] = useState<{ dataUrl: string; file: File; blobUrl: string } | null>(null)
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
 
   if (!anchorRect) return null
 
   const handleClose = () => {
+    if (previewData?.blobUrl) URL.revokeObjectURL(previewData.blobUrl)
     setPhase('menu')
     setPreviewData(null)
     setCopyStatus('idle')
+    setSaveStatus('idle')
     onClose()
   }
 
@@ -57,7 +61,8 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
     setPhase('generating')
     try {
       const data = await generateCardPreview(cardRef.current)
-      setPreviewData(data)
+      const blobUrl = URL.createObjectURL(data.file)
+      setPreviewData({ ...data, blobUrl })
       setPhase('preview')
     } catch (err) {
       console.error('Card generation failed:', err)
@@ -65,24 +70,47 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
     }
   }
 
-  const handleDownload = () => {
-    if (!previewData) return
-    const a = document.createElement('a')
-    a.href = previewData.dataUrl
-    a.download = 'nomadic-card.png'
-    a.click()
+  const handleDownloadClick = () => {
+    setSaveStatus('saved')
+    setTimeout(() => setSaveStatus('idle'), 2500)
   }
 
-  const handleShare = async () => {
+  const handleForward = async () => {
     if (!previewData) return
-    const canShare = typeof navigator.share === 'function' &&
-      typeof navigator.canShare === 'function' &&
-      navigator.canShare({ files: [previewData.file] })
-    if (canShare) {
-      await navigator.share({ files: [previewData.file], title: 'Nomadic 此时此地' }).catch(() => {})
-    } else {
-      handleDownload()
+
+    // Attempt image file share first (works in most mobile browsers)
+    try {
+      if (
+        typeof navigator.share === 'function' &&
+        typeof navigator.canShare === 'function' &&
+        navigator.canShare({ files: [previewData.file] })
+      ) {
+        await navigator.share({ files: [previewData.file], title: 'Nomadic 此时此地' })
+        return
+      }
+    } catch (err) {
+      // AbortError = user cancelled, stop here
+      if (err instanceof Error && err.name === 'AbortError') return
+      // Other errors (e.g. WeChat iOS crashes on file shares) — fall through to URL-only share
     }
+
+    // Fallback: share page URL — WeChat and other apps handle links reliably
+    try {
+      if (typeof navigator.share === 'function') {
+        await navigator.share({
+          title: 'Nomadic 此时此地',
+          text: '探索你的游牧生活方式',
+          url: copyUrl || 'https://nomadictree.io',
+        })
+      } else if (previewData?.blobUrl) {
+        const a = document.createElement('a')
+        a.href = previewData.blobUrl
+        a.download = 'nomadic-card.png'
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+      }
+    } catch { /* user cancelled */ }
   }
 
   // Card preview overlay
@@ -103,49 +131,76 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
             alt="分享卡片"
             style={{ width: '100%', borderRadius: 16, display: 'block', boxShadow: '0 12px 48px rgba(0,0,0,0.5)' }}
           />
-          <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
+
+          {saveStatus === 'saved' && (
+            <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.85)', fontSize: 13, marginTop: 10 }}>
+              已下载 ✓
+            </div>
+          )}
+
+          <div style={{ display: 'flex', gap: 12, marginTop: saveStatus === 'saved' ? 8 : 16 }}>
+            <a
+              href={previewData.blobUrl}
+              download="nomadic-card.png"
+              onClick={handleDownloadClick}
+              style={{
+                flex: 1, padding: '13px', borderRadius: 12,
+                background: 'rgba(255,255,255,0.12)', border: '0.5px solid rgba(255,255,255,0.25)',
+                fontSize: 14, color: '#fff', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                textDecoration: 'none',
+              }}
+            >
+              ⬇ 下载
+            </a>
             <button
-              onClick={handleDownload}
-              style={{ flex: 1, padding: '13px', borderRadius: 12, background: 'rgba(255,255,255,0.12)', border: '0.5px solid rgba(255,255,255,0.25)', fontSize: 14, color: '#fff', cursor: 'pointer' }}
-            >⬇ 下载</button>
-            <button
-              onClick={handleShare}
-              style={{ flex: 1, padding: '13px', borderRadius: 12, background: '#1D9E75', border: 'none', fontSize: 14, color: '#fff', cursor: 'pointer', fontWeight: 600 }}
-            >↗ 转发</button>
+              onClick={handleForward}
+              style={{
+                flex: 1, padding: '13px', borderRadius: 12,
+                background: '#1D9E75', border: 'none',
+                fontSize: 14, color: '#fff', cursor: 'pointer', fontWeight: 600,
+              }}
+            >
+              ↗ 转发
+            </button>
           </div>
         </div>
       </div>
     )
   }
 
-  // Popover menu — right-aligned below the trigger button
+  // Popover menu — below trigger button, right-edge aligned
   const top = anchorRect.bottom + 8
-  const left = Math.max(8, anchorRect.right - 220)
+  const right = window.innerWidth - anchorRect.right
 
   return (
     <>
       <div style={{ position: 'fixed', inset: 0, zIndex: 299 }} onClick={handleClose} />
       <div style={{
-        position: 'fixed', top, left, width: 220, zIndex: 300,
+        position: 'fixed',
+        top,
+        right,
+        width: 'max-content',
+        minWidth: 120,
+        zIndex: 300,
         background: 'var(--bg-page)',
         borderRadius: 14,
         boxShadow: '0 4px 24px rgba(0,0,0,0.16)',
         border: '0.5px solid var(--border-light)',
         overflow: 'hidden',
       }}>
-        {showCopyLink && (
-          <button
-            onClick={handleSharePage}
-            style={{ width: '100%', padding: '11px 14px', background: 'none', border: 'none', borderBottom: '0.5px solid var(--border)', fontSize: 13, color: 'var(--text-primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 9, textAlign: 'left' as const }}
-          >
-            <span style={{ fontSize: 15 }}>🌐</span>
-            <span>分享页面</span>
-          </button>
-        )}
         <button
           onClick={handleGenerateCard}
           disabled={phase === 'generating'}
-          style={{ width: '100%', padding: '11px 14px', background: 'none', border: 'none', borderBottom: '0.5px solid var(--border)', fontSize: 13, color: 'var(--text-primary)', cursor: phase === 'generating' ? 'default' : 'pointer', display: 'flex', alignItems: 'center', gap: 9, textAlign: 'left' as const, opacity: phase === 'generating' ? 0.55 : 1 }}
+          style={{
+            width: '100%', padding: '11px 24px',
+            background: 'none', border: 'none',
+            borderBottom: showCopyLink ? '0.5px solid var(--border)' : 'none',
+            fontSize: 13, color: 'var(--text-primary)',
+            cursor: phase === 'generating' ? 'default' : 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9,
+            whiteSpace: 'nowrap', opacity: phase === 'generating' ? 0.55 : 1,
+          }}
         >
           <span style={{ fontSize: 15 }}>🖼️</span>
           <span>{phase === 'generating' ? '生成中…' : '生成卡片'}</span>
@@ -153,7 +208,13 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
         {showCopyLink && (
           <button
             onClick={handleCopyLink}
-            style={{ width: '100%', padding: '11px 14px', background: 'none', border: 'none', fontSize: 13, color: 'var(--text-primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 9, textAlign: 'left' as const }}
+            style={{
+              width: '100%', padding: '11px 24px',
+              background: 'none', border: 'none',
+              fontSize: 13, color: 'var(--text-primary)', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9,
+              whiteSpace: 'nowrap',
+            }}
           >
             <span style={{ fontSize: 15 }}>🔗</span>
             <span>{copyStatus === 'copied' ? '已复制 ✓' : '复制链接'}</span>

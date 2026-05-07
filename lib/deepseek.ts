@@ -61,6 +61,8 @@ export async function searchCity(query: string): Promise<SearchResult> {
         { role: 'user', content: USER_PROMPT(query) }
       ],
       temperature: 0.7,
+      max_tokens: 4096,
+      response_format: { type: 'json_object' },
     })
   })
 
@@ -72,6 +74,12 @@ export async function searchCity(query: string): Promise<SearchResult> {
 
   const data = await response.json()
   const text: string = data.choices[0].message.content
-  const jsonStr = text.replace(/^```json\s*/m, '').replace(/\s*```$/m, '').trim()
-  return JSON.parse(jsonStr) as SearchResult
+  // Strip optional markdown fences then parse
+  const jsonStr = text.replace(/^```(?:json)?\s*/m, '').replace(/\s*```$/m, '').trim()
+  try {
+    return JSON.parse(jsonStr) as SearchResult
+  } catch {
+    console.error('[deepseek] JSON parse failed, raw text:', text.slice(0, 500))
+    throw new Error('搜索结果解析失败，请再试一次')
+  }
 }

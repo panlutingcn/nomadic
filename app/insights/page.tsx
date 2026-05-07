@@ -7,6 +7,7 @@ import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
 import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
 import ShareSheet from '@/components/ShareSheet'
+import LoginModal from '@/components/LoginModal'
 import CityCard from '@/components/cards/CityCard'
 import { useUserProfile } from '@/hooks/useUserProfile'
 
@@ -30,7 +31,7 @@ function useEscapeKey(isOpen: boolean, onClose: () => void) {
 
 export default function InsightsPage() {
   const router = useRouter()
-  const { selectedCity, isCitySaved, toggleSaveCity, searchContext, setSearchContext } = useApp()
+  const { selectedCity, setSelectedCity, isCitySaved, toggleSaveCity, searchContext, setSearchContext } = useApp()
 
   // Generic placeholder when no city selected
   const PLACEHOLDER_CITY = {
@@ -123,14 +124,28 @@ export default function InsightsPage() {
 
   const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const [showLogin, setShowLogin] = useState(false)
-  const [loginMethod, setLoginMethod] = useState<'wechat' | 'email'>('wechat')
-  const [loginEmail, setLoginEmail] = useState('')
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [pageUrl, setPageUrl] = useState('')
   useEffect(() => {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || window.location.origin
     const path = window.location.pathname + window.location.search
     setPageUrl(baseUrl + path)
+  }, [])
+
+  // Synchronously derived — NEXT_PUBLIC_BASE_URL is a compile-time constant,
+  // selectedCity is already in context, no effect needed
+  const base = process.env.NEXT_PUBLIC_BASE_URL || 'https://nomadictree.io'
+  const cityQrUrl = selectedCity
+    ? `${base}/insights?city=${encodeURIComponent(selectedCity)}`
+    : 'https://nomadictree.io/insights'
+
+  // Restore city selection from URL param when a QR code is scanned
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const cityFromUrl = params.get('city')
+    if (cityFromUrl && !selectedCity) {
+      setSelectedCity(cityFromUrl)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Stable callback references for escape key handling
@@ -139,12 +154,11 @@ export default function InsightsPage() {
   useEscapeKey(!!shareAnchor, closeShare)
 
   const handleSave = () => {
-    if (!isLoggedIn) { setShowLogin(true); return }
+    if (!user) { setShowLogin(true); return }
     toggleSaveCity(city.name, city.country)
   }
 
   const handleLoginConfirm = () => {
-    setIsLoggedIn(true)
     setShowLogin(false)
     toggleSaveCity(city.name, city.country)
   }
@@ -361,25 +375,11 @@ export default function InsightsPage() {
       <BottomNav />
 
       {showLogin && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'flex-end' }}>
-          <div style={{ width: '100%', background: 'var(--bg-page)', borderRadius: '18px 18px 0 0', padding: '24px 20px 36px' }}>
-            <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 4 }}>登录后收藏城市</div>
-            <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
-              <button onClick={() => setLoginMethod('wechat')} style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'wechat' ? '#07C160' : 'var(--border-light)'}`, background: loginMethod === 'wechat' ? 'rgba(7,193,96,0.08)' : 'var(--bg-card)', fontSize: 12, color: loginMethod === 'wechat' ? '#07C160' : 'var(--text-secondary)', cursor: 'pointer' }}>微信登录</button>
-              <button onClick={() => setLoginMethod('email')} style={{ flex: 1, padding: '7px', borderRadius: 8, border: `0.5px solid ${loginMethod === 'email' ? 'var(--accent)' : 'var(--border-light)'}`, background: loginMethod === 'email' ? 'var(--accent-dim)' : 'var(--bg-card)', fontSize: 12, color: loginMethod === 'email' ? 'var(--accent-text)' : 'var(--text-secondary)', cursor: 'pointer' }}>邮箱登录</button>
-            </div>
-            {loginMethod === 'wechat' ? (
-              <button onClick={handleLoginConfirm} style={{ width: '100%', padding: '12px', borderRadius: 12, background: '#07C160', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 12 }}>微信一键登录</button>
-            ) : (
-              <>
-                <input value={loginEmail} onChange={e => setLoginEmail(e.target.value)} placeholder="输入你的邮箱" type="email"
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '0.5px solid var(--border)', background: 'var(--bg-card)', fontSize: 12, color: 'var(--text-primary)', boxSizing: 'border-box', outline: 'none', marginBottom: 8 }} />
-                <button onClick={handleLoginConfirm} style={{ width: '100%', padding: '11px', borderRadius: 12, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 12 }}>确认登录</button>
-              </>
-            )}
-            <button onClick={() => setShowLogin(false)} style={{ width: '100%', padding: '10px', borderRadius: 12, background: 'none', border: '0.5px solid var(--border-light)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer' }}>取消</button>
-          </div>
-        </div>
+        <LoginModal
+          onClose={() => setShowLogin(false)}
+          onSuccess={handleLoginConfirm}
+          redirectPath="/insights"
+        />
       )}
 
       {/* Hidden city card for html2canvas capture */}
@@ -396,7 +396,7 @@ export default function InsightsPage() {
             personality={'personality' in city.soul ? city.soul.personality : undefined}
             economy={'economy' in city.soul ? city.soul.economy : undefined}
             cityKey={selectedCity || undefined}
-            qrValue={pageUrl || 'https://nomadictree.io/insights'}
+            qrValue={cityQrUrl || 'https://nomadictree.io/insights'}
           />
         </div>
       </div>
@@ -406,7 +406,7 @@ export default function InsightsPage() {
         onClose={closeShare}
         cardRef={cityCardRef}
         showCopyLink={true}
-        copyUrl={pageUrl}
+        copyUrl={cityQrUrl || pageUrl}
       />
 
     </div>
