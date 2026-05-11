@@ -214,6 +214,7 @@ export default function EditImprintPage() {
         </button>
         <div style={{ fontSize: 9, color: '#c8bfaa', textAlign: 'center' }}>保存后自动返回印迹详情</div>
       </div>
+      <div style={{ height: 32 }} />
       <BottomNav />
     </div>
   )

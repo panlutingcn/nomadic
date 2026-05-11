@@ -16,6 +16,7 @@ CITY_ZH['Bangkok'] = '曼谷'
 interface GlobeMapProps {
   cities: string[]
   onCityClick: (city: string) => void
+  scale?: number
 }
 
 // Returns > 0 if city is on the visible hemisphere facing the camera
@@ -27,7 +28,7 @@ function frontFaceDot(cityLon: number, cityLat: number, camLon: number, camLat: 
   )
 }
 
-export default function GlobeMap({ cities, onCityClick }: GlobeMapProps) {
+export default function GlobeMap({ cities, onCityClick, scale = 150 }: GlobeMapProps) {
   const [rotate, setRotate] = useState<[number, number, number]>([0, -30, 0])
   const [dir, setDir] = useState(1) // 1 = rightward, -1 = leftward
   const rafRef = useRef<number | null>(null)
@@ -81,7 +82,7 @@ export default function GlobeMap({ cities, onCityClick }: GlobeMapProps) {
       >
       <ComposableMap
         projection="geoOrthographic"
-        projectionConfig={{ scale: 150, rotate }}
+        projectionConfig={{ scale, rotate }}
         width={300}
         height={160}
         style={{ width: '100%', height: '100%' }}

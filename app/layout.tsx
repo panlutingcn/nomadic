@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { AppProvider } from '@/context/AppContext'
 import { AuthProvider } from '@/context/AuthContext'
+import OnboardingGuard from '@/components/OnboardingGuard'
 
 export const metadata: Metadata = {
   title: 'Nomadic 此时此地',
@@ -32,7 +33,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <AuthProvider>
           <AppProvider>
-            {children}
+            <OnboardingGuard>
+              {children}
+            </OnboardingGuard>
           </AppProvider>
         </AuthProvider>
       </body>

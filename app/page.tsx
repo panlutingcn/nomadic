@@ -4,56 +4,36 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
 import SearchBox, { SearchBoxHandle } from '@/components/SearchBox'
-import GuideModal from '@/components/GuideModal'
 import ErrorToast from '@/components/ErrorToast'
-import dynamicImport from 'next/dynamic'
-const GlobeMap = dynamicImport(() => import('@/components/GlobeMap'), { ssr: false })
-import ContactBubble from '@/components/ContactBubble'
+import ShareSheet from '@/components/ShareSheet'
+import BrandCard from '@/components/cards/BrandCard'
 import { useApp } from '@/context/AppContext'
-import { useAuth } from '@/context/AuthContext'
+import { useUserProfile } from '@/hooks/useUserProfile'
 import { CITIES } from '@/data/cities'
 import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
 import { shuffle } from '@/utils/shuffle'
-import ShareSheet from '@/components/ShareSheet'
-import BrandCard from '@/components/cards/BrandCard'
-import { useUserProfile } from '@/hooks/useUserProfile'
 
 const RANDOM_COUNT = 9
 
-export default function HomePage() {
+export default function ExplorePage() {
   const router = useRouter()
-  const { setSelectedCity, imprints, savedCities } = useApp()
-  const { user } = useAuth()
-  const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
-  const brandCardRef = useRef<HTMLDivElement>(null)
+  const { allPublicImprints } = useApp()
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
-
-  const [showGuide, setShowGuide] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [randomCities, setRandomCities] = useState<NomadCity[]>([])
   const [hoveredCity, setHoveredCity] = useState<string | null>(null)
-  const [hoveredQuadrant, setHoveredQuadrant] = useState<string | null>(null)
+  const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const searchBoxRef = useRef<SearchBoxHandle>(null)
+  const brandCardRef = useRef<HTMLDivElement>(null)
+
+  const closeShare = useCallback(() => setShareAnchor(null), [])
 
   useEffect(() => {
-    const hasSeenGuide = localStorage.getItem('hasSeenGuide')
-    if (!hasSeenGuide) setShowGuide(true)
     setRandomCities(shuffle(NOMAD_CITY_POOL).slice(0, RANDOM_COUNT))
   }, [])
 
   const handleCityClick = (city: NomadCity) => {
-    if (city.en in CITIES) {
-      searchBoxRef.current?.startLoading()
-      setTimeout(() => {
-        setSelectedCity(city.en)
-        router.push('/insights')
-      }, 400)
-    } else {
-      searchBoxRef.current?.fill(city.zh)
-      setTimeout(() => {
-        searchBoxRef.current?.search()
-      }, 100)
-    }
+    router.push(`/search?q=${encodeURIComponent(city.zh)}`)
   }
 
   const handleRandomExplore = () => {
@@ -62,21 +42,19 @@ export default function HomePage() {
     searchBoxRef.current?.fill(pick.zh)
   }
 
-  const handleQuadrantClick = useCallback(() => {
-    searchBoxRef.current?.pulse()
-  }, [])
-
-  const imprintCities = Array.from(new Set(imprints.map(i => i.city))).slice(0, 4)
   const displayCities: NomadCity[] = [...PINNED_CITIES, ...randomCities]
+  const previewImprints = allPublicImprints.slice(0, 3)
+  const photoBg: Record<string, string> = { Berlin: '#dde8d8', Lisbon: '#e8e2d8', Amsterdam: '#d8e0e8', Prague: '#e8e8ed', Florence: '#ede2d8' }
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 1, padding: '0 16px 10px' }}>
 
+        {/* Hero */}
         <div style={{ position: 'relative', height: 200, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 12, overflow: 'visible' }}>
-          {/* Share button — top-right, aligns with search box right edge */}
+          {/* 分享按钮 — 右上角 */}
           <button
-            onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())}
+            onClick={e => setShareAnchor(e.currentTarget.getBoundingClientRect())}
             aria-label="分享"
             style={{ position: 'absolute', top: 16, right: 0, zIndex: 4, width: 32, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--text-secondary)', cursor: 'pointer' }}
           >⤴</button>
@@ -200,7 +178,6 @@ export default function HomePage() {
             <ellipse className="tree-leaf l23" cx="214" cy="64"  rx="18" ry="13" fill="#085041"/>
             <ellipse className="tree-leaf l24" cx="145" cy="62"  rx="30" ry="16" fill="#0f6e56"/>
           </svg>
-
           <div style={{ position: 'relative', zIndex: 3, textAlign: 'center' }}>
             <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--text-primary)', letterSpacing: '0.06em' }}>Nomadic</div>
             <div style={{ fontSize: 14, fontWeight: 500, color: '#3d3020', marginTop: 6, lineHeight: 1.45 }}>在世界各地扎根，而不只是路过。</div>
@@ -213,27 +190,27 @@ export default function HomePage() {
         <div style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 8 }}>—— 你想去哪里 ——</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 12, justifyContent: 'center' }}>
           {displayCities.map(city => (
-              <button
-                key={city.en}
-                onClick={() => handleCityClick(city)}
-                onMouseEnter={() => setHoveredCity(city.en)}
-                onMouseLeave={() => setHoveredCity(null)}
-                style={{
-                  fontSize: 11,
-                  padding: '5px 11px',
-                  borderRadius: 8,
-                  background: 'var(--accent-dim)',
-                  color: 'var(--accent-text)',
-                  border: `${hoveredCity === city.en ? '1.5px' : '0.5px'} solid var(--accent-border)`,
-                  cursor: 'pointer',
-                  fontWeight: hoveredCity === city.en ? 600 : 500,
-                  transform: hoveredCity === city.en ? 'scale(1.06)' : 'scale(1)',
-                  transition: 'all 120ms ease',
-                }}
-              >
-                {city.zh}
-              </button>
-            ))}
+            <button
+              key={city.en}
+              onClick={() => handleCityClick(city)}
+              onMouseEnter={() => setHoveredCity(city.en)}
+              onMouseLeave={() => setHoveredCity(null)}
+              style={{
+                fontSize: 11,
+                padding: '5px 11px',
+                borderRadius: 8,
+                background: 'var(--accent-dim)',
+                color: 'var(--accent-text)',
+                border: `${hoveredCity === city.en ? '1.5px' : '0.5px'} solid var(--accent-border)`,
+                cursor: 'pointer',
+                fontWeight: hoveredCity === city.en ? 600 : 500,
+                transform: hoveredCity === city.en ? 'scale(1.06)' : 'scale(1)',
+                transition: 'all 120ms ease',
+              }}
+            >
+              {city.zh}
+            </button>
+          ))}
           <button
             onClick={handleRandomExplore}
             onMouseEnter={() => setHoveredCity('__random__')}
@@ -255,60 +232,40 @@ export default function HomePage() {
 
         <div style={{ height: '0.5px', background: 'var(--border)', margin: '12px 0' }} />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7, marginBottom: 12 }}>
-          {[
-            { emoji: '🌍', en: 'SOUL', zh: '城市灵魂', desc: '读懂一座城市的内核', bg: '#fde4a0', border: '#c8a830', color: '#633806', descColor: '#854f0b' },
-            { emoji: '🌿', en: 'BASE', zh: '生存基准', desc: '确认适合你居住', bg: '#d4ede0', border: '#9fd4b8', color: '#085041', descColor: '#0f6e56' },
-            { emoji: '💼', en: 'CHANCE', zh: '商业机会', desc: '链接当地的商业生态', bg: '#c8dcf0', border: '#84b8d8', color: '#0c447c', descColor: '#185fa5' },
-            { emoji: '👥', en: 'LOCAL', zh: '本地圈子', desc: '遇见同频的灵魂', bg: '#dbd2f0', border: '#b8a8e0', color: '#3c3489', descColor: '#534ab7' },
-          ].map(q => (
-            <div
-              key={q.en}
-              onClick={handleQuadrantClick}
-              onMouseEnter={() => setHoveredQuadrant(q.en)}
-              onMouseLeave={() => setHoveredQuadrant(null)}
-              style={{
-                background: q.bg,
-                border: `${hoveredQuadrant === q.en ? '1.5px' : '0.5px'} solid ${q.border}`,
-                borderRadius: 10,
-                padding: '10px 11px',
-                cursor: 'pointer',
-                transform: hoveredQuadrant === q.en ? 'scale(1.04)' : 'scale(1)',
-                transition: 'all 120ms ease',
-                boxShadow: hoveredQuadrant === q.en ? `0 4px 12px rgba(0,0,0,0.08)` : 'none',
-              }}
-            >
-              <div style={{ fontSize: 18, lineHeight: 1, marginBottom: 5 }}>{q.emoji}</div>
-              <div style={{ fontSize: 11, fontWeight: 500, color: q.color }}>{q.en} {q.zh}</div>
-              <div style={{ fontSize: 10, color: q.descColor, marginTop: 3 }}>{q.desc}</div>
+        {/* 社区最新印迹 */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+          <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>遇见社区 · 最新印迹</span>
+          <button onClick={() => router.push('/meet')} style={{ fontSize: 12, color: 'var(--accent)', background: 'none', border: 'none', cursor: 'pointer' }}>查看全部 ›</button>
+        </div>
+        {previewImprints.map(imp => (
+          <div key={imp.id} onClick={() => router.push('/meet')}
+            style={{ display: 'flex', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+            <div style={{ width: 72, height: 62, background: photoBg[imp.city] ?? '#dde8d8', flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {imp.photo
+                ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                : <span style={{ fontSize: 9, color: '#8a9870' }}>[ 图片 ]</span>
+              }
+              <span style={{ position: 'absolute', top: 4, left: 4, background: 'rgba(245,240,232,0.9)', color: '#3d3020', fontSize: 9, fontWeight: 500, padding: '2px 6px', borderRadius: 5 }}>
+                {CITIES[imp.city]?.nameZh || imp.city}
+              </span>
             </div>
-          ))}
-        </div>
-
-        <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, padding: '11px 13px', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-            <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>我的全球版图</span>
-            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>走过 {user ? new Set(savedCities.map(c => c.country)).size : 2} 个国家 · {user ? new Set(imprints.map(i => i.city)).size : 2} 个城市</span>
+            <div style={{ padding: '8px 10px', flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 3 }}>{imp.title}</div>
+              <div style={{ fontSize: 11, color: 'var(--text-secondary)', lineHeight: 1.45, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{imp.narrative?.slice(0, 50)}…</div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 5 }}>
+                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{imp.author ?? 'Nomadic 用户'}</span>
+                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>♡ {imp.likes ?? 0}</span>
+              </div>
+            </div>
           </div>
-          <div style={{ height: 160, position: 'relative', background: 'var(--bg-page)', borderRadius: 8, overflow: 'hidden' }}>
-            <GlobeMap
-              cities={imprintCities}
-              onCityClick={(city) => {
-                setSelectedCity(city in CITIES ? city : 'Berlin')
-                router.push('/insights')
-              }}
-            />
-          </div>
-          <div style={{ fontSize: 9, color: 'var(--text-muted)', textAlign: 'center', marginTop: 6 }}>点击发光点 · 进入该城市印迹</div>
-        </div>
+        ))}
       </div>
 
-      <ContactBubble />
+      <div style={{ height: 32 }} />
       <BottomNav />
-      {showGuide && <GuideModal onClose={() => setShowGuide(false)} />}
       {errorMessage && <ErrorToast onClose={() => setErrorMessage('')} />}
 
-      {/* Hidden card for html2canvas capture */}
+      {/* 隐藏的 BrandCard，用于 html2canvas 截图 */}
       <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
         <div ref={brandCardRef}>
           <BrandCard nickname={profileNickname} avatarUrl={profileAvatar} />
@@ -317,7 +274,7 @@ export default function HomePage() {
 
       <ShareSheet
         anchorRect={shareAnchor}
-        onClose={() => setShareAnchor(null)}
+        onClose={closeShare}
         cardRef={brandCardRef}
         showCopyLink={true}
         copyUrl="https://nomadictree.io"

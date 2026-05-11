@@ -1,0 +1,213 @@
+'use client'
+export const dynamic = 'force-static'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState, useRef, useCallback } from 'react'
+import BottomNav from '@/components/BottomNav'
+import { useApp } from '@/context/AppContext'
+import { useAuth } from '@/context/AuthContext'
+import { PERSONAS } from '@/data/travelPersona'
+import { CITIES } from '@/data/cities'
+import LoginModal from '@/components/LoginModal'
+import ContactModal from '@/components/ContactModal'
+import ShareSheet from '@/components/ShareSheet'
+import WorldCard from '@/components/cards/WorldCard'
+import { useUserProfile } from '@/hooks/useUserProfile'
+import dynamicImport from 'next/dynamic'
+
+const GlobeMap = dynamicImport(() => import('@/components/GlobeMap'), { ssr: false })
+
+export default function MinePage() {
+  const router = useRouter()
+  const { savedCities, imprints, setSelectedCity } = useApp()
+  const { user } = useAuth()
+  const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
+  const [personaKey, setPersonaKey] = useState('')
+  const [showLogin, setShowLogin] = useState(false)
+  const [showContact, setShowContact] = useState(false)
+  const [mapShareAnchor, setMapShareAnchor] = useState<DOMRect | null>(null)
+  const worldCardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setPersonaKey(localStorage.getItem('nomadic_persona') ?? '')
+  }, [])
+
+  const closeMapShare = useCallback(() => setMapShareAnchor(null), [])
+
+  const persona = PERSONAS[personaKey]
+  const imprintCities = Array.from(new Set(imprints.map(i => i.city))).slice(0, 8)
+  const uniqueCountries = Array.from(new Set(imprintCities.map(c => CITIES[c]?.country || c))).length
+  const cityNamesZh = imprintCities.map(c => CITIES[c]?.nameZh || c)
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: '12px 16px 0', flex: 1 }}>
+
+        {/* 用户信息栏 */}
+        <div style={{ background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 16, padding: '13px 15px', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(29,158,117,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 500, color: '#1D9E75', flexShrink: 0, overflow: 'hidden' }}>
+            {profileAvatar
+              ? <img src={profileAvatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              : (profileNickname[0] ?? 'N').toUpperCase()
+            }
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 15, fontWeight: 500, color: '#2d2418', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {profileNickname}
+            </div>
+            <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>{savedCities.length} 个城市 · {imprints.length} 个印迹</div>
+          </div>
+          {user ? (
+            <div style={{ fontSize: 11, color: '#8a7a62', cursor: 'pointer', flexShrink: 0, padding: '4px 8px' }}
+              onClick={() => router.push('/mine/account')}>
+              账号 ›
+            </div>
+          ) : (
+            <button onClick={() => setShowLogin(true)}
+              style={{ fontSize: 12, fontWeight: 500, padding: '6px 14px', borderRadius: 9, background: '#1D9E75', color: '#fff', border: 'none', cursor: 'pointer', flexShrink: 0 }}>
+              登录
+            </button>
+          )}
+        </div>
+
+        {/* 旅行人格卡片 */}
+        {persona ? (
+          <div onClick={() => router.push('/mine/persona')}
+            style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12 }}>
+            <span style={{ fontSize: 28, flexShrink: 0, lineHeight: 1 }}>{persona.emoji}</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 11, color: '#854f0b', marginBottom: 2 }}>你的旅行人格</div>
+              <div style={{ fontSize: 14, fontWeight: 500, color: '#633806' }}>{persona.name}</div>
+              <div style={{ fontSize: 11, color: '#b8952a', marginTop: 1 }}>{personaKey} · {persona.tags}</div>
+            </div>
+            <span style={{ fontSize: 16, color: '#c8a870' }}>›</span>
+          </div>
+        ) : (
+          <div onClick={() => router.push('/onboarding')}
+            style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12 }}>
+            <span style={{ fontSize: 22, flexShrink: 0 }}>🧭</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>发现你的旅行人格</div>
+              <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>16 道题 · 约 2 分钟</div>
+            </div>
+            <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500 }}>开始测试 →</span>
+          </div>
+        )}
+
+        {/* 全球版图 — 容器 160px，地球 5× */}
+        <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, overflow: 'hidden', marginBottom: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 13px 7px' }}>
+            <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的全球版图</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprintCities.length} 座城市 · {uniqueCountries} 个国家</span>
+              <button
+                onClick={e => setMapShareAnchor(e.currentTarget.getBoundingClientRect())}
+                style={{ width: 28, height: 26, border: '0.5px solid #ddd4c0', borderRadius: 7, background: '#f5f0e8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: '#8a7a62', cursor: 'pointer' }}
+                aria-label="分享版图"
+              >⤴</button>
+            </div>
+          </div>
+          <div style={{ height: 160, position: 'relative', background: '#dceef8', overflow: 'hidden' }}>
+            <GlobeMap
+              cities={imprintCities}
+              onCityClick={(city) => {
+                setSelectedCity(city in CITIES ? city : 'Berlin')
+                router.push('/insights')
+              }}
+            />
+          </div>
+          <div style={{ fontSize: 10, color: '#8a7a62', textAlign: 'center', padding: '7px 0 9px' }}>点击发光点 · 进入该城市印迹</div>
+        </div>
+
+        {/* 收藏夹 */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>收藏夹</span>
+          <span style={{ fontSize: 12, color: '#1D9E75', cursor: 'pointer' }}>管理 ›</span>
+        </div>
+        <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 12, padding: '10px 13px', marginBottom: 12 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {savedCities.map(city => (
+              <button key={city.name} onClick={() => { setSelectedCity(city.name); router.push('/insights') }}
+                style={{ fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 8, background: 'rgba(29,158,117,0.1)', color: '#0f6e56', border: '0.5px solid rgba(29,158,117,0.25)', cursor: 'pointer' }}>
+                {CITIES[city.name]?.nameZh || city.name}
+              </button>
+            ))}
+            {savedCities.length === 0 && <span style={{ fontSize: 12, color: '#b8a98a' }}>还没有收藏的城市</span>}
+          </div>
+        </div>
+
+        {/* 我的印迹 */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的印迹</span>
+          <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprints.length} 个 · 最新在前</span>
+        </div>
+        {user && imprints.length === 0 && (
+          <>
+            {[0, 1].map(i => (
+              <div key={i} onClick={() => router.push('/story')}
+                style={{ background: '#fff', border: '0.5px dashed #ddd4c0', borderRadius: 12, height: 64, marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                <span style={{ fontSize: 12, color: '#b8a98a' }}>+ 记录你的城市印迹</span>
+              </div>
+            ))}
+          </>
+        )}
+        {imprints.map(imp => (
+          <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ display: 'flex', background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+            <div style={{ width: 68, height: 60, background: '#ede8df', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {imp.photo ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 9, color: '#c8bfaa' }}>图片</span>}
+            </div>
+            <div style={{ padding: '8px 10px', flex: 1, minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
+                <span style={{ fontSize: 10, padding: '2px 7px', borderRadius: 5, fontWeight: 500, background: imp.isPublic ? 'rgba(29,158,117,0.1)' : '#f0ebe2', color: imp.isPublic ? '#085041' : '#8a7a62', border: `0.5px solid ${imp.isPublic ? 'rgba(29,158,117,0.2)' : '#ddd4c0'}` }}>
+                  {imp.isPublic ? '公开' : '私藏'}
+                </span>
+                <span style={{ fontSize: 10, color: '#b8a98a' }}>
+                  {CITIES[imp.city]?.nameZh || imp.city}
+                </span>
+              </div>
+              <div style={{ fontSize: 12, fontWeight: 500, color: '#2d2418', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{imp.title}</div>
+              <div style={{ fontSize: 10, color: '#b8a98a', marginTop: 3, textAlign: 'right' }}>{imp.createdAt}</div>
+            </div>
+          </div>
+        ))}
+
+        {/* 联系共创 */}
+        <div style={{ height: 8 }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>联系共创</span>
+        </div>
+        <div onClick={() => setShowContact(true)}
+          style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 12, padding: '14px 15px', marginBottom: 12, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+          <div style={{ fontSize: 13, color: '#2d2418', lineHeight: 1.6 }}>期待听到你的想法或故事 →</div>
+        </div>
+        <div style={{ height: 12 }} />
+      </div>
+
+      <div style={{ height: 32 }} />
+      <BottomNav />
+
+      {/* 隐藏的 WorldCard，用于 html2canvas 截图 */}
+      <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
+        <div ref={worldCardRef}>
+          <WorldCard
+            nickname={profileNickname}
+            avatarUrl={profileAvatar}
+            cityCount={savedCities.length}
+            countryCount={uniqueCountries}
+            cityNames={cityNamesZh}
+          />
+        </div>
+      </div>
+
+      <ShareSheet
+        anchorRect={mapShareAnchor}
+        onClose={closeMapShare}
+        cardRef={worldCardRef}
+        showCopyLink={true}
+        copyUrl="https://nomadictree.io"
+      />
+
+      {showLogin && <LoginModal onClose={() => setShowLogin(false)} redirectPath="/mine" />}
+      {showContact && <ContactModal onClose={() => setShowContact(false)} />}
+    </div>
+  )
+}

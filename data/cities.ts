@@ -165,48 +165,6 @@ export const CITIES: Record<string, CityData> = {
       ]
     }
   },
-  Bangkok: {
-    name: 'Bangkok', nameZh: '曼谷', country: 'Thailand', countryZh: '泰国', flag: '🇹🇭', match: 85,
-    soul: {
-      headline: '混沌中生长的东南亚能量之都。',
-      sub: '文化 · 历史 · 节庆 · 经济支柱',
-      body: '曼谷是一座永远不会让你无聊的城市。它把混沌变成了一种生活方式，把嘈杂变成了一种能量。在这里，街头小吃和五星酒店可以在同一条街上共存，没有人觉得奇怪。',
-      personality: '曼谷的文化内核是"Sanuk"——泰语中"乐趣"的概念。泰国人相信，任何事情都应该有趣，包括工作。这种哲学渗透在街头小贩的笑容里、寺庙的金色屋顶上、夜市的霓虹灯下。曼谷不评判你，它只是接纳你，然后用它的能量感染你。',
-      economy: '曼谷是东南亚最重要的商业枢纽之一，旅游业、金融服务、制造业与科技初创并驾齐驱。泰国政府积极推动数字经济，共享办公空间密集，外资企业众多。近年来，曼谷成为东南亚科技创业的重要节点，吸引大量区域总部落户。',
-      festivals: '宋干节（Songkran，4月）是全球最盛大的泼水节，全城变成欢乐的水战场；水灯节（Loy Krathong，11月）在湄南河上放灯，如梦似幻；佛教节日贯穿全年，寺庙是城市生活的精神中心；每年12月的跨年烟火在湄南河畔举行，吸引数十万人聚集。',
-      figures: '普密蓬·阿杜德国王（拉玛九世）是泰国人心中的精神支柱，在位70年深受爱戴；泰拳传奇武里拉姆·乌多姆迪是曼谷的体育骄傲；当代艺术家Rirkrit Tiravanija将泰国文化带入国际当代艺术舞台；美食家David Thompson将泰国料理推向全球高端餐饮领域。',
-    },
-    base: {
-      wifi: '74 Mbps', cost: '$', visa: '30天落地签',
-      visaDays: '180天', visaDesc: '🛂 多次入境旅游签证（METV）可停留6个月，LTR签证适合高收入远程工作者长期居留。',
-      welfare: '🏥 外籍人士不纳入泰国社保体系，建议自行购买国际医疗保险，费用约 $50–$150/月。',
-      visaDetail: '多次入境旅游签证（METV）可停留6个月，每次入境最长60天。泰国长期居留签证（LTR）适合高收入远程工作者，有效期10年，需年收入超过$80,000。',
-      dailyCost: '每日预算参考：\n• 餐饮：฿200–500（街头小吃฿50–100，餐厅฿150–300）\n• 住宿：฿800–2000（市中心公寓，性价比极高）\n• 交通：฿100–200（BTS/MRT单程฿16–59，打车便宜）\n• 合计：约฿1,200–2,700/天（约$35–80）',
-      safety: '曼谷整体安全，针对游客的暴力犯罪极少。需注意：扒窃在旅游区（考山路、暹罗广场）有发生；出租车和嘟嘟车可能绕路，建议使用Grab；避免参与街头赌博和陌生人搭讪的"特价"活动。',
-      society: '泰国医疗水平在东南亚领先，私立医院服务优质且价格合理。工作文化注重等级与礼貌，"微笑之国"的称号名副其实。英语在商业区和旅游业普及，但日常生活中泰语为主。'
-    },
-    chance: {
-      paragraph: '曼谷是东南亚商业枢纽，共享办公空间密集，消费成本极低，适合刚起步的数字游民。',
-      policy: { label: 'Thailand Board of Investment 投资促进', url: 'https://www.boi.go.th/en/index/', desc: '泰国投资委员会官网，提供投资优惠与商业支持' },
-      localJobs: [
-        { name: 'JobsDB Thailand', url: 'https://th.jobsdb.com', desc: '东南亚领先招聘平台，泰国职位最全' },
-        { name: 'LinkedIn TH Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
-      ],
-      remoteJobs: [
-        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
-        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
-        { name: 'Toptal', url: 'https://www.toptal.com', desc: '顶尖自由职业者网络，严格筛选机制' },
-      ]
-    },
-    local: {
-      paragraph: '曼谷的外籍人士社群庞大且多元，从东南亚创业者到全球远程工作者，这里是亚洲数字游民密度最高的城市之一。',
-      platforms: [
-        { name: 'Meetup Bangkok', url: 'https://www.meetup.com/cities/th/bangkok/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
-        { name: 'Eventbrite Bangkok', url: 'https://www.eventbrite.com/d/thailand--bangkok/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
-        { name: 'InterNations Bangkok', url: 'https://www.internations.org/bangkok-expats/', desc: '全球最大外籍人士社群，曼谷分部活跃' },
-      ]
-    }
-  },
   Prague: {
     name: 'Prague', nameZh: '布拉格', country: 'Czech Republic', countryZh: '捷克', flag: '🇨🇿', match: 82,
     soul: {
@@ -577,9 +535,1575 @@ export const CITIES: Record<string, CityData> = {
       ]
     }
   },
+  Madrid: {
+    name: 'Madrid', nameZh: '马德里', country: 'Spain', countryZh: '西班牙', flag: '🇪🇸', match: 85,
+    soul: {
+      headline: '伊比利亚的心脏，永不入眠的城市。',
+      sub: '文化 · 艺术 · 历史 · 美食',
+      body: '马德里的夜晚从午夜开始。普拉多、索菲亚王后、提森三大博物馆构成欧洲密度最高的艺术三角，而街头的活力才是这座城市真正的灵魂。',
+      personality: '马德里融合了卡斯蒂利亚的庄重与地中海的热情，Malasaña街区的嬉皮自由与Salamanca的精英气质在同一座城市和平共存。这里的人相信凌晨两点才是真正的开始，友善与直率是他们待人的方式。',
+      economy: '西班牙政治与金融中心，Fintech与SaaS初创生态快速成长，旅游、媒体与创意产业并驾齐驱。2023年推出的数字游民签证正在吸引大批远程工作者涌入。',
+      festivals: '圣伊西德罗节（5月）是最盛大的传统节庆，万人在马扎纳雷斯河畔共舞；Veranos de la Villa夏日文化节覆盖全城剧场与广场；三王节巡游（1月5日）是冬季的童话时刻。',
+      figures: '戈雅在马德里完成了《黑色绘画》系列；导演阿尔莫多瓦用这座城市的街道重塑了西班牙电影；建筑师莫内欧的索菲亚王后艺术中心扩建改变了城市天际线。',
+    },
+    base: {
+      wifi: '65 Mbps', cost: '$$', visa: '数字游民签证1年，可续签至3年',
+      visaDays: '365 days',
+      visaDesc: '🛂 西班牙数字游民签证要求月收入≥€2,646，在境外雇主或自雇，审批约1-3个月。',
+      welfare: '🏥 持有效签证可参与西班牙公共医疗体系，公立医院质量较高，覆盖广泛。',
+      safety: '整体安全，主要风险是太阳门与格兰大道一带的扒窃。夜间娱乐区活跃但总体有序，女性独行白天安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€15–25（午餐Menú del Día €10–14，Tapas晚餐€15–25）\n• 住宿：€40–70（市中心Airbnb合租，月租比日租划算约50%）\n• 交通：€3–5（地铁月票€55，日均约€2）\n• 合计：约€58–100/天',
+      visaDetail: '西班牙数字游民签证（Visado para Teletrabajadores）需提供收入证明、健康保险、无犯罪记录。初始1年，入境后可申请3年居留许可，配偶及未成年子女可同行申请。',
+      society: '工作与生活平衡受法律保护，午休文化部分保留，家庭与社交是生活重心。持有效签证的自雇者可缴纳Autónomo社保，享受医疗保障。',
+    },
+    chance: {
+      paragraph: '西班牙语是全球第二大语言市场，内容创作与营销咨询需求旺盛；Fintech与SaaS初创生态在马德里快速成长，联合办公空间密集。',
+      policy: { label: 'ICEX Invest in Spain', url: 'https://www.investinspain.org/en/why-spain/index.html', desc: '西班牙官方外商投资促进机构，提供落地支持' },
+      localJobs: [
+        { name: 'InfoJobs', url: 'https://www.infojobs.net', desc: '西班牙最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '马德里有多个活跃的数字游民社群，共享办公空间密集，国际化程度高，英语交流无障碍。',
+      platforms: [
+        { name: 'Meetup Madrid', url: 'https://www.meetup.com/cities/es/madrid/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Madrid', url: 'https://www.eventbrite.com/d/spain--madrid/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Valencia: {
+    name: 'Valencia', nameZh: '瓦伦西亚', country: 'Spain', countryZh: '西班牙', flag: '🇪🇸', match: 92,
+    soul: {
+      headline: '地中海阳光下，欧洲数字游民的性价比之选。',
+      sub: '文化 · 美食 · 建筑 · 海滩',
+      body: '瓦伦西亚是西班牙数字游民社区公认的隐藏宝石——气候全年温暖，生活成本远低于巴塞罗那，卡拉特拉瓦设计的艺术科学城每天提醒着人们，这里的创意从未停止。',
+      personality: '瓦伦西亚人以乐观开朗著称，融合了地中海的悠闲与本土文化的独立精神。旧城区的古老市场与现代蓬勃的科技社群并存，让这座城市既有历史厚重感又充满活力。',
+      economy: '旅游与农业科技是传统支柱，汽车制造（福特工厂）与数字经济快速崛起；瓦伦西亚港是欧洲最繁忙的货运港之一，物流与国际贸易人才需求旺盛。',
+      festivals: '法雅节（Las Fallas，3月）是联合国非物质文化遗产，万千纸扎人偶在火光中消逝，是欧洲最壮观的节庆之一；番茄节（La Tomatina，8月，布尼奥尔）在附近小镇举行，每年吸引数万人参与。',
+      figures: '建筑师圣地亚哥·卡拉特拉瓦以艺术科学城重塑了瓦伦西亚天际线；哲学家路易斯·比维斯是文艺复兴时代的人文主义先驱；网球运动员大卫·费雷尔以坚韧精神代表了瓦伦西亚人的气质。',
+    },
+    base: {
+      wifi: '65 Mbps', cost: '$', visa: '数字游民签证1年，可续签至3年',
+      visaDays: '365 days',
+      visaDesc: '🛂 与马德里相同的西班牙数字游民签证，月收入门槛€2,646，瓦伦西亚办证流程顺畅。',
+      welfare: '🏥 西班牙公共医疗覆盖全国，瓦伦西亚公立医院质量良好，语言服务相对完善。',
+      safety: '西班牙安全感最高的大城市之一，犯罪率低于马德里与巴塞罗那。旧城区夜间热闹而安全，女性独行体感安全度高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€12–20（市场午餐€8–12，晚餐€12–20）\n• 住宿：€30–55（市中心Airbnb单间，比巴塞罗那便宜约35%）\n• 交通：€2–4（地铁月票€40，骑行基础设施完善）\n• 合计：约€44–79/天',
+      visaDetail: '申请西班牙数字游民签证与全国标准一致。城市生活成本约为马德里的70-80%，月均租金比巴塞罗那低约€400，是欧洲性价比最高的数字游民目的地之一。',
+      society: '生活节奏舒适，骑行文化成熟，海滩与山区均在30分钟车程内。外籍人士社区庞大，英语友好程度逐年提升，融入难度较低。',
+    },
+    chance: {
+      paragraph: '旅游科技与农业科技（AgriTech）是本地热点赛道，英语教学与西班牙语课程是稳定收入来源；电商与内容创作需求随游民社区增长而旺盛。',
+      policy: { label: 'ICEX Invest in Spain', url: 'https://www.investinspain.org/en/why-spain/index.html', desc: '西班牙官方外商投资促进机构，提供落地支持' },
+      localJobs: [
+        { name: 'InfoJobs', url: 'https://www.infojobs.net', desc: '西班牙最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '瓦伦西亚数字游民社区规模快速增长，多个共享办公空间在旧城区聚集，国际化氛围浓厚。',
+      platforms: [
+        { name: 'Meetup Valencia', url: 'https://www.meetup.com/cities/es/valencia/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Valencia', url: 'https://www.eventbrite.com/d/spain--valencia/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Riga: {
+    name: 'Riga', nameZh: '里加', country: 'Latvia', countryZh: '拉脱维亚', flag: '🇱🇻', match: 88,
+    soul: {
+      headline: '新艺术建筑之都，波罗的海的隐秘宝石。',
+      sub: '文化 · 建筑 · 历史 · 科技',
+      body: '里加拥有世界上密度最高的新艺术主义建筑群，旧城区是联合国教科文组织世界遗产。中世纪的石板路与20世纪初的华丽建筑立面，诉说着这座城市不寻常的历史轨迹。',
+      personality: '里加人性格内敛而充满韧性，历经多次占领的历史塑造了他们对自由的珍视。年轻一代英语流利，对科技与创新抱有热情，城市创意氛围正在快速崛起。',
+      economy: 'IT服务、金融科技与共享服务中心是现代里加的经济支柱；旅游业贡献稳定，木材与食品加工等传统产业仍有一席之地。欧元区成员国地位为商业运营提供便利。',
+      festivals: '里加歌舞节（Dziesmu un deju svētki）是全球规模最大的合唱节之一，每5年举行一次；里加城市节（8月）是最盛大的街头狂欢；圣约翰节（Jāņi，6月24日）是波罗的海最浪漫的仲夏夜传统。',
+      figures: '音乐指挥马里斯·扬颂斯将里加带上古典音乐的世界舞台；电影导演赛尔盖·爱森斯坦在里加度过了童年，奠定了他对视觉叙事的敏感；建筑师米哈伊尔·埃森施泰因（其父）设计了里加最著名的新艺术建筑。',
+    },
+    base: {
+      wifi: '70 Mbps', cost: '$', visa: '申根90天免签，可申请拉脱维亚临时居留',
+      visaDays: '90 days',
+      visaDesc: '🛂 申根90天免签适用于多数护照。自雇或创业者可申请临时居留许可，审批约3个月。',
+      welfare: '🏥 欧盟成员国，公立医疗对外籍人士收费，建议购买国际医疗保险；私立诊所价格合理，服务质量较高。',
+      safety: '整体安全，老城区旅游繁忙地带有扒窃风险。深夜在车站附近保持警觉。女性独行整体安全，当地人普遍友善。',
+      dailyCost: '每日预算参考：\n• 餐饮：€10–18（午餐€5–9，晚餐餐厅€12–18）\n• 住宿：€25–45（市中心Airbnb单间，按月租性价比极高）\n• 交通：€2–3（月票€50，步行与骑行覆盖大部分市区）\n• 合计：约€37–66/天',
+      visaDetail: '拉脱维亚为欧元区成员，持申根签证可自由出入。自雇者可申请临时居留（Uzturēšanās atļauja），需提供商业计划与财务证明。长期居留后可申请欧盟永久居留资格。',
+      society: '社会稳定，教育水平高，英语在里加年轻人中普及率超80%。城市规模适中，通勤时间短，生活节奏从容有序。',
+    },
+    chance: {
+      paragraph: '里加是波罗的海IT外包与共享服务中心，欧洲客户信任度高；金融科技初创活跃，欧盟监管框架为合规创业提供便利。',
+      policy: { label: 'Investment and Development Agency of Latvia (LIAA)', url: 'https://www.liaa.gov.lv/en', desc: '拉脱维亚官方投资与发展促进机构' },
+      localJobs: [
+        { name: 'CV.lv', url: 'https://www.cv.lv', desc: '拉脱维亚最大招聘平台，覆盖本地各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '里加外籍人士社群以科技从业者为主，Startup Latvia等计划孵化了活跃的创业者网络，Meetup活动频繁。',
+      platforms: [
+        { name: 'Meetup Riga', url: 'https://www.meetup.com/cities/lv/riga/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Riga', url: 'https://www.eventbrite.com/d/latvia--riga/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Vilnius: {
+    name: 'Vilnius', nameZh: '维尔纽斯', country: 'Lithuania', countryZh: '立陶宛', flag: '🇱🇹', match: 86,
+    soul: {
+      headline: 'Revolut的故乡，波罗的海最快崛起的科技都市。',
+      sub: '文化 · 建筑 · 科技 · 创业',
+      body: '维尔纽斯旧城是欧洲保存最完整的巴洛克建筑群之一，而自称独立国家的乌皮斯共和国（Užupis）就藏在其中——这里有自己的宪法：每个人都有权利去爱。',
+      personality: '维尔纽斯人兼具北欧的务实与东欧的艺术气质，对创业与技术有天然的热情。Revolut、Nord Security、Vinted等独角兽在此诞生，证明这座城市的野心从未局限于波罗的海。',
+      economy: '金融科技是最亮眼的名片，Revolut、Paysera等公司将立陶宛带上欧洲Fintech版图；IT服务、激光科技与生物技术是核心支柱；立陶宛银行牌照与欧盟合规体系吸引大量创业者。',
+      festivals: '卡济米埃拉斯集市（Kaziukas，3月）是最古老的传统手工艺市集；维尔纽斯节（6月）是最盛大的夏季文化庆典；万灵节（Vėlinės，11月）是波罗的海最具诗意的悼念传统。',
+      figures: '诗人密茨凯维奇在维尔纽斯留下波兰浪漫主义文学的根脉；乌皮斯共和国创建者Romas Lileikis以艺术行动震动了欧洲；物理学家马利亚·居里（祖籍立陶宛）是人类科学史上最重要的女性之一。',
+    },
+    base: {
+      wifi: '75 Mbps', cost: '$', visa: '申根90天免签，可申请立陶宛创业签证',
+      visaDays: '90 days',
+      visaDesc: '🛂 申根90天免签。创业者可申请立陶宛Startup Visa，需获Startup Lithuania认证，审批2-3个月。',
+      welfare: '🏥 欧盟成员国，公立医疗对外籍人士收费；维尔纽斯私立诊所价格低于西欧30-50%，质量良好。',
+      safety: '欧洲最安全的首都之一，旧城区夜间活跃而安全，无明显高风险区域，女性独行安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€10–16（午餐€5–8，晚餐餐厅€10–16）\n• 住宿：€22–42（市中心Airbnb单间，按月租价格极具竞争力）\n• 交通：€2–3（月票€30，旧城区步行可达大部分地点）\n• 合计：约€34–61/天',
+      visaDetail: '立陶宛Startup Visa适合创业者，需通过Startup Lithuania审核（评估团队、产品与市场潜力），获批后可获1年居留，可续签。长期居住后可申请欧盟永久居留。',
+      society: '拥有欧盟最快的公共WiFi网络之一，数字化政府服务领先，年轻人英语普及率高。城市小巧功能完善，生活成本在欧盟首都中属最低梯队。',
+    },
+    chance: {
+      paragraph: 'Fintech是最大机会，立陶宛银行牌照是欧盟通行证；IT咨询与北欧外包业务活跃；激光科技是本地特色产业，精密制造配套链完整。',
+      policy: { label: 'Invest Lithuania', url: 'https://www.investlithuania.com', desc: '立陶宛官方投资促进机构，提供创业落地支持' },
+      localJobs: [
+        { name: 'CV Online LT', url: 'https://www.cvonline.lt', desc: '立陶宛最大招聘平台，覆盖本地各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '维尔纽斯创业社群以Fintech从业者为核心，Startup Lithuania定期举办活动，Tech Zity联合办公空间是聚会核心场地。',
+      platforms: [
+        { name: 'Meetup Vilnius', url: 'https://www.meetup.com/cities/lt/vilnius/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Vilnius', url: 'https://www.eventbrite.com/d/lithuania--vilnius/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Krakow: {
+    name: 'Krakow', nameZh: '克拉科夫', country: 'Poland', countryZh: '波兰', flag: '🇵🇱', match: 90,
+    soul: {
+      headline: '中世纪古城，东欧最受游民钟爱的宜居之地。',
+      sub: '文化 · 历史 · 艺术 · 科技',
+      body: '克拉科夫是波兰唯一在二战中幸免于难的古城，瓦维尔城堡矗立在维斯瓦河畔已逾千年。这里的中世纪广场在欧洲最大之列，而地下的盐矿藏着另一个地下世界。',
+      personality: '克拉科夫人以知识分子气质著称，这里汇聚了波兰最顶尖的大学与最密集的博物馆。年轻人思想开放，对外来者保持好奇，카济米日犹太区的咖啡馆文化让整座城市散发出波西米亚气息。',
+      economy: '旅游业是重要支柱，金融共享服务中心（HSBC、ABB、IBM等跨国企业在此设立后台）是近十年最大的经济亮点；IT与游戏开发产业快速成长，Cracow Technology Park聚集了大批科技企业。',
+      festivals: '克拉科夫龙节（Wianki，6月）是维斯瓦河畔的夏至仲夏节庆；犹太文化节（Kraków Jewish Culture Festival，6-7月）是欧洲最重要的犹太文化活动之一；音乐节Film Music Festival聚焦电影配乐，全球瞩目。',
+      figures: '教皇约翰·保罗二世在克拉科夫担任主教多年，这座城市至今是他精神遗产的守护者；导演安杰依·瓦伊达的史诗电影记录了波兰民族的苦难与荣光；诗人维斯瓦娃·辛波丝卡以日常的惊奇获得诺贝尔文学奖。',
+    },
+    base: {
+      wifi: '70 Mbps', cost: '$', visa: '申根90天免签',
+      visaDays: '90 days',
+      visaDesc: '🛂 申根区90天免签，波兰尚无数字游民专属签证，长期居留可申请自雇或公司注册途径。',
+      welfare: '🏥 欧盟成员国，持有效居留许可可参与波兰社保体系；私立医疗诊所价格低廉，质量良好。',
+      safety: '克拉科夫是波兰最安全的城市之一，旅游区卡济米日与老城区扒窃风险低。夜间酒吧街区热闹但秩序良好，女性独行安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$10–18（波兰传统餐厅午餐$5–9，晚餐$10–18）\n• 住宿：$22–45（市中心Airbnb单间，按月租极具性价比）\n• 交通：$2–3（月票$28，老城区步行可达大部分景点）\n• 合计：约$34–66/天',
+      visaDetail: '波兰尚未推出数字游民专属签证。长期居留可通过成立波兰公司（sp. z o.o.）或自雇形式申请居留许可，审批约2-4个月。波兰正在讨论引入游民签证项目。',
+      society: '波兰社会稳定，生活成本是欧盟最低之列，教育与医疗质量持续提升。克拉科夫年轻人英语普及率高，国际化程度远超波兰其他城市。',
+    },
+    chance: {
+      paragraph: 'IT外包与共享服务中心是克拉科夫最大的职业机会，跨国企业后台运营需求持续；游戏开发与内容创作生态活跃，波兰语市场本地化需求旺盛。',
+      policy: { label: 'Polish Investment and Trade Agency (PAIH)', url: 'https://www.paih.gov.pl/en', desc: '波兰官方投资与贸易促进机构' },
+      localJobs: [
+        { name: 'Pracuj.pl', url: 'https://www.pracuj.pl', desc: '波兰最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '克拉科夫外籍人士社群以IT从业者与留学生为主，Krakow Expats等Facebook群组活跃，共享办公空间遍布老城区。',
+      platforms: [
+        { name: 'Meetup Kraków', url: 'https://www.meetup.com/cities/pl/krakow/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Kraków', url: 'https://www.eventbrite.com/d/poland--krakow/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Budapest: {
+    name: 'Budapest', nameZh: '布达佩斯', country: 'Hungary', countryZh: '匈牙利', flag: '🇭🇺', match: 91,
+    soul: {
+      headline: '多瑙河上的明珠，欧洲游民的温泉之都。',
+      sub: '文化 · 建筑 · 美食 · 温泉',
+      body: '布达佩斯是一座被分成两半的城市——布达的山丘城堡与佩斯的宏伟林荫大道隔河相望，多瑙河在它们之间静静流淌，夜幕下的议会大厦倒影是欧洲最壮观的城市景色之一。',
+      personality: '匈牙利人以机智、艺术天赋与对苦难的幽默感著称，布达佩斯的咖啡馆文化可追溯至奥匈帝国时代。年轻一代思想开放，创业精神旺盛，废墟酒吧（Ruin Bars）文化是他们对颓废与创意的独特诠释。',
+      economy: '制造业、旅游业与金融服务是传统支柱；近年来IT与半导体产业快速成长，多家跨国科技企业在布达佩斯设立中欧总部；废墟酒吧与创意产业已成为城市软实力的重要组成部分。',
+      festivals: '布达佩斯艺术周（Budapest Spring Festival，3-4月）是中欧最重要的古典艺术节；Sziget音乐节（8月）是欧洲最大的音乐节之一；圣诞市场（12月）被评为欧洲最美圣诞市场之一。',
+      figures: '钢琴家弗朗茨·李斯特以布达佩斯为家，留下了最重要的音乐遗产；建筑师约瑟夫·霍夫曼的分离派风格影响了整座城市的建筑美学；小说家马格达·萨博的《门》是20世纪匈牙利文学的里程碑。',
+    },
+    base: {
+      wifi: '72 Mbps', cost: '$', visa: '申根90天免签，可申请匈牙利白卡（White Card）',
+      visaDays: '365 days',
+      visaDesc: '🛂 匈牙利2022年推出White Card数字游民签证，允许在匈工作1年，月收入要求约€2,000，审批约30天。',
+      welfare: '🏥 欧盟成员国，持有效居留可参与匈牙利社保；私立医疗价格低廉，温泉水疗设施享誉欧洲。',
+      safety: '整体安全，旅游区（瓦茨大街、英雄广场）有扒窃风险。夜间废墟酒吧区域热闹，整体秩序良好，女性独行安全感较高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$10–18（传统餐厅午餐$5–9，晚餐$10–18）\n• 住宿：$22–45（佩斯市中心Airbnb单间，按月租性价比极高）\n• 交通：$2–3（地铁月票$25，步行可达大部分景点）\n• 合计：约$34–66/天',
+      visaDetail: '匈牙利White Card（白卡）：需提供收入证明、健康保险、无犯罪记录，初始1年，可续签。匈牙利不在欧元区，福林（HUF）兑换方便，日常消费约为西欧的40-50%。',
+      society: '生活成本是欧盟最低之列，温泉文化深入日常，周末泡温泉是当地社交仪式。匈牙利年轻人英语普及率高，城市国际化程度不断提升。',
+    },
+    chance: {
+      paragraph: 'IT共享服务中心是布达佩斯最大的就业赛道，多家跨国企业在此设立中欧运营总部；游戏开发与创意科技初创生态活跃。',
+      policy: { label: 'Hungarian Investment Promotion Agency (HIPA)', url: 'https://hipa.hu/en/', desc: '匈牙利官方投资促进机构，提供外商落地支持' },
+      localJobs: [
+        { name: 'Profession.hu', url: 'https://www.profession.hu', desc: '匈牙利最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '布达佩斯数字游民社群以废墟酒吧为聚会场所，Budapest Digital Nomads等社区活跃，共享办公空间遍布佩斯商业区。',
+      platforms: [
+        { name: 'Meetup Budapest', url: 'https://www.meetup.com/cities/hu/budapest/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Budapest', url: 'https://www.eventbrite.com/d/hungary--budapest/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Bucharest: {
+    name: 'Bucharest', nameZh: '布加勒斯特', country: 'Romania', countryZh: '罗马尼亚', flag: '🇷🇴', match: 87,
+    soul: {
+      headline: '东欧最快互联网之城，被低估的游民天堂。',
+      sub: '文化 · 历史 · 科技 · 夜生活',
+      body: '布加勒斯特拥有欧洲最快的固定宽带速度之一，生活成本极低，却坐拥雄伟的宫殿大道与疯狂的夜生活。这是一座常被忽视，但住过的人几乎都爱上它的城市。',
+      personality: '罗马尼亚人融合了拉丁的热情与巴尔干的韧性，布加勒斯特人以直率和幽默著称。年轻一代受过良好教育，英语流利，对科技创业充满热情，城市正在经历属于自己的文艺复兴。',
+      economy: 'IT外包是近十年最大的经济引擎，罗马尼亚IT工程师享誉欧洲；汽车零部件、农业出口与旅游业是传统支柱；布加勒斯特的科技初创生态正在从外包向产品化转型。',
+      festivals: '乔治·埃内斯库国际音乐节（George Enescu Festival，9月）是欧洲最重要的古典音乐节之一；布加勒斯特国际电影节（BIFF）聚焦独立电影；Untold音乐节（克卢日-纳波卡，8月）是罗马尼亚最大的电子音乐节。',
+      figures: '雕塑家康斯坦丁·布朗库西是现代雕塑的奠基者之一；作家米尔恰·伊利亚德是宗教史学的全球权威；体操运动员纳迪亚·科马内奇在蒙特利尔奥运会上完成了体操历史上第一个满分10分。',
+    },
+    base: {
+      wifi: '85 Mbps', cost: '$', visa: '申根90天免签（罗马尼亚非申根区），可申请居留许可',
+      visaDays: '90 days',
+      visaDesc: '🛂 罗马尼亚尚未加入申根区，但多数护照可免签90天。长期居留可申请D签证，罗马尼亚正在讨论游民签证方案。',
+      welfare: '🏥 欧盟成员国，公立医疗覆盖有限；私立诊所价格极低，质量良好，国际医疗保险月费用低于西欧60%。',
+      safety: '整体安全，老城区（Centrul Vechi）夜间热闹，扒窃风险低。女性独行整体安全，当地人对外来者友善。',
+      dailyCost: '每日预算参考：\n• 餐饮：$8–15（传统餐厅午餐$4–8，晚餐$8–15）\n• 住宿：$18–40（市中心Airbnb单间，欧洲最低价之列）\n• 交通：$1–2（地铁月票$18，城市骑行基础设施完善）\n• 合计：约$27–57/天',
+      visaDetail: '罗马尼亚计划推出专属数字游民签证（立法讨论中）。目前可通过注册公司或受雇于罗马尼亚企业申请居留许可。已加入欧盟，预计将于近年加入申根区。',
+      society: '生活成本在欧盟最低行列，互联网速度欧洲最快之一。布加勒斯特年轻人受教育程度高，英语普及率高，IT人才密度在欧洲名列前茅。',
+    },
+    chance: {
+      paragraph: 'IT外包与软件开发是最成熟的机会，罗马尼亚工程师享誉欧洲；电商与数字营销需求随中产崛起而增长；游戏开发生态活跃。',
+      policy: { label: 'InvestRomania', url: 'https://investromania.gov.ro/en/', desc: '罗马尼亚官方外商投资促进机构' },
+      localJobs: [
+        { name: 'eJobs.ro', url: 'https://www.ejobs.ro', desc: '罗马尼亚最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '布加勒斯特的外籍人士与数字游民社群快速增长，Nomad House与多个共享办公空间活跃于老城区周边。',
+      platforms: [
+        { name: 'Meetup Bucharest', url: 'https://www.meetup.com/cities/ro/bucharest/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Bucharest', url: 'https://www.eventbrite.com/d/romania--bucharest/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Sofia: {
+    name: 'Sofia', nameZh: '索非亚', country: 'Bulgaria', countryZh: '保加利亚', flag: '🇧🇬', match: 85,
+    soul: {
+      headline: '维托沙山脚下的千年古城，欧洲最低调的游民宝地。',
+      sub: '文化 · 历史 · 自然 · 科技',
+      body: '索非亚是欧洲最古老的首都之一，城市中心竟有罗马、拜占庭、奥斯曼与苏维埃时代的建筑遗迹共存。走出市区15分钟，就是维托沙山的滑雪道与徒步小径。',
+      personality: '保加利亚人以点头表示"否"、摇头表示"是"——这是外来者在索非亚上的第一课。他们性格热情而低调，对外来者持开放态度，年轻的科技社群正在重新定义这座城市的形象。',
+      economy: 'IT外包与BPO（业务流程外包）是经济引擎，索非亚软件工程师的薪酬与技术能力在欧洲享有声誉；旅游业、农业与纺织业是传统支柱；欧洲最低企业税率（10%）吸引大量企业注册。',
+      festivals: '索非亚国际电影节（Sofia International Film Festival，3月）是巴尔干半岛最重要的电影盛事；Rose Festival（卡赞勒克，5-6月）庆祝全球50%玫瑰精油的产地；伊凡·瓦佐夫文学节（9月）致敬保加利亚最伟大的民族作家。',
+      figures: '奥林匹克摔跤冠军丹·科洛夫是20世纪最具传奇色彩的摔跤手；作曲家潘乔·弗拉基格罗夫将保加利亚音乐带上世界舞台；女高音吉娜·米哈诺娃是20世纪歌剧史上最动人的嗓音之一。',
+    },
+    base: {
+      wifi: '68 Mbps', cost: '$', visa: '申根90天免签（保加利亚非申根区），可申请居留许可',
+      visaDays: '90 days',
+      visaDesc: '🛂 保加利亚尚未完全加入申根区（2024年空陆路已开放），多数护照免签90天。长期居留可申请D签证。',
+      welfare: '🏥 欧盟成员国，公立医疗服务对外籍人士收费，建议购买私立保险；保加利亚私立诊所价格极低。',
+      safety: '整体安全，旧城区与商业中心治安良好。需注意路面状况参差不齐；女性独行整体安全，城市夜间氛围平和。',
+      dailyCost: '每日预算参考：\n• 餐饮：$7–14（传统餐厅午餐$3–7，晚餐$7–14）\n• 住宿：$15–35（市中心Airbnb单间，欧洲最低价之一）\n• 交通：$1–2（地铁月票$22，城市交通网络完善）\n• 合计：约$23–51/天',
+      visaDetail: '保加利亚企业税率仅10%，是欧盟最低，吸引大量跨境创业者注册公司。长期居留可通过公司注册或受雇途径申请。保加利亚计划加入申根区，预计提升国际吸引力。',
+      society: '生活成本是欧盟最低行列，维托沙山提供极佳的户外生活质量。索非亚年轻人英语能力强，IT社区国际化，城市整体节奏轻松。',
+    },
+    chance: {
+      paragraph: 'IT外包与软件开发是核心机会，欧洲最低企业税率吸引公司注册；电商配套与内容外包需求旺盛；创业孵化生态正在成形。',
+      policy: { label: 'InvestBulgaria Agency', url: 'https://www.investbg.government.bg/en/', desc: '保加利亚官方外商投资促进机构' },
+      localJobs: [
+        { name: 'Jobs.bg', url: 'https://www.jobs.bg', desc: '保加利亚最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '索非亚的科技社群规模不大但凝聚力强，Campus X联合办公空间是创业者的聚集地，外籍人士圈子活跃。',
+      platforms: [
+        { name: 'Meetup Sofia', url: 'https://www.meetup.com/cities/bg/sofia/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Sofia', url: 'https://www.eventbrite.com/d/bulgaria--sofia/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Athens: {
+    name: 'Athens', nameZh: '雅典', country: 'Greece', countryZh: '希腊', flag: '🇬🇷', match: 83,
+    soul: {
+      headline: '文明的发源地，阳光、历史与咖啡的永恒交织。',
+      sub: '文化 · 历史 · 美食 · 海滩',
+      body: '雅典是人类文明的摇篮，帕台农神庙俯瞰着一座同时活在古代与现代的城市。这里的人每天在古迹旁喝咖啡，把几千年的历史当成日常背景。',
+      personality: '雅典人以热情好客与哲学式的人生态度著称，强调享受当下（φιλότιμο，philotimo，荣誉感与好客精神）。即使在经济危机中也保持了生活热情，咖啡馆文化、夜间海滩聚会与激烈的政治辩论是日常生活的一部分。',
+      economy: '旅游业是最大支柱，近年来科技初创与数字游民经济快速成长；希腊推出数字游民签证（2021年），吸引大批远程工作者；航运业是传统国际经济命脉，提供大量专业服务需求。',
+      festivals: '雅典音乐节（Athens Epidaurus Festival，6-8月）在埃庇道鲁斯古剧场演出，是欧洲最具震撼力的露天演出之一；复活节（4-5月）是希腊最重要的宗教节庆，午夜烛光游行令人动容；雅典马拉松（11月）沿古老的马拉松路线而跑。',
+      figures: '苏格拉底、柏拉图、亚里士多德在雅典建立了西方哲学的根基；诗人卡瓦菲斯以亚历山大为背景写下希腊现代诗歌的巅峰之作；作曲家米基斯·狄奥多拉基斯的《希腊人左巴》旋律成为整个民族的灵魂标记。',
+    },
+    base: {
+      wifi: '55 Mbps', cost: '$$', visa: '数字游民签证1年，可续签',
+      visaDays: '365 days',
+      visaDesc: '🛂 希腊2021年推出数字游民签证，月收入要求€3,500，允许在希腊工作1年，配偶子女可随行。',
+      welfare: '🏥 欧元区成员，公立医疗覆盖有限，建议购买私立保险；雅典私立诊所价格合理，质量良好。',
+      safety: '雅典整体安全，奥莫尼亚广场附近夜间需注意，扒窃风险集中于旅游热点区域。女性独行白天安全感高，夜间建议结伴出行。',
+      dailyCost: '每日预算参考：\n• 餐饮：€12–22（小馆午餐€7–12，晚餐餐厅€14–25）\n• 住宿：€35–65（市中心Airbnb单间，旺季7-9月价格上浮）\n• 交通：€2–4（地铁月票€30，城市中心步行可达）\n• 合计：约€49–91/天',
+      visaDetail: '希腊数字游民签证要求月均收入≥€3,500，需提供健康保险与无犯罪记录。初始1年，可续签。签证持有人无需缴纳希腊所得税（前7年享受50%税收减免）。',
+      society: '地中海生活节奏，午后阳光最好的时光用于享受而非工作。外籍人士社区在雅典科洛纳基与克西亚区（Psiri）聚集，国际化程度近年大幅提升。',
+    },
+    chance: {
+      paragraph: '旅游科技与酒店科技（HotelTech）是本地热点赛道；航运数字化需求持续；英语教学与内容创作是稳定收入来源。',
+      policy: { label: 'Enterprise Greece', url: 'https://www.enterprisegreece.gov.gr/en/', desc: '希腊官方投资与贸易促进机构' },
+      localJobs: [
+        { name: 'Kariera.gr', url: 'https://www.kariera.gr', desc: '希腊最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '雅典数字游民社群依托Syntagma与Monastiraki周边联合办公空间，Athens Digital Arts Festival定期聚集创意人士。',
+      platforms: [
+        { name: 'Meetup Athens', url: 'https://www.meetup.com/cities/gr/athens/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Athens', url: 'https://www.eventbrite.com/d/greece--athens/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Zagreb: {
+    name: 'Zagreb', nameZh: '萨格勒布', country: 'Croatia', countryZh: '克罗地亚', flag: '🇭🇷', match: 80,
+    soul: {
+      headline: '欧元区最新成员，巴尔干的咖啡文化之都。',
+      sub: '文化 · 历史 · 美食 · 自然',
+      body: '萨格勒布是一座被分成上城与下城的双面城市——上城是中世纪的石板路与古教堂，下城是宽阔的林荫大道与浓咖啡。克罗地亚2023年正式加入欧元区，让这里的商业环境更加成熟。',
+      personality: '萨格勒布人以直率、幽默与咖啡文化著称，每天早上在广场喝咖啡是神圣的社交仪式，不可被打扰。他们对自己的城市有强烈的自豪感，也对外来者保持着适度的开放。',
+      economy: '制造业、农业食品与旅游业是传统支柱；IT服务与初创生态近年快速崛起，Infobip等独角兽公司证明了克罗地亚的技术潜力；欧元区成员身份吸引更多外资进入。',
+      festivals: '萨格勒布圣诞市场（12月）连续多年被评为欧洲最美圣诞市场；INmusic音乐节（6月）是克罗地亚最大的露天音乐节；萨格勒布电影节（10月）聚焦中欧独立电影。',
+      figures: '发明家尼古拉·特斯拉（塞尔维亚裔，克罗地亚境内出生）是交流电与现代电力系统的奠基者；作家米洛斯拉夫·克尔莱扎是20世纪最重要的南斯拉夫文学巨匠；建筑师赫尔曼·波勒的作品定义了萨格勒布下城区的城市风貌。',
+    },
+    base: {
+      wifi: '60 Mbps', cost: '$', visa: '申根90天免签，可申请克罗地亚数字游民居留',
+      visaDays: '365 days',
+      visaDesc: '🛂 克罗地亚2021年推出数字游民居留许可，1年期，月收入要求约€2,539，申请门槛相对较低。',
+      welfare: '🏥 欧元区成员，持有效居留可参与克罗地亚医疗体系；私立诊所价格低于西欧，质量良好。',
+      safety: '整体安全，犯罪率低，是巴尔干地区安全感最高的首都之一。女性独行安全感高，当地人对外来者友善。',
+      dailyCost: '每日预算参考：\n• 餐饮：€10–18（传统餐厅午餐€6–10，晚餐€10–18）\n• 住宿：€28–50（市中心Airbnb单间，按月租性价比高）\n• 交通：€2–3（电车月票€28，步行可达上城与下城）\n• 合计：约€40–71/天',
+      visaDetail: '克罗地亚数字游民居留：需提供收入证明、健康保险、住址证明，审批约30-60天。持有居留期间免缴克罗地亚所得税，是欧洲税务友好度最高的游民签证之一。',
+      society: '克罗地亚2023年加入欧元区与申根区，大幅提升了便利性。萨格勒布生活节奏悠闲，自然环境优越，亚得里亚海海岸仅2小时车程。',
+    },
+    chance: {
+      paragraph: 'IT服务与软件开发是最活跃的机会，Infobip等本地独角兽带动了整体生态；旅游科技与内容创作随着克罗地亚旅游业蓬勃发展而增长。',
+      policy: { label: 'Croatian Investment and Competitiveness Agency (AIK)', url: 'https://aik-invest.hr/en/', desc: '克罗地亚官方投资竞争力促进机构' },
+      localJobs: [
+        { name: 'MojPosao', url: 'https://www.mojposao.hr', desc: '克罗地亚最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '萨格勒布的数字游民社群以科技从业者为核心，Impact Hub Zagreb是最活跃的共享办公与创业社区。',
+      platforms: [
+        { name: 'Meetup Zagreb', url: 'https://www.meetup.com/cities/hr/zagreb/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Zagreb', url: 'https://www.eventbrite.com/d/croatia--zagreb/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Ljubljana: {
+    name: 'Ljubljana', nameZh: '卢布尔雅那', country: 'Slovenia', countryZh: '斯洛文尼亚', flag: '🇸🇮', match: 82,
+    soul: {
+      headline: '欧洲最绿色的首都，阿尔卑斯山脚的宜居小城。',
+      sub: '文化 · 自然 · 建筑 · 可持续',
+      body: '卢布尔雅那是欧洲人均绿地面积最多的首都之一，龙桥、三重桥与卢布尔雅那城堡构成了这座小城的童话轮廓。这里的人口只有30万，但生活质量在欧洲名列前茅。',
+      personality: '斯洛文尼亚人以低调务实著称，不喜夸张，重视环保与生活质量。卢布尔雅那获得欧洲绿色首都荣誉，骑行与步行是最受欢迎的出行方式，咖啡馆文化以户外露台见长。',
+      economy: '制造业（汽车零部件、医药）、旅游业与金融服务是支柱产业；IT与互联网初创生态小而精，斯洛文尼亚企业税率较低，欧元区地位吸引中欧商业布局。',
+      festivals: '卢布尔雅那夏季节（Ljubljana Festival，6-9月）是中欧最负盛名的夏季艺术节；龙节（Dragon Festival，6月）以城市标志龙为主题；圣诞市场（12月）以精品手工艺著称。',
+      figures: '建筑师约热·普莱契尼克重塑了20世纪卢布尔雅那的城市面貌，其作品已列入联合国教科文组织遗产；哲学家斯拉沃伊·齐泽克是当代最具争议的思想家之一；诗人弗朗茨·普雷谢伦是斯洛文尼亚民族文化的精神象征。',
+    },
+    base: {
+      wifi: '65 Mbps', cost: '$$', visa: '申根90天免签，可申请斯洛文尼亚居留许可',
+      visaDays: '90 days',
+      visaDesc: '🛂 申根区90天免签，斯洛文尼亚尚无专属数字游民签证，长期居留可通过自雇或公司注册申请。',
+      welfare: '🏥 欧元区成员，公立医疗体系完善，外籍居民持证可享受较完整的医疗保障，质量高于周边多数国家。',
+      safety: '欧洲最安全的首都之一，犯罪率极低，旧城区全天候安全，女性独行安全感极高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€12–22（传统餐厅午餐€8–12，晚餐€14–22）\n• 住宿：€35–65（市中心Airbnb单间，规模小价格相对稳定）\n• 交通：€1–3（骑行系统完善，步行可达大部分地点）\n• 合计：约€48–90/天',
+      visaDetail: '斯洛文尼亚尚未推出专属数字游民签证，但自雇居留申请相对便捷。作为欧元区小国，商业税率具竞争力，已有多名游民通过注册公司方式长期居留。',
+      society: '生活质量在欧洲名列前茅，骑行基础设施完善，自然环境优越（朱利安阿尔卑斯与布莱德湖均在1小时车程内）。城市规模小，社区凝聚力强。',
+    },
+    chance: {
+      paragraph: 'IT服务与精密制造配套是本地机会；斯洛文尼亚作为中欧德语区市场的门户，德语能力者有额外优势；可持续科技（GreenTech）是新兴赛道。',
+      policy: { label: 'Spirit Slovenia', url: 'https://www.spiritslovenia.si/en/', desc: '斯洛文尼亚官方企业与投资促进机构' },
+      localJobs: [
+        { name: 'MojeDelo.com', url: 'https://www.mojedelo.com', desc: '斯洛文尼亚最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '卢布尔雅那的创业社群规模小但高质量，ABC Accelerator是中欧知名孵化器，外籍人士社区以科技从业者为主。',
+      platforms: [
+        { name: 'Meetup Ljubljana', url: 'https://www.meetup.com/cities/si/ljubljana/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Ljubljana', url: 'https://www.eventbrite.com/d/slovenia--ljubljana/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Rotterdam: {
+    name: 'Rotterdam', nameZh: '鹿特丹', country: 'Netherlands', countryZh: '荷兰', flag: '🇳🇱', match: 80,
+    soul: {
+      headline: '欧洲最大港口，大胆建筑与创新文化的试验场。',
+      sub: '文化 · 建筑 · 港口 · 创新',
+      body: '鹿特丹是欧洲最大的货运港，二战后几乎从零重建，这给了建筑师们一张白纸。方块屋、铅笔塔、鹿特丹市场大厅——这座城市把大胆建筑当成了最骄傲的名片。',
+      personality: '鹿特丹人以务实直率著称，有着"做事，不说话"的实干精神，与阿姆斯特丹的文艺气质形成鲜明对比。这里的创业文化以可持续发展与港口科技为特色，年轻人对变革有强烈的热情。',
+      economy: '欧洲最大港口带动物流、航运与贸易金融；建筑设计与城市规划领域享有全球声誉；清洁科技与循环经济是新兴支柱，鹿特丹已宣布2030年实现碳中和目标。',
+      festivals: '鹿特丹国际电影节（IFFR，1-2月）是全球最重要的独立电影节之一；North Sea Jazz Festival（7月）是欧洲规模最大的室内爵士音乐节；鹿特丹马拉松（4月）是荷兰最大的路跑赛事。',
+      figures: '哲学家伊拉斯谟（Erasmus）在鹿特丹出生，成为文艺复兴人文主义的代名词；建筑师雷姆·库哈斯的OMA事务所以鹿特丹为基地改变了全球建筑话语；荷兰画家扬·斯坦受到鹿特丹港口文化深刻影响。',
+    },
+    base: {
+      wifi: '100 Mbps', cost: '$$', visa: '申根90天免签，可申请荷兰自雇居留',
+      visaDays: '90 days',
+      visaDesc: '🛂 荷兰尚无数字游民专属签证，但自雇居留（Zelfstandige）申请相对成熟，需通过IND审核，审批约3个月。',
+      welfare: '🏥 欧元区成员，荷兰医疗体系质量顶尖，外籍居民需购买强制基本医疗保险（约€130/月）。',
+      safety: '整体安全，是荷兰犯罪率最低的大城市之一（低于阿姆斯特丹）。公共交通安全，夜间市中心有序，女性独行安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€15–28（市场大厅午餐€10–15，晚餐餐厅€18–30）\n• 住宿：€50–85（市中心Airbnb单间，比阿姆斯特丹便宜约20%）\n• 交通：€4–6（OV月票€100，骑行基础设施完善）\n• 合计：约€69–119/天',
+      visaDetail: '荷兰自雇居留（Zelfstandige zonder personeel，ZZP）适合freelancer，需通过IND（移民局）评估商业可行性，获批后可居留1年，可续签。荷兰对高技能外籍人才（DAFT协议）有特别优惠渠道。',
+      society: '荷兰工作文化强调效率与直接，准时与预约是基本礼仪。骑行文化全球第一，90%以上出行依赖自行车。英语普及率近100%，外籍人士融入无语言障碍。',
+    },
+    chance: {
+      paragraph: '港口科技（PortTech）、物流数字化与清洁能源是本地特色赛道；建筑设计与城市规划咨询需求旺盛；欧洲最大进出口贸易枢纽带来丰富的B2B机会。',
+      policy: { label: 'Netherlands Foreign Investment Agency (NFIA)', url: 'https://www.nfia.nl/en/', desc: '荷兰官方外商投资促进机构' },
+      localJobs: [
+        { name: 'Nationale Vacaturebank', url: 'https://www.nationalevacaturebank.nl', desc: '荷兰大型招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '鹿特丹外籍人士社区以港口与科技行业从业者为主，YES!Delft创业生态系统是中欧重要的孵化平台。',
+      platforms: [
+        { name: 'Meetup Rotterdam', url: 'https://www.meetup.com/cities/nl/rotterdam/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Rotterdam', url: 'https://www.eventbrite.com/d/netherlands--rotterdam/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Stockholm: {
+    name: 'Stockholm', nameZh: '斯德哥尔摩', country: 'Sweden', countryZh: '瑞典', flag: '🇸🇪', match: 74,
+    soul: {
+      headline: 'Spotify与IKEA的故乡，北欧创新的永恒坐标。',
+      sub: '文化 · 设计 · 科技 · 自然',
+      body: '斯德哥尔摩建在14座岛屿上，每一座桥都是一段历史。这里诞生了Spotify、Klarna、Mojang，证明了14座岛与500万人口可以创造出改变世界的公司。',
+      personality: '瑞典人以平等主义（Jantelagen）和务实低调著称，不炫耀成功，重视可持续与设计美学。斯德哥尔摩的创业文化既有北欧的严谨，又有出人意料的创意爆发力。',
+      economy: '科技初创生态全球顶尖，Spotify、Klarna、King等独角兽从这里走向世界；金融与制造业是传统支柱；设计与创意产业是城市软实力的核心，IKEA与H&M均发源于瑞典。',
+      festivals: '仲夏节（Midsommar，6月）是瑞典最神圣的传统节日，竖花柱、跳青蛙舞是必不可少的仪式；诺贝尔颁奖典礼（12月10日）让斯德哥尔摩成为全球关注的焦点；音乐节Way Out West（哥德堡，8月）是北欧最重要的音乐节。',
+      figures: 'ABBA成员均来自瑞典，用流行音乐征服了全球；阿尔弗雷德·诺贝尔在斯德哥尔摩留下了改变世界的遗产；建筑师拉尔夫·厄斯金的北极建筑哲学影响了全球极地设计。',
+    },
+    base: {
+      wifi: '95 Mbps', cost: '$$$', visa: '申根90天免签，可申请瑞典自雇居留',
+      visaDays: '90 days',
+      visaDesc: '🛂 申根90天免签，瑞典无专属数字游民签证。自雇居留（F-skatt）申请需提供商业计划，审批约3-6个月。',
+      welfare: '🏥 瑞典医疗体系全球顶尖，外籍居民持证可享受与本地人相同的公立医疗，费用极低。',
+      safety: '欧洲最安全的城市之一，暴力犯罪率极低。市中心与旅游区全天候安全，女性独行安全感极高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$25–45（咖啡馆午餐$18–25，晚餐餐厅$30–55）\n• 住宿：$70–130（市中心Airbnb单间，北欧价格最高之列）\n• 交通：$5–8（地铁月票$120，骑行系统完善）\n• 合计：约$100–183/天',
+      visaDetail: '瑞典生活成本是欧洲最高之列，但公共服务质量匹配。自雇者需申请F-skattsedel税号，长期居留可申请永久居留，福利待遇接近本地公民。',
+      society: '工作文化以Fika（咖啡休息）为核心，工作与生活平衡是不可协商的价值观。法定带薪假期25天以上，加班文化几乎不存在。英语普及率接近100%。',
+    },
+    chance: {
+      paragraph: '科技初创是最大机会，斯德哥尔摩是欧洲独角兽密度最高的城市；设计、游戏（Mojang等）与音乐科技是特色赛道；北欧市场对创新产品接受度极高。',
+      policy: { label: 'Business Sweden', url: 'https://www.business-sweden.com', desc: '瑞典官方贸易与投资促进委员会' },
+      localJobs: [
+        { name: 'Jobtech.se', url: 'https://jobtech.se', desc: '瑞典政府支持的开放招聘数据平台' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '斯德哥尔摩创业社群以科技从业者为主，SUP46等孵化器是活跃中心，外籍人士英语社群规模庞大。',
+      platforms: [
+        { name: 'Meetup Stockholm', url: 'https://www.meetup.com/cities/se/stockholm/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Stockholm', url: 'https://www.eventbrite.com/d/sweden--stockholm/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Copenhagen: {
+    name: 'Copenhagen', nameZh: '哥本哈根', country: 'Denmark', countryZh: '丹麦', flag: '🇩🇰', match: 72,
+    soul: {
+      headline: 'Hygge与设计的圣地，世界上最幸福的城市。',
+      sub: '文化 · 设计 · 美食 · 可持续',
+      body: '哥本哈根是幸福感指数全球最高的城市之一，Hygge（拥抱舒适与温馨）不只是一个词，而是整座城市的生活哲学。Noma让这里成为全球美食朝圣地，而骑行与海港浴场是丹麦人日常生活的两大支柱。',
+      personality: '丹麦人以平等、直接与工作生活平衡著称，会议中每个人的意见同等重要。哥本哈根的创业文化务实而有人情味，关注用户体验与可持续发展，设计美学贯穿于城市的每个角落。',
+      economy: '制药（诺和诺德）、航运（马士基）与设计是传统支柱；科技初创与绿色能源是新兴增长点；哥本哈根已宣布2025年成为全球第一个碳中和首都的目标。',
+      festivals: '哥本哈根爵士音乐节（Copenhagen Jazz Festival，7月）是欧洲最大的爵士节；CPH:DOX纪录片电影节（3月）是全球顶尖的纪录片盛事；圣诞市场（12月）以Tivoli游乐园为核心，是北欧最浪漫的节日体验。',
+      figures: '童话作家汉斯·克里斯蒂安·安徒生在哥本哈根留下了全球最美丽的儿童文学遗产；哲学家索伦·克尔凯郭尔在此建立了存在主义哲学；建筑师约恩·乌松设计了悉尼歌剧院，以哥本哈根为永久精神家园。',
+    },
+    base: {
+      wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，可申请丹麦自雇居留',
+      visaDays: '90 days',
+      visaDesc: '🛂 申根90天免签，丹麦无专属数字游民签证。自雇居留申请需证明可在丹麦维持生计，审批3-6个月。',
+      welfare: '🏥 丹麦全民免费医疗，外籍居民持证可享受与本地人相同的医疗保障，质量全球顶尖。',
+      safety: '全球最安全城市之一，犯罪率极低，公共秩序极好。市中心全天候安全，女性独行安全感极高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$28–50（咖啡午餐$20–28，晚餐$35–60）\n• 住宿：$80–150（市中心Airbnb单间，北欧价格最高之列）\n• 交通：$5–8（地铁月票$130，骑行城市基础设施全球最佳）\n• 合计：约$113–208/天',
+      visaDetail: '丹麦生活成本极高，但薪资水平与公共服务质量匹配。自雇申请通过可获1年居留，可续签，长期居留后可申请永久居留。收入税率较高（约40-56%），需提前规划税务。',
+      society: '全球幸福感排名第一，工作周约37小时，加班极少。骑行文化全球领先，城市可持续设计是丹麦的软实力名片。英语普及率接近100%。',
+    },
+    chance: {
+      paragraph: '绿色科技与可持续设计是哥本哈根特色赛道；医疗健康科技（HealthTech）以诺和诺德生态为依托；食品科技（FoodTech）在Noma效应下持续活跃。',
+      policy: { label: 'Invest in Denmark', url: 'https://investindk.com/en/', desc: '丹麦官方外商投资促进机构' },
+      localJobs: [
+        { name: 'JobIndex', url: 'https://www.jobindex.dk', desc: '丹麦最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '哥本哈根创业生态成熟，Rainmaking、SCAPE等孵化器聚集，外籍人士英语社群活跃，融入障碍极低。',
+      platforms: [
+        { name: 'Meetup Copenhagen', url: 'https://www.meetup.com/cities/dk/copenhagen/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Copenhagen', url: 'https://www.eventbrite.com/d/denmark--copenhagen/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Helsinki: {
+    name: 'Helsinki', nameZh: '赫尔辛基', country: 'Finland', countryZh: '芬兰', flag: '🇫🇮', match: 76,
+    soul: {
+      headline: '桑拿与寂静，北欧最内敛的创新之城。',
+      sub: '文化 · 设计 · 科技 · 自然',
+      body: '赫尔辛基是一座海湾之城——城市与岛屿、森林与海水无缝衔接。芬兰人以沉默为美德，但在桑拿里，所有人都会说真心话。这里的设计简约到极致，功能强大到令人惊叹。',
+      personality: '芬兰人以诚实、守时与内敛著称，Sisu（坚韧不拔的精神）是民族气质的核心。赫尔辛基人不会主动寒暄，但一旦成为朋友就是终身挚友。游民社区以工作效率高著称，少说多做是普遍风格。',
+      economy: 'Nokia遗留的科技基因与Rovio（愤怒的小鸟）等游戏公司定义了芬兰科技形象；教育科技（EdTech）是芬兰出口的新名片；造纸、金属与船舶制造是传统经济支柱。',
+      festivals: '赫尔辛基节（Helsinki Festival，8月）是芬兰最大的艺术节，覆盖音乐、视觉艺术与表演；Flow Festival（8月）是北欧最重要的当代音乐节；仲夏节（Juhannus，6月）是芬兰最神圣的传统节日，全城迁往乡村别墅。',
+      figures: '建筑师埃罗·萨里宁设计了纽约TWA候机楼，以芬兰功能主义震动世界；作曲家让·西贝柳斯的交响诗《芬兰颂》是民族精神的音乐化身；游戏设计师彼得里·雅尔维宁带领Supercell创造了《部落冲突》等全球爆款。',
+    },
+    base: {
+      wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，可申请芬兰自雇居留',
+      visaDays: '90 days',
+      visaDesc: '🛂 申根90天免签，芬兰无专属数字游民签证。芬兰Talent Boost计划鼓励国际人才落地，自雇申请审批约3个月。',
+      welfare: '🏥 芬兰公立医疗覆盖全面，外籍居民持证可享受与本地人接近的医疗保障，桑拿文化也是一种医疗。',
+      safety: '全球最安全城市之一，犯罪率极低，公共秩序极好，女性独行安全感极高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$22–40（咖啡馆午餐$15–22，晚餐$25–45）\n• 住宿：$65–120（市中心Airbnb单间，北欧价格较高）\n• 交通：$4–6（地铁月票$90，骑行系统完善）\n• 合计：约$91–166/天',
+      visaDetail: '芬兰Talent Boost计划为国际人才提供定制化支持，自雇者申请私人企业主（Yrittäjä）许可，收入税率较高，但公共服务质量匹配。',
+      society: '工作文化极度尊重个人空间，会议高效简洁，不废话。全球教育质量最高国家，公共图书馆服务全球领先。英语在赫尔辛基年轻人中普及率接近100%。',
+    },
+    chance: {
+      paragraph: '游戏开发与EdTech是赫尔辛基特色赛道；清洁科技与智慧城市解决方案是政府主导的热点方向；芬兰设计品牌出海需求带来内容与营销机会。',
+      policy: { label: 'Business Finland', url: 'https://www.businessfinland.fi/en/', desc: '芬兰官方外商投资与创新促进机构' },
+      localJobs: [
+        { name: 'Duunitori', url: 'https://duunitori.fi', desc: '芬兰最大招聘聚合平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '赫尔辛基的创业社群以Maria 01为核心，是北欧最大的专注初创企业园区，外籍人士融入渠道成熟。',
+      platforms: [
+        { name: 'Meetup Helsinki', url: 'https://www.meetup.com/cities/fi/helsinki/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Helsinki', url: 'https://www.eventbrite.com/d/finland--helsinki/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Zurich: {
+    name: 'Zurich', nameZh: '苏黎世', country: 'Switzerland', countryZh: '瑞士', flag: '🇨🇭', match: 65,
+    soul: {
+      headline: '全球金融之都，品质生活的极致标准。',
+      sub: '文化 · 金融 · 设计 · 自然',
+      body: '苏黎世是全球生活质量排名最高的城市之一，瑞士银行的穹顶在阳光下熠熠生辉，利马特河在古城中静静流淌。这里的一切都精确、干净、昂贵——但绝对值得。',
+      personality: '苏黎世人以守时、严谨与对品质的执着著称，多语言能力是标配（德语、法语、意大利语均通行）。创业文化务实且目标导向，高校密集（ETH苏黎世）带来源源不断的科技人才。',
+      economy: '金融与银行业是全球命脉，瑞信与瑞银总部所在地；科技初创以医疗健康与金融科技为主；制药（诺华）与精密制造享誉全球；旅游业稳定而高端。',
+      festivals: '苏黎世艺术节（Zurich Fest，8月）是瑞士最大的城市节庆；蓝调节（Blues Festival，11月）是瑞士最重要的蓝调音乐聚会；圣诞市场（12月，Bellevue广场）是欧洲最美圣诞市集之一。',
+      figures: '物理学家阿尔伯特·爱因斯坦在苏黎世联邦理工学院求学，改变了人类对宇宙的认知；心理学家卡尔·荣格在苏黎世创立了分析心理学；建筑师勒·柯布西耶早年在苏黎世接受艺术训练，奠定了现代主义建筑的基础。',
+    },
+    base: {
+      wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，可申请瑞士自雇居留',
+      visaDays: '90 days',
+      visaDesc: '🛂 瑞士非欧盟成员，申根规则适用。自雇居留申请需证明财务自足与商业可行性，审批约3-6个月。',
+      welfare: '🏥 瑞士医疗体系全球顶尖，但费用极高，强制购买基本医疗保险（约CHF400-600/月）。',
+      safety: '全球最安全城市之一，犯罪率极低，公共交通零误差。女性独行安全感极高，全天候安全。',
+      dailyCost: '每日预算参考：\n• 餐饮：$35–60（超市简餐$15–25，餐厅午餐$25–40）\n• 住宿：$120–200（市中心Airbnb单间，欧洲最贵之列）\n• 交通：$8–12（月票CHF155，公共交通覆盖极广）\n• 合计：约$163–272/天',
+      visaDetail: '瑞士居留申请分为EU/EFTA与第三国两个通道，第三国公民审批更严格，需证明雇主或商业理由。长期居留后享有极高的社会保障，养老金体系全球顶尖。',
+      society: '生活成本全球最高之列，但薪资水平与公共服务匹配。多元文化城市，英语、德语、法语均广泛使用，外籍人士占苏黎世人口约30%。',
+    },
+    chance: {
+      paragraph: '金融科技（Fintech）与财富管理科技（WealthTech）是苏黎世的核心赛道；医疗健康科技（HealthTech）以诺华生态为依托；ETH苏黎世带动深科技（DeepTech）持续活跃。',
+      policy: { label: 'Switzerland Global Enterprise (S-GE)', url: 'https://www.s-ge.com/en', desc: '瑞士官方贸易与投资促进机构' },
+      localJobs: [
+        { name: 'Jobs.ch', url: 'https://www.jobs.ch', desc: '瑞士最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '苏黎世外籍人士社群规模庞大（占人口约30%），Impact Hub苏黎世是全球影响力最大的社会创新孵化网络发源地。',
+      platforms: [
+        { name: 'Meetup Zurich', url: 'https://www.meetup.com/cities/ch/zurich/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Zurich', url: 'https://www.eventbrite.com/d/switzerland--zurich/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Lyon: {
+    name: 'Lyon', nameZh: '里昂', country: 'France', countryZh: '法国', flag: '🇫🇷', match: 82,
+    soul: {
+      headline: '法国美食之都，隐藏在巴黎光环下的创意城市。',
+      sub: '文化 · 美食 · 历史 · 科技',
+      body: '里昂是法国厨师的圣地，保罗·博古斯的遗产在每一家布雄餐馆里延续。索恩河与罗讷河在城中汇流，中世纪旧城的密道（traboules）藏着里昂最迷人的秘密。',
+      personality: '里昂人有一种低调的自豪感，不需要巴黎的认可就知道自己城市的价值。创业文化以医疗健康与数字化为核心，法国第二大经济中心的地位带来了充沛的商业机会与略低于巴黎的生活成本。',
+      economy: '医疗健康（生物制药、医疗器械）是最重要的产业集群；丝绸与纺织业的历史遗产催生了时尚与纺织科技；数字化与智慧城市建设吸引大量初创公司；旅游业稳定增长。',
+      festivals: '灯光节（Fête des Lumières，12月8日）是全球最壮观的城市灯光展，每年吸引200万游客；里昂国际纪录片电影节（Sunny Side of the Doc，6月）是欧洲最重要的纪录片市场；保罗·博古斯美食节每年致敬这座城市的厨艺传统。',
+      figures: '大厨保罗·博古斯是法国新式烹饪（Nouvelle Cuisine）的缔造者，让里昂成为全球美食朝圣地；电影发明者卢米埃尔兄弟在里昂完成了人类第一部电影放映；小说家安托万·德·圣-埃克苏佩里是《小王子》的作者。',
+    },
+    base: {
+      wifi: '70 Mbps', cost: '$$', visa: '申根90天免签，可申请法国数字游民签证（Talent Passport）',
+      visaDays: '365 days',
+      visaDesc: '🛂 法国Talent Passport（人才护照）适合自雇与创业者，有效期4年，月收入要求约€2,700，审批约2个月。',
+      welfare: '🏥 法国医疗体系全球顶尖，持有效居留可参与法国社保（CPAM），看诊费用极低。',
+      safety: '整体安全，旧城区与商业区治安良好，部分郊区需注意。夜间市中心有序，女性独行白天安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€15–28（布雄午餐€15–22，晚餐€20–35）\n• 住宿：€40–75（市中心Airbnb单间，比巴黎便宜约40%）\n• 交通：€3–5（地铁月票€65，骑行系统完善）\n• 合计：约€58–108/天',
+      visaDetail: '法国Talent Passport是欧洲最灵活的长期居留签证之一，覆盖创业者、艺术家与自雇专业人士，有效期4年可续签，配偶可获同等居留权。',
+      society: '法国工作文化重视生活质量，35小时工作周是法定标准，带薪假期25天以上。里昂生活成本比巴黎低30-40%，但城市设施几乎与巴黎相当。',
+    },
+    chance: {
+      paragraph: '医疗健康科技（HealthTech/BioTech）是里昂特色赛道；纺织科技与时尚科技结合城市历史形成独特优势；法国市场本地化内容与营销需求旺盛。',
+      policy: { label: 'Invest in Lyon', url: 'https://www.onlylyon.com/business/invest/', desc: '大里昂都市圈官方投资促进机构' },
+      localJobs: [
+        { name: 'Pôle Emploi', url: 'https://www.pole-emploi.fr', desc: '法国国家就业局，覆盖全国各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '里昂的创业生态以EMLYON商学院校友网络为核心，法国Tech Lyon社区活跃，外籍人士多集中于Presqu\'île半岛区域。',
+      platforms: [
+        { name: 'Meetup Lyon', url: 'https://www.meetup.com/cities/fr/lyon/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Lyon', url: 'https://www.eventbrite.com/d/france--lyon/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Nice: {
+    name: 'Nice', nameZh: '尼斯', country: 'France', countryZh: '法国', flag: '🇫🇷', match: 79,
+    soul: {
+      headline: '蔚蓝海岸的明珠，地中海阳光与法式优雅的完美融合。',
+      sub: '文化 · 海滩 · 美食 · 艺术',
+      body: '尼斯的英国人海滨步道（Promenade des Anglais）是全球最美的城市海滨大道之一，蔚蓝色的地中海就在眼前。旧城区（Vieux-Nice）的橙黄色建筑与热闹集市，让这里既有法式精致又有意式热情。',
+      personality: '尼斯独特的文化融合了法国南部的悠闲与意大利的活泼——尼斯直到1860年才成为法国领土，意大利语遗存在烹饪与方言中清晰可辨。人们热情、享乐主义，把阳光与美食当作人生最重要的事。',
+      economy: '旅游业是主导产业，卡纳维拉尔科技园（Sophia Antipolis）是欧洲最大的科技园区之一，聚集了数百家科技公司；文化创意、健康养老与数字经济是新兴支柱。',
+      festivals: '尼斯狂欢节（Carnaval de Nice，2月）是全球规模最大的狂欢节之一，花车游行壮观华丽；尼斯爵士节（Nice Jazz Festival，7月）是法国历史最悠久的爵士音乐节；Corso fleuri鲜花游行（2月）展示蔚蓝海岸的花卉盛况。',
+      figures: '画家亨利·马蒂斯在尼斯度过了生命的后半段，其野兽主义色彩受地中海阳光的直接启发；雕塑家阿尔曼（Arman）在尼斯出生，是新现实主义艺术运动的核心人物；作家罗杰·波多斯以尼斯为背景写下了著名的侦探小说系列。',
+    },
+    base: {
+      wifi: '65 Mbps', cost: '$$', visa: '申根90天免签，可申请法国Talent Passport',
+      visaDays: '365 days',
+      visaDesc: '🛂 法国Talent Passport适合自雇与创业者，4年期，月收入要求约€2,700。尼斯近邻摩纳哥，税务规划选项多样。',
+      welfare: '🏥 法国公共医疗覆盖，持有效居留可参与法国社保体系，医疗质量高，费用合理。',
+      safety: '整体安全，旅游区海滨步道扒窃风险存在，旧城区夜间有序。女性独行白天安全感高，夜间建议结伴出行。',
+      dailyCost: '每日预算参考：\n• 餐饮：€14–26（旧城区小馆午餐€12–18，晚餐€18–30）\n• 住宿：€45–85（旺季7-8月价格翻倍，淡季性价比高）\n• 交通：€3–5（电车月票€45，骑行到海滩极便利）\n• 合计：约€62–116/天',
+      visaDetail: '近邻摩纳哥（20分钟车程），部分高净值游民选择摩纳哥居留（零个人所得税）同时在尼斯生活。法国Talent Passport可在尼斯申请，与全国标准一致。',
+      society: '地中海生活节奏，工作与海滩在同一天轮流进行是当地常态。Sophia Antipolis科技园的存在让尼斯拥有超出其旅游形象的科技底蕴，外籍人士社区在卡纳比埃一带聚集。',
+    },
+    chance: {
+      paragraph: '旅游科技与酒店管理科技是本地热点；Sophia Antipolis带动了智能城市与健康科技需求；豪华旅游与游艇行业的数字化需求旺盛。',
+      policy: { label: "Côte d'Azur Economic Development Agency", url: 'https://www.riviera-invest.com/en/', desc: '蔚蓝海岸官方经济发展与投资促进机构' },
+      localJobs: [
+        { name: 'Pôle Emploi', url: 'https://www.pole-emploi.fr', desc: '法国国家就业局，覆盖全国各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '尼斯的外籍人士社区以英国人、意大利人与科技从业者为主，Sophia Antipolis科技园是最大的专业人士聚集地。',
+      platforms: [
+        { name: 'Meetup Nice', url: 'https://www.meetup.com/cities/fr/nice/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Nice', url: 'https://www.eventbrite.com/d/france--nice/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Bordeaux: {
+    name: 'Bordeaux', nameZh: '波尔多', country: 'France', countryZh: '法国', flag: '🇫🇷', match: 83,
+    soul: {
+      headline: '世界葡萄酒之都，大西洋岸的优雅慢城。',
+      sub: '文化 · 美食 · 建筑 · 自然',
+      body: '波尔多是联合国教科文组织世界遗产城市，18世纪新古典主义建筑群在加龙河畔连绵展开，水镜广场（Miroir d\'eau）是欧洲最大的反光水景，傍晚的倒影令人屏息。',
+      personality: '波尔多人以葡萄酒文化为豪，慢生活哲学深入骨髓——即使是工作日，午餐也是一件严肃的事情。近年来高铁开通（从巴黎只需2小时）带来了大量年轻创业者，城市正在从沉睡中加速苏醒。',
+      economy: '葡萄酒产业是全球品牌，带动旅游、餐饮与农业科技；航空航天（空客供应链）是重要制造业支柱；数字经济与创业生态随巴黎人口外溢快速成长。',
+      festivals: 'Bordeaux Fête le Vin葡萄酒节（6月，双年举办）是全球最大的葡萄酒盛宴，河边汇聚数十万酒客；FACTS动漫节（10月）是法国南部最大的流行文化节；Fête de la Musique（6月21日）是全城共享的免费音乐夜。',
+      figures: '哲学家孟德斯鸠是波尔多人，其《论法的精神》奠定了现代法治理念的基础；画家弗朗西斯科·戈雅在流亡期间在波尔多度过了生命的最后岁月；导演让·维果以波尔多的自由精神为创作源泉。',
+    },
+    base: {
+      wifi: '68 Mbps', cost: '$$', visa: '申根90天免签，可申请法国Talent Passport',
+      visaDays: '365 days',
+      visaDesc: '🛂 法国Talent Passport适合自雇与创业者，4年期，月收入要求约€2,700，审批约2个月。',
+      welfare: '🏥 法国公共医疗体系，持有效居留可参与CPAM，医疗质量高，费用合理。',
+      safety: '整体安全，旧城区与河畔全天候安全，部分郊区夜间需注意。女性独行白天安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€13–25（传统小馆午餐€12–18，晚餐€18–28）\n• 住宿：€38–70（市中心Airbnb单间，比巴黎便宜约40%）\n• 交通：€3–5（有轨电车月票€55，骑行系统完善）\n• 合计：约€54–100/天',
+      visaDetail: '法国Talent Passport可在波尔多申请，与全国标准一致。巴黎2小时高铁让波尔多成为理想的"逃离巴黎"目的地，既享有法国资源，又保持相对低廉的生活成本。',
+      society: '生活节奏悠闲，葡萄酒是日常社交的核心媒介。波尔多大学城氛围浓厚，年轻人比例高，外籍人士融入相对容易。',
+    },
+    chance: {
+      paragraph: '葡萄酒旅游科技（WineTech）是本地独特赛道；航空航天供应链数字化需求旺盛；法国市场本地化内容创作稳定增长。',
+      policy: { label: 'Invest in Bordeaux Métropole', url: 'https://invest.bordeaux-metropole.fr/en/', desc: '波尔多都市圈官方投资促进机构' },
+      localJobs: [
+        { name: 'Pôle Emploi', url: 'https://www.pole-emploi.fr', desc: '法国国家就业局，覆盖全国各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '波尔多创业社群以Darwin生态园为核心，可持续与社会创新主题的外籍人士社区在此汇聚。',
+      platforms: [
+        { name: 'Meetup Bordeaux', url: 'https://www.meetup.com/cities/fr/bordeaux/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Bordeaux', url: 'https://www.eventbrite.com/d/france--bordeaux/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Montpellier: {
+    name: 'Montpellier', nameZh: '蒙彼利埃', country: 'France', countryZh: '法国', flag: '🇫🇷', match: 85,
+    soul: {
+      headline: '法国最年轻的大城市，地中海阳光下的创业新热点。',
+      sub: '文化 · 教育 · 创业 · 海滩',
+      body: '蒙彼利埃是法国人口增长最快的城市之一，学生占总人口约三分之一，带来了与城市规模不相称的活力与创意密度。距地中海海滩仅15分钟，是法国生活成本最低而阳光最充足的科技城市。',
+      personality: '蒙彼利埃充满年轻人的能量与乐观，大学城氛围让这里保持着永久的青春感。南法慢生活与创业热情并存，卡托利克教堂广场是每天下午自发聚会的场所。',
+      economy: '医疗健康（欧洲最重要的医学院之一）与信息技术是支柱产业；IBM、Dell等科技巨头的法国研发中心落户于此；农业科技以周边葡萄酒与橄榄产区为背景快速成长。',
+      festivals: '蒙彼利埃舞蹈节（Montpellier Danse，6-7月）是全球最重要的当代舞蹈节；Radio France音乐节（7月）带来古典与爵士的交融；葡萄酒节（Foire aux Vins，7月）是朗格多克产区的年度盛宴。',
+      figures: '哲学家奥古斯特·孔德在蒙彼利埃大学学习，创立了社会学这门学科；诗人保罗·瓦莱里在蒙彼利埃留下了其知识形成的关键岁月；医学先驱弗朗索瓦·拉伯雷在蒙彼利埃医学院就读，开创了人文主义医学传统。',
+    },
+    base: {
+      wifi: '65 Mbps', cost: '$', visa: '申根90天免签，可申请法国Talent Passport',
+      visaDays: '365 days',
+      visaDesc: '🛂 法国Talent Passport适合自雇与创业者，4年期，月收入要求约€2,700。蒙彼利埃生活成本在法国大城市中最低之列。',
+      welfare: '🏥 法国公共医疗体系完善，蒙彼利埃医学院保证了本地医疗资源的丰富，持居留证可参与CPAM。',
+      safety: '整体安全，大学城氛围让城市保持活力，旧城区全天候安全。女性独行整体安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€11–22（大学区小馆午餐€9–14，晚餐€14–24）\n• 住宿：€30–58（市中心Airbnb单间，法国大城市最低价之列）\n• 交通：€3–4（有轨电车月票€38，骑行海滩极便利）\n• 合计：约€44–84/天',
+      visaDetail: '蒙彼利埃生活成本约为巴黎的60-65%，是法国游民性价比最高的目的地之一。法国Talent Passport全国统一申请标准，审批约2个月。',
+      society: '学生城市氛围带来持续的多元文化融合，大学提供大量英语课程，外籍人士社区年轻化。地中海气候全年300天阳光，户外生活质量极高。',
+    },
+    chance: {
+      paragraph: '医疗健康科技依托欧洲顶级医学院资源持续活跃；教育科技与语言学习平台有丰富的本地用户基础；农业科技结合朗格多克产区正在兴起。',
+      policy: { label: 'Business France', url: 'https://www.businessfrance.fr/en', desc: '法国官方贸易与投资促进机构' },
+      localJobs: [
+        { name: 'Pôle Emploi', url: 'https://www.pole-emploi.fr', desc: '法国国家就业局，覆盖全国各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '蒙彼利埃的数字游民社群以年轻从业者为主，BIC蒙彼利埃创业孵化器是最活跃的创业者社区聚集地。',
+      platforms: [
+        { name: 'Meetup Montpellier', url: 'https://www.meetup.com/cities/fr/montpellier/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Montpellier', url: 'https://www.eventbrite.com/d/france--montpellier/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Edinburgh: {
+    name: 'Edinburgh', nameZh: '爱丁堡', country: 'United Kingdom', countryZh: '英国', flag: '🇬🇧', match: 78,
+    soul: {
+      headline: '城堡与雾气，全球最浪漫的文学之城。',
+      sub: '文化 · 历史 · 文学 · 艺术',
+      body: '爱丁堡是全球第一座联合国教科文组织认定的文学之城。城堡俯瞰皇家大道，J.K.罗琳在这里的咖啡馆写出了哈利·波特第一章，每年8月，世界上最大的艺术节把这座城市变成一整个舞台。',
+      personality: '爱丁堡人以机智、独立与苏格兰骄傲著称，与伦敦的商业气质截然不同。城市学术氛围浓厚（爱丁堡大学是全球百强），金融与科技的融合产生了独特的创业文化。',
+      economy: '金融服务是传统支柱（苏格兰皇家银行发源地）；科技初创生态快速成长，爱丁堡被誉为"硅格伦"（Silicon Glen）；旅游业是第二大产业，弗林奇艺术节每年带来数百万游客。',
+      festivals: '爱丁堡弗林奇艺术节（Edinburgh Festival Fringe，8月）是全球最大的艺术节，3500+个节目在整座城市上演；爱丁堡国际电影节（6月）是全球历史最悠久的电影节；跨年夜Hogmanay庆典是苏格兰最重要的传统节日。',
+      figures: 'J.K.罗琳在爱丁堡咖啡馆写出哈利·波特的第一章，改变了全球儿童文学的面貌；亚当·斯密的《国富论》在爱丁堡的启蒙思想土壤中诞生；查尔斯·达尔文在爱丁堡大学开始了他的博物学训练。',
+    },
+    base: {
+      wifi: '75 Mbps', cost: '$$', visa: '英国免签6个月（因国籍而异），可申请英国自雇签证',
+      visaDays: '180 days',
+      visaDesc: '🛂 英国脱欧后，欧盟护照需申请电子旅行授权（ETA）。长期居留可申请Global Talent Visa或自雇签证。',
+      welfare: '🏥 NHS国民健康服务向居民提供免费医疗，持有效签证可享受与本地人相同的医疗待遇。',
+      safety: '整体安全，是英国犯罪率最低的大城市之一。皇家大道与旧城区全天候安全，节日期间人流密集需注意扒窃。',
+      dailyCost: '每日预算参考：\n• 餐饮：$16–28（咖啡馆午餐$12–18，晚餐$18–30）\n• 住宿：$55–100（市中心Airbnb单间，节日旺季价格翻倍）\n• 交通：$3–6（月票$80，步行可达旧城区大部分景点）\n• 合计：约$74–134/天',
+      visaDetail: '英国Global Talent Visa适合科技、艺术与学术领域精英，需获认可机构背书，有效期5年。自雇签证（Self-Employment Visa）需提供客户合同与财务证明。',
+      society: '英语环境使融入极为便利，苏格兰人以热情豪放著称（区别于英格兰的保守印象）。爱丁堡大学文化使城市保持了持续的知识活力，咖啡馆文化盛行。',
+    },
+    chance: {
+      paragraph: '金融科技（FinTech）与数字金融是爱丁堡特色赛道；文化创意与内容产业依托艺术节生态蓬勃；人工智能与生命科学初创快速成长。',
+      policy: { label: 'Scottish Enterprise', url: 'https://www.scottish-enterprise.com/support-for-businesses', desc: '苏格兰官方经济发展与投资促进机构' },
+      localJobs: [
+        { name: 'S1Jobs', url: 'https://www.s1jobs.com', desc: '苏格兰最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '爱丁堡外籍人士社群规模庞大，Codebase是英国最大的科技创业中心之一，社群活动频繁。',
+      platforms: [
+        { name: 'Meetup Edinburgh', url: 'https://www.meetup.com/cities/gb/edinburgh/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Edinburgh', url: 'https://www.eventbrite.com/d/united-kingdom--edinburgh/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Milan: {
+    name: 'Milan', nameZh: '米兰', country: 'Italy', countryZh: '意大利', flag: '🇮🇹', match: 76,
+    soul: {
+      headline: '全球时尚与设计之都，意大利经济的真正引擎。',
+      sub: '文化 · 时尚 · 设计 · 商业',
+      body: '米兰是意大利最国际化的城市，时装周与家具展让它成为全球创意产业的风向标。但在T台之外，达芬奇的《最后的晚餐》就挂在一所老教堂的墙上，安静地等待着你。',
+      personality: '米兰人以效率著称（在意大利是绝对罕见的特质），工作文化更接近北欧而非南意大利。时尚感是一种生存本能，就算是遛狗也要穿得体面。对外来者保持职业性的开放，融入需要时间但值得等待。',
+      economy: '时尚与奢侈品（Armani、Prada、Versace总部均在此）是软实力核心；金融服务与制造业是经济支柱；设计与科技初创生态快速成长，米兰正在争夺欧洲第二大创业城市的地位。',
+      festivals: '米兰时装周（Milano Fashion Week，2月/9月）是全球四大时装周之一；米兰设计周（Salone del Mobile，4月）是全球最大的家具与设计展；米兰圣安布罗吉奥节（12月7日）是城市的守护圣人节庆。',
+      figures: '达芬奇的《最后的晚餐》永久保存在米兰；设计师吉奥·庞帝（Gio Ponti）以皮雷利大厦重塑了米兰的现代天际线；作曲家朱塞佩·威尔第在斯卡拉歌剧院首演了他最重要的歌剧作品。',
+    },
+    base: {
+      wifi: '75 Mbps', cost: '$$$', visa: '申根90天免签，可申请意大利数字游民签证',
+      visaDays: '365 days',
+      visaDesc: '🛂 意大利2024年推出数字游民签证，月收入要求约€2,700，在欧盟境外雇主工作或自雇，审批约2-3个月。',
+      welfare: '🏥 意大利NHS（SSN）覆盖全国，持有效居留可参与公共医疗；米兰私立诊所质量高但费用较贵。',
+      safety: '整体安全，中央火车站与购物区扒窃风险较高。夜间部分街区需注意，女性独行白天安全感较高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€15–30（小馆午餐€10–18，晚餐€20–35）\n• 住宿：€55–100（市中心Airbnb单间，设计周期间价格暴涨）\n• 交通：€3–5（地铁月票€39，骑行基础设施完善）\n• 合计：约€73–135/天',
+      visaDetail: '意大利数字游民签证（Visto per Nomadi Digitali）要求月均收入≥€2,700，需提供健康保险与住址证明，有效期1年可续签为2年居留许可。',
+      society: '米兰工作节奏快于意大利其他城市，英语在商业环境普及率较高。设计与时尚社群国际化，外籍专业人士融入相对容易。',
+    },
+    chance: {
+      paragraph: '时尚科技（FashionTech）与设计科技是米兰特色赛道；金融科技在意大利金融中心生态下活跃；制造业数字化（工业4.0）需求旺盛。',
+      policy: { label: 'Invest in Lombardy', url: 'https://www.invest.regione.lombardia.it/en/', desc: '伦巴第大区官方投资促进机构' },
+      localJobs: [
+        { name: 'Infojob.it', url: 'https://www.infojobs.it', desc: '意大利最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '米兰的外籍人士社群庞大而多元，Talent Garden等联合办公空间是创意从业者的聚集地，国际化程度远超意大利其他城市。',
+      platforms: [
+        { name: 'Meetup Milan', url: 'https://www.meetup.com/cities/it/milan/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Milan', url: 'https://www.eventbrite.com/d/italy--milan/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Bologna: {
+    name: 'Bologna', nameZh: '博洛尼亚', country: 'Italy', countryZh: '意大利', flag: '🇮🇹', match: 84,
+    soul: {
+      headline: '欧洲最古老大学之城，美食、左翼文化与红色拱廊的交响。',
+      sub: '文化 · 美食 · 教育 · 历史',
+      body: '博洛尼亚以三个绰号著称：La Dotta（博学者之城）、La Grassa（美食之城）、La Rossa（红色之城）——分别指向大学、美食与政治传统。38公里的红色拱廊将整座城市连为一体，是人类最宏伟的步行系统之一。',
+      personality: '博洛尼亚人以慷慨、开明与对美食的宗教级热情著称。作为意大利左翼文化的心脏地带，这里的政治讨论与美食讨论同样激烈。大学城氛围带来了持续的年轻活力与思想多元。',
+      economy: '制造业（包装机械、食品加工设备）是"博洛尼亚工业区"的骨干；大学经济带动教育、研究与文化产业；食品产业（意式火腿、意大利面）是全球品牌；科技初创生态以大学为依托稳步成长。',
+      festivals: '博洛尼亚儿童书展（Bologna Children\'s Book Fair，3月）是全球最重要的出版业盛会；宗教圣象巡游（Festa di San Petronio，10月）是城市守护圣人节庆；Cinema Ritrovato电影节（6月）致敬经典电影遗产。',
+      figures: '天文学家尼古拉·哥白尼在博洛尼亚大学学习了法学与天文学，奠定了日心说的知识基础；画家乔治·莫兰迪在博洛尼亚度过了一生，以静物画建立了独特的视觉哲学；作曲家奥托里诺·雷斯庇基将博洛尼亚的声音带向了全球交响乐厅。',
+    },
+    base: {
+      wifi: '72 Mbps', cost: '$$', visa: '申根90天免签，可申请意大利数字游民签证',
+      visaDays: '365 days',
+      visaDesc: '🛂 意大利数字游民签证月收入要求约€2,700，博洛尼亚申请流程与全国一致，审批约2-3个月。',
+      welfare: '🏥 意大利NHS（SSN）覆盖全国，持居留证可参与公共医疗；博洛尼亚医疗水平高于意大利南部城市。',
+      safety: '意大利最安全的城市之一，犯罪率极低，旧城区与大学区全天候安全，女性独行安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€13–25（传统餐厅午餐€10–16，晚餐€16–28）\n• 住宿：€38–70（市中心Airbnb单间，比米兰便宜约30%）\n• 交通：€2–4（巴士月票$35，步行可达旧城区大部分景点）\n• 合计：约€53–99/天',
+      visaDetail: '博洛尼亚生活成本约为米兰的70-75%，大学城带来了丰富的英语交流环境。意大利数字游民签证全国统一申请，可在博洛尼亚领事馆办理相关手续。',
+      society: '大学城氛围带来持续的多元文化融合，英语在学术与科技圈普及。博洛尼亚以美食文化著称，周末农贸市场是融入社区的最佳方式。',
+    },
+    chance: {
+      paragraph: '包装机械与工业自动化是本地独特赛道；食品科技（FoodTech）依托全球美食品牌生态成长；出版与内容产业以书展为中心持续活跃。',
+      policy: { label: 'Invest in Emilia-Romagna', url: 'https://investinemiliaromagna.it/en/', desc: '艾米利亚-罗马涅大区官方投资促进机构' },
+      localJobs: [
+        { name: 'Infojob.it', url: 'https://www.infojobs.it', desc: '意大利最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '博洛尼亚的数字游民社群依托大学生态快速成长，Impact Hub Bologna是创意从业者与社会创业者的聚集地。',
+      platforms: [
+        { name: 'Meetup Bologna', url: 'https://www.meetup.com/cities/it/bologna/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Bologna', url: 'https://www.eventbrite.com/d/italy--bologna/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Naples: {
+    name: 'Naples', nameZh: '那不勒斯', country: 'Italy', countryZh: '意大利', flag: '🇮🇹', match: 80,
+    soul: {
+      headline: '混沌即诗意，披萨的故乡，地中海最真实的城市。',
+      sub: '文化 · 美食 · 历史 · 自然',
+      body: '那不勒斯是欧洲最混沌、最真实也最令人着迷的城市。这里没有刻意为游客打造的门面，只有地道的生活：窗台晾晒的衣物、空气中弥漫的披萨香、维苏威火山沉默地守望着海湾。',
+      personality: '那不勒斯人以热情、戏剧性与对生活的彻底享受著称，"Napoli non fa per tutti"（那不勒斯不适合所有人）是本地人的自豪宣言。这座城市需要适应，但适应后会给你一种其他地方无法替代的真实感。',
+      economy: '旅游业是最大支柱，通往庞贝、赫库兰尼姆与阿马尔菲海岸的门户地位带来稳定客流；制造业（食品加工、纺织）与海运是传统产业；科技初创生态以南意大利最大规模在此成长。',
+      festivals: '那不勒斯圣热纳罗节（Festa di San Gennaro，9月）是全城守护圣人节庆，液化血奇迹牵动全市神经；Maggio dei Monumenti（5月）开放全城历史遗迹；那不勒斯披萨节（Napoli Pizza Village，9月）是全球最大的披萨节。',
+      figures: '诗人维吉尔在那不勒斯度过了生命的最后岁月，《埃涅伊德》的灵感源于此处；哲学家乔尔达诺·布鲁诺在那不勒斯出生，以自由思想殉道；女演员索菲亚·罗兰是那不勒斯最骄傲的文化符号。',
+    },
+    base: {
+      wifi: '60 Mbps', cost: '$', visa: '申根90天免签，可申请意大利数字游民签证',
+      visaDays: '365 days',
+      visaDesc: '🛂 意大利数字游民签证月收入要求约€2,700，那不勒斯生活成本在意大利大城市中最低，性价比突出。',
+      welfare: '🏥 意大利NHS（SSN）全国覆盖，持居留证可参与公共医疗；那不勒斯医院水平参差，建议购买私立补充保险。',
+      safety: '需要有选择地融入。旧城区历史中心与海滨大道安全感较高；部分郊区（Scampia）不建议涉足。保持常规大城市旅行意识，女性独行旅游区白天安全感一般。',
+      dailyCost: '每日预算参考：\n• 餐饮：€10–20（传统小馆午餐€7–12，披萨晚餐€8–15）\n• 住宿：€28–55（市中心Airbnb单间，意大利最低价之列）\n• 交通：€2–3（地铁月票$28，步行可达旧城区大部分景点）\n• 合计：约€40–78/天',
+      visaDetail: '那不勒斯生活成本约为米兰的55-65%，是意大利游民最具性价比的目的地。意大利数字游民签证全国统一标准，可在那不勒斯领事馆办理相关手续。',
+      society: '那不勒斯生活节奏悠闲，人际关系热烈而直接。外籍社区规模不如米兰，但正在快速成长。地理位置绝佳，维苏威、庞贝与阿马尔菲海岸均在1小时内。',
+    },
+    chance: {
+      paragraph: '旅游科技与文化遗产数字化是本地热点；食品科技依托世界级美食传统成长；南意大利市场本地化需求随数字经济崛起而增长。',
+      policy: { label: 'Invitalia - National Agency for Inward Investment', url: 'https://www.invitalia.it/en/', desc: '意大利官方内外资投资促进机构' },
+      localJobs: [
+        { name: 'Infojob.it', url: 'https://www.infojobs.it', desc: '意大利最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '那不勒斯的数字游民社群以内容创作者与旅游从业者为主，BASE Napoli是本地最活跃的创意与创业社区。',
+      platforms: [
+        { name: 'Meetup Naples', url: 'https://www.meetup.com/cities/it/naples/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Naples', url: 'https://www.eventbrite.com/d/italy--naples/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Antwerp: {
+    name: 'Antwerp', nameZh: '安特卫普', country: 'Belgium', countryZh: '比利时', flag: '🇧🇪', match: 78,
+    soul: {
+      headline: '全球钻石之都，鲁本斯与当代时尚的交汇地。',
+      sub: '文化 · 时尚 · 艺术 · 港口',
+      body: '安特卫普是全球85%宝石级钻石的集散地，也是欧洲时尚界最被低估的城市之一。斯海尔德河畔的哥特式大教堂与鲁本斯故居之间，藏着这座城市对美的永恒执念。',
+      personality: '安特卫普人以直率、对美的高标准与强烈的城市自豪感著称，他们瞧不起只知道布鲁塞尔的人。时尚圈"安特卫普六君子"的传奇让这座城市在设计界的地位远超其规模，年轻的创意社群持续涌入。',
+      economy: '钻石贸易是全球独一无二的支柱；港口是欧洲第二大，带动物流与石化产业；皇家艺术学院催生了持续的时尚与设计经济；科技初创生态以港口数字化为特色成长。',
+      festivals: '安特卫普时尚周（Antwerp Fashion Week，4月）展示下一代设计天才；坚不可摧节（Sfinks Festival，7月）是比利时最大的世界音乐节；鲁本斯集市（Rubenianum，8月）将整座城市带回巴洛克时代。',
+      figures: '巴洛克画家彼得·保罗·鲁本斯在安特卫普度过了创作生涯的鼎盛时期，故居至今完好；时尚设计师安·迪穆拉米斯特是"安特卫普六君子"的核心人物；印刷商克里斯托弗·普朗坦在安特卫普建立了欧洲最重要的16世纪印刷坊。',
+    },
+    base: {
+      wifi: '80 Mbps', cost: '$$', visa: '申根90天免签，比利时无数字游民专属签证',
+      visaDays: '90 days',
+      visaDesc: '🛂 比利时无专属数字游民签证，申根90天免签。长期居留可通过自雇或受雇途径申请，审批约3-6个月。',
+      welfare: '🏥 欧元区成员，比利时医疗体系完善，外籍居民持有效居留可参与强制医疗保险体系。',
+      safety: '整体安全，港口城市背景带来文化多元，主要旅游区与旧城区治安良好。夜间部分街区需注意，女性独行白天安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€15–28（小馆午餐€10–16，晚餐€18–30）\n• 住宿：€45–80（市中心Airbnb单间，比布鲁塞尔稍便宜）\n• 交通：€3–5（月票€55，骑行基础设施完善）\n• 合计：约€63–113/天',
+      visaDetail: '比利时尚无数字游民签证。自雇居留申请需通过市政厅注册，提供商业计划与财务证明。欧元区成员国身份为商业运营提供完整的欧盟框架支持。',
+      society: '安特卫普英语普及率极高，荷兰语为官方语言但日常英语交流无障碍。时尚与创意社群国际化，外籍设计师与IT从业者是主要移居群体。',
+    },
+    chance: {
+      paragraph: '时尚科技与奢侈品数字化是安特卫普特色赛道；港口物流科技（LogTech）需求持续旺盛；钻石行业区块链溯源是新兴创新机会。',
+      policy: { label: 'Flanders Investment & Trade', url: 'https://www.flandersinvestmentandtrade.com/en', desc: '佛兰德斯官方投资贸易促进机构' },
+      localJobs: [
+        { name: 'VDAB', url: 'https://www.vdab.be/vindeenjob', desc: '佛兰德斯官方就业服务平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '安特卫普的创意社群聚集在旧城区与时尚区，Start it @KBC是比利时最大的创业孵化社区之一，外籍人士融入相对容易。',
+      platforms: [
+        { name: 'Meetup Antwerp', url: 'https://www.meetup.com/cities/be/antwerp/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Antwerp', url: 'https://www.eventbrite.com/d/belgium--antwerp/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Ghent: {
+    name: 'Ghent', nameZh: '根特', country: 'Belgium', countryZh: '比利时', flag: '🇧🇪', match: 76,
+    soul: {
+      headline: '比利时最进步的城市，中世纪石桥上的素食革命。',
+      sub: '文化 · 历史 · 可持续 · 学术',
+      body: '根特是比利时保存最完好的中世纪城市之一，三座中世纪塔楼倒映在利斯河中。这里也是欧洲第一座推行"星期四蔬菜日"（Veggie Thursday）的城市，将进步主义融入了日常饮食。',
+      personality: '根特人以开明、艺术气质与对传统的创新再诠释著称。根特大学带来持续的年轻活力，城市对可持续生活方式的执着已成为欧洲城市转型的样本，外来者在这里感受到的是真实的欢迎而非表演性的友善。',
+      economy: '根特大学是城市经济核心，带动教育、研究与生物技术产业；钢铁与化工是传统工业支柱；创意经济与旅游业快速成长；可持续科技与食品科技正在成为新名片。',
+      festivals: '根特节（Gentse Feesten，7月）是欧洲最大的免费城市音乐节，连续10天将整座城市变成露天舞台；根特灯光节（Lichtfestival，2年一届）是欧洲最美的城市光艺术节之一；圣尼古拉斯日（12月6日）是根特最传统的儿童节庆。',
+      figures: '根特祭坛画《神秘羔羊》是扬·凡·艾克最重要的作品，是北欧文艺复兴的奠基之作；皇帝查理五世（卡洛斯一世）在根特出生，开创了哈布斯堡王朝的全球霸权；社会学家埃米尔·杜尔凯姆的思想在根特大学学术传统中深有影响。',
+    },
+    base: {
+      wifi: '80 Mbps', cost: '$$', visa: '申根90天免签，比利时无数字游民专属签证',
+      visaDays: '90 days',
+      visaDesc: '🛂 比利时无专属数字游民签证，申根90天免签。自雇居留申请需通过市政厅注册，审批约3-6个月。',
+      welfare: '🏥 欧元区成员，比利时医疗体系完善，根特大学医院是顶级医疗资源。',
+      safety: '比利时最安全的城市之一，犯罪率极低，旧城区全天候安全，女性独行安全感极高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€13–24（小馆午餐€9–14，晚餐€15–26）\n• 住宿：€40–72（市中心Airbnb单间，比安特卫普稍便宜）\n• 交通：€3–4（月票€48，骑行城市基础设施完善）\n• 合计：约€56–100/天',
+      visaDetail: '根特生活成本略低于布鲁塞尔与安特卫普，大学城氛围带来丰富的英语交流环境。比利时自雇申请流程与全国一致，根特市政厅服务效率较高。',
+      society: '大学城与多元文化氛围使根特成为比利时最容易融入的城市之一，英语在年轻人中普及率接近100%。可持续生活方式是社区共同价值观，骑行文化成熟。',
+    },
+    chance: {
+      paragraph: '生物技术与食品科技依托根特大学生态系统持续活跃；可持续科技（GreenTech/CleanTech）是城市政策主导的成长赛道；创意内容与文化产业以节庆经济为支撑。',
+      policy: { label: 'Flanders Investment & Trade', url: 'https://www.flandersinvestmentandtrade.com/en', desc: '佛兰德斯官方投资贸易促进机构' },
+      localJobs: [
+        { name: 'VDAB', url: 'https://www.vdab.be/vindeenjob', desc: '佛兰德斯官方就业服务平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '根特的创业社群以可持续与社会创新为主题，iMind与Ghent Bio-Energy Valley是最活跃的专业社区。',
+      platforms: [
+        { name: 'Meetup Ghent', url: 'https://www.meetup.com/cities/be/gent/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Ghent', url: 'https://www.eventbrite.com/d/belgium--ghent/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Oslo: {
+    name: 'Oslo', nameZh: '奥斯陆', country: 'Norway', countryZh: '挪威', flag: '🇳🇴', match: 68,
+    soul: {
+      headline: '峡湾与石油财富，全球最可持续的城市之一。',
+      sub: '文化 · 自然 · 设计 · 可持续',
+      body: '奥斯陆坐落在奥斯陆峡湾顶端，城市与自然的边界几乎不存在。市中心的歌剧院屋顶可以直接走上去眺望海湾，森林就在地铁终点，这里的富裕以一种低调而有品质的方式展现。',
+      personality: '挪威人以直率、平等主义与对户外生活的热爱著称，"Friluftsliv"（户外生活哲学）是民族精神的核心。奥斯陆人不炫耀财富，但对可持续生活的承诺是真实的。外籍社区以科技与能源行业从业者为主，融入需要主动出击。',
+      economy: '石油与天然气是挪威经济命脉，但奥斯陆正在积极转型为可持续能源与绿色科技中心；航运、海洋科技与渔业是传统支柱；科技初创生态以清洁能源与海洋科技为特色；挪威主权财富基金是全球最大的主权基金。',
+      festivals: '奥斯陆爵士音乐节（Oslo Jazz Festival，8月）是北欧最重要的爵士节之一；挪威国庆节（5月17日）是北欧最壮观的民族庆典，全城着传统民族服装游行；极地光夜（极光季，10-3月）让整个峡湾成为自然的展演舞台。',
+      figures: '剧作家亨利克·易卜生在奥斯陆创作了《玩偶之家》，开创了现代戏剧的先河；画家爱德华·蒙克的《呐喊》是20世纪最广为人知的艺术作品之一；探险家罗尔德·阿蒙森是第一个到达南极点的人，象征着挪威对极限的追求。',
+    },
+    base: {
+      wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，挪威无数字游民专属签证',
+      visaDays: '90 days',
+      visaDesc: '🛂 挪威非欧盟但为申根区成员，90天免签。自雇居留申请需证明财务自足，审批约3-4个月。',
+      welfare: '🏥 挪威全民医疗体系是全球最完善之一，外籍居民持证后享有与本地人相同的医疗保障。',
+      safety: '全球最安全城市之一，犯罪率极低，公共秩序极好，女性独行安全感极高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$30–55（咖啡馆午餐$22–30，晚餐$35–60）\n• 住宿：$80–160（市中心Airbnb单间，北欧价格较高）\n• 交通：$5–8（地铁月票$100，骑行系统完善）\n• 合计：约$115–223/天',
+      visaDetail: '挪威生活成本是北欧最高之列，但薪资水平与石油财富匹配。自雇居留需提供商业可行性证明，长期居留后享有北欧完整福利体系。挪威克朗（NOK）汇率波动值得关注。',
+      society: '挪威工作文化以效率与平等著称，管理层级扁平，会议简洁高效。户外活动（滑雪、徒步）是社交核心，每个周末都是进山出发的理由。英语普及率接近100%。',
+    },
+    chance: {
+      paragraph: '清洁能源与海洋科技是奥斯陆最具潜力的赛道；挪威石油基金的投资触角覆盖全球，金融分析与ESG咨询需求旺盛；可持续科技创业享有充足的政府支持。',
+      policy: { label: 'Innovation Norway', url: 'https://www.innovasjonnorge.no/en/start-page/', desc: '挪威官方创新与投资促进机构' },
+      localJobs: [
+        { name: 'FINN Jobb', url: 'https://www.finn.no/job/browse.html', desc: '挪威最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '奥斯陆的外籍人士社群以能源与科技行业从业者为主，StartupLab是北欧最活跃的创业孵化器之一。',
+      platforms: [
+        { name: 'Meetup Oslo', url: 'https://www.meetup.com/cities/no/oslo/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Oslo', url: 'https://www.eventbrite.com/d/norway--oslo/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Reykjavik: {
+    name: 'Reykjavik', nameZh: '雷克雅未克', country: 'Iceland', countryZh: '冰岛', flag: '🇮🇸', match: 66,
+    soul: {
+      headline: '极光与火山之间，全球最平和的极小国都市。',
+      sub: '文化 · 自然 · 创意 · 极地',
+      body: '雷克雅未克是全球最北的国家首都，10万人口的城市却拥有世界级的音乐场景、极光奇观与地热能源。这里几乎没有犯罪、没有贫困，人们在午夜阳光下喝啤酒，讨论精灵与诗歌。',
+      personality: '冰岛人以平等、创意与对自然的敬畏著称，没有"太怪"这个概念——在一个相信精灵存在的国家，什么都是可能的。雷克雅未克的文化场景以远超城市规模的密度与创造力震动世界，Björk就是最好的证明。',
+      economy: '渔业是传统经济命脉；旅游业在2010年代火山爆发后爆炸式成长；地热能源是独特的绿色经济优势；创意产业（音乐、电影、游戏）的输出与城市规模极不相称。',
+      festivals: '雷克雅未克艺术节（Reykjavík Arts Festival，5-6月）覆盖所有艺术形式；Secret Solstice音乐节（6月）在午夜阳光下进行，全球最独特的音乐节体验；Iceland Airwaves（10-11月）是发掘北欧独立音乐的最佳窗口。',
+      figures: '歌手Björk将冰岛的奇异美学带向了全球流行音乐；萨迦文学（Sagas）是中世纪北欧最重要的文学遗产，雷克雅未克是其精神家园；棋手鲍比·菲舍尔以冰岛为庇护所，在此度过了人生的最后岁月。',
+    },
+    base: {
+      wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，冰岛有长期远程工作签证',
+      visaDays: '180 days',
+      visaDesc: '🛂 冰岛推出远程工作长居签证，允许停留6个月，月收入要求约$7,000，审批约30天，可续签。',
+      welfare: '🏥 冰岛全民医疗体系覆盖完整，外籍居民持证后可享受公共医疗，温泉水疗（Blue Lagoon等）也是医疗传统的一部分。',
+      safety: '全球犯罪率最低的国家，几乎没有暴力犯罪，是全球和平指数连续多年第一的国家。女性独行安全感全球最高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$30–55（咖啡馆午餐$22–32，晚餐$35–65）\n• 住宿：$85–170（市中心Airbnb单间，冰岛价格极高）\n• 交通：$5–10（无地铁，公交月票$75，租车更便利）\n• 合计：约$120–235/天',
+      visaDetail: '冰岛长期远程工作签证（Long-Term Visa）：有效期6个月，月收入要求约$7,000，需提供雇主证明或自雇收入证明。冰岛不在欧盟但为申根区成员，签证持有期间可自由出入申根区。',
+      society: '全球最平等的社会之一，性别平等与LGBTQ+权利全球领先。生活成本极高但与独特的自然体验（极光、火山、温泉）交换。城市规模小，社区紧密，外籍人士融入速度快。',
+    },
+    chance: {
+      paragraph: '地热能源与可持续科技是冰岛独特优势赛道；旅游科技与户外探险体验数字化需求旺盛；创意产业以超小规模创造超大影响力，内容创作者在这里找到罕见的灵感密度。',
+      policy: { label: 'Invest in Iceland', url: 'https://www.invest.is/invest-in-iceland/', desc: '冰岛官方外商投资促进机构' },
+      localJobs: [
+        { name: 'Alfreð Jobs', url: 'https://www.alfred.is', desc: '冰岛最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '雷克雅未克的外籍人士社群规模不大但凝聚力极强，Startup Iceland每年聚集北大西洋最重要的创业者与投资人。',
+      platforms: [
+        { name: 'Meetup Reykjavik', url: 'https://www.meetup.com/cities/is/reykjavik/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Reykjavik', url: 'https://www.eventbrite.com/d/iceland--reykjavik/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Geneva: {
+    name: 'Geneva', nameZh: '日内瓦', country: 'Switzerland', countryZh: '瑞士', flag: '🇨🇭', match: 63,
+    soul: {
+      headline: '全球外交中枢，红十字与联合国的精神故乡。',
+      sub: '文化 · 外交 · 奢侈品 · 自然',
+      body: '日内瓦是全球外交密度最高的城市——联合国欧洲总部、世卫组织、红十字会均在此驻扎。勃朗峰在晴天的远景中清晰可见，莱蒙湖的喷泉是城市天际线最优雅的点睛之笔。',
+      personality: '日内瓦以多元文化、中立外交与对精度的执着著称，是瑞士最具国际化色彩的城市。外籍人士占总人口约40%，英语几乎与法语同等通行，但融入本地圈子需要时间与耐心。',
+      economy: '国际组织经济（联合国相关机构超200个）是全球独一无二的产业；金融与私人银行是传统支柱；奢侈手表（劳力士、江诗丹顿）是瑞士工业的明珠；生物制药（罗氏子公司）是高端制造业核心。',
+      festivals: '日内瓦汽车展（Geneva International Motor Show，3月）是全球最重要的汽车展之一；时尚节（Fête de la Escalade，12月）纪念1602年的保卫战，巧克力浇头传统令人难忘；跨年烟火在莱蒙湖上燃放，是欧洲最精致的跨年景观之一。',
+      figures: '让-雅克·卢梭在日内瓦出生，其社会契约论奠定了现代民主思想基础；物理学家尼尔斯·玻尔与爱因斯坦在日内瓦进行了影响量子力学的重要辩论；人道主义先驱亨利·杜南在日内瓦创立了红十字会。',
+    },
+    base: {
+      wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，可申请瑞士自雇居留',
+      visaDays: '90 days',
+      visaDesc: '🛂 瑞士非欧盟成员，申根规则适用。自雇居留申请需证明财务自足与商业可行性，审批约3-6个月。',
+      welfare: '🏥 瑞士医疗体系全球顶尖，强制购买基本医疗保险（约CHF450-650/月），日内瓦医疗费用高于苏黎世。',
+      safety: '全球最安全城市之一，犯罪率极低，外交区与湖滨全天候安全，女性独行安全感极高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$38–65（联合国区午餐$28–38，晚餐餐厅$45–75）\n• 住宿：$130–220（市中心Airbnb单间，欧洲最贵之一）\n• 交通：$5–8（月票CHF90，骑行与步行覆盖湖滨区域）\n• 合计：约$173–293/天',
+      visaDetail: '日内瓦是全球生活成本最高的城市之一，但国际组织薪资与金融业待遇与此匹配。自雇申请通过后可居留1年，可续签。长期居留享有顶级公共服务与极高的社会安全感。',
+      society: '多元文化是日内瓦最大的社会特征，40%的人口持外国护照，英语、法语与多种语言并行。国际组织生态带来大量跨文化专业社群，融入专业圈子相对容易。',
+    },
+    chance: {
+      paragraph: '国际组织咨询与NGO支持是日内瓦独特机会；金融科技与私人银行数字化需求旺盛；生命科学与医疗健康创新以WHO/罗氏生态为依托。',
+      policy: { label: 'Switzerland Global Enterprise (S-GE)', url: 'https://www.s-ge.com/en', desc: '瑞士官方贸易与投资促进机构' },
+      localJobs: [
+        { name: 'Jobs.ch', url: 'https://www.jobs.ch', desc: '瑞士最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '日内瓦的专业社群以国际组织与金融从业者为主，Impact Hub日内瓦是社会创新领域的核心聚集地，外籍人士英语社群规模庞大。',
+      platforms: [
+        { name: 'Meetup Geneva', url: 'https://www.meetup.com/cities/ch/geneva/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Geneva', url: 'https://www.eventbrite.com/d/switzerland--geneva/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Basel: {
+    name: 'Basel', nameZh: '巴塞尔', country: 'Switzerland', countryZh: '瑞士', flag: '🇨🇭', match: 67,
+    soul: {
+      headline: '全球最重要的当代艺术展之城，三国交界的制药重镇。',
+      sub: '文化 · 艺术 · 制药 · 边境',
+      body: '巴塞尔是瑞士、德国、法国三国边界的交汇点，走出中央火车站就能踏上三个国家的土地。Art Basel每年将全球最重要的画廊与藏家聚集于此，让这座30万人的城市成为当代艺术世界的临时首都。',
+      personality: '巴塞尔人以严谨、艺术品位与对实用功能的极致追求著称，同时带着三国文化融合的开放心态。制药工业的务实与Art Basel的前卫在此奇妙共存，形成一种独特的"科学遇见艺术"城市气质。',
+      economy: '制药与化工（诺华、罗氏总部）是全球顶尖的产业集群；Art Basel带动文化经济；金融服务与私人银行是传统支柱；三国边境地位带来独特的跨境商业机会。',
+      festivals: 'Art Basel（6月）是全球最重要的当代艺术博览会，每年吸引9万名艺术界人士；巴塞尔狂欢节（Basler Fasnacht，2-3月）是瑞士最大、欧洲最著名的狂欢节之一；Baloise Session音乐节（10月）是瑞士最重要的室内爵士与流行音乐节。',
+      figures: '哲学家弗里德里希·尼采在巴塞尔大学任古典语言学教授，在此完成了早期最重要的著作；建筑师赫尔佐格与德梅隆（Herzog & de Meuron）以巴塞尔为基地改变了全球建筑话语；化学家保罗·穆勒在巴塞尔发现了DDT的杀虫特性，获诺贝尔医学奖。',
+    },
+    base: {
+      wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，可申请瑞士自雇居留',
+      visaDays: '90 days',
+      visaDesc: '🛂 瑞士非欧盟成员，申根规则适用。巴塞尔三国边境地位使居住灵活性高，许多人在德国或法国居住、在瑞士工作。',
+      welfare: '🏥 瑞士医疗体系顶尖，强制购买基本医疗保险（约CHF380-550/月）。巴塞尔大学医院是欧洲顶级医疗机构之一。',
+      safety: '瑞士最安全的城市之一，犯罪率极低，三国边境城市公共秩序极好，女性独行安全感极高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$32–58（咖啡馆午餐$24–32，晚餐$38–65）\n• 住宿：$100–190（市中心Airbnb单间，Art Basel期间价格暴涨）\n• 交通：$5–8（月票CHF125，步行可达三国边境）\n• 合计：约$137–256/天',
+      visaDetail: '巴塞尔的独特优势在于三国边境：可在成本较低的德国弗赖堡或法国米卢斯居住，同时在瑞士工作。瑞士自雇居留申请标准全国统一，审批约3-6个月。',
+      society: '多语言环境（德语、法语均通行，英语普及率高），制药与艺术两个行业塑造了城市特有的精英与创意氛围。Art Basel期间整座城市的能量密度超乎想象。',
+    },
+    chance: {
+      paragraph: '制药与生命科学是巴塞尔最高密度的产业机会；Art Basel生态带动艺术科技（ArtTech）与文化内容需求；三国边境的跨境贸易与咨询服务持续活跃。',
+      policy: { label: 'Switzerland Global Enterprise (S-GE)', url: 'https://www.s-ge.com/en', desc: '瑞士官方贸易与投资促进机构' },
+      localJobs: [
+        { name: 'Jobs.ch', url: 'https://www.jobs.ch', desc: '瑞士最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '巴塞尔的外籍人士社群以制药、金融与艺术从业者为主，BaselArea Business & Innovation是本地最活跃的创业支持机构。',
+      platforms: [
+        { name: 'Meetup Basel', url: 'https://www.meetup.com/cities/ch/basel/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Basel', url: 'https://www.eventbrite.com/d/switzerland--basel/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Toulouse: {
+    name: 'Toulouse', nameZh: '图卢兹', country: 'France', countryZh: '法国', flag: '🇫🇷', match: 82,
+    soul: {
+      headline: '粉红城市，空客的故乡，法国第四大城市的低调野心。',
+      sub: '文化 · 航空 · 教育 · 美食',
+      body: '图卢兹的砖红色建筑在南法阳光下散发着温暖的玫瑰色，因此得名"粉红城市"。这里是全球最大商用飞机制造商空客的诞生地，也是加龙河畔最有活力的法国学生城市。',
+      personality: '图卢兹人兼具奥克西坦文化的热情与工程师精神的严谨，融合得出人意料的和谐。学生占总人口约20%，让城市保持了持续的年轻活力与创意密度，南法的悠闲生活节奏与航空航天的精确文化构成奇妙张力。',
+      economy: '航空航天是全球顶尖产业集群（空客、泰雷兹、萨基姆），带动完整的供应链生态；信息技术与卫星技术（法国国家空间研究中心CNES）是第二支柱；医疗健康与生物技术依托顶尖大学持续成长。',
+      festivals: '图卢兹探戈节（Festival Rio Loco，6月）是法国最大的世界音乐节之一；Toulouse Game Show（11月）是法国最大的电子游戏文化节；橄榄球赛季（TOP14联赛，9-5月）让斯塔德德法兰西球迷文化成为城市日历的核心。',
+      figures: '作家安托万·德·圣-埃克苏佩里是图卢兹的飞行员诗人，《小王子》的原型部分来自他在此飞越比利牛斯山的经历；音乐家克劳德·努加罗是图卢兹的民谣大使；数学家皮埃尔·德·费马在图卢兹完成了影响数学史三个世纪的"费马大定理"。',
+    },
+    base: {
+      wifi: '68 Mbps', cost: '$$', visa: '申根90天免签，可申请法国Talent Passport',
+      visaDays: '365 days',
+      visaDesc: '🛂 法国Talent Passport适合自雇与创业者，4年期，月收入要求约€2,700。图卢兹生活成本在法国大城市中属中等偏低。',
+      welfare: '🏥 法国公共医疗体系完善，图卢兹大学医院是南法最重要的医疗中心，持居留证可参与CPAM。',
+      safety: '整体安全，旧城区与大学区治安良好，部分郊区夜间需注意。女性独行白天安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€12–23（大学区小馆午餐€9–14，晚餐€15–25）\n• 住宿：€36–68（市中心Airbnb单间，比里昂略便宜）\n• 交通：€3–5（地铁月票€60，骑行系统完善）\n• 合计：约€51–96/天',
+      visaDetail: '法国Talent Passport全国统一标准，图卢兹申请流程顺畅。生活成本约为巴黎的65-70%，航空航天产业集群带来稳定的B2B商业机会。',
+      society: '大学城与工程师文化融合，英语在航空航天与科技行业普及率高。图卢兹橄榄球文化是融入本地社区的快捷通道，户外活动以比利牛斯山为背景极为丰富。',
+    },
+    chance: {
+      paragraph: '航空航天供应链数字化是最具规模的B2B机会；卫星科技与地球观测数据分析（CNES生态）是高端赛道；游戏开发与创意科技依托年轻学生城市生态成长。',
+      policy: { label: 'Business France', url: 'https://www.businessfrance.fr/en', desc: '法国官方贸易与投资促进机构' },
+      localJobs: [
+        { name: 'Pôle Emploi', url: 'https://www.pole-emploi.fr', desc: '法国国家就业局，覆盖全国各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '图卢兹的创业社群依托Aerospace Valley聚集，EPITECH与INSA等工程院校校友网络是最活跃的技术社区来源。',
+      platforms: [
+        { name: 'Meetup Toulouse', url: 'https://www.meetup.com/cities/fr/toulouse/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Toulouse', url: 'https://www.eventbrite.com/d/france--toulouse/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Marseille: {
+    name: 'Marseille', nameZh: '马赛', country: 'France', countryZh: '法国', flag: '🇫🇷', match: 74,
+    soul: {
+      headline: '法国最古老的城市，地中海最真实的港口灵魂。',
+      sub: '文化 · 港口 · 美食 · 多元',
+      body: '马赛是法国最古老的城市，希腊人在2600年前建立了这个港口。今天的马赛是法国最多元的城市——北非、亚美尼亚、意大利、西班牙的文化在这里层叠交织，形成了任何其他法国城市都复制不了的独特气质。',
+      personality: '马赛人以直率、骄傲与对城市的强烈认同著称，他们对外界的刻板印象毫不在意，坚持着自己的节奏。沸鱼汤（Bouillabaisse）是一种宗教，旧港是客厅，地中海是后院。欧洲文化之都的经历让马赛的创意能量开始被更多人发现。',
+      economy: '港口是欧洲第三大，带动物流与石化；旅游业随2013年欧洲文化之都后快速成长；数字经济与创意产业在政策推动下进入快车道；电影与影视制作依托地中海背景持续活跃。',
+      festivals: '马赛-普罗旺斯欧洲文化之都遗产系列活动延续至今；Marseille Jazz des cinq Continents（7月）是全球顶级的世界爵士节；马赛圣诞节（Foire aux Santons，11-1月）是以手工陶偶著称的传统节庆。',
+      figures: '亚历山大·仲马（大仲马）以马赛为背景写下《基督山伯爵》，将这座城市的地中海传奇带向全世界；建筑师勒·柯布西耶的"马赛公寓"（Unité d\'Habitation）是现代主义建筑史上的里程碑；说唱音乐人IAM将马赛的多元文化带入了法语流行音乐的核心。',
+    },
+    base: {
+      wifi: '65 Mbps', cost: '$$', visa: '申根90天免签，可申请法国Talent Passport',
+      visaDays: '365 days',
+      visaDesc: '🛂 法国Talent Passport适合自雇与创业者，4年期，月收入要求约€2,700。马赛生活成本在法国大城市中偏低。',
+      welfare: '🏥 法国公共医疗覆盖全国，马赛La Timone大学医院是南法最重要的医疗机构，持居留证可参与CPAM。',
+      safety: '治安是马赛最需关注的问题，部分郊区（北部）不适合初来者独自涉足；旧港与城市中心白天安全，夜间旅游区有序。女性独行旅游区白天安全感一般，夜间建议结伴。',
+      dailyCost: '每日预算参考：\n• 餐饮：€12–22（港口餐厅午餐€10–16，晚餐€15–25）\n• 住宿：€32–62（市中心Airbnb单间，法国大城市最低价之列）\n• 交通：€3–5（地铁月票$55，海滨骑行系统完善）\n• 合计：约€47–89/天',
+      visaDetail: '马赛生活成本约为巴黎的60-65%，是法国最具性价比的大城市之一，但需要对城市多元复杂的现实有所准备。法国Talent Passport全国统一标准。',
+      society: '多元文化是马赛最大的社会特征，北非、亚美尼亚、意大利移民后代共同构成了城市的文化基因。地中海生活方式、足球（奥林匹克马赛）与沸鱼汤是社区融入的三大媒介。',
+    },
+    chance: {
+      paragraph: '港口科技（PortTech）与物流数字化是本地最大机会；影视制作依托地中海背景与城市多元文化持续活跃；旅游科技与文化产业数字化在2013年欧洲文化之都遗产下稳步成长。',
+      policy: { label: 'Business France', url: 'https://www.businessfrance.fr/en', desc: '法国官方贸易与投资促进机构' },
+      localJobs: [
+        { name: 'Pôle Emploi', url: 'https://www.pole-emploi.fr', desc: '法国国家就业局，覆盖全国各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '马赛的数字游民社群以内容创作者、远程设计师与港口行业从业者为主，La Friche la Belle de Mai创意园区是最活跃的聚集地。',
+      platforms: [
+        { name: 'Meetup Marseille', url: 'https://www.meetup.com/cities/fr/marseille/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Marseille', url: 'https://www.eventbrite.com/d/france--marseille/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Manchester: {
+    name: 'Manchester', nameZh: '曼彻斯特', country: 'United Kingdom', countryZh: '英国', flag: '🇬🇧', match: 81,
+    soul: {
+      headline: '工业革命的摇篮，英国最有活力的北部科技城市。',
+      sub: '文化 · 音乐 · 科技 · 足球',
+      body: '曼彻斯特是英国最酷的城市之一，工业革命的遗产在砖红色厂房与运河沿岸的共享办公空间中延续。奥尔德姆街的音乐场景、北方科技廊的科技能量，以及两支足球队在同一座城市的传奇，构成了这里独特的城市精神。',
+      personality: '曼彻斯特人以幽默、直率与强烈的城市认同著称，他们对自己城市的热爱不需要伦敦的背书。Madchester音乐文化、工业遗产与科技转型在这里和平共存，形成了英国南北关系中独特而有力的北方声音。',
+      economy: '数字科技与媒体是现代经济支柱（MediaCityUK聚集BBC、ITV等媒体机构）；生命科学与制造业是传统优势；金融科技（FinTech North）快速崛起；足球经济带动旅游与体育科技。',
+      festivals: '曼彻斯特国际节（Manchester International Festival，7月，双年举行）是全球首个专为原创艺术作品设计的节日；Manchester Day（6月）是城市最大的街头庆典；奥尔德姆街音乐节（Neighbourhood Weekender，5月）聚焦独立音乐。',
+      figures: '乐队绿洲（Oasis）和The Smiths在曼彻斯特的砖墙里写出了英国流行音乐的一个时代；计算机先驱艾伦·图灵在曼彻斯特大学完成了现代计算机科学的奠基性工作；工业革命纺纱机发明家詹姆斯·哈格里夫斯改变了曼彻斯特，也改变了世界。',
+    },
+    base: {
+      wifi: '80 Mbps', cost: '$$', visa: '英国免签6个月（因国籍而异），可申请UK Global Talent Visa',
+      visaDays: '180 days',
+      visaDesc: '🛂 英国脱欧后，欧盟护照需申请ETA。Global Talent Visa适合科技与创意领域精英，需获认可机构背书，有效期5年。',
+      welfare: '🏥 NHS国民健康服务免费覆盖，持有效签证可享受与本地人相同的医疗待遇。',
+      safety: '整体安全，城市中心与学生区治安良好。部分郊区夜间需注意，旅游区与商业中心安全感高，女性独行白天安全感较高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$14–26（Northern Quarter午餐$10–16，晚餐$16–28）\n• 住宿：$50–90（市中心Airbnb单间，比伦敦便宜约40%）\n• 交通：$3–6（月票$80，有轨电车网络覆盖广泛）\n• 合计：约$67–122/天',
+      visaDetail: '曼彻斯特生活成本约为伦敦的60-65%，但创业生态与就业机会密度接近伦敦水平。UK Global Talent Visa有Tech Nation、Arts Council England等多个背书机构，申请通道成熟。',
+      society: '英语环境使融入极为便利，曼彻斯特大学与曼彻斯特城市大学带来庞大国际学生社群。城市节奏比伦敦舒适，生活质量与工作机会的平衡在英国城市中首屈一指。',
+    },
+    chance: {
+      paragraph: '媒体科技与内容创作依托MediaCityUK生态持续活跃；FinTech North带动金融科技快速成长；生命科学园区Manchester Science Park聚集大量研发机会。',
+      policy: { label: 'MIDAS Manchester Investment & Development Agency', url: 'https://www.investinmanchester.com', desc: '曼彻斯特官方投资与开发促进机构' },
+      localJobs: [
+        { name: 'Manchester Digital Jobs', url: 'https://www.manchesterdigital.com/jobs', desc: '曼彻斯特数字产业协会旗下招聘平台' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '曼彻斯特的外籍人士社群以科技与媒体从业者为主，Manchester Tech Trust等机构定期举办活动，Northern Quarter是创意社群聚集的核心街区。',
+      platforms: [
+        { name: 'Meetup Manchester', url: 'https://www.meetup.com/cities/gb/manchester/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Manchester', url: 'https://www.eventbrite.com/d/united-kingdom--manchester/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Bristol: {
+    name: 'Bristol', nameZh: '布里斯托尔', country: 'United Kingdom', countryZh: '英国', flag: '🇬🇧', match: 80,
+    soul: {
+      headline: 'Banksy的故乡，英国最具创意与可持续精神的城市。',
+      sub: '文化 · 艺术 · 可持续 · 科技',
+      body: '布里斯托尔的街道是世界上密度最高的街头艺术博物馆，Banksy在这里的涂鸦是无需门票的展览。这座城市以独立精神著称，在"脱离伦敦轨道"的英国城市中，布里斯托尔是最彻底也最自信的一个。',
+      personality: '布里斯托尔人以独立、创意与对可持续生活的真实践行著称，不是表演性的环保而是骨子里的价值观。这里的亚文化场景（Drum & Bass发源地）与科技创业生态以出人意料的密度共存于一座35万人口的城市中。',
+      economy: '航空航天（罗尔斯·罗伊斯、空客英国）是传统工业优势；科技初创生态以深科技与绿色科技为特色快速成长；创意媒体（Aardman动画工作室在此）与文化产业是软实力核心；港口服务与金融是补充支柱。',
+      festivals: '布里斯托尔国际气球节（Bristol International Balloon Fiesta，8月）是欧洲最大的热气球节；Encounters国际短片节（11月）是欧洲顶级的短片电影节；St Pauls Carnival（7月）是英国规模最大的加勒比文化节庆。',
+      figures: 'Banksy在布里斯托尔街头开始了他的涂鸦生涯，改变了全球对街头艺术的认知；Aardman动画创始人彼得·罗德创造了憨豆先生的好友——小羊肖恩；探险家约翰·卡伯特从布里斯托尔港出发，发现了北美大陆。',
+    },
+    base: {
+      wifi: '75 Mbps', cost: '$$', visa: '英国免签6个月（因国籍而异），可申请UK Global Talent Visa',
+      visaDays: '180 days',
+      visaDesc: '🛂 英国脱欧后，欧盟护照需申请ETA。Global Talent Visa适合科技与创意领域精英，5年期，审批约3-8周。',
+      welfare: '🏥 NHS国民健康服务免费覆盖全英国，布里斯托尔皇家医院是西英格兰的顶级医疗机构。',
+      safety: '整体安全，城市中心与Clifton区治安良好。部分郊区夜间需注意，旅游区安全感高，女性独行白天安全感较高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$14–26（独立餐厅午餐$10–16，晚餐$16–28）\n• 住宿：$48–88（市中心Airbnb单间，比伦敦便宜约35-40%）\n• 交通：$3–6（月票$75，骑行基础设施完善）\n• 合计：约$65–120/天',
+      visaDetail: '布里斯托尔生活成本约为伦敦的60-65%，深科技与可持续科技的创业生态密度高于城市规模预期。UK Global Talent Visa申请渠道成熟，Watershed等机构可提供创意行业背书。',
+      society: '布里斯托尔大学带来大量国际学生，英语环境使融入极为便利。可持续生活是真实的社区价值观，素食餐厅密度全英最高，骑行基础设施持续改善。',
+    },
+    chance: {
+      paragraph: '深科技（航空航天、量子计算）是布里斯托尔独特的B2B赛道；Aardman生态带动创意内容与动画科技机会；绿色科技与可持续建筑是城市政策主导的成长方向。',
+      policy: { label: 'Invest Bristol & Bath', url: 'https://www.investbristolbath.com', desc: '布里斯托尔与巴斯地区官方投资促进机构' },
+      localJobs: [
+        { name: 'TechSpark Jobs', url: 'https://techspark.co/jobs/', desc: '布里斯托尔科技社区旗下招聘平台' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '布里斯托尔的数字游民与创意社群聚集在Stokes Croft与Clifton区，Watershed创意科技中心是最活跃的社区聚集地。',
+      platforms: [
+        { name: 'Meetup Bristol', url: 'https://www.meetup.com/cities/gb/bristol/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Bristol', url: 'https://www.eventbrite.com/d/united-kingdom--bristol/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Turin: {
+    name: 'Turin', nameZh: '都灵', country: 'Italy', countryZh: '意大利', flag: '🇮🇹', match: 82,
+    soul: {
+      headline: '巧克力、菲亚特与裹尸布，意大利最被低估的城市。',
+      sub: '文化 · 工业 · 美食 · 历史',
+      body: '都灵是意大利统一运动的诞生地，皮埃蒙特的宽阔林荫大道与宏伟宫殿群证明了它曾经的王国首都地位。但今天更多游民发现，这里拥有欧洲最好的咖啡馆文化、比米兰低30%的生活成本，以及意大利工业精神最纯粹的体现。',
+      personality: '都灵人以低调务实、内敛骄傲著称，他们不大声喧哗，但巧克力（gianduja）与苦艾酒（Vermouth）的传统会告诉你这座城市的深度。工业文化与皇家遗产共同塑造了一种"优雅的严肃"，外来者被接受，但需要尊重当地节奏。',
+      economy: '汽车工业（菲亚特/Stellantis）是传统命脉，正在经历向电动车与自动驾驶的转型；航空航天（莱昂纳多）与国防工业是第二支柱；IT初创与人工智能研究正在以都灵理工大学为中心快速崛起。',
+      festivals: '国际书展（Salone Internazionale del Libro，5月）是欧洲最重要的书展之一；CinemAmbiente环境电影节（6月）聚焦环境与可持续话题；都灵国际电影节（11月）是意大利最具先锋精神的电影节。',
+      figures: '尼采在都灵完成了人生最后的清醒写作，宣称这是他最喜爱的城市；导演米开朗基罗·安东尼奥尼的镜头语言深受都灵工业景观影响；设计师埃托雷·索特萨斯以都灵为基地创立了Memphis设计运动，改变了20世纪设计史。',
+    },
+    base: {
+      wifi: '70 Mbps', cost: '$$', visa: '申根90天免签，可申请意大利数字游民签证',
+      visaDays: '365 days',
+      visaDesc: '🛂 意大利数字游民签证月收入要求约€2,700，都灵生活成本比米兰低约30%，是意大利北部最具性价比的目的地。',
+      welfare: '🏥 意大利NHS（SSN）全国覆盖，都灵大学医院（Molinette）是意大利顶级医疗机构之一，持居留证可参与公共医疗。',
+      safety: '整体安全，是意大利北部最安全的大城市之一。市中心与宫殿区全天候安全，部分郊区夜间需注意，女性独行安全感较高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€12–22（传统小馆午餐€8–14，晚餐€14–24）\n• 住宿：€35–65（市中心Airbnb单间，比米兰便宜约30%）\n• 交通：€2–4（地铁月票€37，步行可达大部分历史景点）\n• 合计：约€49–91/天',
+      visaDetail: '都灵是意大利游民最具性价比的选择之一，位于米兰和法国边境之间，可方便往来两国。意大利数字游民签证全国统一标准，都灵领事馆服务效率较高。',
+      society: '皮埃蒙特文化以务实著称，都灵人对时间和约定保持着北意大利的严谨。工业转型期的城市氛围带来了创业机会，共享办公空间快速增长，年轻从业者开始重新发现这座被忽视的城市。',
+    },
+    chance: {
+      paragraph: '汽车工业数字化（EV/自动驾驶）是都灵最大的转型机会；人工智能研究以都灵理工大学为中心快速崛起；航空航天供应链数字化持续旺盛。',
+      policy: { label: 'Invest in Turin and Piedmont', url: 'https://www.investinturinpiedmont.com/en/', desc: '都灵与皮埃蒙特大区官方投资促进机构' },
+      localJobs: [
+        { name: 'Infojob.it', url: 'https://www.infojobs.it', desc: '意大利最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '都灵的数字游民社群正在快速成长，Toolbox Coworking是意大利历史最悠久的联合办公空间之一，汽车与AI主题社群活跃。',
+      platforms: [
+        { name: 'Meetup Turin', url: 'https://www.meetup.com/cities/it/turin/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Turin', url: 'https://www.eventbrite.com/d/italy--turin/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Warsaw: {
+    name: 'Warsaw', nameZh: '华沙', country: 'Poland', countryZh: '波兰', flag: '🇵🇱', match: 86,
+    soul: {
+      headline: '从废墟重建的欧洲之鸟，中东欧最重要的科技枢纽。',
+      sub: '文化 · 历史 · 科技 · 韧性',
+      body: '华沙是人类历史上最彻底的重建故事：二战中90%的城市被夷为平地，华沙人在废墟中按旧照片和记忆砖瓦重建了整座城市。今天的华沙是中东欧最重要的科技枢纽，其韧性已成为创业精神最好的隐喻。',
+      personality: '华沙人以直率、幽默（黑色幽默尤其精湛）与强烈的民族自豪著称，对困难有超乎寻常的化解能力。年轻的波兰IT一代英语流利，创业热情旺盛，正在把这座城市打造成欧洲的下一个科技中心。',
+      economy: 'IT外包与软件开发是经济引擎（CD PROJEKT RED、Allegro等公司的总部），波兰IT工程师在欧洲享有最高声誉之一；金融服务与银行共享服务中心聚集大量外资；游戏开发是最具国际影响力的产业名片。',
+      festivals: '华沙音乐节（Warsaw Music Week，9月）是波兰最重要的当代音乐节；科学节（Festiwal Nauki，9月）是欧洲规模最大的公众科学节之一；华沙国际电影节（10月）是中欧最重要的电影盛事之一。',
+      figures: '钢琴家弗雷德里克·肖邦在华沙出生，以波洛涅兹舞曲永久定义了波兰的民族音乐灵魂；物理学家玛丽·居里（居里夫人）在华沙出生，是人类历史上唯一获得两个不同科学领域诺贝尔奖的人；作家波莱斯瓦夫·普鲁斯在《玩偶》中留下了19世纪华沙最完整的城市肖像。',
+    },
+    base: {
+      wifi: '75 Mbps', cost: '$', visa: '申根90天免签',
+      visaDays: '90 days',
+      visaDesc: '🛂 申根区90天免签，波兰尚无数字游民专属签证。长期居留可通过公司注册或受雇途径申请居留许可，审批约2-4个月。',
+      welfare: '🏥 欧盟成员国，持有效居留可参与波兰社保体系；华沙私立医疗价格低廉，服务质量持续提升。',
+      safety: '整体安全，欧洲犯罪率最低的首都之一。旧城区与商业中心全天候安全，女性独行安全感高。',
+      dailyCost: '每日预算参考：\n• 餐饮：$9–18（波兰传统餐厅午餐$5–9，晚餐$10–18）\n• 住宿：$22–50（市中心Airbnb单间，欧盟首都最低价之列）\n• 交通：$2–3（地铁月票$28，公共交通网络覆盖完整）\n• 合计：约$33–71/天',
+      visaDetail: '波兰尚未推出数字游民专属签证，但通过成立波兰公司（sp. z o.o.）申请居留许可是成熟路径，审批约2-4个月，公司注册成本约€1,000-1,500。波兰正讨论推出游民签证项目。',
+      society: '华沙年轻一代英语普及率高，城市国际化程度远超波兰其他城市。生活成本是欧盟首都中最低之列，互联网速度快，科技人才密度高，是欧洲最具性价比的大城市之一。',
+    },
+    chance: {
+      paragraph: 'IT外包与软件开发是华沙最成熟的机会，波兰工程师人才储备丰富；游戏开发以CDPR为代表形成完整生态；金融科技与电商（Allegro效应）快速成长。',
+      policy: { label: 'Polish Investment and Trade Agency (PAIH)', url: 'https://www.paih.gov.pl/en', desc: '波兰官方投资与贸易促进机构' },
+      localJobs: [
+        { name: 'Pracuj.pl', url: 'https://www.pracuj.pl', desc: '波兰最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '华沙的科技社群以IT从业者为核心，Campus Warsaw（Google孵化器）与众多联合办公空间是创业者的聚集地，外籍人士社区快速扩大。',
+      platforms: [
+        { name: 'Meetup Warsaw', url: 'https://www.meetup.com/cities/pl/warsaw/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Warsaw', url: 'https://www.eventbrite.com/d/poland--warsaw/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Salzburg: {
+    name: 'Salzburg', nameZh: '萨尔茨堡', country: 'Austria', countryZh: '奥地利', flag: '🇦🇹', match: 72,
+    soul: {
+      headline: '莫扎特的故乡，阿尔卑斯山下的巴洛克音乐圣地。',
+      sub: '文化 · 音乐 · 建筑 · 自然',
+      body: '萨尔茨堡是全球音乐朝圣者的目的地，莫扎特在这里出生并度过了早年岁月。盐河（Salzach）两岸的巴洛克建筑群是联合国教科文组织世界遗产，每年夏天的音乐节把全球最重要的古典音乐人汇聚于此。',
+      personality: '萨尔茨堡人以对音乐的骄傲与对传统的珍视著称，这座城市的保守与其世界级的文化地位构成了奇妙的张力。游客比常住人口多得多，但本地人依然保持着奥地利特有的从容礼貌，阿尔卑斯山的存在让一切焦虑都显得多余。',
+      economy: '旅游业是最大支柱，音乐节经济带动整个地区；制造业与科技初创在扎尔茨堡科技园快速成长；医疗健康产业依托大学医院持续活跃；奥地利整体营商环境稳定，欧元区成员国地位便利。',
+      festivals: '萨尔茨堡音乐节（Salzburg Festival，7-8月）是全球最重要的古典音乐节，每年吸引25万音乐爱好者；莫扎特周（Mozartwoche，1月）在作曲家诞辰前后举行；萨尔茨堡圣诞市场（12月）是欧洲最古老最美丽的圣诞市场之一。',
+      figures: '沃尔夫冈·阿马多伊斯·莫扎特是萨尔茨堡最骄傲的儿子，其故居是全球访问量最高的音乐家博物馆；指挥家赫伯特·冯·卡拉扬是萨尔茨堡音乐节的灵魂缔造者；电影《音乐之声》让全球观众记住了萨尔茨堡的山丘与湖泊。',
+    },
+    base: {
+      wifi: '75 Mbps', cost: '$$$', visa: '申根90天免签，奥地利无数字游民专属签证',
+      visaDays: '90 days',
+      visaDesc: '🛂 欧元区及申根区成员，90天免签。奥地利尚无数字游民专属签证，长期居留可申请自雇许可，审批约3-4个月。',
+      welfare: '🏥 奥地利医疗体系欧洲顶尖，持有效居留可参与奥地利社保（ASVG），公立医院覆盖全面。',
+      safety: '欧洲最安全的城市之一，犯罪率极低，全天候安全，女性独行安全感极高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€14–26（传统餐厅午餐€10–16，晚餐€16–28）\n• 住宿：€55–100（市中心Airbnb单间，音乐节期间价格暴涨）\n• 交通：€3–5（月票€65，骑行与步行可达大部分景点）\n• 合计：约€72–131/天',
+      visaDetail: '奥地利自雇居留（Gewerbeschein）申请：需提供商业计划与财务证明，获批后可居留1年，可续签。萨尔茨堡生活成本略低于维也纳，城市规模小通勤效率高。',
+      society: '音乐节旺季（7-8月）让萨尔茨堡人口翻倍，淡季城市安静而宜居。奥地利人普遍礼貌守时，英语在商业与旅游领域普及率高。阿尔卑斯山的户外活动（滑雪、徒步）是社区融入的最好媒介。',
+    },
+    chance: {
+      paragraph: '旅游科技与文化遗产数字化是本地特色赛道；音乐教育科技以莫扎特音乐大学为依托成长；萨尔茨堡科技园聚集信息技术与高端制造企业，提供稳定的B2B机会。',
+      policy: { label: 'Austrian Business Agency (ABA)', url: 'https://www.aba.gv.at/en/', desc: '奥地利官方外商投资促进机构' },
+      localJobs: [
+        { name: 'karriere.at', url: 'https://www.karriere.at', desc: '奥地利最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '萨尔茨堡的外籍人士社群规模不大但质量高，音乐节带来的国际人脉与科技园区从业者构成两个主要社群。',
+      platforms: [
+        { name: 'Meetup Salzburg', url: 'https://www.meetup.com/cities/at/salzburg/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Salzburg', url: 'https://www.eventbrite.com/d/austria--salzburg/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
+  Innsbruck: {
+    name: 'Innsbruck', nameZh: '因斯布鲁克', country: 'Austria', countryZh: '奥地利', flag: '🇦🇹', match: 70,
+    soul: {
+      headline: '阿尔卑斯山心脏的奥运之城，城市与雪山的终极共存。',
+      sub: '文化 · 自然 · 运动 · 历史',
+      body: '因斯布鲁克是全球少数几个从市中心步行15分钟就能踏上滑雪道的城市，北连阿尔卑斯山脉与因河（Inn River）在城市中央交汇。这座曾举办两次冬奥会的城市，把极限运动与悠闲咖啡馆文化融合得天衣无缝。',
+      personality: '因斯布鲁克人以户外文化、蒂罗尔传统与对游客保持适度友善著称，这是一座真正生活在山里的城市——户外运动不是周末活动，而是日常基础设施。城市大学氛围带来持续年轻活力，外籍学生占比高，英语交流无障碍。',
+      economy: '旅游业（冬季滑雪与夏季登山）是最大支柱；奥地利联邦铁路运营中心与蒂罗尔行政中心带来稳定的公共服务经济；大学经济与生命科学研究是现代增长引擎。',
+      festivals: '因斯布鲁克古乐节（Innsbrucker Festwochen der Alten Musik，8月）是全球最重要的古乐专业音乐节之一；新年游行（1月）是蒂罗尔传统节庆的精华展示；冬奥会遗产设施全年对公众开放，是独特的运动旅游体验。',
+      figures: '皇帝马克西米利安一世选择因斯布鲁克作为哈布斯堡帝国的临时首都，留下了辉煌的帝国建筑遗产；建筑师扎哈·哈迪德为因斯布鲁克设计了伯吉塞尔滑雪跳台与北链缆车站，以解构主义重塑了城市天际线；探险家安德烈亚斯·霍弗是蒂罗尔自由精神的民族英雄。',
+    },
+    base: {
+      wifi: '70 Mbps', cost: '$$$', visa: '申根90天免签，奥地利无数字游民专属签证',
+      visaDays: '90 days',
+      visaDesc: '🛂 欧元区及申根区成员，90天免签。长期居留可申请奥地利自雇许可，审批约3-4个月，因斯布鲁克大学城氛围有助于申请。',
+      welfare: '🏥 奥地利全国统一医疗保障体系，持有效居留可参与社保，因斯布鲁克大学医院是蒂罗尔顶级医疗机构。',
+      safety: '欧洲最安全的城市之一，犯罪率极低，全天候安全，女性独行安全感极高。',
+      dailyCost: '每日预算参考：\n• 餐饮：€13–24（传统蒂罗尔餐厅午餐€10–16，晚餐€15–26）\n• 住宿：€50–90（市中心Airbnb单间，旺季价格较高）\n• 交通：€3–5（月票$58，步行与缆车可达山地景区）\n• 合计：约€66–119/天',
+      visaDetail: '奥地利自雇居留申请在因斯布鲁克通过蒂罗尔州政府办理，流程与全国一致。大学城环境为申请提供额外的社会证明。户外生活质量是其他城市无法复制的生活优势。',
+      society: '大学城氛围使英语普及率极高，蒂罗尔文化以传统与现代的共存为特色。滑雪与登山是最快的社区融入媒介，交换生、研究人员与极限运动爱好者构成多元的外籍人士社群。',
+    },
+    chance: {
+      paragraph: '冬季运动科技（SportTech）与旅游科技是因斯布鲁克独特赛道；奥地利联邦铁路数字化带来物联网与交通科技机会；大学城创业生态以生命科学与材料科学为特色。',
+      policy: { label: 'Austrian Business Agency (ABA)', url: 'https://www.aba.gv.at/en/', desc: '奥地利官方外商投资促进机构' },
+      localJobs: [
+        { name: 'karriere.at', url: 'https://www.karriere.at', desc: '奥地利最大招聘平台，覆盖各行业职位' },
+        { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs', desc: '全球最大职业社交网络，覆盖各行业职位' },
+      ],
+      remoteJobs: [
+        { name: 'Remote.co', url: 'https://remote.co', desc: '精选远程工作职位，注重工作质量' },
+        { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
+      ]
+    },
+    local: {
+      paragraph: '因斯布鲁克的外籍人士社群以学生、运动员与户外从业者为主，Mountain Hub等空间是远程工作者与创业者的聚集地。',
+      platforms: [
+        { name: 'Meetup Innsbruck', url: 'https://www.meetup.com/cities/at/innsbruck/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
+        { name: 'Eventbrite Innsbruck', url: 'https://www.eventbrite.com/d/austria--innsbruck/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
+      ]
+    }
+  },
 }
 
-export const CITY_LIST = ['Berlin', 'Amsterdam', 'Lisbon', 'BCN', 'Prague', 'Vienna', 'Tallinn']
+export const CITY_LIST = [
+  'Berlin', 'Amsterdam', 'Lisbon', 'Prague', 'Vienna', 'Paris', 'Barcelona', 'Porto',
+  'Dublin', 'Dubrovnik', 'Florence', 'Tallinn', 'Madrid', 'Valencia', 'Riga', 'Vilnius',
+  'Krakow', 'Budapest', 'Bucharest', 'Sofia', 'Athens', 'Zagreb', 'Ljubljana', 'Rotterdam',
+  'Stockholm', 'Copenhagen', 'Helsinki', 'Zurich', 'Lyon', 'Nice', 'Bordeaux', 'Montpellier',
+  'Edinburgh', 'Milan', 'Bologna', 'Naples', 'Antwerp', 'Ghent', 'Oslo', 'Reykjavik',
+  'Geneva', 'Basel', 'Toulouse', 'Marseille', 'Manchester', 'Bristol', 'Turin', 'Warsaw',
+  'Salzburg', 'Innsbruck',
+]
 
 export const GLOBAL_COMMUNITIES: { name: string; url: string; desc: string }[] = [
   { name: 'Nomad List Community', url: 'https://nomadlist.com/community', desc: '全球最大数字游民数据库与社区论坛' },

@@ -1,179 +1,167 @@
 'use client'
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 
-interface Bubble {
+// Volcano eruption particle
+interface Particle {
   id: number
-  x: number
-  startY: number
-  size: number
-  duration: number
-  delay: number
-  drift: number
+  x: number   // relative to icon center, px
+  y: number
+  vx: number
+  vy: number
+  life: number  // 0-1, decreasing
+  type: 'spark' | 'lava'
+  color: string
 }
 
-let uid = 0
+function VolcanoIcon({ erupting }: { erupting: boolean }) {
+  const [particles, setParticles] = useState<Particle[]>([])
+  const [frame, setFrame] = useState(0)
 
-function spawnBatch(cx: number, cy: number): Bubble[] {
-  return Array.from({ length: 5 }, () => ({
-    id: ++uid,
-    x: cx + (Math.random() - 0.5) * 28,
-    startY: cy,
-    size: 10 + Math.random() * 16,
-    duration: 1.8 + Math.random() * 1.8,
-    delay: Math.random() * 0.3,
-    drift: (Math.random() - 0.5) * 50,
-  }))
+  useEffect(() => {
+    if (!erupting) return
+
+    // Spawn particles once
+    const sparks: Particle[] = Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      x: 0, y: 0,
+      vx: (Math.random() - 0.5) * 3.2,
+      vy: -(Math.random() * 3 + 2),
+      life: 1,
+      type: 'spark',
+      color: Math.random() > 0.5 ? '#ff8c00' : '#ffd700',
+    }))
+    const lava: Particle[] = Array.from({ length: 6 }, (_, i) => ({
+      id: 10 + i,
+      x: 0, y: 0,
+      vx: (i % 2 === 0 ? 1 : -1) * (Math.random() * 1.5 + 0.8),
+      vy: Math.random() * 0.5,
+      life: 1,
+      type: 'lava',
+      color: i % 3 === 0 ? '#ff4500' : '#ff6a00',
+    }))
+    setParticles([...sparks, ...lava])
+    setFrame(0)
+  }, [erupting])
+
+  useEffect(() => {
+    if (particles.length === 0) return
+    const raf = requestAnimationFrame(() => {
+      setFrame(f => f + 1)
+      setParticles(prev =>
+        prev
+          .map(p => ({
+            ...p,
+            x: p.x + p.vx,
+            y: p.y + p.vy + (p.type === 'spark' ? 0.18 : 0.1),  // gravity
+            life: p.life - (p.type === 'spark' ? 0.045 : 0.035),
+          }))
+          .filter(p => p.life > 0)
+      )
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [particles, frame])
+
+  return (
+    <span style={{ position: 'relative', display: 'inline-block', fontSize: 20, lineHeight: 1 }}>
+      🌋
+      {particles.map(p => (
+        <span
+          key={p.id}
+          style={{
+            position: 'absolute',
+            left: `calc(50% + ${p.x}px)`,
+            top: `calc(30% + ${p.y}px)`,
+            width: p.type === 'spark' ? 3 : 4,
+            height: p.type === 'spark' ? 3 : 4,
+            borderRadius: '50%',
+            background: p.color,
+            opacity: p.life,
+            transform: 'translate(-50%, -50%)',
+            pointerEvents: 'none',
+            boxShadow: p.type === 'spark' ? `0 0 3px ${p.color}` : 'none',
+          }}
+        />
+      ))}
+    </span>
+  )
 }
 
 export default function BottomNav() {
   const router = useRouter()
   const pathname = usePathname()
   const isActive = (path: string) => pathname === path || pathname.startsWith(path + '/')
-  const [hoveredNav, setHoveredNav] = useState<string | null>(null)
-  const [bubbles, setBubbles] = useState<Bubble[]>([])
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [erupting, setErupting] = useState(false)
 
-  useEffect(() => {
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current)
-    }
-  }, [])
+  const handleExplore = () => {
+    router.push('/')
+    setErupting(true)
+    setTimeout(() => setErupting(false), 1200)
+  }
 
-  const handleNav = useCallback((path: string, e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const cx = rect.left + rect.width / 2
-    const cy = rect.top
+  const navStyle: React.CSSProperties = {
+    height: 70,
+    background: '#ede5d8',
+    borderTop: '0.5px solid #d8cdb8',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    padding: '0 8px 12px',
+    position: 'sticky',
+    bottom: 0,
+    zIndex: 100,
+  }
 
-    if (intervalRef.current) clearInterval(intervalRef.current)
+  const niStyle = (): React.CSSProperties => ({
+    display: 'flex', flexDirection: 'column', alignItems: 'center',
+    gap: 2, flex: 1, cursor: 'pointer', background: 'none', border: 'none',
+  })
 
-    const addBatch = () => {
-      const batch = spawnBatch(cx, cy)
-      setBubbles(prev => [...prev, ...batch])
-      setTimeout(() => {
-        setBubbles(prev => prev.filter(b => !batch.some(nb => nb.id === b.id)))
-      }, 4000)
-    }
-
-    addBatch()
-
-    // 同页面只冒一批，跨页面持续冒泡直到导航完成
-    if (pathname !== path) {
-      intervalRef.current = setInterval(addBatch, 300)
-    }
-
-    router.push(path)
-  }, [router, pathname])
+  const isHome = isActive('/') && pathname === '/'
+  const isMine = isActive('/mine')
+  const isStory = isActive('/story')
 
   return (
-    <>
-      <style>{`
-        @keyframes bubble-rise {
-          0%   { transform: translateY(0px) translateX(0px) scale(1);    opacity: 0.85; }
-          50%  { transform: translateY(calc(var(--travel) * -0.5)) translateX(calc(var(--drift) * 0.6)) scale(1.1); opacity: 0.55; }
-          100% { transform: translateY(calc(var(--travel) * -1))   translateX(var(--drift)) scale(0.7); opacity: 0; }
-        }
-      `}</style>
+    <nav style={navStyle}>
+      {/* 探索 */}
+      <button onClick={handleExplore} style={niStyle()}>
+        <VolcanoIcon erupting={erupting} />
+        <span style={{ fontSize: 10, color: isHome ? '#2d2418' : '#8a7a62', fontWeight: isHome ? 500 : 400 }}>探索</span>
+        {isHome && <div style={{ height: 2, width: 18, background: '#1D9E75', borderRadius: 1, marginTop: 1 }} />}
+      </button>
 
-      {bubbles.map(b => (
-        <div
-          key={b.id}
+      {/* 印迹快门（居中） */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1 }}>
+        <button
+          onClick={() => router.push('/story')}
           style={{
-            position: 'fixed',
-            left: b.x - b.size / 2,
-            top: b.startY - b.size / 2,
-            width: b.size,
-            height: b.size,
-            borderRadius: '50%',
-            background: 'rgba(255,255,255,0.08)',
-            border: '1.5px solid rgba(255,255,255,0.55)',
-            boxShadow: 'inset 0 -2px 4px rgba(255,255,255,0.2), inset 2px 2px 4px rgba(255,255,255,0.3)',
-            pointerEvents: 'none',
-            zIndex: 9999,
-            ['--drift' as string]: `${b.drift}px`,
-            ['--travel' as string]: `${b.startY + b.size}px`,
-            animation: `bubble-rise ${b.duration}s ease-out ${b.delay}s forwards`,
+            width: 50, height: 50, borderRadius: '50%',
+            border: isStory ? '1.5px solid #1D9E75' : '1.5px solid #c8bfaa',
+            background: '#ede5d8', marginTop: -14, cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: isStory ? '0 2px 8px rgba(29,158,117,0.25)' : '0 2px 8px rgba(0,0,0,0.09)',
           }}
-        />
-      ))}
-
-      <nav style={{
-        background: 'var(--bg-nav)',
-        borderTop: '0.5px solid #d8cdb8',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        padding: '8px 4px 20px',
-        position: 'sticky',
-        bottom: 0,
-      }}>
-        <button
-          onClick={e => handleNav('/', e)}
-          onMouseEnter={() => setHoveredNav('/')}
-          onMouseLeave={() => setHoveredNav(null)}
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer', transform: hoveredNav === '/' ? 'scale(1.18)' : 'scale(1)', transition: 'transform 120ms ease' }}
         >
-          <span style={{ fontSize: 18 }}>🏠</span>
-          <span style={{ fontSize: 10, color: isActive('/') ? 'var(--text-primary)' : 'var(--text-secondary)', fontWeight: isActive('/') ? 500 : 400 }}>主页</span>
-          {isActive('/') && <div style={{ height: 2, width: 18, background: 'var(--accent)', borderRadius: 1 }} />}
+          <div style={{
+            width: 36, height: 36, borderRadius: '50%',
+            border: isStory ? '0.5px solid rgba(29,158,117,0.4)' : '0.5px solid #ddd4c0',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <div style={{
+              width: 21, height: 21, borderRadius: '50%',
+              background: isStory ? 'rgba(29,158,117,0.2)' : 'rgba(0,0,0,0.08)',
+            }} />
+          </div>
         </button>
+        <span style={{ fontSize: 10, color: isStory ? '#1D9E75' : '#8a7a62', fontWeight: isStory ? 500 : 400, marginTop: 2 }}>印迹</span>
+      </div>
 
-        <button
-          onClick={e => handleNav('/insights', e)}
-          onMouseEnter={() => setHoveredNav('/insights')}
-          onMouseLeave={() => setHoveredNav(null)}
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer', transform: hoveredNav === '/insights' ? 'scale(1.18)' : 'scale(1)', transition: 'transform 120ms ease' }}
-        >
-          <span style={{ fontSize: 18 }}>🧭</span>
-          <span style={{ fontSize: 10, color: isActive('/insights') ? 'var(--text-primary)' : 'var(--text-secondary)', fontWeight: isActive('/insights') ? 500 : 400 }}>洞察</span>
-          {isActive('/insights') && <div style={{ height: 2, width: 18, background: 'var(--accent)', borderRadius: 1 }} />}
-        </button>
-
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flex: 1 }}>
-          <button
-            onClick={e => handleNav('/story/camera', e)}
-            onMouseEnter={() => setHoveredNav('/story')}
-            onMouseLeave={() => setHoveredNav(null)}
-            style={{
-              width: 48, height: 48, borderRadius: '50%',
-              border: (isActive('/story/camera') || isActive('/story')) ? '1.5px solid var(--accent)' : '1.5px solid #c8bfaa',
-              background: 'var(--bg-page)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              marginTop: -10, cursor: 'pointer',
-              boxShadow: (isActive('/story/camera') || isActive('/story')) ? '0 2px 8px rgba(29,158,117,0.2)' : '0 2px 8px rgba(0,0,0,0.09)',
-              transform: hoveredNav === '/story' ? 'scale(1.18)' : 'scale(1)',
-              transition: 'transform 120ms ease',
-            }}
-          >
-            <div style={{ width: 34, height: 34, borderRadius: '50%', border: (isActive('/story/camera') || isActive('/story')) ? '0.5px solid rgba(29,158,117,0.35)' : '0.5px solid var(--border-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ width: 20, height: 20, borderRadius: '50%', background: (isActive('/story/camera') || isActive('/story')) ? 'rgba(29,158,117,0.18)' : 'rgba(0,0,0,0.08)' }} />
-            </div>
-          </button>
-          <span style={{ fontSize: 10, color: (isActive('/story/camera') || isActive('/story')) ? 'var(--accent)' : 'var(--text-secondary)', fontWeight: (isActive('/story/camera') || isActive('/story')) ? 500 : 400, marginTop: 2 }}>印迹</span>
-        </div>
-
-        <button
-          onClick={e => handleNav('/meet', e)}
-          onMouseEnter={() => setHoveredNav('/meet')}
-          onMouseLeave={() => setHoveredNav(null)}
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer', transform: hoveredNav === '/meet' ? 'scale(1.18)' : 'scale(1)', transition: 'transform 120ms ease' }}
-        >
-          <span style={{ fontSize: 18 }}>✨</span>
-          <span style={{ fontSize: 10, color: isActive('/meet') ? 'var(--text-primary)' : 'var(--text-secondary)', fontWeight: isActive('/meet') ? 500 : 400 }}>遇见</span>
-          {isActive('/meet') && <div style={{ height: 2, width: 18, background: 'var(--accent)', borderRadius: 1 }} />}
-        </button>
-
-        <button
-          onClick={e => handleNav('/vault', e)}
-          onMouseEnter={() => setHoveredNav('/vault')}
-          onMouseLeave={() => setHoveredNav(null)}
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1, background: 'none', border: 'none', cursor: 'pointer', transform: hoveredNav === '/vault' ? 'scale(1.18)' : 'scale(1)', transition: 'transform 120ms ease' }}
-        >
-          <span style={{ fontSize: 18 }}>🗺️</span>
-          <span style={{ fontSize: 10, color: isActive('/vault') ? 'var(--text-primary)' : 'var(--text-secondary)', fontWeight: isActive('/vault') ? 500 : 400 }}>领地</span>
-          {isActive('/vault') && <div style={{ height: 2, width: 18, background: 'var(--accent)', borderRadius: 1 }} />}
-        </button>
-      </nav>
-    </>
+      {/* 我的 */}
+      <button onClick={() => router.push('/mine')} style={niStyle()}>
+        <span style={{ fontSize: 20 }}>🗺️</span>
+        <span style={{ fontSize: 10, color: isMine ? '#2d2418' : '#8a7a62', fontWeight: isMine ? 500 : 400 }}>我的</span>
+        {isMine && <div style={{ height: 2, width: 18, background: '#1D9E75', borderRadius: 1, marginTop: 1 }} />}
+      </button>
+    </nav>
   )
 }

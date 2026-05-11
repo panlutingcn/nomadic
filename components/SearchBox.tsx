@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 import { useRouter } from 'next/navigation'
-import { useApp } from '@/context/AppContext'
 import { SEARCH_PROMPTS, SearchPrompt } from '@/data/searchPrompts'
 
 const CHAR_DELAY = 60
@@ -34,13 +33,12 @@ function getDailyPrompt(): SearchPrompt {
   }
 }
 
-const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref) => {
+const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onError }, ref) => {
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [placeholder, setPlaceholder] = useState('')
   const [pulsing, setPulsing] = useState(false)
   const router = useRouter()
-  const { setSelectedCity, setSearchContext } = useApp()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useImperativeHandle(ref, () => ({
@@ -52,12 +50,8 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
       setPulsing(true)
       setTimeout(() => setPulsing(false), 2400)
     },
-    search: () => {
-      handleSearch()
-    },
-    startLoading: () => {
-      setLoading(true)
-    },
+    search: () => { handleSearch() },
+    startLoading: () => { setLoading(true) },
   }))
 
   useEffect(() => {
@@ -80,69 +74,10 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
     return () => clearTimeout(timeout)
   }, [])
 
-  const handleSearch = async () => {
+  const handleSearch = () => {
     if (!query.trim()) return
     setLoading(true)
-
-    try {
-      const res = await fetch('/api/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: query.trim() })
-      })
-
-      const result = await res.json()
-      console.log('Search API response:', result)
-
-      if (!result.success) {
-        onError?.(result.error || '搜索失败')
-        setLoading(false)
-        return
-      }
-
-      if (result.confidence < 0.3) {
-        onError?.(`置信度太低 (${result.confidence?.toFixed(2) || 'N/A'})，请换个说法试试`)
-        setLoading(false)
-        return
-      }
-
-      setSearchContext({
-        cityName: result.cityName,
-        cityNameZh: result.cityNameZh,
-        country: result.country,
-        countryZh: result.countryZh,
-        flag: result.flag,
-        confidence: result.confidence,
-        userIntent: result.userIntent,
-        relevantSections: result.relevantSections,
-        aiInsight: result.aiInsight,
-        soulHeadline: result.soulHeadline,
-        soulBody: result.soulBody,
-        soulPersonality: result.soulPersonality,
-        soulEconomy: result.soulEconomy,
-        soulFestivals: result.soulFestivals,
-        soulFigures: result.soulFigures,
-        wifiSpeed: result.wifiSpeed,
-        costLevel: result.costLevel,
-        visaInfo: result.visaInfo,
-        baseVisaDays: result.baseVisaDays,
-        baseVisaDesc: result.baseVisaDesc,
-        baseSafety: result.baseSafety,
-        baseDailyCost: result.baseDailyCost,
-        baseVisaDetail: result.baseVisaDetail,
-        baseSociety: result.baseSociety,
-        chanceParagraph: result.chanceParagraph,
-        chancePolicy: result.chancePolicy,
-        localParagraph: result.localParagraph,
-      })
-
-      setSelectedCity(result.cityName)
-      router.push('/insights')
-    } catch {
-      onError?.('哎呀没有理解你')
-    } finally {
-      setLoading(false)
-    }
+    router.push(`/search?q=${encodeURIComponent(query.trim())}`)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -177,6 +112,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         rows={3}
+        disabled={loading}
         style={{
           fontSize: '12px',
           color: 'var(--text-primary)',
@@ -185,7 +121,8 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
           border: 'none',
           outline: 'none',
           resize: 'none',
-          fontFamily: 'inherit'
+          fontFamily: 'inherit',
+          opacity: loading ? 0.6 : 1,
         }}
       />
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -200,9 +137,8 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError }, ref)
             borderRadius: '8px',
             border: loading ? '0.5px solid var(--border-light)' : 'none',
             cursor: loading ? 'not-allowed' : 'pointer',
-            opacity: 1,
             pointerEvents: loading ? 'none' : 'auto',
-            animation: loading ? 'pulse-hero 2.4s ease-in-out infinite' : 'none'
+            animation: loading ? 'pulse-hero 2.4s ease-in-out infinite' : 'none',
           }}
         >
           {loading ? '开启英雄之旅中……' : 'GO'}

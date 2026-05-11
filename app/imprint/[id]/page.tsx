@@ -85,7 +85,7 @@ export default function ImprintDetailPage() {
   const handleDelete = () => {
     deleteImprint(id)
     setShowDeleteConfirm(false)
-    router.push('/vault')
+    router.push('/mine')
   }
 
   const isMyImprint = imprints.some(i => i.id === id)
@@ -298,6 +298,8 @@ export default function ImprintDetailPage() {
           />
         </div>
       </div>
+
+      <div style={{ height: 32 }} />
 
       <ShareSheet
         anchorRect={shareAnchor}

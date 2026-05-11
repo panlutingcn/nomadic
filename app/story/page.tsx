@@ -59,6 +59,7 @@ export default function StoryPage() {
   const [gpsLoading, setGpsLoading] = useState(false)
   const [flashCity, setFlashCity] = useState(false)
   const [flashTags, setFlashTags] = useState(false)
+  const [visibility, setVisibility] = useState<'public' | 'nomad' | 'private'>('public')
   const TAG_LIMIT = 10
   const prevCityRef = useRef('')
   const gpsDetectedRef = useRef(false)
@@ -129,7 +130,7 @@ export default function StoryPage() {
       try {
         const data = JSON.parse(pending) as { city: string; narrative: string; tags: string[]; isPublic: boolean; photo?: string }
         await addImprint({ city: data.city, title: `${data.city} 的印迹`, narrative: data.narrative, tags: data.tags, isPublic: data.isPublic, photo: data.photo })
-        router.push(data.isPublic ? '/meet' : '/vault')
+        router.push(data.isPublic ? '/meet' : '/mine')
       } catch {
         // ignore malformed sessionStorage data
       }
@@ -231,7 +232,8 @@ export default function StoryPage() {
     }
   }
 
-  const handlePublish = async (isPublic: boolean) => {
+  const handlePublish = async () => {
+    const isPublic = visibility === 'public'
     const trimmedCity = city.trim()
     if (!trimmedCity) {
       triggerFlash('city')
@@ -258,7 +260,7 @@ export default function StoryPage() {
     }
     const photoUrl = await getPhotoDataUrl()
     addImprint({ city: trimmedCity, title: `${trimmedCity} 的印迹`, narrative, tags, isPublic, photo: photoUrl })
-    router.push(isPublic ? '/meet' : '/vault')
+    router.push(isPublic ? '/meet' : '/mine')
   }
 
   return (
@@ -324,24 +326,29 @@ export default function StoryPage() {
                 {city || '等待GPS识别或手动输入…'}
               </div>
           }
-          <button onClick={handleConfirmCity} style={{ background: 'var(--accent)', border: 'none', borderRadius: 8, padding: '8px 10px', fontSize: 10, color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap', fontWeight: 500 }}>确认城市</button>
+          <button onClick={handleConfirmCity} style={{ background: '#f0ebe2', border: '0.5px solid #ddd4c0', borderRadius: 8, padding: '8px 12px', fontSize: 10, color: '#4a3c28', cursor: 'pointer', whiteSpace: 'nowrap', fontWeight: 500 }}>修改城市</button>
         </div>
         <div style={{ fontSize: 9, color: '#c8bfaa', marginBottom: 12 }}>若拍摄地与当前位置不同，可手动调整</div>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>印迹故事</span>
+          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>印迹叙事</span>
           <button onClick={generateWithAI} disabled={generating} style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--accent)', background: 'none', border: 'none', cursor: generating ? 'default' : 'pointer', padding: 0 }}>
-            {generating ? '生成中…' : 'AI 生成 ✦'}
+            {generating ? '生成中…' : 'AI 生成'}
           </button>
         </div>
-        <textarea
-          value={narrative}
-          onChange={e => setNarrative(e.target.value)}
-          rows={4}
-          className={generating ? 'ai-glow' : ''}
-          style={{ width: '100%', background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '10px 12px', marginBottom: 4, boxShadow: '0 1px 3px rgba(0,0,0,0.03)', fontSize: 11, color: '#3d3020', lineHeight: 1.65, resize: 'vertical', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit' }}
-        />
-        <div style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--text-muted)', textAlign: 'right', marginBottom: 10, cursor: generating ? 'default' : 'pointer' }} onClick={generating ? undefined : generateWithAI}>
+        <div className={generating ? 'ai-glow' : ''} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '10px 12px', marginBottom: 4, boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+          {narrative ? (
+            <div style={{ fontSize: 10, color: 'var(--accent)', fontWeight: 500, marginBottom: 6 }}>✦ AI 生成</div>
+          ) : null}
+          <textarea
+            value={narrative}
+            onChange={e => setNarrative(e.target.value)}
+            rows={4}
+            style={{ width: '100%', background: 'none', border: 'none', outline: 'none', fontSize: 11, color: '#3d3020', lineHeight: 1.65, resize: 'none', boxSizing: 'border-box', fontFamily: 'inherit' }}
+            placeholder="写下你在这座城市的故事，或点击右上角 AI 生成……"
+          />
+        </div>
+        <div style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--accent)', textAlign: 'right', marginBottom: 10, cursor: generating ? 'default' : 'pointer' }} onClick={generating ? undefined : generateWithAI}>
           {generating ? '生成中…' : '重新生成 ↺'}
         </div>
 
@@ -370,18 +377,32 @@ export default function StoryPage() {
           )}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
-          <button onClick={() => handlePublish(true)} style={{ padding: '11px 10px', borderRadius: 12, background: 'var(--accent)', border: 'none', cursor: 'pointer', textAlign: 'center' }}>
-            <div style={{ fontSize: 12, fontWeight: 500, color: '#fff' }}>发布到社区</div>
-            <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.75)', marginTop: 2 }}>公开 · 所有人可见</div>
+        <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 10 }}>谁可以看到这条印迹</div>
+        {[
+          { key: 'public' as const, label: '公开', desc: '出现在社区探索流', icon: '🌍' },
+          { key: 'nomad' as const, label: '仅游民可见', desc: '已认证游民可见', icon: '🧭' },
+          { key: 'private' as const, label: '仅自己', desc: '私藏，只存在我的领地', icon: '🔒' },
+        ].map(opt => (
+          <button key={opt.key} onClick={() => setVisibility(opt.key)}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 14px', borderRadius: 12, background: visibility === opt.key ? 'rgba(29,158,117,0.06)' : 'var(--bg-card)', border: `${visibility === opt.key ? '1.5px solid var(--accent)' : '0.5px solid var(--border-light)'}`, cursor: 'pointer', marginBottom: 8, textAlign: 'left' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ width: 18, height: 18, borderRadius: '50%', border: `1.5px solid ${visibility === opt.key ? 'var(--accent)' : '#ddd4c0'}`, background: visibility === opt.key ? 'var(--accent)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                {visibility === opt.key && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff' }} />}
+              </div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{opt.label}</div>
+                <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginTop: 1 }}>{opt.desc}</div>
+              </div>
+            </div>
+            <span style={{ fontSize: 18 }}>{opt.icon}</span>
           </button>
-          <button onClick={() => handlePublish(false)} style={{ padding: '11px 10px', borderRadius: 12, background: '#fff', border: '0.5px solid var(--accent)', cursor: 'pointer', textAlign: 'center' }}>
-            <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--accent)' }}>存入我的领地</div>
-            <div style={{ fontSize: 9, color: 'var(--accent-text)', marginTop: 2 }}>私藏 · 仅自己可见</div>
-          </button>
-        </div>
-        <div style={{ fontSize: 9, color: '#c8bfaa', textAlign: 'center' }}>完成后自动跳转至「我的印迹」</div>
+        ))}
+
+        <button onClick={handlePublish} style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 16, fontWeight: 500, cursor: 'pointer', marginTop: 4 }}>
+          发布印迹
+        </button>
       </div>
+      <div style={{ height: 32 }} />
       <BottomNav />
 
       {showLogin && (

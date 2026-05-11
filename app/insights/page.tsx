@@ -172,16 +172,18 @@ export default function InsightsPage() {
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 1, padding: '14px 16px 10px' }}>
 
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
-          <div style={{ flex: 1 }}>
-            <button onClick={handleBack} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: 8 }}>← 返回</button>
-            <div style={{ height: '0.5px', background: 'var(--border)', marginBottom: 10 }} />
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--text-primary)' }}>{city.name} {city.nameZh}</div>
-              <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 3 }}>{city.flag} {city.country} {city.countryZh}</div>
-            </div>
+        {/* 返回行 */}
+        <div style={{ marginBottom: 8 }}>
+          <button onClick={handleBack} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>← 返回</button>
+        </div>
+
+        {/* 城市信息框 + 操作按钮（同一行，信息框在左，按钮在右） */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, padding: '10px 13px', marginBottom: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+          <div style={{ textAlign: 'center', flex: 1 }}>
+            <div style={{ fontSize: 18, fontWeight: 500, color: 'var(--text-primary)' }}>{city.name} {city.nameZh}</div>
+            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 3 }}>{city.flag} {city.country} {city.countryZh}</div>
           </div>
-          <div style={{ display: 'flex', gap: 5, marginTop: 32 }}>
+          <div style={{ display: 'flex', gap: 5, flexShrink: 0 }}>
             <button onClick={handleSave} style={{ width: 30, height: 28, border: '0.5px solid var(--border-light)', borderRadius: 7, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: isCitySaved(city.name) ? 'var(--accent)' : 'var(--text-secondary)', cursor: 'pointer' }}>
               {isCitySaved(city.name) ? '♥' : '♡'}
             </button>
@@ -192,8 +194,6 @@ export default function InsightsPage() {
             >⤴</button>
           </div>
         </div>
-
-        <div style={{ height: '0.5px', background: 'var(--border)', margin: '10px 0' }} />
 
         {searchContext && (
           <div style={{ background: 'linear-gradient(135deg, #e8f5ee 0%, #e8f0f5 100%)', border: '0.5px solid #9fd4b8', borderRadius: 10, padding: '10px 12px', marginBottom: 12 }}>
@@ -372,6 +372,7 @@ export default function InsightsPage() {
           </div>
         </div>
       </div>
+      <div style={{ height: 32 }} />
       <BottomNav />
 
       {showLogin && (

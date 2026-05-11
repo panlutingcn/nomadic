@@ -9,7 +9,7 @@ export const SAMPLE_IMPRINTS = [
     isPublic: true,
     likes: 32,
     createdAt: '2026.03.07',
-    photo: 'https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=600&q=80',
+    photo: 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=600&q=80',
   },
   {
     id: 'sample-2',
@@ -34,17 +34,5 @@ export const SAMPLE_IMPRINTS = [
     likes: 41,
     createdAt: '2026.01.22',
     photo: 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    id: 'my-1',
-    city: 'Berlin',
-    author: '@nomadic_user',
-    title: '那个下午，柏林让我看见了创意本来的样子',
-    narrative: '那是一个废弃了三十年的仓库，现在每周四下午，菜贩、酿酒师、手工艺人挤在一起叫卖。\n我站在人群里，喝着三块钱的本地精酿，忽然想通了一件事。\n柏林人所谓的"创意"，不是想出什么新东西，而是舍不得丢掉旧的。\n这座城市教我的第一件事：好的空间，是有记忆的。',
-    tags: ['柏林', '创意'],
-    isPublic: true,
-    likes: 12,
-    createdAt: '2026.03.18',
-    photo: 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=600&q=80',
   },
 ]

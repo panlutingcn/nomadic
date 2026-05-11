@@ -73,15 +73,12 @@ interface AppState {
 }
 
 const SAMPLE_SAVED_CITIES: SavedCity[] = [
-  { name: 'Berlin', country: 'Germany', savedAt: '2025.01.14' },
-  { name: 'Amsterdam', country: 'Netherlands', savedAt: '2025.01.08' },
-  { name: 'Lisbon', country: 'Portugal', savedAt: '2024.12.30' },
+  { name: 'Berlin', country: 'Germany', savedAt: '2026.03.18' },
+  { name: 'Prague', country: 'Czech Republic', savedAt: '2025.12.10' },
 ]
 
 const SAMPLE_USER_IMPRINTS: Imprint[] = [
-  { id: 'my-1', city: 'Berlin', title: '那个下午，柏林让我看见了创意本来的样子', narrative: '那是一个废弃了三十年的仓库，现在每周四下午，菜贩、酿酒师、手工艺人挤在一起叫卖。\n我站在人群里，喝着三块钱的本地精酿，忽然想通了一件事。\n柏林人所谓的"创意"，不是想出什么新东西，而是舍不得丢掉旧的。\n这座城市教我的第一件事：好的空间，是有记忆的。', tags: ['柏林', '创意'], isPublic: true, likes: 12, createdAt: '2026.03.18', photo: 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=600&q=80' },
-  { id: 'my-2', city: 'Amsterdam', title: '每个摊位背后，都是一门认真经营的手艺', narrative: '约旦区的周六早市，卖奶酪的老头已经在这里站了二十三年。\n他递给我一块试吃，问我猜几岁的奶酪。我没猜对，但我们聊了半小时。\n阿姆斯特丹人不会问你"做什么工作"，他们更想知道你"在做什么"。\n这一字之差，是整座城市的气质所在。', tags: ['阿姆斯特丹', '生活方式'], isPublic: false, createdAt: '2026.02.05', photo: 'https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?auto=format&fit=crop&w=600&q=80' },
-  { id: 'my-3', city: 'Lisbon', title: '里斯本的第一杯 Ginjinha', narrative: '在阿尔法玛区迷路是必须的。那些坡陡到让人停下来喘气的小巷，反而给了你抬头看海的理由。\n黄昏时分，橙色的阳光把每一扇破旧的门都变成画。\n我在一家没有招牌的小酒馆喝下第一杯 Ginjinha。\n那一刻我知道，有些城市不是用来打卡的，是用来慢慢读完的。', tags: ['里斯本', '慢生活'], isPublic: true, likes: 8, createdAt: '2026.01.30', photo: 'https://images.unsplash.com/photo-1585208798174-6cedd86e019a?auto=format&fit=crop&w=600&q=80' },
+  { id: 'sample-1', city: 'Berlin', author: '@nomad_kai', title: '施普雷河边的一个黄昏', narrative: '傍晚的施普雷河边，有人在废弃发电站的墙上作画，有人在河岸边开着露天派对。\n柏林的创业者大多不穿西装，但他们谈的事往往比任何办公室里的人更认真。\n这座城市有一种笃定感——不着急，但走得很远。\n理性与浪漫在这里共存，像两种矛盾的颜色调出了最对的底色。', tags: ['柏林', '创业氛围'], isPublic: true, likes: 32, createdAt: '2026.03.07', photo: 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=600&q=80' },
   { id: 'my-4', city: 'Prague', title: '布拉格的咖啡馆工作日', narrative: '布拉格的咖啡馆有一种魔力：你坐下来"只是工作两小时"，然后抬头一看，外面已经黄昏了。\n窗外是中世纪的屋顶，杯子早就空了，思路却比在办公室清晰三倍。\n这里的网速出奇地好，房租出奇地低，街上走的人出奇地不着急。\n也许效率的敌人从来不是懒惰，而是错误的地点。', tags: ['布拉格', '远程工作'], isPublic: false, createdAt: '2025.12.10', photo: 'https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=600&q=80' },
 ]
 
