@@ -11,10 +11,11 @@ export default function OnboardingGuard({ children }: { children: React.ReactNod
 
     const onboarded = localStorage.getItem('nomadic_onboarded')
     const neverRemind = localStorage.getItem('nomadic_never_remind')
+    const skipThisSession = sessionStorage.getItem('nomadic_skip_remind_session')
 
     if (!onboarded) {
       router.replace('/onboarding')
-    } else if (!localStorage.getItem('nomadic_persona') && !neverRemind) {
+    } else if (!localStorage.getItem('nomadic_persona') && !neverRemind && !skipThisSession) {
       router.replace('/onboarding/remind')
     }
   }, [pathname])

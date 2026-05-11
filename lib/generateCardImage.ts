@@ -1,5 +1,9 @@
 async function renderCanvas(element: HTMLElement) {
   const html2canvas = (await import('html2canvas')).default
+  // Ensure web fonts (Dancing Script) are loaded before capture
+  if (typeof document !== 'undefined' && document.fonts?.ready) {
+    await document.fonts.ready
+  }
   return html2canvas(element, { scale: 2, useCORS: true, backgroundColor: null, logging: false })
 }
 

@@ -4,10 +4,12 @@ interface CardShellProps {
   nickname: string
   avatarUrl: string | null
   qrValue?: string
+  contentBg?: string
+  showAvatar?: boolean  // kept for API compat, no longer rendered
   children: React.ReactNode
 }
 
-export default function CardShell({ nickname, avatarUrl, qrValue = 'https://nomadictree.io', children }: CardShellProps) {
+export default function CardShell({ nickname, contentBg, children }: CardShellProps) {
   return (
     <div style={{
       width: 375,
@@ -22,53 +24,52 @@ export default function CardShell({ nickname, avatarUrl, qrValue = 'https://noma
     }}>
       {/* Top zone */}
       <div style={{
-        padding: '18px 22px 14px',
+        padding: '9px 20px 12px',
         borderBottom: '0.5px solid rgba(61,48,32,0.12)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexShrink: 0,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 22 }}>🌳</span>
-          <div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#3d3020', lineHeight: 1.2 }}>Nomadic</div>
-            <div style={{ fontSize: 11, color: '#8a7560', lineHeight: 1.2 }}>此时此地</div>
-          </div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ fontSize: 12, color: '#5a4a38', maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', height: 32, lineHeight: '32px' }}>
-            {nickname}
-          </div>
-          {avatarUrl ? (
-            <img src={avatarUrl} alt={nickname} style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} crossOrigin="anonymous" />
-          ) : (
-            <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#1D9E75', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: '#fff', fontWeight: 600, lineHeight: 1 }}>
-              {(nickname[0] ?? 'N').toUpperCase()}
-            </div>
-          )}
+        {/* Logo: marginTop shifts image down so Nomadic text aligns with nickname */}
+        <img
+          src="/logo-full-t.png"
+          alt="Nomadic"
+          style={{ height: 38, width: 'auto', marginTop: 5 }}
+        />
+        {/* Username — bold, no avatar */}
+        <div style={{
+          fontSize: 12,
+          fontWeight: 700,
+          color: '#5a4a38',
+          lineHeight: '20px',
+          whiteSpace: 'nowrap',
+        }}>
+          {nickname}
         </div>
       </div>
 
-      {/* Content zone — flex: 1, overflow hidden prevents pushing bottom zone */}
-      <div style={{ flex: 1, minHeight: 0, padding: '20px 22px 12px', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }}>
-        {children}
+      {/* Content zone */}
+      <div style={{ flex: 1, minHeight: 0, background: contentBg, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ flex: 1, padding: '14px 16px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          {children}
+        </div>
       </div>
 
       {/* Bottom zone */}
       <div style={{
-        padding: '14px 22px 20px',
+        padding: '12px 22px 18px',
         borderTop: '0.5px solid rgba(61,48,32,0.12)',
         background: 'rgba(255,255,255,0.35)',
         flexShrink: 0,
       }}>
-        <div style={{ marginBottom: 12 }}>
+        <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 14, fontWeight: 500, color: '#5a4a38', lineHeight: 1.7 }}>在世界各地扎根，而不只是路过。</div>
           <div style={{ fontSize: 13, color: '#8a7560', lineHeight: 1.7 }}>一个给数字游民的灵感与商机社区。</div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontSize: 13, color: '#1D9E75', fontWeight: 600, letterSpacing: 0.3 }}>nomadictree.io</div>
-          <QRCodeCanvas value={qrValue} size={64} bgColor="transparent" fgColor="#3d3020" />
+          <div style={{ fontSize: 13, color: '#166b4c', fontWeight: 600, letterSpacing: 0.3 }}>nomadictree.io</div>
+          <QRCodeCanvas value="https://nomadictree.io" size={60} bgColor="transparent" fgColor="#3d3020" />
         </div>
       </div>
     </div>

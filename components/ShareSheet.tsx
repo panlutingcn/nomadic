@@ -120,12 +120,7 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
         style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.72)', zIndex: 400, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px 20px' }}
         onClick={(e) => { if (e.target === e.currentTarget) handleClose() }}
       >
-        <div style={{ position: 'relative', width: '100%', maxWidth: 375 }}>
-          <button
-            onClick={handleClose}
-            aria-label="关闭"
-            style={{ position: 'absolute', top: -40, right: 0, background: 'none', border: 'none', color: 'rgba(255,255,255,0.7)', fontSize: 26, cursor: 'pointer', lineHeight: 1 }}
-          >×</button>
+        <div style={{ width: '100%', maxWidth: 375 }}>
           <img
             src={previewData.dataUrl}
             alt="分享卡片"
@@ -134,34 +129,44 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
 
           {saveStatus === 'saved' && (
             <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.85)', fontSize: 13, marginTop: 10 }}>
-              已下载 ✓
+              已保存 ✓
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: 12, marginTop: saveStatus === 'saved' ? 8 : 16 }}>
+          <div style={{ display: 'flex', gap: 10, marginTop: saveStatus === 'saved' ? 8 : 16 }}>
             <a
               href={previewData.blobUrl}
               download="nomadic-card.png"
               onClick={handleDownloadClick}
               style={{
                 flex: 1, padding: '13px', borderRadius: 12,
-                background: 'rgba(255,255,255,0.12)', border: '0.5px solid rgba(255,255,255,0.25)',
-                fontSize: 14, color: '#fff', cursor: 'pointer',
+                background: '#f0c040', border: 'none',
+                fontSize: 14, color: '#3d2c0a', cursor: 'pointer', fontWeight: 600,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 textDecoration: 'none',
               }}
             >
-              ⬇ 下载
+              保存
             </a>
             <button
               onClick={handleForward}
               style={{
                 flex: 1, padding: '13px', borderRadius: 12,
-                background: '#1D9E75', border: 'none',
+                background: '#166b4c', border: 'none',
                 fontSize: 14, color: '#fff', cursor: 'pointer', fontWeight: 600,
               }}
             >
-              ↗ 转发
+              分享
+            </button>
+            <button
+              onClick={handleClose}
+              style={{
+                flex: 1, padding: '13px', borderRadius: 12,
+                background: 'rgba(255,255,255,0.12)', border: '0.5px solid rgba(255,255,255,0.25)',
+                fontSize: 14, color: '#fff', cursor: 'pointer',
+              }}
+            >
+              关闭
             </button>
           </div>
         </div>

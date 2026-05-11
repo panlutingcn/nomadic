@@ -5,13 +5,13 @@ import { AuthProvider } from '@/context/AuthContext'
 import OnboardingGuard from '@/components/OnboardingGuard'
 
 export const metadata: Metadata = {
-  title: 'Nomadic 此时此地',
+  title: 'Nomadic',
   description: '在世界各地扎根，而不只是路过。一个给数字游民的灵感与商机社区。',
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>",
+    icon: '/favicon-globe.png',
   },
   openGraph: {
-    title: 'Nomadic 此时此地',
+    title: 'Nomadic',
     description: '在世界各地扎根，而不只是路过。一个给数字游民的灵感与商机社区。',
     url: 'https://nomadictree.io',
     siteName: 'Nomadic',

@@ -1,16 +1,14 @@
 'use client'
 export const dynamic = 'force-static'
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
 import { PERSONAS } from '@/data/travelPersona'
 import { CITIES } from '@/data/cities'
-import { useAuth } from '@/context/AuthContext'
 import { useUserProfile } from '@/hooks/useUserProfile'
-import LoginModal from '@/components/LoginModal'
 import BottomNav from '@/components/BottomNav'
-import ShareSheet from '@/components/ShareSheet'
 import PersonaCard from '@/components/cards/PersonaCard'
+import ShareSheet from '@/components/ShareSheet'
 
 const AXIS_META: Record<string, { label: string; desc: string }> = {
   S: { label: '定居型', desc: '倾向深度驻留，把一座城市磨透再离开' },
@@ -37,13 +35,10 @@ function findCityKey(nameZh: string): string | null {
 function PersonaDetailContent() {
   const router = useRouter()
   const params = useSearchParams()
-  const { user } = useAuth()
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
   const [personaKey, setPersonaKey] = useState('')
-  const [showLogin, setShowLogin] = useState(false)
   const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const personaCardRef = useRef<HTMLDivElement>(null)
-  const closeShare = useCallback(() => setShareAnchor(null), [])
 
   useEffect(() => {
     // Support ?key=XXXX from QR code scans
@@ -56,11 +51,6 @@ function PersonaDetailContent() {
   }, [params])
 
   const persona = PERSONAS[personaKey]
-
-  const handleShareClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!user) { setShowLogin(true); return }
-    setShareAnchor(e.currentTarget.getBoundingClientRect())
-  }
 
   const handleRetake = () => {
     localStorage.removeItem('nomadic_persona')
@@ -174,7 +164,7 @@ function PersonaDetailContent() {
         </div>
 
         {/* 操作按钮 */}
-        <button onClick={handleShareClick}
+        <button onClick={e => setShareAnchor(e.currentTarget.getBoundingClientRect())}
           style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#f0c040', border: 'none', color: '#3d2c0a', fontSize: 14, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}>
           分享我的旅行人格 →
         </button>
@@ -204,26 +194,18 @@ function PersonaDetailContent() {
             personaOverview={persona.overview}
             cities={persona.cities}
             cityReasons={persona.cityReasons}
-            qrUrl={`https://nomadictree.io/mine/persona?key=${personaKey}`}
+            qrUrl="https://nomadictree.io"
           />
         </div>
       </div>
 
       <ShareSheet
         anchorRect={shareAnchor}
-        onClose={closeShare}
+        onClose={() => setShareAnchor(null)}
         cardRef={personaCardRef}
         showCopyLink={true}
-        copyUrl={`https://nomadictree.io/mine/persona?key=${personaKey}`}
+        copyUrl="https://nomadictree.io"
       />
-
-      {showLogin && (
-        <LoginModal
-          onClose={() => setShowLogin(false)}
-          onSuccess={() => setShowLogin(false)}
-          redirectPath="/mine/persona"
-        />
-      )}
     </div>
   )
 }

@@ -36,6 +36,7 @@ export default function OnboardingPage() {
   }
 
   const skipOnboarding = () => {
+    sessionStorage.setItem('nomadic_skip_remind_session', 'true')
     localStorage.setItem('nomadic_onboarded', 'true')
     router.replace('/')
   }
@@ -150,23 +151,29 @@ export default function OnboardingPage() {
               </span>
             ))}
           </div>
-          <button
-            onClick={() => {
-              if (!user) { setShowLogin(true); return }
-              if (typeof navigator !== 'undefined' && navigator.share) {
-                navigator.share({ title: `我是${persona.name}`, text: `${personaKey} · ${persona.description}`, url: window.location.origin })
-              }
-            }}
-            style={{ width: '100%', padding: '12px 0', borderRadius: 12, background: '#f0c040', border: 'none', color: '#3d2c0a', fontSize: 14, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
-          >
-            分享我的旅行人格 →
-          </button>
-          <button
-            onClick={finishOnboarding}
-            style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
-          >
-            进入 Nomadic
-          </button>
+          {user ? (
+            <button
+              onClick={finishOnboarding}
+              style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
+            >
+              进入 Nomadic →
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={() => setShowLogin(true)}
+                style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
+              >
+                登录并保存我的人格
+              </button>
+              <button
+                onClick={finishOnboarding}
+                style={{ width: '100%', padding: '11px 0', borderRadius: 12, background: 'transparent', border: 'none', color: '#8a7a62', fontSize: 13, cursor: 'pointer' }}
+              >
+                先逛逛，稍后保存
+              </button>
+            </>
+          )}
         </div>
       )}
       {showLogin && (
@@ -174,9 +181,7 @@ export default function OnboardingPage() {
           onClose={() => setShowLogin(false)}
           onSuccess={() => {
             setShowLogin(false)
-            if (typeof navigator !== 'undefined' && navigator.share && persona) {
-              navigator.share({ title: `我是${persona.name}`, text: `${personaKey} · ${persona.description}`, url: window.location.origin })
-            }
+            finishOnboarding()
           }}
           redirectPath="/onboarding"
         />

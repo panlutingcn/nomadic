@@ -16,10 +16,15 @@ export function useUserProfile(): UserProfile {
     if (!user) { setNickname('探索者'); setAvatarUrl(null); return }
     supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
       .then(({ data }) => {
-        if (data) {
-          setNickname(data.nickname ?? (user.user_metadata?.nickname as string | undefined) ?? '探索者')
-          setAvatarUrl(data.avatar_url ?? null)
-        }
+        const displayName =
+          data?.nickname ??
+          (user.user_metadata?.nickname as string | undefined) ??
+          (user.user_metadata?.full_name as string | undefined) ??
+          (user.user_metadata?.name as string | undefined) ??
+          user.email?.split('@')[0] ??
+          '探索者'
+        setNickname(displayName)
+        setAvatarUrl(data?.avatar_url ?? null)
       })
   }, [user?.id])
 

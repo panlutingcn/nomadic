@@ -1,4 +1,5 @@
 'use client'
+// insights page
 export const dynamic = 'force-static'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
@@ -172,18 +173,10 @@ export default function InsightsPage() {
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 1, padding: '14px 16px 10px' }}>
 
-        {/* 返回行 */}
-        <div style={{ marginBottom: 8 }}>
+        {/* 返回 + 收藏/分享按钮同行 */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
           <button onClick={handleBack} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>← 返回</button>
-        </div>
-
-        {/* 城市信息框 + 操作按钮（同一行，信息框在左，按钮在右） */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, padding: '10px 13px', marginBottom: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-          <div style={{ textAlign: 'center', flex: 1 }}>
-            <div style={{ fontSize: 18, fontWeight: 500, color: 'var(--text-primary)' }}>{city.name} {city.nameZh}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 3 }}>{city.flag} {city.country} {city.countryZh}</div>
-          </div>
-          <div style={{ display: 'flex', gap: 5, flexShrink: 0 }}>
+          <div style={{ display: 'flex', gap: 5 }}>
             <button onClick={handleSave} style={{ width: 30, height: 28, border: '0.5px solid var(--border-light)', borderRadius: 7, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: isCitySaved(city.name) ? 'var(--accent)' : 'var(--text-secondary)', cursor: 'pointer' }}>
               {isCitySaved(city.name) ? '♥' : '♡'}
             </button>
@@ -193,6 +186,12 @@ export default function InsightsPage() {
               style={{ width: 32, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: selectedCity ? 'var(--text-secondary)' : 'var(--border)', cursor: selectedCity ? 'pointer' : 'default' }}
             >⤴</button>
           </div>
+        </div>
+
+        {/* 城市信息框 */}
+        <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, padding: '10px 13px', marginBottom: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.04)', textAlign: 'center' }}>
+          <div style={{ fontSize: 18, fontWeight: 500, color: 'var(--text-primary)' }}>{city.name} {city.nameZh}</div>
+          <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 3 }}>{city.flag} {city.country} {city.countryZh}</div>
         </div>
 
         {searchContext && (
@@ -371,6 +370,16 @@ export default function InsightsPage() {
             )}
           </div>
         </div>
+
+        {/* 分享按钮 — 城市卡片 */}
+        {selectedCity && (
+          <button
+            onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())}
+            style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#f0c040', border: 'none', color: '#3d2c0a', fontSize: 14, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
+          >
+            分享城市洞察 →
+          </button>
+        )}
       </div>
       <div style={{ height: 32 }} />
       <BottomNav />

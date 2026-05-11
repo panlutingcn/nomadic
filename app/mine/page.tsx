@@ -1,7 +1,7 @@
 'use client'
 export const dynamic = 'force-static'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
@@ -9,8 +9,6 @@ import { PERSONAS } from '@/data/travelPersona'
 import { CITIES } from '@/data/cities'
 import LoginModal from '@/components/LoginModal'
 import ContactModal from '@/components/ContactModal'
-import ShareSheet from '@/components/ShareSheet'
-import WorldCard from '@/components/cards/WorldCard'
 import { useUserProfile } from '@/hooks/useUserProfile'
 import dynamicImport from 'next/dynamic'
 
@@ -24,14 +22,9 @@ export default function MinePage() {
   const [personaKey, setPersonaKey] = useState('')
   const [showLogin, setShowLogin] = useState(false)
   const [showContact, setShowContact] = useState(false)
-  const [mapShareAnchor, setMapShareAnchor] = useState<DOMRect | null>(null)
-  const worldCardRef = useRef<HTMLDivElement>(null)
-
   useEffect(() => {
     setPersonaKey(localStorage.getItem('nomadic_persona') ?? '')
   }, [])
-
-  const closeMapShare = useCallback(() => setMapShareAnchor(null), [])
 
   const persona = PERSONAS[personaKey]
   const imprintCities = Array.from(new Set(imprints.map(i => i.city))).slice(0, 8)
@@ -54,7 +47,7 @@ export default function MinePage() {
             <div style={{ fontSize: 15, fontWeight: 500, color: '#2d2418', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {profileNickname}
             </div>
-            <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>{savedCities.length} 个城市 · {imprints.length} 个印迹</div>
+            <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>{savedCities.length} 个收藏 · {imprints.length} 个印迹</div>
           </div>
           {user ? (
             <div style={{ fontSize: 11, color: '#8a7a62', cursor: 'pointer', flexShrink: 0, padding: '4px 8px' }}
@@ -97,14 +90,7 @@ export default function MinePage() {
         <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, overflow: 'hidden', marginBottom: 12 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 13px 7px' }}>
             <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的全球版图</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprintCities.length} 座城市 · {uniqueCountries} 个国家</span>
-              <button
-                onClick={e => setMapShareAnchor(e.currentTarget.getBoundingClientRect())}
-                style={{ width: 28, height: 26, border: '0.5px solid #ddd4c0', borderRadius: 7, background: '#f5f0e8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: '#8a7a62', cursor: 'pointer' }}
-                aria-label="分享版图"
-              >⤴</button>
-            </div>
+            <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprintCities.length} 座城市 · {uniqueCountries} 个国家</span>
           </div>
           <div style={{ height: 160, position: 'relative', background: '#dceef8', overflow: 'hidden' }}>
             <GlobeMap
@@ -184,27 +170,6 @@ export default function MinePage() {
 
       <div style={{ height: 32 }} />
       <BottomNav />
-
-      {/* 隐藏的 WorldCard，用于 html2canvas 截图 */}
-      <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
-        <div ref={worldCardRef}>
-          <WorldCard
-            nickname={profileNickname}
-            avatarUrl={profileAvatar}
-            cityCount={savedCities.length}
-            countryCount={uniqueCountries}
-            cityNames={cityNamesZh}
-          />
-        </div>
-      </div>
-
-      <ShareSheet
-        anchorRect={mapShareAnchor}
-        onClose={closeMapShare}
-        cardRef={worldCardRef}
-        showCopyLink={true}
-        copyUrl="https://nomadictree.io"
-      />
 
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} redirectPath="/mine" />}
       {showContact && <ContactModal onClose={() => setShowContact(false)} />}

@@ -6,7 +6,10 @@ export default function RemindPage() {
   const router = useRouter()
 
   const goTest = () => router.push('/onboarding')
-  const goLater = () => router.replace('/')
+  const goLater = () => {
+    sessionStorage.setItem('nomadic_skip_remind_session', 'true')
+    router.replace('/')
+  }
   const neverRemind = () => {
     localStorage.setItem('nomadic_never_remind', 'true')
     router.replace('/')

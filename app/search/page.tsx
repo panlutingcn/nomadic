@@ -1,18 +1,25 @@
 'use client'
 export const runtime = 'edge'
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
+import { useAuth } from '@/context/AuthContext'
+import { useUserProfile } from '@/hooks/useUserProfile'
 import { CITIES, GLOBAL_COMMUNITIES, CityData } from '@/data/cities'
 import { localSearch } from '@/lib/search'
+import ShareSheet from '@/components/ShareSheet'
+import CityCard from '@/components/cards/CityCard'
+import LoginModal from '@/components/LoginModal'
 
 type Phase = 'loading' | 'fuzzy' | 'ai-loading' | 'ai-done' | 'result' | 'error'
 
 function SearchContent() {
   const params = useSearchParams()
   const router = useRouter()
-  const { setSelectedCity, allPublicImprints } = useApp()
+  const { setSelectedCity, allPublicImprints, isCitySaved, toggleSaveCity } = useApp()
+  const { user } = useAuth()
+  const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
   const q = params.get('q') ?? ''
 
   const [phase, setPhase] = useState<Phase>('loading')
@@ -20,6 +27,15 @@ function SearchContent() {
   const [fuzzySuggestions, setFuzzySuggestions] = useState<CityData[]>([])
   const [aiResults, setAiResults] = useState<{ city: string; reason: string }[]>([])
   const [activeTab, setActiveTab] = useState<'insights' | 'imprints'>('insights')
+  const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
+  const [showLogin, setShowLogin] = useState(false)
+  const cityCardRef = useRef<HTMLDivElement>(null)
+
+  const handleSave = () => {
+    if (!cityData) return
+    if (!user) { setShowLogin(true); return }
+    toggleSaveCity(cityData.name, cityData.country)
+  }
 
   useEffect(() => {
     if (!q) { setPhase('error'); return }
@@ -79,10 +95,18 @@ function SearchContent() {
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 1, padding: '12px 16px 10px' }}>
 
-        {/* 搜索栏 */}
+        {/* 搜索栏 + 收藏/分享按钮 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-          <button onClick={() => router.back()} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>← 返回</button>
+          <button onClick={() => router.back()} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0 }}>← 返回</button>
           <div style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '8px 12px', fontSize: 13, color: 'var(--text-primary)' }}>{q}</div>
+          {phase === 'result' && cityData && (
+            <>
+              <button onClick={handleSave} style={{ width: 30, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 7, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: isCitySaved(cityData.name) ? 'var(--accent)' : 'var(--text-secondary)', cursor: 'pointer', flexShrink: 0 }}>
+                {isCitySaved(cityData.name) ? '♥' : '♡'}
+              </button>
+              <button onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())} aria-label="分享" style={{ width: 32, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--text-secondary)', cursor: 'pointer', flexShrink: 0 }}>⤴</button>
+            </>
+          )}
         </div>
 
         {/* 加载中 */}
@@ -306,6 +330,43 @@ function SearchContent() {
       </div>
       <div style={{ height: 32 }} />
       <BottomNav />
+
+      {/* Hidden CityCard for share screenshot */}
+      <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
+        <div ref={cityCardRef}>
+          {phase === 'result' && cityData && (
+            <CityCard
+              nickname={profileNickname}
+              avatarUrl={profileAvatar}
+              cityNameZh={cityData.nameZh || ''}
+              cityNameEn={cityData.name}
+              countryZh={cityData.countryZh || ''}
+              flag={cityData.flag || '🌍'}
+              description={cityData.soul.body || ''}
+              personality={'personality' in cityData.soul ? cityData.soul.personality : undefined}
+              economy={'economy' in cityData.soul ? cityData.soul.economy : undefined}
+              cityKey={cityData.name}
+              qrValue={`https://nomadictree.io/search?q=${encodeURIComponent(cityData.nameZh || cityData.name)}`}
+            />
+          )}
+        </div>
+      </div>
+
+      <ShareSheet
+        anchorRect={shareAnchor}
+        onClose={() => setShareAnchor(null)}
+        cardRef={cityCardRef}
+        showCopyLink={true}
+        copyUrl={`https://nomadictree.io/search?q=${encodeURIComponent(q)}`}
+      />
+
+      {showLogin && (
+        <LoginModal
+          onClose={() => setShowLogin(false)}
+          onSuccess={() => { setShowLogin(false); if (cityData) toggleSaveCity(cityData.name, cityData.country) }}
+          redirectPath={`/search?q=${encodeURIComponent(q)}`}
+        />
+      )}
     </div>
   )
 }
