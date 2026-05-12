@@ -73,7 +73,7 @@ export default function PersonaCard({
                   fontWeight: 700,
                   color: '#f0c040',
                   lineHeight: 1.8,
-                  WebkitTextStroke: '0.6px #1a1a1a',
+                  textShadow: '0 1px 4px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.75), 1px 1px 2px rgba(0,0,0,0.8)',
                 }}>
                   {sentence}
                 </div>
