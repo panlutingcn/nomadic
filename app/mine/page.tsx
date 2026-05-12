@@ -137,14 +137,10 @@ export default function MinePage() {
           </div>
         </div>
         {user && imprints.length === 0 && (
-          <>
-            {[0, 1].map(i => (
-              <div key={i} onClick={() => router.push('/story')}
-                style={{ background: '#fff', border: '0.5px dashed #ddd4c0', borderRadius: 12, height: 64, marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                <span style={{ fontSize: 12, color: '#b8a98a' }}>+ 记录你的城市印迹</span>
-              </div>
-            ))}
-          </>
+          <div onClick={() => router.push('/story')}
+            style={{ background: '#fff', border: '0.5px dashed #ddd4c0', borderRadius: 12, height: 64, marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <span style={{ fontSize: 12, color: '#b8a98a' }}>+ 记录你的城市印迹</span>
+          </div>
         )}
         {imprints.map(imp => (
           <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ display: 'flex', background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
