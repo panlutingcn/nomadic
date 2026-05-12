@@ -127,13 +127,13 @@ export default function MinePage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
           <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的印迹</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprints.length} 个 · 最新在前</span>
             {user && (
               <span onClick={() => router.push('/vault')}
                 style={{ fontSize: 11, color: trashedImprints.length > 0 ? '#c04040' : '#b8a98a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}>
                 🗑️{trashedImprints.length > 0 && ` ${trashedImprints.length}`}
               </span>
             )}
-            <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprints.length} 个 · 最新在前</span>
           </div>
         </div>
         {user && imprints.length === 0 && (
