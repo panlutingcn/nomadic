@@ -31,6 +31,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe()
   }, [])
 
+  // Migrate guest persona to user-scoped key on login (covers OAuth redirect flow)
+  useEffect(() => {
+    if (!user) return
+    const guestKey = 'nomadic_persona'
+    const userKey = `nomadic_persona_${user.id}`
+    const guestPersona = localStorage.getItem(guestKey)
+    const userPersona = localStorage.getItem(userKey)
+    if (guestPersona && !userPersona) {
+      localStorage.setItem(userKey, guestPersona)
+      localStorage.removeItem(guestKey)
+    }
+  }, [user?.id])
+
   const sendEmailOTP = useCallback(async (email: string, redirectTo?: string) => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
