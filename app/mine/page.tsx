@@ -40,7 +40,7 @@ export default function MinePage() {
           <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(29,158,117,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 500, color: '#1D9E75', flexShrink: 0, overflow: 'hidden' }}>
             {profileAvatar
               ? <img src={profileAvatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              : (profileNickname[0] ?? 'N').toUpperCase()
+              : (profileNickname?.[0] ?? 'N').toUpperCase()
             }
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
