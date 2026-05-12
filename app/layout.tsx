@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Nomadic',
   description: '在世界各地扎根，而不只是路过。一个给数字游民的灵感与商机社区。',
   icons: {
-    icon: '/favicon-globe.png',
+    icon: '/favicon.svg',
   },
   openGraph: {
     title: 'Nomadic',
