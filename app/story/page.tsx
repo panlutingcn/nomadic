@@ -72,6 +72,7 @@ export default function StoryPage() {
   const [flashCity, setFlashCity] = useState(false)
   const [flashTags, setFlashTags] = useState(false)
   const [visibility, setVisibility] = useState<'public' | 'nomad' | 'private'>('public')
+  const [publishing, setPublishing] = useState(false)
   const TAG_LIMIT = 10
   const prevCityRef = useRef('')
   const gpsDetectedRef = useRef(false)
@@ -272,6 +273,7 @@ export default function StoryPage() {
   }
 
   const handlePublish = async () => {
+    if (publishing) return
     const isPublic = visibility === 'public'
     const trimmedCity = city.trim()
     if (!trimmedCity) {
@@ -297,9 +299,14 @@ export default function StoryPage() {
       setShowLogin(true)
       return
     }
-    const photoUrl = await getPhotoDataUrl()
-    await addImprint({ city: trimmedCity, title: extractTitle(narrative, trimmedCity), narrative, tags, isPublic, photo: photoUrl, author: nickname ?? undefined })
-    router.push(isPublic ? '/meet' : '/mine')
+    setPublishing(true)
+    try {
+      const photoUrl = await getPhotoDataUrl()
+      await addImprint({ city: trimmedCity, title: extractTitle(narrative, trimmedCity), narrative, tags, isPublic, photo: photoUrl, author: nickname ?? undefined })
+      router.push(isPublic ? '/meet' : '/mine')
+    } finally {
+      setPublishing(false)
+    }
   }
 
   return (
@@ -437,8 +444,8 @@ export default function StoryPage() {
           </button>
         ))}
 
-        <button onClick={handlePublish} style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 16, fontWeight: 500, cursor: 'pointer', marginTop: 4 }}>
-          发布印迹
+        <button onClick={handlePublish} disabled={publishing} style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 16, fontWeight: 500, cursor: publishing ? 'not-allowed' : 'pointer', opacity: publishing ? 0.7 : 1, marginTop: 4 }}>
+          {publishing ? '发布中…' : '发布印迹'}
         </button>
       </div>
       <div style={{ height: 32 }} />

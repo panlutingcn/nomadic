@@ -114,12 +114,24 @@ export default function MinePage() {
         </div>
         <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 12, padding: '10px 13px', marginBottom: 12 }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-            {savedCities.map(city => (
-              <button key={city.name} onClick={() => { setSelectedCity(city.name); router.push('/insights') }}
-                style={{ fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 8, background: 'rgba(29,158,117,0.1)', color: '#0f6e56', border: '0.5px solid rgba(29,158,117,0.25)', cursor: 'pointer' }}>
-                {CITIES[city.name]?.nameZh || city.nameZh || city.name}
-              </button>
-            ))}
+            {savedCities.map(city => {
+              const inCities = city.name in CITIES
+              const label = CITIES[city.name]?.nameZh || city.nameZh || city.name
+              return (
+                <button key={city.name}
+                  onClick={() => {
+                    setSelectedCity(city.name)
+                    if (inCities) {
+                      router.push('/insights')
+                    } else {
+                      router.push(`/search?q=${encodeURIComponent(city.nameZh || city.name)}`)
+                    }
+                  }}
+                  style={{ fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 8, background: 'rgba(29,158,117,0.1)', color: '#0f6e56', border: '0.5px solid rgba(29,158,117,0.25)', cursor: 'pointer' }}>
+                  {label}
+                </button>
+              )
+            })}
             {savedCities.length === 0 && <span style={{ fontSize: 12, color: '#b8a98a' }}>还没有收藏的城市</span>}
           </div>
         </div>

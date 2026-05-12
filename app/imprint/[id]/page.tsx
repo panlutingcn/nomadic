@@ -36,6 +36,8 @@ export default function ImprintDetailPage() {
   const [commentText, setCommentText] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [commentError, setCommentError] = useState<string | null>(null)
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null)
+  const [editingCommentText, setEditingCommentText] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const [pageUrl, setPageUrl] = useState('')
@@ -131,6 +133,26 @@ export default function ImprintDetailPage() {
       }])
       setCommentText('')
     }
+  }
+
+  const handleEditComment = (c: { id: string; content: string }) => {
+    setEditingCommentId(c.id)
+    setEditingCommentText(c.content)
+  }
+
+  const handleSaveEditComment = async (commentId: string) => {
+    const text = editingCommentText.trim()
+    if (!text) return
+    const { error } = await supabase.from('comments').update({ content: text }).eq('id', commentId)
+    if (!error) {
+      setComments(prev => prev.map(c => c.id === commentId ? { ...c, content: text } : c))
+      setEditingCommentId(null)
+    }
+  }
+
+  const handleDeleteComment = async (commentId: string) => {
+    const { error } = await supabase.from('comments').delete().eq('id', commentId)
+    if (!error) setComments(prev => prev.filter(c => c.id !== commentId))
   }
 
   const handleLike = () => {
@@ -293,7 +315,9 @@ export default function ImprintDetailPage() {
               <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>还没有评论，来第一个留言吧</div>
             )}
             {comments.map(c => {
-              const displayName = c.userId === user?.id ? (profileNickname ?? c.author) : c.author
+              const isMyComment = c.userId === user?.id
+              const displayName = isMyComment ? (profileNickname ?? c.author) : c.author
+              const isEditing = editingCommentId === c.id
               return (
                 <div key={c.id} style={{ marginBottom: 14 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
@@ -305,8 +329,28 @@ export default function ImprintDetailPage() {
                       style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', cursor: 'pointer' }}
                     >{displayName}</span>
                     <span style={{ fontSize: 11, color: 'var(--text-muted)', marginLeft: 'auto' }}>{c.createdAt}</span>
+                    {isMyComment && !isEditing && (
+                      <>
+                        <button onClick={() => handleEditComment(c)} style={{ background: 'none', border: 'none', fontSize: 11, color: 'var(--text-muted)', cursor: 'pointer', padding: '0 2px' }}>编辑</button>
+                        <button onClick={() => handleDeleteComment(c.id)} style={{ background: 'none', border: 'none', fontSize: 11, color: '#c04040', cursor: 'pointer', padding: '0 2px' }}>删除</button>
+                      </>
+                    )}
                   </div>
-                  <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, paddingLeft: 34 }}>{c.content}</div>
+                  {isEditing ? (
+                    <div style={{ paddingLeft: 34, display: 'flex', gap: 6 }}>
+                      <input
+                        value={editingCommentText}
+                        onChange={e => setEditingCommentText(e.target.value)}
+                        onKeyDown={e => e.key === 'Enter' && handleSaveEditComment(c.id)}
+                        style={{ flex: 1, padding: '7px 10px', borderRadius: 8, border: '0.5px solid var(--border-light)', background: 'var(--bg-card)', fontSize: 13, color: 'var(--text-primary)', outline: 'none', fontFamily: 'inherit' }}
+                        autoFocus
+                      />
+                      <button onClick={() => handleSaveEditComment(c.id)} style={{ padding: '7px 12px', borderRadius: 8, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 12, cursor: 'pointer', flexShrink: 0 }}>保存</button>
+                      <button onClick={() => setEditingCommentId(null)} style={{ padding: '7px 10px', borderRadius: 8, background: 'var(--bg-card-2)', border: '0.5px solid var(--border)', fontSize: 12, color: 'var(--text-secondary)', cursor: 'pointer', flexShrink: 0 }}>取消</button>
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, paddingLeft: 34 }}>{c.content}</div>
+                  )}
                 </div>
               )
             })}
