@@ -43,6 +43,8 @@ export default function CardShell({ nickname, contentBg, children }: CardShellPr
             color: '#5a4a38',
             lineHeight: 1,
             whiteSpace: 'nowrap',
+            position: 'relative',
+            top: -7,
           }}>
             {nickname}
           </div>
