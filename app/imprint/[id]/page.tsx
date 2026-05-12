@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from 'react'
 import ShareSheet from '@/components/ShareSheet'
 import ImprintCard from '@/components/cards/ImprintCard'
 import { CITIES } from '@/data/cities'
+import { getBodyText } from '@/lib/imprintUtils'
 import { useUserProfile } from '@/hooks/useUserProfile'
 
 const CITY_NAME_MAP: Record<string, string> = {
@@ -119,7 +120,7 @@ export default function ImprintDetailPage() {
         return (
           <div style={{ position: 'relative', height: 240, overflow: 'hidden', background: bg }}>
             {imprint.photo ? (
-              <img src={imprint.photo} alt={imprint.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={imprint.photo} alt={imprint.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
             ) : (
               <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: 'rgba(0,0,0,0.3)' }}>
                 [ 照片 ]
@@ -149,7 +150,7 @@ export default function ImprintDetailPage() {
 
         {/* Narrative */}
         <div style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--text-primary)', marginBottom: 20, whiteSpace: 'pre-wrap' }}>
-          {imprint.narrative}
+          {getBodyText(imprint.narrative, imprint.title)}
         </div>
 
         {/* Tags */}
@@ -296,7 +297,7 @@ export default function ImprintDetailPage() {
             avatarUrl={profileAvatar}
             photo={imprint.photo}
             title={imprint.title}
-            narrative={imprint.narrative}
+            narrative={getBodyText(imprint.narrative, imprint.title)}
             cityNameZh={cityNameZh}
             countryZh={imprintCountryZh}
             flag={imprintFlag}

@@ -1,4 +1,5 @@
 import CardShell from './CardShell'
+import { getBodyText } from '@/lib/imprintUtils'
 
 interface ImprintCardProps {
   nickname: string
@@ -36,7 +37,7 @@ export default function ImprintCard({
           fontSize: 13, color: '#5a4a38', lineHeight: 1.8, marginBottom: 10,
           display: '-webkit-box', WebkitLineClamp: 3,
           WebkitBoxOrient: 'vertical' as const, overflow: 'hidden',
-        }}>{narrative}</div>
+        }}>{getBodyText(narrative, title)}</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#8a7560' }}>
           <span>📍</span>
           <span>{cityNameZh}{countryZh ? ` · ${flag} ${countryZh}` : ''}</span>
