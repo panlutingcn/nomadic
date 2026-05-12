@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
+import { CITIES } from '@/data/cities'
 import { useUserProfile } from '@/hooks/useUserProfile'
 import LoginModal from '@/components/LoginModal'
 
@@ -41,6 +42,13 @@ const CITY_NAME_MAP: Record<string, string> = {
   Beijing: '北京',
   Chengdu: '成都',
   Dubai: '迪拜',
+}
+
+function cityTags(cityInput: string): string[] {
+  const entry = Object.values(CITIES).find(
+    c => c.nameZh === cityInput || c.name.toLowerCase() === cityInput.toLowerCase()
+  )
+  return entry ? [entry.nameZh, entry.countryZh] : [cityInput]
 }
 
 function extractTitle(narrative: string, city: string): string {
@@ -97,9 +105,8 @@ export default function StoryPage() {
             const raw: string = addr.city || addr.town || addr.village || addr.county || ''
             const cityZh = raw.replace(/[市区县镇乡]$/, '')
             if (cityZh) {
-              const year = String(new Date(gpsData.timestamp).getFullYear())
               setCity(cityZh)
-              setTags([cityZh, year])
+              setTags(cityTags(cityZh))
               prevCityRef.current = cityZh
               gpsDetectedRef.current = true
             }
@@ -205,11 +212,12 @@ export default function StoryPage() {
     setEditingCity(false)
     const trimmed = city.trim()
     if (!trimmed) return
-    const year = String(new Date().getFullYear())
+    const newCityTags = cityTags(trimmed)
     setTags(prev => {
-      const withoutOldCity = prevCityRef.current ? prev.filter(t => t !== prevCityRef.current) : prev
-      const withCity = withoutOldCity.includes(trimmed) ? withoutOldCity : [trimmed, ...withoutOldCity]
-      return withCity.includes(year) ? withCity : [...withCity, year]
+      // Remove old city-generated tags, keep user-added tags
+      const oldTags = prevCityRef.current ? cityTags(prevCityRef.current) : []
+      const kept = prev.filter(t => !oldTags.includes(t) && !newCityTags.includes(t))
+      return [...newCityTags, ...kept]
     })
     prevCityRef.current = trimmed
   }
