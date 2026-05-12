@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext'
 
 export interface SavedCity {
   name: string
+  nameZh?: string
   country: string
   savedAt: string
 }
@@ -59,7 +60,7 @@ interface AppState {
   selectedCity: string
   setSelectedCity: (city: string) => void
   savedCities: SavedCity[]
-  toggleSaveCity: (name: string, country: string) => void
+  toggleSaveCity: (name: string, country: string, nameZh?: string) => void
   isCitySaved: (name: string) => boolean
   imprints: Imprint[]
   addImprint: (imprint: Omit<Imprint, 'id' | 'createdAt'>) => void | Promise<void>
@@ -133,6 +134,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (cityData) {
         setSavedCities(cityData.map(r => ({
           name: r.city_name,
+          nameZh: r.name_zh ?? undefined,
           country: r.country,
           savedAt: formatDate(r.saved_at),
         })))
@@ -147,15 +149,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return () => { cancelled = true }
   }, [user?.id])
 
-  const toggleSaveCity = (name: string, country: string) => {
+  const toggleSaveCity = (name: string, country: string, nameZh?: string) => {
     const exists = savedCities.find(c => c.name === name)
     if (exists) {
       if (user) supabase.from('saved_cities').delete().eq('user_id', user.id).eq('city_name', name).then(() => {})
       setSavedCities(prev => prev.filter(c => c.name !== name))
     } else {
       const savedAt = new Date().toLocaleDateString('zh-CN').replace(/\//g, '.')
-      if (user) supabase.from('saved_cities').insert({ user_id: user.id, city_name: name, country }).then(() => {})
-      setSavedCities(prev => [{ name, country, savedAt }, ...prev])
+      if (user) supabase.from('saved_cities').insert({ user_id: user.id, city_name: name, country, name_zh: nameZh ?? null }).then(() => {})
+      setSavedCities(prev => [{ name, nameZh, country, savedAt }, ...prev])
     }
   }
 

@@ -116,7 +116,7 @@ export default function MinePage() {
             {savedCities.map(city => (
               <button key={city.name} onClick={() => { setSelectedCity(city.name); router.push('/insights') }}
                 style={{ fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 8, background: 'rgba(29,158,117,0.1)', color: '#0f6e56', border: '0.5px solid rgba(29,158,117,0.25)', cursor: 'pointer' }}>
-                {CITIES[city.name]?.nameZh || city.name}
+                {CITIES[city.name]?.nameZh || city.nameZh || city.name}
               </button>
             ))}
             {savedCities.length === 0 && <span style={{ fontSize: 12, color: '#b8a98a' }}>还没有收藏的城市</span>}
@@ -144,7 +144,7 @@ export default function MinePage() {
         )}
         {imprints.map(imp => (
           <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ display: 'flex', background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
-            <div style={{ width: 68, height: 60, background: '#ede8df', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 68, background: '#ede8df', flexShrink: 0, alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {imp.photo ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 9, color: '#c8bfaa' }}>图片</span>}
             </div>
             <div style={{ padding: '8px 10px', flex: 1, minWidth: 0 }}>

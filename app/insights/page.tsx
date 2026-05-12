@@ -156,12 +156,12 @@ export default function InsightsPage() {
 
   const handleSave = () => {
     if (!user) { setShowLogin(true); return }
-    toggleSaveCity(city.name, city.country)
+    toggleSaveCity(city.name, city.country, city.nameZh || undefined)
   }
 
   const handleLoginConfirm = () => {
     setShowLogin(false)
-    toggleSaveCity(city.name, city.country)
+    toggleSaveCity(city.name, city.country, city.nameZh || undefined)
   }
 
   const handleBack = () => {

@@ -42,7 +42,7 @@ function SearchContent() {
   const handleSave = () => {
     if (!cityData) return
     if (!user) { setShowLogin(true); return }
-    toggleSaveCity(cityData.name, cityData.country)
+    toggleSaveCity(cityData.name, cityData.country, cityData.nameZh || undefined)
   }
 
   useEffect(() => {
@@ -429,7 +429,7 @@ function SearchContent() {
       {showLogin && (
         <LoginModal
           onClose={() => setShowLogin(false)}
-          onSuccess={() => { setShowLogin(false); if (cityData) toggleSaveCity(cityData.name, cityData.country) }}
+          onSuccess={() => { setShowLogin(false); if (cityData) toggleSaveCity(cityData.name, cityData.country, cityData.nameZh || undefined) }}
           redirectPath={`/search?q=${encodeURIComponent(q)}`}
         />
       )}
