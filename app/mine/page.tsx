@@ -131,7 +131,7 @@ export default function MinePage() {
             {user && (
               <span onClick={() => router.push('/vault')}
                 style={{ fontSize: 11, color: trashedImprints.length > 0 ? '#c04040' : '#b8a98a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}>
-                🗑️{trashedImprints.length > 0 && ` ${trashedImprints.length}`}
+                🗑️ {trashedImprints.length > 0 && `${trashedImprints.length}`}
               </span>
             )}
           </div>
