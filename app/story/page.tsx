@@ -384,32 +384,6 @@ export default function StoryPage() {
           {generating ? '生成中…' : '重新生成 ↺'}
         </div>
 
-        {/* 标签 */}
-        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标签 <span style={{ color: '#c04040' }}>*</span></div>
-        <div className={flashTags ? 'flash-border' : ''} style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 14, border: '0.5px solid transparent', borderRadius: 8, padding: '2px 0' }}>
-          {tags.map(tag => (
-            <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, padding: '3px 7px 3px 9px', borderRadius: 8, background: 'var(--bg-card-2)', color: 'var(--text-secondary)', border: '0.5px solid var(--border-light)' }}>
-              {tag}
-              <button onClick={() => handleRemoveTag(tag)} style={{ fontSize: 9, color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 1 }}>✕</button>
-            </span>
-          ))}
-          {showTagInput ? (
-            <input
-              autoFocus
-              value={tagInput}
-              onChange={e => setTagInput(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') handleAddTag() }}
-              onBlur={handleAddTag}
-              placeholder="输入标签"
-              style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, border: '0.5px solid var(--accent)', background: 'var(--bg-card)', color: 'var(--text-primary)', outline: 'none', width: 80 }}
-            />
-          ) : tags.length >= TAG_LIMIT ? (
-            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>最多添加 10 个标签</span>
-          ) : (
-            <span onClick={() => setShowTagInput(true)} style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, color: 'var(--text-muted)', border: '0.5px dashed var(--border-light)', cursor: 'pointer' }}>+ 添加</span>
-          )}
-        </div>
-
         {/* 城市 */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
           <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>城市 <span style={{ color: '#c04040' }}>*</span></span>
@@ -438,6 +412,32 @@ export default function StoryPage() {
           <button onClick={handleConfirmCity} style={{ background: '#f0ebe2', border: '0.5px solid #ddd4c0', borderRadius: 8, padding: '8px 12px', fontSize: 10, color: '#4a3c28', cursor: 'pointer', whiteSpace: 'nowrap', fontWeight: 500 }}>修改城市</button>
         </div>
         <div style={{ fontSize: 9, color: '#c8bfaa', marginBottom: 12 }}>若拍摄地与当前位置不同，可手动调整</div>
+
+        {/* 标签 */}
+        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标签 <span style={{ color: '#c04040' }}>*</span></div>
+        <div className={flashTags ? 'flash-border' : ''} style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 14, border: '0.5px solid transparent', borderRadius: 8, padding: '2px 0' }}>
+          {tags.map(tag => (
+            <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, padding: '3px 7px 3px 9px', borderRadius: 8, background: 'var(--bg-card-2)', color: 'var(--text-secondary)', border: '0.5px solid var(--border-light)' }}>
+              {tag}
+              <button onClick={() => handleRemoveTag(tag)} style={{ fontSize: 9, color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 1 }}>✕</button>
+            </span>
+          ))}
+          {showTagInput ? (
+            <input
+              autoFocus
+              value={tagInput}
+              onChange={e => setTagInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleAddTag() }}
+              onBlur={handleAddTag}
+              placeholder="输入标签"
+              style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, border: '0.5px solid var(--accent)', background: 'var(--bg-card)', color: 'var(--text-primary)', outline: 'none', width: 80 }}
+            />
+          ) : tags.length >= TAG_LIMIT ? (
+            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>最多添加 10 个标签</span>
+          ) : (
+            <span onClick={() => setShowTagInput(true)} style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, color: 'var(--text-muted)', border: '0.5px dashed var(--border-light)', cursor: 'pointer' }}>+ 添加</span>
+          )}
+        </div>
 
         <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 10 }}>谁可以看到这条印迹</div>
         {[
