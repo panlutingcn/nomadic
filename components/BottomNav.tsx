@@ -1,88 +1,159 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 
-// Volcano eruption particle
 interface Particle {
   id: number
-  x: number   // relative to icon center, px
-  y: number
+  x: number        // px from emoji horizontal center
+  y: number        // px from emoji vertical center
   vx: number
   vy: number
-  life: number  // 0-1, decreasing
-  type: 'spark' | 'lava'
-  color: string
+  life: number     // 0→1 starts at 1, decreases
+  decay: number
+  type: 'spark' | 'lava' | 'smoke'
+  size: number
+  grounded: boolean  // lava has reached the base and is flowing outward
+}
+
+let _pid = 0
+
+function lavaColor(life: number, type: Particle['type']): string {
+  if (type === 'smoke') return `rgba(160,140,120,${(life * 0.45).toFixed(2)})`
+  if (type === 'spark') {
+    if (life > 0.75) return '#ffffc0'
+    if (life > 0.55) return '#ffd700'
+    if (life > 0.35) return '#ff8c00'
+    return '#ff4500'
+  }
+  // lava blob — cools visibly
+  if (life > 0.78) return '#fff4a0'
+  if (life > 0.58) return '#ff9500'
+  if (life > 0.38) return '#ff3e00'
+  if (life > 0.18) return '#c01200'
+  return '#700800'
 }
 
 function VolcanoIcon({ erupting }: { erupting: boolean }) {
   const [particles, setParticles] = useState<Particle[]>([])
-  const [frame, setFrame] = useState(0)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const rafRef = useRef<number>(0)
 
+  const spawnBatch = useCallback((): Particle[] => {
+    const batch: Particle[] = []
+
+    // Sparks — shoot upward, scatter wide, fast fade
+    for (let i = 0; i < 5; i++) {
+      batch.push({
+        id: _pid++, x: (Math.random() - 0.5) * 2, y: -7,
+        vx: (Math.random() - 0.5) * 4.5,
+        vy: -(Math.random() * 3.5 + 2.5),
+        life: 1, decay: 0.042 + Math.random() * 0.022,
+        type: 'spark', size: 1.5 + Math.random() * 1.5, grounded: false,
+      })
+    }
+
+    // Lava blobs — erupt upward, arc back, ground at base and flow outward
+    for (let i = 0; i < 4; i++) {
+      const dir = i % 2 === 0 ? 1 : -1
+      batch.push({
+        id: _pid++, x: (Math.random() - 0.5) * 3, y: -7,
+        vx: dir * (Math.random() * 1.8 + 0.4),
+        vy: -(Math.random() * 2.2 + 1.4),
+        life: 1, decay: 0.020 + Math.random() * 0.010,
+        type: 'lava', size: 3.5 + Math.random() * 2.5, grounded: false,
+      })
+    }
+
+    // Smoke — drift upward slowly
+    for (let i = 0; i < 2; i++) {
+      batch.push({
+        id: _pid++, x: (Math.random() - 0.5) * 4, y: -9,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: -(Math.random() * 0.9 + 0.3),
+        life: 0.85, decay: 0.016,
+        type: 'smoke', size: 5 + Math.random() * 3, grounded: false,
+      })
+    }
+
+    return batch
+  }, [])
+
+  // Spawn new batches continuously while erupting
   useEffect(() => {
-    if (!erupting) return
+    if (!erupting) { if (intervalRef.current) clearInterval(intervalRef.current); return }
+    setParticles(prev => [...prev, ...spawnBatch()])
+    intervalRef.current = setInterval(() => {
+      setParticles(prev => [...prev, ...spawnBatch()])
+    }, 110)
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
+  }, [erupting, spawnBatch])
 
-    // Spawn particles once
-    const sparks: Particle[] = Array.from({ length: 10 }, (_, i) => ({
-      id: i,
-      x: 0, y: 0,
-      vx: (Math.random() - 0.5) * 3.2,
-      vy: -(Math.random() * 3 + 2),
-      life: 1,
-      type: 'spark',
-      color: Math.random() > 0.5 ? '#ff8c00' : '#ffd700',
-    }))
-    const lava: Particle[] = Array.from({ length: 6 }, (_, i) => ({
-      id: 10 + i,
-      x: 0, y: 0,
-      vx: (i % 2 === 0 ? 1 : -1) * (Math.random() * 1.5 + 0.8),
-      vy: Math.random() * 0.5,
-      life: 1,
-      type: 'lava',
-      color: i % 3 === 0 ? '#ff4500' : '#ff6a00',
-    }))
-    setParticles([...sparks, ...lava])
-    setFrame(0)
-  }, [erupting])
-
+  // Physics loop
   useEffect(() => {
     if (particles.length === 0) return
-    const raf = requestAnimationFrame(() => {
-      setFrame(f => f + 1)
+    rafRef.current = requestAnimationFrame(() => {
       setParticles(prev =>
         prev
-          .map(p => ({
-            ...p,
-            x: p.x + p.vx,
-            y: p.y + p.vy + (p.type === 'spark' ? 0.18 : 0.1),  // gravity
-            life: p.life - (p.type === 'spark' ? 0.045 : 0.035),
-          }))
-          .filter(p => p.life > 0)
+          .map(p => {
+            let { x, y, vx, vy, grounded } = p
+            const gravity = p.type === 'smoke' ? -0.01 : (p.type === 'spark' ? 0.22 : 0.20)
+            vy += gravity
+
+            // Lava hits the volcano base (~y=6) → ground it and spread outward
+            if (p.type === 'lava' && !grounded && y > 6) {
+              grounded = true
+              vy = 0.08
+              vx *= 1.5  // splash outward
+            }
+
+            // Grounded lava flows with slight gravity on the plain, friction slows it
+            if (grounded) { vy += 0.015; vx *= 0.96 }
+
+            x += vx; y += vy
+            return { ...p, x, y, vx, vy, life: p.life - p.decay, grounded }
+          })
+          .filter(p => p.life > 0 && p.y < 22)
       )
     })
-    return () => cancelAnimationFrame(raf)
-  }, [particles, frame])
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [particles])
+
+  // Drain remaining particles after eruption ends
+  useEffect(() => {
+    if (erupting) return
+    const t = setTimeout(() => setParticles([]), 1600)
+    return () => clearTimeout(t)
+  }, [erupting])
 
   return (
-    <span style={{ position: 'relative', display: 'inline-block', fontSize: 20, lineHeight: 1 }}>
+    <span
+      className={erupting ? 'volcano-erupting' : ''}
+      style={{ position: 'relative', display: 'inline-block', fontSize: 20, lineHeight: 1, overflow: 'visible' }}
+    >
       🌋
-      {particles.map(p => (
-        <span
-          key={p.id}
-          style={{
-            position: 'absolute',
-            left: `calc(50% + ${p.x}px)`,
-            top: `calc(30% + ${p.y}px)`,
-            width: p.type === 'spark' ? 3 : 4,
-            height: p.type === 'spark' ? 3 : 4,
-            borderRadius: '50%',
-            background: p.color,
-            opacity: p.life,
-            transform: 'translate(-50%, -50%)',
-            pointerEvents: 'none',
-            boxShadow: p.type === 'spark' ? `0 0 3px ${p.color}` : 'none',
-          }}
-        />
-      ))}
+      {particles.map(p => {
+        const color = lavaColor(p.life, p.type)
+        const isHot = p.life > 0.5 && p.type !== 'smoke'
+        return (
+          <span
+            key={p.id}
+            style={{
+              position: 'absolute',
+              left: `calc(50% + ${p.x}px)`,
+              top: `calc(50% + ${p.y}px)`,
+              width: p.type === 'lava' && p.grounded ? p.size * 1.6 : p.size,
+              height: p.type === 'lava' && p.grounded ? p.size * 0.55 : p.size,
+              borderRadius: p.type === 'smoke' ? '50%' : (p.grounded ? '40%' : '50%'),
+              background: color,
+              opacity: p.type === 'smoke' ? 1 : p.life,
+              transform: 'translate(-50%, -50%)',
+              pointerEvents: 'none',
+              filter: p.type === 'smoke' ? 'blur(2px)' : (isHot ? 'blur(0.4px)' : 'none'),
+              boxShadow: isHot ? `0 0 ${p.size + 1}px ${color}` : 'none',
+            }}
+          />
+        )
+      })}
     </span>
   )
 }
@@ -96,7 +167,7 @@ export default function BottomNav() {
   const handleExplore = () => {
     router.push('/')
     setErupting(true)
-    setTimeout(() => setErupting(false), 1200)
+    setTimeout(() => setErupting(false), 1800)
   }
 
   const navStyle: React.CSSProperties = {
@@ -110,11 +181,13 @@ export default function BottomNav() {
     position: 'sticky',
     bottom: 0,
     zIndex: 100,
+    overflow: 'visible',
   }
 
   const niStyle = (): React.CSSProperties => ({
     display: 'flex', flexDirection: 'column', alignItems: 'center',
     gap: 2, flex: 1, cursor: 'pointer', background: 'none', border: 'none',
+    overflow: 'visible',
   })
 
   const isHome = isActive('/') && pathname === '/'
