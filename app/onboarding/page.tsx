@@ -171,7 +171,7 @@ export default function OnboardingPage() {
                 onClick={() => { savePersona(); setShowLogin(true) }}
                 style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
               >
-                登录并生成旅行人格卡片
+                解锁我的旅行人格卡片
               </button>
               <button
                 onClick={finishOnboarding}
