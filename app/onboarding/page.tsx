@@ -71,7 +71,7 @@ export default function OnboardingPage() {
           <div style={{ fontSize: 13, color: '#4a3c28', marginBottom: 4 }}>在世界各地扎根，而不只是路过。</div>
           <div style={{ height: 0.5, background: '#e2d9c8', margin: '16px 0' }} />
           <div style={{ fontSize: 13, color: '#5a4a30', lineHeight: 1.7, marginBottom: 28, textAlign: 'center' }}>
-            花 2 分钟认识一下你是哪种旅行者——<br/>我们为你推荐最匹配的城市。
+            花 1 分钟认识一下你是哪种旅行者——<br/>我们为你推荐最匹配的城市。
           </div>
           <button
             onClick={() => setStep('quiz')}
