@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
         options: {
           data: { nickname },
-          emailRedirectTo: `${baseUrl}/vault`,
+          emailRedirectTo: `${window.location.origin}/`,
         },
       })
       if (signUpError) return { error: signUpError.message }
@@ -66,11 +66,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const loginWithGoogle = useCallback((redirectPath = '/') => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? window.location.origin
     supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${baseUrl}${redirectPath}`,
+        redirectTo: `${window.location.origin}${redirectPath}`,
         queryParams: { prompt: 'select_account' },
       },
     })
