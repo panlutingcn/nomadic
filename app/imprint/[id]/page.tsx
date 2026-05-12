@@ -35,6 +35,7 @@ export default function ImprintDetailPage() {
   const [comments, setComments] = useState<{ id: string; userId: string; author: string; content: string; createdAt: string }[]>([])
   const [commentText, setCommentText] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [commentError, setCommentError] = useState<string | null>(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const [pageUrl, setPageUrl] = useState('')
@@ -108,13 +109,18 @@ export default function ImprintDetailPage() {
   const handleSubmitComment = async () => {
     if (!commentText.trim() || !user || submitting) return
     setSubmitting(true)
-    const { data } = await supabase.from('comments').insert({
+    setCommentError(null)
+    const { data, error } = await supabase.from('comments').insert({
       imprint_id: id,
       user_id: user.id,
       author: profileNickname ?? '探索者',
       content: commentText.trim(),
     }).select('id, created_at').single()
     setSubmitting(false)
+    if (error) {
+      setCommentError(`发送失败：${error.message}`)
+      return
+    }
     if (data) {
       setComments(prev => [...prev, {
         id: data.id,
@@ -302,21 +308,26 @@ export default function ImprintDetailPage() {
               </div>
             ))}
             {user ? (
-              <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-                <input
-                  value={commentText}
-                  onChange={e => setCommentText(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleSubmitComment()}
-                  placeholder="写下你的想法…"
-                  style={{ flex: 1, padding: '9px 12px', borderRadius: 10, border: '0.5px solid var(--border-light)', background: 'var(--bg-card)', fontSize: 13, color: 'var(--text-primary)', outline: 'none', fontFamily: 'inherit' }}
-                />
-                <button
-                  onClick={handleSubmitComment}
-                  disabled={!commentText.trim() || submitting}
-                  style={{ padding: '9px 16px', borderRadius: 10, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: (!commentText.trim() || submitting) ? 'not-allowed' : 'pointer', opacity: (!commentText.trim() || submitting) ? 0.5 : 1, fontFamily: 'inherit', flexShrink: 0 }}
-                >
-                  发送
-                </button>
+              <div style={{ marginTop: 8 }}>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <input
+                    value={commentText}
+                    onChange={e => { setCommentText(e.target.value); setCommentError(null) }}
+                    onKeyDown={e => e.key === 'Enter' && handleSubmitComment()}
+                    placeholder="写下你的想法…"
+                    style={{ flex: 1, padding: '9px 12px', borderRadius: 10, border: '0.5px solid var(--border-light)', background: 'var(--bg-card)', fontSize: 13, color: 'var(--text-primary)', outline: 'none', fontFamily: 'inherit' }}
+                  />
+                  <button
+                    onClick={handleSubmitComment}
+                    disabled={!commentText.trim() || submitting}
+                    style={{ padding: '9px 16px', borderRadius: 10, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: (!commentText.trim() || submitting) ? 'not-allowed' : 'pointer', opacity: (!commentText.trim() || submitting) ? 0.5 : 1, fontFamily: 'inherit', flexShrink: 0 }}
+                  >
+                    {submitting ? '发送中…' : '发送'}
+                  </button>
+                </div>
+                {commentError && (
+                  <div style={{ fontSize: 12, color: '#c04040', marginTop: 6 }}>{commentError}</div>
+                )}
               </div>
             ) : (
               <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>登录后参与评论</div>

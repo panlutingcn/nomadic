@@ -6,6 +6,8 @@ import { supabase } from '@/lib/supabase'
 interface AuthState {
   user: User | null
   loading: boolean
+  profileNickname: string | null
+  profileAvatarUrl: string | null
   sendEmailOTP: (email: string, redirectTo?: string) => Promise<{ error: string | null }>
   loginWithEmail: (email: string, password: string, nickname?: string) => Promise<{ error: string | null; needsConfirmation?: boolean }>
   loginWithGoogle: (redirectPath?: string) => void
@@ -22,6 +24,8 @@ const AuthContext = createContext<AuthState | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const [profileNickname, setProfileNickname] = useState<string | null>(null)
+  const [profileAvatarUrl, setProfileAvatarUrl] = useState<string | null>(null)
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -30,6 +34,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
     return () => subscription.unsubscribe()
   }, [])
+
+  useEffect(() => {
+    if (!user) {
+      setProfileNickname(null)
+      setProfileAvatarUrl(null)
+      return
+    }
+    const fallback =
+      (user.user_metadata?.full_name as string | undefined) ??
+      user.email?.split('@')[0] ??
+      '探索者'
+    ;(async () => {
+      try {
+        const { data } = await supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
+        setProfileNickname(
+          data?.nickname ??
+          (user.user_metadata?.nickname as string | undefined) ??
+          fallback
+        )
+        setProfileAvatarUrl(data?.avatar_url ?? null)
+      } catch {
+        setProfileNickname(fallback)
+        setProfileAvatarUrl(null)
+      }
+    })()
+  }, [user?.id])
 
   // Migrate guest persona to user-scoped key on login (covers OAuth redirect flow)
   useEffect(() => {
@@ -106,6 +136,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (fields.nickname !== undefined) update.nickname = fields.nickname
     if (fields.avatarUrl !== undefined) update.avatar_url = fields.avatarUrl
     const { error } = await supabase.from('profiles').update(update).eq('id', user.id)
+    if (!error) {
+      if (fields.nickname !== undefined) setProfileNickname(fields.nickname)
+      if (fields.avatarUrl !== undefined) setProfileAvatarUrl(fields.avatarUrl)
+    }
     return { error: error?.message ?? null }
   }, [user])
 
@@ -136,6 +170,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext.Provider value={{
       user, loading,
+      profileNickname, profileAvatarUrl,
       sendEmailOTP, loginWithEmail, loginWithGoogle, loginWithWeChat,
       resetPassword, updateProfile, updateEmail, deleteAccount, logout,
     }}>
