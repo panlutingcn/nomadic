@@ -14,18 +14,24 @@ export function useUserProfile(): UserProfile {
 
   useEffect(() => {
     if (!user) { setNickname(null); setAvatarUrl(null); return }
-    supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
-      .then(({ data }) => {
+    const fallback =
+      (user.user_metadata?.full_name as string | undefined) ??
+      user.email?.split('@')[0] ??
+      '探索者'
+    ;(async () => {
+      try {
+        const { data } = await supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
         const displayName =
           data?.nickname ??
           (user.user_metadata?.nickname as string | undefined) ??
-          (user.user_metadata?.full_name as string | undefined) ??
-          (user.user_metadata?.name as string | undefined) ??
-          user.email?.split('@')[0] ??
-          '探索者'
+          fallback
         setNickname(displayName)
         setAvatarUrl(data?.avatar_url ?? null)
-      })
+      } catch {
+        setNickname(fallback)
+        setAvatarUrl(null)
+      }
+    })()
   }, [user?.id])
 
   return { nickname, avatarUrl }

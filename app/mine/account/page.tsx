@@ -21,7 +21,7 @@ const inputStyle: React.CSSProperties = {
 
 export default function AccountPage() {
   const router = useRouter()
-  const { user, updateProfile, updateEmail, resetPassword, deleteAccount, logout } = useAuth()
+  const { user, loading: authLoading, updateProfile, updateEmail, resetPassword, deleteAccount, logout } = useAuth()
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
 
   const [nickname, setNickname] = useState('')
@@ -39,6 +39,7 @@ export default function AccountPage() {
     setNickname(profileNickname || '')
   }, [profileNickname])
 
+  if (authLoading) return null
   if (!user) {
     router.replace('/mine')
     return null
@@ -99,20 +100,12 @@ export default function AccountPage() {
 
         {/* 头像 */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
-          <div
-            onClick={() => fileRef.current?.click()}
-            style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(29,158,117,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, color: '#1D9E75', cursor: 'pointer', overflow: 'hidden', marginBottom: 8, position: 'relative' }}
-          >
+          <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(29,158,117,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, color: '#1D9E75', overflow: 'hidden', marginBottom: 8 }}>
             {profileAvatar
               ? <img src={profileAvatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               : <span style={{ fontWeight: 600 }}>{(nickname[0] || 'N').toUpperCase()}</span>
             }
-            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: 18, color: '#fff' }}>📷</span>
-            </div>
           </div>
-          <span style={{ fontSize: 11, color: '#b8a98a' }}>点击更换头像</span>
-          <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} />
         </div>
 
         {error && (

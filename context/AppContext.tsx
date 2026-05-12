@@ -133,6 +133,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
           savedAt: formatDate(r.saved_at),
         })))
       }
+    }).catch(err => {
+      if (cancelled) return
+      console.error('[AppContext] Failed to load user data:', err)
+      setImprints([])
+      setSavedCities([])
     })
 
     return () => { cancelled = true }
