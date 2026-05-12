@@ -51,23 +51,12 @@ export default function OnboardingPage() {
       {/* ── 欢迎页 ── */}
       {step === 'welcome' && (
         <div style={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
-            <svg width="110" height="130" viewBox="0 0 110 130">
-              <line x1="55" y1="110" x2="38" y2="126" stroke="#6b4420" strokeWidth="2" strokeLinecap="round"/>
-              <line x1="55" y1="110" x2="72" y2="126" stroke="#6b4420" strokeWidth="2" strokeLinecap="round"/>
-              <line x1="55" y1="118" x2="55" y2="130" stroke="#6b4420" strokeWidth="1.5" strokeLinecap="round"/>
-              <path d="M 47 110 C 45 85 46 60 49 30 L 61 30 C 64 60 65 85 63 110 Z" fill="#6b4420"/>
-              <path d="M 49 65 C 38 65 22 60 16 66 C 22 62 38 68 49 70 Z" fill="#6b4420"/>
-              <ellipse cx="12" cy="58" rx="11" ry="19" fill="#1D9E75" transform="rotate(-40 12 58)"/>
-              <ellipse cx="22" cy="34" rx="10" ry="18" fill="#1D9E75" transform="rotate(-20 22 34)"/>
-              <ellipse cx="38" cy="16" rx="9" ry="17" fill="#1D9E75" transform="rotate(-10 38 16)"/>
-              <ellipse cx="55" cy="8"  rx="9" ry="17" fill="#1D9E75"/>
-              <ellipse cx="72" cy="16" rx="9" ry="17" fill="#1D9E75" transform="rotate(10 72 16)"/>
-              <ellipse cx="86" cy="34" rx="10" ry="18" fill="#1D9E75" transform="rotate(20 86 34)"/>
-              <ellipse cx="92" cy="58" rx="11" ry="19" fill="#1D9E75" transform="rotate(40 92 58)"/>
-            </svg>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+            <img src="/globe-icon.png" alt="globe" style={{ width: 100, height: 100, objectFit: 'contain' }} />
           </div>
-          <div style={{ fontSize: 26, fontWeight: 500, color: '#2d2418', letterSpacing: '0.04em', marginBottom: 6 }}>Nomadic</div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}>
+            <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 36, width: 'auto' }} />
+          </div>
           <div style={{ fontSize: 13, color: '#4a3c28', marginBottom: 4 }}>在世界各地扎根，而不只是路过。</div>
           <div style={{ height: 0.5, background: '#e2d9c8', margin: '16px 0' }} />
           <div style={{ fontSize: 13, color: '#5a4a30', lineHeight: 1.7, marginBottom: 28, textAlign: 'center' }}>
