@@ -76,7 +76,7 @@ export default function StoryPage() {
   const [flashCity, setFlashCity] = useState(false)
   const [flashTags, setFlashTags] = useState(false)
   const [visibility, setVisibility] = useState<'public' | 'nomad' | 'private'>('public')
-  const TAG_LIMIT = 10
+  const TAG_LIMIT = 5
   const prevCityRef = useRef('')
   const gpsDetectedRef = useRef(false)
 
@@ -105,8 +105,14 @@ export default function StoryPage() {
             const raw: string = addr.city || addr.town || addr.village || addr.county || ''
             const cityZh = raw.replace(/[市区县镇乡]$/, '')
             if (cityZh) {
+              const country: string = addr.country ?? ''
+              const localTags = cityTags(cityZh)
+              // If local DB found country, use it; else use Nominatim country
+              const resolvedTags = localTags.length >= 2
+                ? localTags
+                : (country ? [cityZh, country] : localTags)
               setCity(cityZh)
-              setTags(cityTags(cityZh))
+              setTags(resolvedTags)
               prevCityRef.current = cityZh
               gpsDetectedRef.current = true
             }
@@ -208,13 +214,24 @@ export default function StoryPage() {
     }
   }
 
-  const handleConfirmCity = () => {
+  const handleConfirmCity = async () => {
     setEditingCity(false)
     const trimmed = city.trim()
     if (!trimmed) return
-    const newCityTags = cityTags(trimmed)
+    let newCityTags = cityTags(trimmed)
+    // City not in local DB — query Nominatim for country
+    if (newCityTags.length === 1) {
+      try {
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(trimmed)}&format=json&limit=1&addressdetails=1`,
+          { headers: { 'Accept-Language': 'zh' } }
+        )
+        const data = await res.json()
+        const country: string = data[0]?.address?.country ?? ''
+        if (country) newCityTags = [trimmed, country]
+      } catch { /* keep single tag */ }
+    }
     setTags(prev => {
-      // Remove old city-generated tags, keep user-added tags
       const oldTags = prevCityRef.current ? cityTags(prevCityRef.current) : []
       const kept = prev.filter(t => !oldTags.includes(t) && !newCityTags.includes(t))
       return [...newCityTags, ...kept]

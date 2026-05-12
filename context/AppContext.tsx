@@ -80,8 +80,8 @@ const SAMPLE_SAVED_CITIES: SavedCity[] = [
 ]
 
 const SAMPLE_USER_IMPRINTS: Imprint[] = [
-  { id: 'sample-1', city: 'Berlin', author: '@nomad_kai', title: '施普雷河边的一个黄昏', narrative: '傍晚的施普雷河边，有人在废弃发电站的墙上作画，有人在河岸边开着露天派对。\n柏林的创业者大多不穿西装，但他们谈的事往往比任何办公室里的人更认真。\n这座城市有一种笃定感——不着急，但走得很远。\n理性与浪漫在这里共存，像两种矛盾的颜色调出了最对的底色。', tags: ['柏林', '创业氛围'], isPublic: true, likes: 32, createdAt: '2026.03.07', photo: 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=600&q=80' },
-  { id: 'my-4', city: 'Prague', title: '布拉格的咖啡馆工作日', narrative: '布拉格的咖啡馆有一种魔力：你坐下来"只是工作两小时"，然后抬头一看，外面已经黄昏了。\n窗外是中世纪的屋顶，杯子早就空了，思路却比在办公室清晰三倍。\n这里的网速出奇地好，房租出奇地低，街上走的人出奇地不着急。\n也许效率的敌人从来不是懒惰，而是错误的地点。', tags: ['布拉格', '远程工作'], isPublic: false, createdAt: '2025.12.10', photo: 'https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=600&q=80' },
+  { id: 'sample-1', city: 'Berlin', author: '@nomad_kai', title: '施普雷河边的一个黄昏', narrative: '傍晚的施普雷河边，有人在废弃发电站的墙上作画，有人在河岸边开着露天派对。\n柏林的创业者大多不穿西装，但他们谈的事往往比任何办公室里的人更认真。\n这座城市有一种笃定感——不着急，但走得很远。\n理性与浪漫在这里共存，像两种矛盾的颜色调出了最对的底色。', tags: ['柏林', '德国', '创业氛围'], isPublic: true, likes: 32, createdAt: '2026.03.07', photo: 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=600&q=80' },
+  { id: 'my-4', city: 'Prague', title: '布拉格的咖啡馆工作日', narrative: '布拉格的咖啡馆有一种魔力：你坐下来"只是工作两小时"，然后抬头一看，外面已经黄昏了。\n窗外是中世纪的屋顶，杯子早就空了，思路却比在办公室清晰三倍。\n这里的网速出奇地好，房租出奇地低，街上走的人出奇地不着急。\n也许效率的敌人从来不是懒惰，而是错误的地点。', tags: ['布拉格', '捷克', '远程工作'], isPublic: false, createdAt: '2025.12.10', photo: 'https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=600&q=80' },
 ]
 
 function formatDate(iso: string): string {
