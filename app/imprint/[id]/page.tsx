@@ -234,7 +234,7 @@ export default function ImprintDetailPage() {
               }}
             >
               <span>{liked ? '❤️' : '🤍'}</span>
-              <span>{(imprint.likes ?? 0) + (liked ? 1 : 0)}</span>
+              <span>{imprint.likes ?? 0}</span>
             </button>
           )}
           <button
@@ -292,21 +292,24 @@ export default function ImprintDetailPage() {
             {comments.length === 0 && (
               <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>还没有评论，来第一个留言吧</div>
             )}
-            {comments.map(c => (
-              <div key={c.id} style={{ marginBottom: 14 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                  <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: 'var(--accent-text)', flexShrink: 0 }}>
-                    {c.author[0]?.toUpperCase() ?? 'N'}
+            {comments.map(c => {
+              const displayName = c.userId === user?.id ? (profileNickname ?? c.author) : c.author
+              return (
+                <div key={c.id} style={{ marginBottom: 14 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: 'var(--accent-text)', flexShrink: 0 }}>
+                      {displayName[0]?.toUpperCase() ?? 'N'}
+                    </div>
+                    <span
+                      onClick={() => c.userId && router.push(`/user/${c.userId}`)}
+                      style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', cursor: 'pointer' }}
+                    >{displayName}</span>
+                    <span style={{ fontSize: 11, color: 'var(--text-muted)', marginLeft: 'auto' }}>{c.createdAt}</span>
                   </div>
-                  <span
-                    onClick={() => c.userId && router.push(`/user/${c.userId}`)}
-                    style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', cursor: 'pointer' }}
-                  >{c.author}</span>
-                  <span style={{ fontSize: 11, color: 'var(--text-muted)', marginLeft: 'auto' }}>{c.createdAt}</span>
+                  <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, paddingLeft: 34 }}>{c.content}</div>
                 </div>
-                <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, paddingLeft: 34 }}>{c.content}</div>
-              </div>
-            ))}
+              )
+            })}
             {user ? (
               <div style={{ marginTop: 8 }}>
                 <div style={{ display: 'flex', gap: 8 }}>
