@@ -28,13 +28,13 @@ export default function CardShell({ nickname, contentBg, children }: CardShellPr
         borderBottom: '0.5px solid rgba(61,48,32,0.12)',
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'flex-end',
+        alignItems: 'baseline',
         flexShrink: 0,
       }}>
         <img
           src="/logo-full-t.png"
           alt="Nomadic"
-          style={{ height: 25, width: 'auto' }}
+          style={{ height: 17, width: 'auto', position: 'relative', top: 4 }}
         />
         {nickname ? (
           <div style={{

@@ -1,5 +1,5 @@
 'use client'
-import { useState, RefObject } from 'react'
+import { useState, useEffect, RefObject } from 'react'
 import { generateCardPreview } from '@/lib/generateCardImage'
 
 type Phase = 'menu' | 'generating' | 'preview'
@@ -11,13 +11,21 @@ interface ShareSheetProps {
   cardRef: RefObject<HTMLDivElement | null>
   showCopyLink?: boolean
   copyUrl?: string
+  autoGenerate?: boolean
 }
 
-export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink = false, copyUrl }: ShareSheetProps) {
+export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink = false, copyUrl, autoGenerate = false }: ShareSheetProps) {
   const [phase, setPhase] = useState<Phase>('menu')
   const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle')
   const [previewData, setPreviewData] = useState<{ dataUrl: string; file: File; blobUrl: string } | null>(null)
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
+
+  useEffect(() => {
+    if (autoGenerate && anchorRect) {
+      handleGenerateCard()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anchorRect, autoGenerate])
 
   if (!anchorRect) return null
 
@@ -170,6 +178,15 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
             </button>
           </div>
         </div>
+      </div>
+    )
+  }
+
+  // When auto-generating, show a full-screen loader instead of the popover menu
+  if (autoGenerate && (phase === 'menu' || phase === 'generating')) {
+    return (
+      <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 13 }}>生成中…</div>
       </div>
     )
   }

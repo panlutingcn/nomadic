@@ -285,7 +285,7 @@ export default function ImprintDetailPage() {
       <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
         <div ref={imprintCardRef}>
           <ImprintCard
-            nickname={profileNickname}
+            nickname={profileNickname ?? ''}
             avatarUrl={profileAvatar}
             photo={imprint.photo}
             title={imprint.title}
@@ -305,7 +305,7 @@ export default function ImprintDetailPage() {
         anchorRect={shareAnchor}
         onClose={() => setShareAnchor(null)}
         cardRef={imprintCardRef}
-        showCopyLink={true}
+        autoGenerate={true}
         copyUrl={pageUrl}
       />
     </div>

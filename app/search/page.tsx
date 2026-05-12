@@ -7,17 +7,25 @@ import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
 import { useUserProfile } from '@/hooks/useUserProfile'
 import { CITIES, GLOBAL_COMMUNITIES, CityData } from '@/data/cities'
+import { SearchContext } from '@/context/AppContext'
 import { localSearch } from '@/lib/search'
 import ShareSheet from '@/components/ShareSheet'
 import CityCard from '@/components/cards/CityCard'
 import LoginModal from '@/components/LoginModal'
 
-type Phase = 'loading' | 'fuzzy' | 'ai-loading' | 'ai-done' | 'result' | 'error'
+type Phase = 'loading' | 'fuzzy' | 'ai-loading' | 'result' | 'error'
+
+function lookupCity(name: string): CityData | null {
+  if (CITIES[name]) return CITIES[name]
+  const lower = name.toLowerCase()
+  const key = Object.keys(CITIES).find(k => k.toLowerCase() === lower)
+  return key ? CITIES[key] : null
+}
 
 function SearchContent() {
   const params = useSearchParams()
   const router = useRouter()
-  const { setSelectedCity, allPublicImprints, isCitySaved, toggleSaveCity } = useApp()
+  const { setSelectedCity, setSearchContext, allPublicImprints, isCitySaved, toggleSaveCity } = useApp()
   const { user } = useAuth()
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
   const q = params.get('q') ?? ''
@@ -25,7 +33,7 @@ function SearchContent() {
   const [phase, setPhase] = useState<Phase>('loading')
   const [cityData, setCityData] = useState<CityData | null>(null)
   const [fuzzySuggestions, setFuzzySuggestions] = useState<CityData[]>([])
-  const [aiResults, setAiResults] = useState<{ city: string; reason: string }[]>([])
+  const [isAiGenerated, setIsAiGenerated] = useState(false)
   const [activeTab, setActiveTab] = useState<'insights' | 'imprints'>('insights')
   const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const [showLogin, setShowLogin] = useState(false)
@@ -41,7 +49,9 @@ function SearchContent() {
     if (!q) { setPhase('error'); return }
     setPhase('loading')
     setCityData(null)
+    setIsAiGenerated(false)
 
+    // Layer 1 + 2: local exact / fuzzy match
     const local = localSearch(q)
     if (local !== null) {
       if (local.length === 0) { setPhase('error'); return }
@@ -57,24 +67,93 @@ function SearchContent() {
       return
     }
 
-    // AI search
+    // Layer 3: AI full city generation via DeepSeek
     setPhase('ai-loading')
     fetch('/api/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: q, cityList: Object.keys(CITIES) }),
+      body: JSON.stringify({ query: q }),
     })
       .then(r => r.json())
       .then(data => {
-        const recs = data.recommendations ?? []
-        setAiResults(recs)
-        if (recs[0]?.city && CITIES[recs[0].city]) {
-          setCityData(CITIES[recs[0].city])
-          setSelectedCity(recs[0].city)
-          setPhase('result')
-        } else {
-          setPhase('ai-done')
+        if (!data.success || !data.result?.cityName) {
+          setPhase('error'); return
         }
+        const r = data.result
+
+        // If confidence is very low and AI suggests a known fallback, use that
+        if (r.confidence < 0.3 && r.fallbackCity) {
+          const fallback = lookupCity(r.fallbackCity)
+          if (fallback) {
+            setCityData(fallback)
+            setSelectedCity(fallback.name)
+            setPhase('result')
+            return
+          }
+        }
+
+        // Build CityData from AI result
+        const aiCity: CityData = {
+          name: r.cityName,
+          nameZh: r.cityNameZh,
+          country: r.country,
+          countryZh: r.countryZh,
+          flag: r.flag,
+          match: Math.round(r.confidence * 100),
+          soul: {
+            headline: r.soulHeadline,
+            sub: r.aiInsight,
+            body: r.soulBody || undefined,
+            personality: r.soulPersonality || undefined,
+            economy: r.soulEconomy || undefined,
+            festivals: r.soulFestivals || undefined,
+            figures: r.soulFigures || undefined,
+          },
+          base: {
+            wifi: r.wifiSpeed,
+            cost: r.costLevel,
+            visa: r.visaInfo,
+            visaDays: r.baseVisaDays || undefined,
+            visaDesc: r.baseVisaDesc || undefined,
+            welfare: r.baseSociety || '',
+            safety: r.baseSafety || undefined,
+            dailyCost: r.baseDailyCost || undefined,
+            visaDetail: r.baseVisaDetail || undefined,
+            society: r.baseSociety || undefined,
+          },
+          chance: {
+            paragraph: r.chanceParagraph,
+            policy: r.chancePolicy,
+            localJobs: [],
+            remoteJobs: [],
+          },
+          local: {
+            paragraph: r.localParagraph || undefined,
+            platforms: [],
+          },
+        }
+
+        // Persist in searchContext so /insights page can also render this city
+        const ctx: SearchContext = {
+          cityName: r.cityName, cityNameZh: r.cityNameZh,
+          country: r.country, countryZh: r.countryZh, flag: r.flag,
+          confidence: r.confidence, userIntent: r.userIntent,
+          relevantSections: r.relevantSections, aiInsight: r.aiInsight,
+          soulHeadline: r.soulHeadline, soulBody: r.soulBody,
+          soulPersonality: r.soulPersonality, soulEconomy: r.soulEconomy,
+          soulFestivals: r.soulFestivals, soulFigures: r.soulFigures,
+          wifiSpeed: r.wifiSpeed, costLevel: r.costLevel, visaInfo: r.visaInfo,
+          baseVisaDays: r.baseVisaDays, baseVisaDesc: r.baseVisaDesc,
+          baseSafety: r.baseSafety, baseDailyCost: r.baseDailyCost,
+          baseVisaDetail: r.baseVisaDetail, baseSociety: r.baseSociety,
+          chanceParagraph: r.chanceParagraph, chancePolicy: r.chancePolicy,
+          localParagraph: r.localParagraph,
+        }
+        setSearchContext(ctx)
+        setCityData(aiCity)
+        setSelectedCity(r.cityName)
+        setIsAiGenerated(true)
+        setPhase('result')
       })
       .catch(() => setPhase('error'))
   }, [q])
@@ -112,7 +191,7 @@ function SearchContent() {
         {/* 加载中 */}
         {(phase === 'loading' || phase === 'ai-loading') && (
           <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)', fontSize: 13 }}>
-            {phase === 'ai-loading' ? '正在为你寻找最合适的城市……' : '搜索中…'}
+            {phase === 'ai-loading' ? 'AI 正在实时生成城市洞察，请稍候……' : '搜索中…'}
           </div>
         )}
 
@@ -133,22 +212,6 @@ function SearchContent() {
           </div>
         )}
 
-        {/* AI 推荐列表（多个结果时） */}
-        {phase === 'ai-done' && (
-          <div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 10 }}>AI 为你推荐</div>
-            {aiResults.length > 0 ? aiResults.map(r => (
-              <button key={r.city} onClick={() => CITIES[r.city] && confirmCity(CITIES[r.city])}
-                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, padding: '12px 14px', cursor: 'pointer', marginBottom: 8, textAlign: 'left' }}>
-                <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-primary)' }}>{CITIES[r.city]?.nameZh || r.city}</span>
-                <span style={{ fontSize: 11, color: 'var(--text-secondary)', marginLeft: 8 }}>{r.reason}</span>
-              </button>
-            )) : (
-              <div style={{ textAlign: 'center', padding: '20px 0', color: 'var(--text-muted)', fontSize: 13 }}>暂未找到匹配城市，试试其他关键词</div>
-            )}
-          </div>
-        )}
-
         {/* 错误 */}
         {phase === 'error' && (
           <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)', fontSize: 13 }}>
@@ -163,6 +226,9 @@ function SearchContent() {
             <div style={{ textAlign: 'center', marginBottom: 10 }}>
               <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--text-primary)' }}>{cityData.name} {cityData.nameZh}</div>
               <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 3 }}>{cityData.flag} {cityData.country} {cityData.countryZh}</div>
+              {isAiGenerated && (
+                <div style={{ display: 'inline-block', marginTop: 5, fontSize: 10, color: 'var(--accent)', background: 'rgba(29,158,117,0.08)', border: '0.5px solid rgba(29,158,117,0.25)', borderRadius: 6, padding: '2px 8px' }}>AI 实时生成</div>
+              )}
             </div>
 
             {/* Tab 切换 */}
@@ -336,7 +402,7 @@ function SearchContent() {
         <div ref={cityCardRef}>
           {phase === 'result' && cityData && (
             <CityCard
-              nickname={profileNickname}
+              nickname={profileNickname ?? ''}
               avatarUrl={profileAvatar}
               cityNameZh={cityData.nameZh || ''}
               cityNameEn={cityData.name}
@@ -356,7 +422,7 @@ function SearchContent() {
         anchorRect={shareAnchor}
         onClose={() => setShareAnchor(null)}
         cardRef={cityCardRef}
-        showCopyLink={true}
+        autoGenerate={true}
         copyUrl={`https://nomadictree.io/search?q=${encodeURIComponent(q)}`}
       />
 

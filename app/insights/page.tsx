@@ -396,7 +396,7 @@ export default function InsightsPage() {
       <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
         <div ref={cityCardRef}>
           <CityCard
-            nickname={profileNickname}
+            nickname={profileNickname ?? ''}
             avatarUrl={profileAvatar}
             cityNameZh={city.nameZh || ''}
             cityNameEn={city.name}
@@ -415,7 +415,7 @@ export default function InsightsPage() {
         anchorRect={shareAnchor}
         onClose={closeShare}
         cardRef={cityCardRef}
-        showCopyLink={true}
+        autoGenerate={true}
         copyUrl={cityQrUrl || pageUrl}
       />
 

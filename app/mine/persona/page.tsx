@@ -6,6 +6,7 @@ import { Suspense } from 'react'
 import { PERSONAS } from '@/data/travelPersona'
 import { CITIES } from '@/data/cities'
 import { useUserProfile } from '@/hooks/useUserProfile'
+import { useAuth } from '@/context/AuthContext'
 import BottomNav from '@/components/BottomNav'
 import PersonaCard from '@/components/cards/PersonaCard'
 import ShareSheet from '@/components/ShareSheet'
@@ -36,24 +37,30 @@ function PersonaDetailContent() {
   const router = useRouter()
   const params = useSearchParams()
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
+  const { user, loading: authLoading } = useAuth()
   const [personaKey, setPersonaKey] = useState('')
   const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const personaCardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (authLoading) return
     // Support ?key=XXXX from QR code scans
     const urlKey = params.get('key')
     if (urlKey && PERSONAS[urlKey]) {
       setPersonaKey(urlKey)
     } else {
-      setPersonaKey(localStorage.getItem('nomadic_persona') ?? '')
+      const storageKey = user ? `nomadic_persona_${user.id}` : 'nomadic_persona'
+      setPersonaKey(localStorage.getItem(storageKey) ?? '')
     }
-  }, [params])
+  }, [params, user?.id, authLoading])
 
-  const persona = PERSONAS[personaKey]
+  // Show persona only when: coming from a shared URL (?key=), or user is logged in with own result
+  const urlKey = params.get('key')
+  const persona = (urlKey || user) ? PERSONAS[personaKey] : undefined
 
   const handleRetake = () => {
-    localStorage.removeItem('nomadic_persona')
+    const storageKey = user ? `nomadic_persona_${user.id}` : 'nomadic_persona'
+    localStorage.removeItem(storageKey)
     router.push('/onboarding')
   }
 
@@ -184,7 +191,7 @@ function PersonaDetailContent() {
       <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
         <div ref={personaCardRef}>
           <PersonaCard
-            nickname={profileNickname}
+            nickname={profileNickname ?? ''}
             avatarUrl={profileAvatar}
             personaKey={personaKey}
             personaName={persona.name}
@@ -203,7 +210,7 @@ function PersonaDetailContent() {
         anchorRect={shareAnchor}
         onClose={() => setShareAnchor(null)}
         cardRef={personaCardRef}
-        showCopyLink={true}
+        autoGenerate={true}
         copyUrl="https://nomadictree.io"
       />
     </div>

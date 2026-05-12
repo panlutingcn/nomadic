@@ -31,7 +31,8 @@ export default function OnboardingPage() {
 
   const savePersona = () => {
     if (personaKey) {
-      localStorage.setItem('nomadic_persona', personaKey)
+      const storageKey = user ? `nomadic_persona_${user.id}` : 'nomadic_persona'
+      localStorage.setItem(storageKey, personaKey)
       localStorage.setItem('nomadic_onboarded', 'true')
     }
   }

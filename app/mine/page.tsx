@@ -17,16 +17,18 @@ const GlobeMap = dynamicImport(() => import('@/components/GlobeMap'), { ssr: fal
 export default function MinePage() {
   const router = useRouter()
   const { savedCities, imprints, setSelectedCity } = useApp()
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
   const [personaKey, setPersonaKey] = useState('')
   const [showLogin, setShowLogin] = useState(false)
   const [showContact, setShowContact] = useState(false)
   useEffect(() => {
-    setPersonaKey(localStorage.getItem('nomadic_persona') ?? '')
-  }, [])
+    if (authLoading) return
+    const storageKey = user ? `nomadic_persona_${user.id}` : 'nomadic_persona'
+    setPersonaKey(localStorage.getItem(storageKey) ?? '')
+  }, [user?.id, authLoading])
 
-  const persona = PERSONAS[personaKey]
+  const persona = user ? PERSONAS[personaKey] : undefined
   const imprintCities = Array.from(new Set(imprints.map(i => i.city))).slice(0, 8)
   const uniqueCountries = Array.from(new Set(imprintCities.map(c => CITIES[c]?.country || c))).length
   const cityNamesZh = imprintCities.map(c => CITIES[c]?.nameZh || c)
@@ -45,7 +47,7 @@ export default function MinePage() {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 15, fontWeight: 500, color: '#2d2418', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {profileNickname}
+              {profileNickname ?? '世界旅人'}
             </div>
             <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>{savedCities.length} 个收藏 · {imprints.length} 个印迹</div>
           </div>
