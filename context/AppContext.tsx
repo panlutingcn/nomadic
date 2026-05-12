@@ -73,8 +73,9 @@ interface AppState {
 }
 
 const SAMPLE_SAVED_CITIES: SavedCity[] = [
-  { name: 'Berlin', country: 'Germany', savedAt: '2026.03.18' },
-  { name: 'Prague', country: 'Czech Republic', savedAt: '2025.12.10' },
+  { name: 'Amsterdam', country: 'Netherlands', savedAt: '2026.03.18' },
+  { name: 'Florence', country: 'Italy', savedAt: '2026.02.14' },
+  { name: 'Helsinki', country: 'Finland', savedAt: '2026.01.05' },
 ]
 
 const SAMPLE_USER_IMPRINTS: Imprint[] = [

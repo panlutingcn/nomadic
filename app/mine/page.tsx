@@ -82,7 +82,7 @@ export default function MinePage() {
             <span style={{ fontSize: 22, flexShrink: 0 }}>🧭</span>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>发现你的旅行人格</div>
-              <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>16 道题 · 约 2 分钟</div>
+              <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>16 道题 · 约 1 分钟</div>
             </div>
             <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500 }}>开始测试 →</span>
           </div>
