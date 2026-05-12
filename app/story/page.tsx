@@ -169,14 +169,24 @@ export default function StoryPage() {
 
   const getPhotoDataUrl = async (): Promise<string | undefined> => {
     if (!photo) return undefined
-    if (!photo.startsWith('blob:')) return photo
     try {
-      const res = await fetch(photo)
-      const blob = await res.blob()
-      return new Promise<string>(resolve => {
-        const reader = new FileReader()
-        reader.onload = () => resolve(reader.result as string)
-        reader.readAsDataURL(blob)
+      return await new Promise<string>((resolve, reject) => {
+        const img = new Image()
+        img.onload = () => {
+          const MAX = 800
+          const scale = Math.min(1, MAX / Math.max(img.width, img.height))
+          const w = Math.round(img.width * scale)
+          const h = Math.round(img.height * scale)
+          const canvas = document.createElement('canvas')
+          canvas.width = w
+          canvas.height = h
+          const ctx = canvas.getContext('2d')
+          if (!ctx) { reject(new Error('no canvas')); return }
+          ctx.drawImage(img, 0, 0, w, h)
+          resolve(canvas.toDataURL('image/jpeg', 0.82))
+        }
+        img.onerror = reject
+        img.src = photo
       })
     } catch {
       return photo
