@@ -66,23 +66,17 @@ export default function PersonaCard({
             </div>
 
             {/* description */}
-            <div style={{ textAlign: 'center', lineHeight: 2.2 }}>
+            <div style={{ textAlign: 'center' }}>
               {descSentences.map((sentence, i) => (
-                <span key={i} style={{
-                  display: 'inline',
+                <div key={i} style={{
                   fontSize: 12,
                   fontWeight: 700,
-                  color: '#1a1a1a',
-                  background: '#f0c040',
-                  padding: '3px 10px',
-                  boxShadow: '8px 0 0 #f0c040, -8px 0 0 #f0c040',
-                  boxDecorationBreak: 'clone',
-                  WebkitBoxDecorationBreak: 'clone',
-                  lineHeight: 2,
-                  textShadow: 'none',
+                  color: '#f0c040',
+                  lineHeight: 1.8,
+                  WebkitTextStroke: '0.6px #1a1a1a',
                 }}>
                   {sentence}
-                </span>
+                </div>
               ))}
             </div>
 
