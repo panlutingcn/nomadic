@@ -131,7 +131,7 @@ export default function ExplorePage() {
               <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 3 }}>{imp.title}</div>
               <div style={{ fontSize: 11, color: 'var(--text-secondary)', lineHeight: 1.45, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{imp.narrative?.slice(0, 50)}…</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 5 }}>
-                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>@{imp.author ?? 'Nomadic 用户'}</span>
+                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{imp.author ? (imp.author.startsWith('@') ? imp.author : `@${imp.author}`) : '@Nomadic 用户'}</span>
                 <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>♡ {imp.likes ?? 0}</span>
               </div>
             </div>
