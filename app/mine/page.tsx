@@ -16,7 +16,7 @@ const GlobeMap = dynamicImport(() => import('@/components/GlobeMap'), { ssr: fal
 
 export default function MinePage() {
   const router = useRouter()
-  const { savedCities, imprints, setSelectedCity } = useApp()
+  const { savedCities, imprints, trashedImprints, setSelectedCity } = useApp()
   const { user, loading: authLoading } = useAuth()
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
   const [personaKey, setPersonaKey] = useState('')
@@ -126,7 +126,15 @@ export default function MinePage() {
         {/* 我的印迹 */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
           <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的印迹</span>
-          <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprints.length} 个 · 最新在前</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            {user && (
+              <span onClick={() => router.push('/vault')}
+                style={{ fontSize: 11, color: trashedImprints.length > 0 ? '#c04040' : '#b8a98a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}>
+                🗑️{trashedImprints.length > 0 && ` ${trashedImprints.length}`}
+              </span>
+            )}
+            <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprints.length} 个 · 最新在前</span>
+          </div>
         </div>
         {user && imprints.length === 0 && (
           <>
