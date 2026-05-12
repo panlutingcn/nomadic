@@ -39,7 +39,7 @@ export default function ExplorePage() {
   }
 
   const displayCities: NomadCity[] = [...PINNED_CITIES, ...randomCities]
-  const previewImprints = allPublicImprints.slice(0, 3)
+  const previewImprints = allPublicImprints.slice(0, 5)
   const photoBg: Record<string, string> = { Berlin: '#dde8d8', Lisbon: '#e8e2d8', Amsterdam: '#d8e0e8', Prague: '#e8e8ed', Florence: '#ede2d8' }
 
   return (
