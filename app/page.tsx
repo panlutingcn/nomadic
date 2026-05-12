@@ -118,20 +118,20 @@ export default function ExplorePage() {
         {previewImprints.map(imp => (
           <div key={imp.id} onClick={() => router.push('/meet')}
             style={{ display: 'flex', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
-            <div style={{ width: 72, height: 62, background: photoBg[imp.city] ?? '#dde8d8', flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 72, background: photoBg[imp.city] ?? '#dde8d8', flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', alignSelf: 'stretch' }}>
               {imp.photo
-                ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                 : <span style={{ fontSize: 9, color: '#8a9870' }}>[ 图片 ]</span>
               }
               <span style={{ position: 'absolute', top: 4, left: 4, background: 'rgba(245,240,232,0.9)', color: '#3d3020', fontSize: 9, fontWeight: 500, padding: '2px 6px', borderRadius: 5 }}>
                 {CITIES[imp.city]?.nameZh || imp.city}
               </span>
             </div>
-            <div style={{ padding: '8px 10px', flex: 1, minWidth: 0 }}>
+            <div style={{ padding: '8px 12px', flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 3 }}>{imp.title}</div>
               <div style={{ fontSize: 11, color: 'var(--text-secondary)', lineHeight: 1.45, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{imp.narrative?.slice(0, 50)}…</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 5 }}>
-                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{imp.author ?? 'Nomadic 用户'}</span>
+                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>@{imp.author ?? 'Nomadic 用户'}</span>
                 <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>♡ {imp.likes ?? 0}</span>
               </div>
             </div>
