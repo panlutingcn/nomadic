@@ -28,19 +28,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profileAvatarUrl, setProfileAvatarUrl] = useState<string | null>(null)
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null)
       setLoading(false)
+      if (event === 'SIGNED_OUT') {
+        setProfileNickname(null)
+        setProfileAvatarUrl(null)
+      }
     })
     return () => subscription.unsubscribe()
   }, [])
 
   useEffect(() => {
-    if (!user) {
-      setProfileNickname(null)
-      setProfileAvatarUrl(null)
-      return
-    }
+    if (!user) return
     const fallback =
       (user.user_metadata?.full_name as string | undefined) ??
       user.email?.split('@')[0] ??
@@ -132,10 +132,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const updateProfile = useCallback(async (fields: { nickname?: string; avatarUrl?: string }) => {
     if (!user) return { error: 'Not logged in' }
-    const update: Record<string, string> = {}
-    if (fields.nickname !== undefined) update.nickname = fields.nickname
-    if (fields.avatarUrl !== undefined) update.avatar_url = fields.avatarUrl
-    const { error } = await supabase.from('profiles').update(update).eq('id', user.id)
+    const upsertData: Record<string, unknown> = { id: user.id }
+    if (fields.nickname !== undefined) upsertData.nickname = fields.nickname
+    if (fields.avatarUrl !== undefined) upsertData.avatar_url = fields.avatarUrl
+    const { error } = await supabase.from('profiles').upsert(upsertData, { onConflict: 'id' })
     if (!error) {
       if (fields.nickname !== undefined) setProfileNickname(fields.nickname)
       if (fields.avatarUrl !== undefined) setProfileAvatarUrl(fields.avatarUrl)
