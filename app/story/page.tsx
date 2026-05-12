@@ -70,6 +70,7 @@ export default function StoryPage() {
   const [narrative, setNarrative] = useState('')
   const [generating, setGenerating] = useState(false)
   const [gpsLoading, setGpsLoading] = useState(false)
+  const [flashTitle, setFlashTitle] = useState(false)
   const [flashCity, setFlashCity] = useState(false)
   const [flashTags, setFlashTags] = useState(false)
   const [visibility, setVisibility] = useState<'public' | 'nomad' | 'private'>('public')
@@ -263,8 +264,11 @@ export default function StoryPage() {
     setTags(prev => prev.filter(t => t !== tag))
   }
 
-  const triggerFlash = (field: 'city' | 'tags') => {
-    if (field === 'city') {
+  const triggerFlash = (field: 'title' | 'city' | 'tags') => {
+    if (field === 'title') {
+      setFlashTitle(true)
+      setTimeout(() => setFlashTitle(false), 900)
+    } else if (field === 'city') {
       setEditingCity(false)
       setFlashCity(true)
       setTimeout(() => setFlashCity(false), 900)
@@ -277,6 +281,10 @@ export default function StoryPage() {
   const handlePublish = async () => {
     if (publishing) return
     const isPublic = visibility === 'public'
+    if (!title.trim()) {
+      triggerFlash('title')
+      return
+    }
     const trimmedCity = city.trim()
     if (!trimmedCity) {
       triggerFlash('city')
@@ -304,7 +312,7 @@ export default function StoryPage() {
     setPublishing(true)
     try {
       const photoUrl = await getPhotoDataUrl()
-      const finalTitle = title.trim() || extractTitle(narrative, trimmedCity)
+      const finalTitle = title.trim()
       const id = await addImprint({ city: trimmedCity, title: finalTitle, narrative, tags, isPublic, photo: photoUrl, author: nickname ?? undefined })
       setPublished(true)
       setTimeout(() => router.push(`/imprint/${id}`), 800)
@@ -353,11 +361,12 @@ export default function StoryPage() {
         `}</style>
 
         {/* 标题 */}
-        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标题</div>
+        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标题 <span style={{ color: '#c04040' }}>*</span></div>
         <input
           value={title}
           onChange={e => setTitle(e.target.value)}
-          placeholder="留空则自动取第一句话"
+          placeholder="为这条印迹起个标题"
+          className={flashTitle ? 'flash-border' : ''}
           style={{ width: '100%', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '10px 12px', fontSize: 11, color: '#3d3020', lineHeight: 1.65, boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit', marginBottom: 12 }}
         />
 
