@@ -71,9 +71,9 @@ export default function PersonaCard({
                 <div key={i} style={{
                   fontSize: 12,
                   fontWeight: 700,
-                  color: '#f0c040',
+                  color: '#e8a800',
                   lineHeight: 1.8,
-                  textShadow: '-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 2px 6px rgba(0,0,0,0.55)',
+                  textShadow: '0 2px 6px rgba(0,0,0,0.55)',
                 }}>
                   {sentence}
                 </div>
