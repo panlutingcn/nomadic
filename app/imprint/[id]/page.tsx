@@ -8,7 +8,7 @@ import { useState, useRef, useEffect } from 'react'
 import ShareSheet from '@/components/ShareSheet'
 import ImprintCard from '@/components/cards/ImprintCard'
 import { CITIES } from '@/data/cities'
-import { getBodyText } from '@/lib/imprintUtils'
+import { getBodyText, getDisplayTitle } from '@/lib/imprintUtils'
 import { useUserProfile } from '@/hooks/useUserProfile'
 
 const CITY_NAME_MAP: Record<string, string> = {
@@ -184,7 +184,7 @@ export default function ImprintDetailPage() {
 
       {/* Content */}
       <div style={{ padding: '20px 16px' }}>
-        <h1 style={{ fontSize: 20, fontWeight: 500, marginBottom: 16, color: 'var(--text-primary)' }}>{imprint.title}</h1>
+        <h1 style={{ fontSize: 20, fontWeight: 500, marginBottom: 16, color: 'var(--text-primary)' }}>{getDisplayTitle(imprint.narrative, imprint.title, imprint.city)}</h1>
 
         {/* Author */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>

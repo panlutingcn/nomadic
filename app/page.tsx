@@ -8,7 +8,7 @@ import SearchBox, { SearchBoxHandle } from '@/components/SearchBox'
 import ErrorToast from '@/components/ErrorToast'
 import { useApp } from '@/context/AppContext'
 import { CITIES } from '@/data/cities'
-import { getBodyText } from '@/lib/imprintUtils'
+import { getBodyText, getDisplayTitle } from '@/lib/imprintUtils'
 import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
 import { shuffle } from '@/utils/shuffle'
 
@@ -129,7 +129,7 @@ export default function ExplorePage() {
               </span>
             </div>
             <div style={{ padding: '8px 12px', flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 3 }}>{imp.title}</div>
+              <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 3 }}>{getDisplayTitle(imp.narrative ?? '', imp.title)}</div>
               <div style={{ fontSize: 11, color: 'var(--text-secondary)', lineHeight: 1.45, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{getBodyText(imp.narrative ?? '', imp.title).slice(0, 60)}…</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 5 }}>
                 <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{imp.author ? (imp.author.startsWith('@') ? imp.author : `@${imp.author}`) : '@Nomadic 用户'}</span>

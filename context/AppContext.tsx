@@ -168,6 +168,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const newImprint: Imprint = {
       ...imprint,
       id: tempId,
+      likes: 0,
       createdAt: new Date().toLocaleDateString('zh-CN').replace(/\//g, '.'),
     }
     setImprints(prev => [newImprint, ...prev])

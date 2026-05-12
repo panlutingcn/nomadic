@@ -11,6 +11,7 @@ import LoginModal from '@/components/LoginModal'
 import ContactModal from '@/components/ContactModal'
 import { useUserProfile } from '@/hooks/useUserProfile'
 import dynamicImport from 'next/dynamic'
+import { getDisplayTitle } from '@/lib/imprintUtils'
 
 const GlobeMap = dynamicImport(() => import('@/components/GlobeMap'), { ssr: false })
 
@@ -156,7 +157,7 @@ export default function MinePage() {
                   {CITIES[imp.city]?.nameZh || imp.city}
                 </span>
               </div>
-              <div style={{ fontSize: 12, fontWeight: 500, color: '#2d2418', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{imp.title}</div>
+              <div style={{ fontSize: 12, fontWeight: 500, color: '#2d2418', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{getDisplayTitle(imp.narrative, imp.title, imp.city)}</div>
               <div style={{ fontSize: 10, color: '#b8a98a', marginTop: 3, textAlign: 'right' }}>{imp.createdAt}</div>
             </div>
           </div>

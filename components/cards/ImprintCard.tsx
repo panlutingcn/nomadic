@@ -34,8 +34,6 @@ export default function ImprintCard({
         )}
         <div style={{
           fontSize: 13, color: '#5a4a38', lineHeight: 1.8, marginBottom: 10,
-          display: '-webkit-box', WebkitLineClamp: 3,
-          WebkitBoxOrient: 'vertical' as const, overflow: 'hidden',
         }}>{getBodyText(narrative, title)}</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#8a7560' }}>
           <span>📍</span>

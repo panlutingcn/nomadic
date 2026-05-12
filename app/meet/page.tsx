@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
 import { CITIES } from '@/data/cities'
-import { getBodyText } from '@/lib/imprintUtils'
+import { getBodyText, getDisplayTitle } from '@/lib/imprintUtils'
 import BottomNav from '@/components/BottomNav'
 
 const CITY_FILTERS = [
@@ -60,7 +60,7 @@ export default function MeetPage() {
                 <span style={{ fontSize: 11, color: '#8a7a62' }}>{imp.author ? (imp.author.startsWith('@') ? imp.author : `@${imp.author}`) : '@Nomadic 用户'}</span>
                 <span style={{ fontSize: 11, color: '#b8a98a', marginLeft: 'auto' }}>{imp.createdAt}</span>
               </div>
-              <div style={{ fontSize: 14, fontWeight: 500, color: '#2d2418', lineHeight: 1.4, marginBottom: 6 }}>{imp.title}</div>
+              <div style={{ fontSize: 14, fontWeight: 500, color: '#2d2418', lineHeight: 1.4, marginBottom: 6 }}>{getDisplayTitle(imp.narrative ?? '', imp.title)}</div>
               <div style={{ fontSize: 12, color: '#8a7a62', lineHeight: 1.6 }}>{getBodyText(imp.narrative ?? '', imp.title).slice(0, 60)}…</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 10, paddingTop: 8, borderTop: '0.5px solid #f0ebe2' }}>
                 {imp.tags?.slice(0, 3).map(tag => (

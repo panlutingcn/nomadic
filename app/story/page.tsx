@@ -8,6 +8,7 @@ import { useAuth } from '@/context/AuthContext'
 import { CITIES } from '@/data/cities'
 import { useUserProfile } from '@/hooks/useUserProfile'
 import LoginModal from '@/components/LoginModal'
+import { extractTitle } from '@/lib/imprintUtils'
 
 const CITY_NAME_MAP: Record<string, string> = {
   Berlin: '柏林',
@@ -51,11 +52,6 @@ function cityTags(cityInput: string): string[] {
   return entry ? [entry.nameZh, entry.countryZh] : [cityInput]
 }
 
-function extractTitle(narrative: string, city: string): string {
-  const m = narrative.trim().match(/^(.{1,40}?)[。！？\n]/)
-  const raw = m ? m[1].trim() : narrative.trim().slice(0, 30)
-  return raw || `${city} 的印迹`
-}
 
 export default function StoryPage() {
   const router = useRouter()
