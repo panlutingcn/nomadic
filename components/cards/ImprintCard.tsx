@@ -21,14 +21,13 @@ export default function ImprintCard({
   return (
     <CardShell nickname={nickname} avatarUrl={avatarUrl} qrValue={qrValue}>
       <div>
-        <div style={{ width: '100%', height: 150, borderRadius: 10, overflow: 'hidden', marginBottom: 12, background: cityBgColor, position: 'relative' }}>
-          {photo ? (
-            <img src={photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} crossOrigin="anonymous" />
-          ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'rgba(61,48,32,0.4)' }}>
-              {cityNameZh}
-            </div>
-          )}
+        <div style={{
+          width: '100%', height: 150, borderRadius: 10, overflow: 'hidden', marginBottom: 12,
+          background: photo ? `center / cover no-repeat url(${photo})` : cityBgColor,
+          display: photo ? undefined : 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 14, color: 'rgba(61,48,32,0.4)',
+        }}>
+          {!photo && cityNameZh}
         </div>
         {title && (
           <div style={{ fontSize: 15, fontWeight: 700, color: '#3d3020', lineHeight: 1.3, marginBottom: 8 }}>{title}</div>

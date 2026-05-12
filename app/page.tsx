@@ -121,7 +121,7 @@ export default function ExplorePage() {
             style={{ display: 'flex', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
             <div style={{ width: 72, background: photoBg[imp.city] ?? '#dde8d8', flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', alignSelf: 'stretch' }}>
               {imp.photo
-                ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+                ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                 : <span style={{ fontSize: 9, color: '#8a9870' }}>[ 图片 ]</span>
               }
               <span style={{ position: 'absolute', top: 4, left: 4, background: 'rgba(245,240,232,0.9)', color: '#3d3020', fontSize: 9, fontWeight: 500, padding: '2px 6px', borderRadius: 5 }}>

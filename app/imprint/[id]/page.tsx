@@ -118,11 +118,11 @@ export default function ImprintDetailPage() {
       {(() => {
         const bg = PHOTO_BG[imprint.city] || '#ede8df'
         return (
-          <div style={{ position: 'relative', height: 240, overflow: 'hidden', background: bg }}>
+          <div style={{ position: 'relative', background: bg, minHeight: imprint.photo ? 0 : 240 }}>
             {imprint.photo ? (
-              <img src={imprint.photo} alt={imprint.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              <img src={imprint.photo} alt={imprint.title} style={{ width: '100%', height: 'auto', display: 'block' }} />
             ) : (
-              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: 'rgba(0,0,0,0.3)' }}>
+              <div style={{ width: '100%', height: 240, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: 'rgba(0,0,0,0.3)' }}>
                 [ 照片 ]
               </div>
             )}
