@@ -290,10 +290,7 @@ export default function StoryPage() {
       triggerFlash('city')
       return
     }
-    if (!tags.includes(trimmedCity)) {
-      triggerFlash('tags')
-      return
-    }
+
     if (!user) {
       const photoUrl = await getPhotoDataUrl()
       const payload = JSON.stringify({ city: trimmedCity, narrative, tags, isPublic, photo: photoUrl })
@@ -423,7 +420,7 @@ export default function StoryPage() {
         <div style={{ fontSize: 9, color: '#c8bfaa', marginBottom: 12 }}>若拍摄地与当前位置不同，可手动调整</div>
 
         {/* 标签 */}
-        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标签 <span style={{ color: '#c04040' }}>*</span></div>
+        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标签</div>
         <div className={flashTags ? 'flash-border' : ''} style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 14, border: '0.5px solid transparent', borderRadius: 8, padding: '2px 0' }}>
           {tags.map(tag => (
             <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, padding: '3px 7px 3px 9px', borderRadius: 8, background: 'var(--bg-card-2)', color: 'var(--text-secondary)', border: '0.5px solid var(--border-light)' }}>
