@@ -132,12 +132,47 @@ export function AppProvider({ children }: { children: ReactNode }) {
         })))
       }
       if (cityData) {
-        setSavedCities(cityData.map(r => ({
+        const cities = cityData.map(r => ({
           name: r.city_name,
           nameZh: r.name_zh ?? undefined,
           country: r.country,
           savedAt: formatDate(r.saved_at),
-        })))
+        }))
+        setSavedCities(cities)
+
+        // Back-fill missing nameZh for old saves (one-time patch per city)
+        const missing = cities.filter(c => !c.nameZh)
+        if (missing.length > 0 && !cancelled) {
+          Promise.all(missing.map(async c => {
+            try {
+              const res = await fetch('/api/city-zh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ city: c.name }),
+              })
+              const d = await res.json()
+              return { name: c.name, nameZh: d.nameZh as string | null }
+            } catch {
+              return { name: c.name, nameZh: null }
+            }
+          })).then(results => {
+            if (cancelled) return
+            const updates = results.filter(r => r.nameZh)
+            if (updates.length === 0) return
+            setSavedCities(prev => prev.map(c => {
+              const u = updates.find(r => r.name === c.name)
+              return u ? { ...c, nameZh: u.nameZh! } : c
+            }))
+            // Persist to Supabase so we don't call the API again next time
+            updates.forEach(u => {
+              supabase.from('saved_cities')
+                .update({ name_zh: u.nameZh })
+                .eq('user_id', user!.id)
+                .eq('city_name', u.name)
+                .then(() => {})
+            })
+          })
+        }
       }
     }).catch(err => {
       if (cancelled) return
