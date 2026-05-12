@@ -66,6 +66,7 @@ interface AppState {
   deleteImprint: (id: string) => void
   restoreImprint: (id: string) => void
   permanentlyDeleteImprint: (id: string) => void
+  likeImprint: (id: string) => void
   trashedImprints: Imprint[]
   allPublicImprints: Imprint[]
   searchContext: SearchContext | null
@@ -120,7 +121,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
           narrative: r.narrative ?? '',
           tags: r.tags ?? [],
           isPublic: r.is_public,
-          likes: r.likes,
+          author: r.author ?? undefined,
+          likes: r.likes ?? 0,
           createdAt: formatDate(r.created_at),
           photo: r.photo_url ?? undefined,
           deletedAt: r.deleted_at ?? undefined,
@@ -174,6 +176,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         tags: imprint.tags,
         is_public: imprint.isPublic,
         photo_url: imprint.photo ?? null,
+        author: imprint.author ?? null,
       }).select('id').single()
       if (data?.id) {
         setImprints(prev => prev.map(i => i.id === tempId ? { ...i, id: data.id } : i))
@@ -211,6 +214,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (user) supabase.from('imprints').delete().eq('id', id).then(() => {})
   }
 
+  const likeImprint = (id: string) => {
+    if (!user) return
+    const likedKey = `liked_${user.id}_${id}`
+    const alreadyLiked = localStorage.getItem(likedKey) === '1'
+    const delta = alreadyLiked ? -1 : 1
+    if (alreadyLiked) localStorage.removeItem(likedKey)
+    else localStorage.setItem(likedKey, '1')
+    setImprints(prev => prev.map(imp =>
+      imp.id === id ? { ...imp, likes: Math.max(0, (imp.likes ?? 0) + delta) } : imp
+    ))
+    const current = imprints.find(i => i.id === id)?.likes ?? 0
+    supabase.from('imprints')
+      .update({ likes: Math.max(0, current + delta) })
+      .eq('id', id)
+      .then(() => {})
+  }
+
   const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000
   const now = Date.now()
   const activeImprints = imprints.filter(i => !i.deletedAt)
@@ -227,7 +247,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     <AppContext.Provider value={{
       selectedCity, setSelectedCity,
       savedCities, toggleSaveCity, isCitySaved,
-      imprints: activeImprints, addImprint, updateImprint, deleteImprint, restoreImprint, permanentlyDeleteImprint,
+      imprints: activeImprints, addImprint, updateImprint, deleteImprint, restoreImprint, permanentlyDeleteImprint, likeImprint,
       trashedImprints,
       allPublicImprints,
       searchContext, setSearchContext,

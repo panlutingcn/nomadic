@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
+import { useUserProfile } from '@/hooks/useUserProfile'
 import LoginModal from '@/components/LoginModal'
 
 const CITY_NAME_MAP: Record<string, string> = {
@@ -42,10 +43,17 @@ const CITY_NAME_MAP: Record<string, string> = {
   Dubai: '迪拜',
 }
 
+function extractTitle(narrative: string, city: string): string {
+  const m = narrative.trim().match(/^(.{1,40}?)[。！？\n]/)
+  const raw = m ? m[1].trim() : narrative.trim().slice(0, 30)
+  return raw || `${city} 的印迹`
+}
+
 export default function StoryPage() {
   const router = useRouter()
   const { addImprint } = useApp()
   const { user } = useAuth()
+  const { nickname } = useUserProfile()
   const [city, setCity] = useState('')
   const [editingCity, setEditingCity] = useState(false)
   const [photo, setPhoto] = useState<string | undefined>(undefined)
@@ -129,7 +137,7 @@ export default function StoryPage() {
     ;(async () => {
       try {
         const data = JSON.parse(pending) as { city: string; narrative: string; tags: string[]; isPublic: boolean; photo?: string }
-        await addImprint({ city: data.city, title: `${data.city} 的印迹`, narrative: data.narrative, tags: data.tags, isPublic: data.isPublic, photo: data.photo })
+        await addImprint({ city: data.city, title: extractTitle(data.narrative, data.city), narrative: data.narrative, tags: data.tags, isPublic: data.isPublic, photo: data.photo, author: nickname ?? undefined })
         router.push(data.isPublic ? '/meet' : '/mine')
       } catch {
         // ignore malformed sessionStorage data
@@ -269,7 +277,7 @@ export default function StoryPage() {
       return
     }
     const photoUrl = await getPhotoDataUrl()
-    addImprint({ city: trimmedCity, title: `${trimmedCity} 的印迹`, narrative, tags, isPublic, photo: photoUrl })
+    addImprint({ city: trimmedCity, title: extractTitle(narrative, trimmedCity), narrative, tags, isPublic, photo: photoUrl, author: nickname ?? undefined })
     router.push(isPublic ? '/meet' : '/mine')
   }
 

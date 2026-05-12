@@ -2,6 +2,7 @@
 export const runtime = 'edge'
 import { useParams, useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
+import { useAuth } from '@/context/AuthContext'
 import { useState, useRef, useEffect } from 'react'
 import ShareSheet from '@/components/ShareSheet'
 import ImprintCard from '@/components/cards/ImprintCard'
@@ -26,7 +27,8 @@ const PHOTO_BG: Record<string, string> = {
 export default function ImprintDetailPage() {
   const params = useParams()
   const router = useRouter()
-  const { allPublicImprints, imprints, deleteImprint } = useApp()
+  const { allPublicImprints, imprints, deleteImprint, likeImprint } = useApp()
+  const { user } = useAuth()
   const [liked, setLiked] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
@@ -34,12 +36,17 @@ export default function ImprintDetailPage() {
   const imprintCardRef = useRef<HTMLDivElement>(null)
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
 
+  const allImprints = [...imprints, ...allPublicImprints.filter(i => !imprints.some(u => u.id === i.id))]
+  const id = Array.isArray(params.id) ? params.id[0] : params.id
+
   useEffect(() => {
     setPageUrl(window.location.href)
   }, [])
 
-  const allImprints = [...imprints, ...allPublicImprints.filter(i => !imprints.some(u => u.id === i.id))]
-  const id = Array.isArray(params.id) ? params.id[0] : params.id
+  useEffect(() => {
+    if (!user || !id) return
+    setLiked(localStorage.getItem(`liked_${user.id}_${id}`) === '1')
+  }, [user?.id, id])
 
   if (!id) {
     return (
@@ -77,9 +84,9 @@ export default function ImprintDetailPage() {
   }
 
   const handleLike = () => {
-    if (imprint.isPublic) {
-      setLiked(!liked)
-    }
+    if (!imprint.isPublic || !user) return
+    setLiked(prev => !prev)
+    likeImprint(id)
   }
 
   const handleDelete = () => {
@@ -131,11 +138,11 @@ export default function ImprintDetailPage() {
 
         {/* Author */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-          <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--accent-text)' }}>
-            {imprint.author?.[1] ?? 'N'}
+          <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--accent-text)', fontWeight: 600 }}>
+            {(isMyImprint ? profileNickname : imprint.author)?.[0]?.toUpperCase() ?? 'N'}
           </div>
           <div>
-            <div style={{ fontSize: 14, color: 'var(--text-primary)' }}>{imprint.author || '我'}</div>
+            <div style={{ fontSize: 14, color: 'var(--text-primary)' }}>{isMyImprint ? (profileNickname ?? '我') : (imprint.author ?? '游民')}</div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{imprint.createdAt}</div>
           </div>
         </div>
