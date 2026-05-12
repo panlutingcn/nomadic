@@ -222,13 +222,13 @@ export default function StoryPage() {
     // City not in local DB — query Nominatim for country
     if (newCityTags.length === 1) {
       try {
-        const res = await fetch(
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(trimmed)}&format=json&limit=1&addressdetails=1`,
-          { headers: { 'Accept-Language': 'zh' } }
-        )
+        const res = await fetch('/api/city-country', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ city: trimmed }),
+        })
         const data = await res.json()
-        const country: string = data[0]?.address?.country ?? ''
-        if (country) newCityTags = [trimmed, country]
+        if (data.country) newCityTags = [trimmed, data.country]
       } catch { /* keep single tag */ }
     }
     setTags(prev => {
