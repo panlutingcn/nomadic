@@ -107,7 +107,7 @@ export default function ImprintDetailPage() {
   }
 
   const handleSubmitComment = async () => {
-    if (!commentText.trim() || !user || submitting) return
+    if (!commentText.trim() || !user || submitting || id.startsWith('sample')) return
     setSubmitting(true)
     setCommentError(null)
     const { data, error } = await supabase.from('comments').insert({
@@ -286,7 +286,7 @@ export default function ImprintDetailPage() {
         </div>
 
         {/* Comments */}
-        {imprint.isPublic && (
+        {imprint.isPublic && !id.startsWith('sample') && (
           <div style={{ marginTop: 28 }}>
             <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 14 }}>评论 {comments.length > 0 ? `(${comments.length})` : ''}</div>
             {comments.length === 0 && (
