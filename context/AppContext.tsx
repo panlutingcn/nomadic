@@ -63,7 +63,7 @@ interface AppState {
   toggleSaveCity: (name: string, country: string, nameZh?: string) => void
   isCitySaved: (name: string) => boolean
   imprints: Imprint[]
-  addImprint: (imprint: Omit<Imprint, 'id' | 'createdAt'>) => void | Promise<void>
+  addImprint: (imprint: Omit<Imprint, 'id' | 'createdAt'>) => Promise<string>
   updateImprint: (id: string, updates: Partial<Omit<Imprint, 'id' | 'createdAt'>>) => void
   deleteImprint: (id: string) => void
   restoreImprint: (id: string) => void
@@ -163,7 +163,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const isCitySaved = (name: string) => savedCities.some(c => c.name === name)
 
-  const addImprint = async (imprint: Omit<Imprint, 'id' | 'createdAt'>) => {
+  const addImprint = async (imprint: Omit<Imprint, 'id' | 'createdAt'>): Promise<string> => {
     const tempId = `imprint-${Date.now()}`
     const newImprint: Imprint = {
       ...imprint,
@@ -185,8 +185,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }).select('id').single()
       if (data?.id) {
         setImprints(prev => prev.map(i => i.id === tempId ? { ...i, id: data.id } : i))
+        return data.id
       }
     }
+    return tempId
   }
 
   const updateImprint = (id: string, updates: Partial<Omit<Imprint, 'id' | 'createdAt'>>) => {

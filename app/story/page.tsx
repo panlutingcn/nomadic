@@ -66,6 +66,7 @@ export default function StoryPage() {
   const [tags, setTags] = useState<string[]>([])
   const [tagInput, setTagInput] = useState('')
   const [showTagInput, setShowTagInput] = useState(false)
+  const [title, setTitle] = useState('')
   const [narrative, setNarrative] = useState('')
   const [generating, setGenerating] = useState(false)
   const [gpsLoading, setGpsLoading] = useState(false)
@@ -73,6 +74,7 @@ export default function StoryPage() {
   const [flashTags, setFlashTags] = useState(false)
   const [visibility, setVisibility] = useState<'public' | 'nomad' | 'private'>('public')
   const [publishing, setPublishing] = useState(false)
+  const [published, setPublished] = useState(false)
   const TAG_LIMIT = 10
   const prevCityRef = useRef('')
   const gpsDetectedRef = useRef(false)
@@ -302,8 +304,10 @@ export default function StoryPage() {
     setPublishing(true)
     try {
       const photoUrl = await getPhotoDataUrl()
-      await addImprint({ city: trimmedCity, title: extractTitle(narrative, trimmedCity), narrative, tags, isPublic, photo: photoUrl, author: nickname ?? undefined })
-      router.push(isPublic ? '/meet' : '/mine')
+      const finalTitle = title.trim() || extractTitle(narrative, trimmedCity)
+      const id = await addImprint({ city: trimmedCity, title: finalTitle, narrative, tags, isPublic, photo: photoUrl, author: nickname ?? undefined })
+      setPublished(true)
+      setTimeout(() => router.push(`/imprint/${id}`), 800)
     } finally {
       setPublishing(false)
     }
@@ -348,8 +352,67 @@ export default function StoryPage() {
           .ai-glow { animation: aiGlow 1.4s ease-in-out infinite; }
         `}</style>
 
+        {/* 标题 */}
+        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标题</div>
+        <input
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          placeholder="留空则自动取第一句话"
+          style={{ width: '100%', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '10px 12px', fontSize: 11, color: '#3d3020', lineHeight: 1.65, boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit', marginBottom: 12 }}
+        />
+
+        {/* 印迹 */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>城市归属 <span style={{ color: '#c04040' }}>*</span></span>
+          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>印迹</span>
+          <button onClick={generateWithAI} disabled={generating} style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--accent)', background: 'none', border: 'none', cursor: generating ? 'default' : 'pointer', padding: 0 }}>
+            {generating ? '生成中…' : 'AI 生成'}
+          </button>
+        </div>
+        <div className={generating ? 'ai-glow' : ''} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '10px 12px', marginBottom: 4, boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+          {narrative ? (
+            <div style={{ fontSize: 10, color: 'var(--accent)', fontWeight: 500, marginBottom: 6 }}>✦ AI 生成</div>
+          ) : null}
+          <textarea
+            value={narrative}
+            onChange={e => setNarrative(e.target.value)}
+            rows={4}
+            style={{ width: '100%', background: 'none', border: 'none', outline: 'none', fontSize: 11, color: '#3d3020', lineHeight: 1.65, resize: 'none', boxSizing: 'border-box', fontFamily: 'inherit' }}
+            placeholder="写下你在这座城市的故事，或点击右上角 AI 生成……"
+          />
+        </div>
+        <div style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--accent)', textAlign: 'right', marginBottom: 10, cursor: generating ? 'default' : 'pointer' }} onClick={generating ? undefined : generateWithAI}>
+          {generating ? '生成中…' : '重新生成 ↺'}
+        </div>
+
+        {/* 标签 */}
+        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标签 <span style={{ color: '#c04040' }}>*</span></div>
+        <div className={flashTags ? 'flash-border' : ''} style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 14, border: '0.5px solid transparent', borderRadius: 8, padding: '2px 0' }}>
+          {tags.map(tag => (
+            <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, padding: '3px 7px 3px 9px', borderRadius: 8, background: 'var(--bg-card-2)', color: 'var(--text-secondary)', border: '0.5px solid var(--border-light)' }}>
+              {tag}
+              <button onClick={() => handleRemoveTag(tag)} style={{ fontSize: 9, color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 1 }}>✕</button>
+            </span>
+          ))}
+          {showTagInput ? (
+            <input
+              autoFocus
+              value={tagInput}
+              onChange={e => setTagInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleAddTag() }}
+              onBlur={handleAddTag}
+              placeholder="输入标签"
+              style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, border: '0.5px solid var(--accent)', background: 'var(--bg-card)', color: 'var(--text-primary)', outline: 'none', width: 80 }}
+            />
+          ) : tags.length >= TAG_LIMIT ? (
+            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>最多添加 10 个标签</span>
+          ) : (
+            <span onClick={() => setShowTagInput(true)} style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, color: 'var(--text-muted)', border: '0.5px dashed var(--border-light)', cursor: 'pointer' }}>+ 添加</span>
+          )}
+        </div>
+
+        {/* 城市 */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>城市 <span style={{ color: '#c04040' }}>*</span></span>
           <span className={gpsLoading ? 'gps-pulse' : ''} style={{ fontSize: 10, color: gpsLoading ? 'var(--accent)' : 'var(--text-muted)' }}>
             {gpsLoading ? 'GPS 识别中…' : 'GPS 自动识别'}
           </span>
@@ -376,53 +439,6 @@ export default function StoryPage() {
         </div>
         <div style={{ fontSize: 9, color: '#c8bfaa', marginBottom: 12 }}>若拍摄地与当前位置不同，可手动调整</div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>印迹叙事</span>
-          <button onClick={generateWithAI} disabled={generating} style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--accent)', background: 'none', border: 'none', cursor: generating ? 'default' : 'pointer', padding: 0 }}>
-            {generating ? '生成中…' : 'AI 生成'}
-          </button>
-        </div>
-        <div className={generating ? 'ai-glow' : ''} style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '10px 12px', marginBottom: 4, boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
-          {narrative ? (
-            <div style={{ fontSize: 10, color: 'var(--accent)', fontWeight: 500, marginBottom: 6 }}>✦ AI 生成</div>
-          ) : null}
-          <textarea
-            value={narrative}
-            onChange={e => setNarrative(e.target.value)}
-            rows={4}
-            style={{ width: '100%', background: 'none', border: 'none', outline: 'none', fontSize: 11, color: '#3d3020', lineHeight: 1.65, resize: 'none', boxSizing: 'border-box', fontFamily: 'inherit' }}
-            placeholder="写下你在这座城市的故事，或点击右上角 AI 生成……"
-          />
-        </div>
-        <div style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--accent)', textAlign: 'right', marginBottom: 10, cursor: generating ? 'default' : 'pointer' }} onClick={generating ? undefined : generateWithAI}>
-          {generating ? '生成中…' : '重新生成 ↺'}
-        </div>
-
-        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标签 <span style={{ color: '#c04040' }}>*</span></div>
-        <div className={flashTags ? 'flash-border' : ''} style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 14, border: '0.5px solid transparent', borderRadius: 8, padding: '2px 0' }}>
-          {tags.map(tag => (
-            <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, padding: '3px 7px 3px 9px', borderRadius: 8, background: 'var(--bg-card-2)', color: 'var(--text-secondary)', border: '0.5px solid var(--border-light)' }}>
-              {tag}
-              <button onClick={() => handleRemoveTag(tag)} style={{ fontSize: 9, color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 1 }}>✕</button>
-            </span>
-          ))}
-          {showTagInput ? (
-            <input
-              autoFocus
-              value={tagInput}
-              onChange={e => setTagInput(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') handleAddTag() }}
-              onBlur={handleAddTag}
-              placeholder="输入标签"
-              style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, border: '0.5px solid var(--accent)', background: 'var(--bg-card)', color: 'var(--text-primary)', outline: 'none', width: 80 }}
-            />
-          ) : tags.length >= TAG_LIMIT ? (
-            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>最多添加 10 个标签</span>
-          ) : (
-            <span onClick={() => setShowTagInput(true)} style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, color: 'var(--text-muted)', border: '0.5px dashed var(--border-light)', cursor: 'pointer' }}>+ 添加</span>
-          )}
-        </div>
-
         <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 10 }}>谁可以看到这条印迹</div>
         {[
           { key: 'public' as const, label: '公开', desc: '出现在社区探索流', icon: '🌍' },
@@ -444,8 +460,8 @@ export default function StoryPage() {
           </button>
         ))}
 
-        <button onClick={handlePublish} disabled={publishing} style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 16, fontWeight: 500, cursor: publishing ? 'not-allowed' : 'pointer', opacity: publishing ? 0.7 : 1, marginTop: 4 }}>
-          {publishing ? '发布中…' : '发布印迹'}
+        <button onClick={handlePublish} disabled={publishing || published} style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: published ? '#e8f5ee' : 'var(--accent)', border: published ? '1px solid #1D9E75' : 'none', color: published ? '#085041' : '#fff', fontSize: 16, fontWeight: 500, cursor: (publishing || published) ? 'not-allowed' : 'pointer', opacity: publishing ? 0.7 : 1, marginTop: 4, transition: 'all 0.3s' }}>
+          {published ? '✓ 已发布' : publishing ? '发布中…' : '发布印迹'}
         </button>
       </div>
       <div style={{ height: 32 }} />

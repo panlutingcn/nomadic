@@ -30,6 +30,7 @@ export default function EditImprintPage() {
   const TAG_LIMIT = 10
   const prevCityRef = useRef(city)
 
+  const [title, setTitle] = useState(imprint?.title || '')
   const [narrative, setNarrative] = useState(imprint?.narrative || '')
   const [generating, setGenerating] = useState(false)
 
@@ -121,7 +122,7 @@ export default function EditImprintPage() {
 
   const handleSave = () => {
     if (!id || !imprint) return
-    updateImprint(id, { city, title: `${city} 的印迹`, narrative, tags, photo, isPublic: imprint.isPublic })
+    updateImprint(id, { city, title: title.trim() || narrative.trim().match(/^(.+?)[。！？!?\n]/)?.[1]?.trim() || `${city} 的印迹`, narrative, tags, photo, isPublic: imprint.isPublic })
     router.push(`/imprint/${id}`)
   }
 
@@ -146,19 +147,6 @@ export default function EditImprintPage() {
           }
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>城市归属</span>
-          <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>GPS 自动识别</span>
-        </div>
-        <div style={{ display: 'flex', gap: 6, marginBottom: 3 }}>
-          {editingCity
-            ? <input autoFocus value={city} onChange={e => setCity(e.target.value)} onBlur={handleConfirmCity} onKeyDown={e => { if (e.key === 'Enter') handleConfirmCity() }} style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--accent)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)' }} />
-            : <div onClick={() => setEditingCity(true)} style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)', cursor: 'text' }}>{city}</div>
-          }
-          <button onClick={handleConfirmCity} style={{ background: 'var(--bg-card-2)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 10, color: 'var(--text-secondary)', cursor: 'pointer', whiteSpace: 'nowrap' }}>确认城市</button>
-        </div>
-        <div style={{ fontSize: 9, color: '#c8bfaa', marginBottom: 12 }}>若拍摄地与当前位置不同，可手动调整</div>
-
         <style>{`
           @keyframes aiGlow {
             0%, 100% { border-color: var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
@@ -167,8 +155,18 @@ export default function EditImprintPage() {
           .ai-glow { animation: aiGlow 1.4s ease-in-out infinite; }
         `}</style>
 
+        {/* 标题 */}
+        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标题</div>
+        <input
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          placeholder="留空则自动取第一句话"
+          style={{ width: '100%', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '10px 12px', fontSize: 11, color: '#3d3020', lineHeight: 1.65, boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit', marginBottom: 12 }}
+        />
+
+        {/* 印迹 */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>印迹故事</span>
+          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>印迹</span>
           <button onClick={generateWithAI} disabled={generating} style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--accent)', background: 'none', border: 'none', cursor: generating ? 'default' : 'pointer', padding: 0 }}>
             {generating ? '生成中…' : 'AI 生成 ✦'}
           </button>
@@ -180,10 +178,11 @@ export default function EditImprintPage() {
           className={generating ? 'ai-glow' : ''}
           style={{ width: '100%', background: 'var(--bg-card)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '10px 12px', marginBottom: 4, boxShadow: '0 1px 3px rgba(0,0,0,0.03)', fontSize: 11, color: '#3d3020', lineHeight: 1.65, resize: 'vertical', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit' }}
         />
-        <div style={{ fontSize: 10, color: generating ? 'var(--text-muted)' : 'var(--text-muted)', textAlign: 'right', marginBottom: 10, cursor: generating ? 'default' : 'pointer' }} onClick={generating ? undefined : generateWithAI}>
+        <div style={{ fontSize: 10, color: 'var(--text-muted)', textAlign: 'right', marginBottom: 10, cursor: generating ? 'default' : 'pointer' }} onClick={generating ? undefined : generateWithAI}>
           {generating ? '生成中…' : '重新生成 ↺'}
         </div>
 
+        {/* 标签 */}
         <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标签</div>
         <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 14 }}>
           {tags.map(tag => (
@@ -207,6 +206,16 @@ export default function EditImprintPage() {
           ) : (
             <span onClick={() => setShowTagInput(true)} style={{ fontSize: 10, padding: '3px 9px', borderRadius: 8, color: 'var(--text-muted)', border: '0.5px dashed var(--border-light)', cursor: 'pointer' }}>+ 添加</span>
           )}
+        </div>
+
+        {/* 城市 */}
+        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>城市</div>
+        <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
+          {editingCity
+            ? <input autoFocus value={city} onChange={e => setCity(e.target.value)} onBlur={handleConfirmCity} onKeyDown={e => { if (e.key === 'Enter') handleConfirmCity() }} style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--accent)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)' }} />
+            : <div onClick={() => setEditingCity(true)} style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 11, color: 'var(--text-primary)', cursor: 'text' }}>{city}</div>
+          }
+          <button onClick={handleConfirmCity} style={{ background: 'var(--bg-card-2)', border: '0.5px solid var(--border-light)', borderRadius: 8, padding: '8px 10px', fontSize: 10, color: 'var(--text-secondary)', cursor: 'pointer', whiteSpace: 'nowrap' }}>确认城市</button>
         </div>
 
         <button onClick={handleSave} style={{ width: '100%', padding: '12px', borderRadius: 12, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', marginBottom: 8 }}>
