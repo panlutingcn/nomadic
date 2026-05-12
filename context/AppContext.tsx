@@ -223,9 +223,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const delta = alreadyLiked ? -1 : 1
     if (alreadyLiked) localStorage.removeItem(likedKey)
     else localStorage.setItem(likedKey, '1')
-    setImprints(prev => prev.map(imp =>
-      imp.id === id ? { ...imp, likes: Math.max(0, (imp.likes ?? 0) + delta) } : imp
-    ))
+    // Only sync to Supabase; display is handled by liked state in the detail page
     const current = imprints.find(i => i.id === id)?.likes ?? 0
     supabase.from('imprints')
       .update({ likes: Math.max(0, current + delta) })

@@ -228,7 +228,7 @@ export default function ImprintDetailPage() {
               }}
             >
               <span>{liked ? '❤️' : '🤍'}</span>
-              <span>{imprint.likes ?? 0}</span>
+              <span>{(imprint.likes ?? 0) + (liked ? 1 : 0)}</span>
             </button>
           )}
           <button
