@@ -65,11 +65,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error: error.message }
   }, [])
 
-  const loginWithGoogle = useCallback((redirectPath = '/vault') => {
+  const loginWithGoogle = useCallback((redirectPath = '/') => {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? window.location.origin
     supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}${redirectPath}`,
+        redirectTo: `${baseUrl}${redirectPath}`,
         queryParams: { prompt: 'select_account' },
       },
     })

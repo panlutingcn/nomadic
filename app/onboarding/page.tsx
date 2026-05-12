@@ -29,9 +29,15 @@ export default function OnboardingPage() {
     }
   }
 
+  const savePersona = () => {
+    if (personaKey) {
+      localStorage.setItem('nomadic_persona', personaKey)
+      localStorage.setItem('nomadic_onboarded', 'true')
+    }
+  }
+
   const finishOnboarding = () => {
-    localStorage.setItem('nomadic_persona', personaKey)
-    localStorage.setItem('nomadic_onboarded', 'true')
+    savePersona()
     router.replace('/')
   }
 
@@ -39,6 +45,10 @@ export default function OnboardingPage() {
     sessionStorage.setItem('nomadic_skip_remind_session', 'true')
     localStorage.setItem('nomadic_onboarded', 'true')
     router.replace('/')
+  }
+
+  const handleBack = () => {
+    if (currentQ > 0) setCurrentQ(q => q - 1)
   }
 
   const persona = PERSONAS[personaKey]
@@ -83,8 +93,15 @@ export default function OnboardingPage() {
           <div style={{ height: 3, background: '#e2d9c8', borderRadius: 2, marginBottom: 24 }}>
             <div style={{ height: '100%', width: `${progress}%`, background: '#1D9E75', borderRadius: 2, transition: 'width 0.3s ease' }} />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-            <span style={{ fontSize: 12, color: '#b8a98a' }}>Q{currentQ + 1} / {QUIZ_QUESTIONS.length}</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {currentQ > 0 ? (
+                <button onClick={handleBack} style={{ fontSize: 12, color: '#8a7a62', background: 'none', border: '0.5px solid #ddd4c0', borderRadius: 7, padding: '3px 10px', cursor: 'pointer' }}>← 上一题</button>
+              ) : (
+                <span style={{ fontSize: 12, color: '#b8a98a' }}>Q{currentQ + 1} / {QUIZ_QUESTIONS.length}</span>
+              )}
+              {currentQ > 0 && <span style={{ fontSize: 12, color: '#b8a98a' }}>Q{currentQ + 1} / {QUIZ_QUESTIONS.length}</span>}
+            </div>
             <button onClick={skipOnboarding} style={{ fontSize: 12, color: '#b8a98a', background: 'none', border: 'none', cursor: 'pointer' }}>稍后完成</button>
           </div>
           <div style={{ display: 'inline-block', fontSize: 11, color: '#1D9E75', fontWeight: 500, background: 'rgba(29,158,117,0.1)', padding: '3px 10px', borderRadius: 6, marginBottom: 14 }}>
@@ -142,18 +159,18 @@ export default function OnboardingPage() {
           </div>
           {user ? (
             <button
-              onClick={finishOnboarding}
+              onClick={() => { savePersona(); router.replace('/mine/persona') }}
               style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
             >
-              进入 Nomadic →
+              查看我的旅行人格卡片 →
             </button>
           ) : (
             <>
               <button
-                onClick={() => setShowLogin(true)}
+                onClick={() => { savePersona(); setShowLogin(true) }}
                 style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
               >
-                登录并保存我的人格
+                登录并生成旅行人格卡片
               </button>
               <button
                 onClick={finishOnboarding}
@@ -170,9 +187,9 @@ export default function OnboardingPage() {
           onClose={() => setShowLogin(false)}
           onSuccess={() => {
             setShowLogin(false)
-            finishOnboarding()
+            router.replace('/mine/persona')
           }}
-          redirectPath="/onboarding"
+          redirectPath="/mine/persona"
         />
       )}
       <div style={{ height: 32 }} />
