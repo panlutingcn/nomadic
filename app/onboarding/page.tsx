@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { QUIZ_QUESTIONS, calcPersona, PERSONAS } from '@/data/travelPersona'
 import { useAuth } from '@/context/AuthContext'
+import { supabase } from '@/lib/supabase'
 import LoginModal from '@/components/LoginModal'
 
 type Step = 'welcome' | 'quiz' | 'result'
@@ -34,6 +35,9 @@ export default function OnboardingPage() {
       const storageKey = user ? `nomadic_persona_${user.id}` : 'nomadic_persona'
       localStorage.setItem(storageKey, personaKey)
       localStorage.setItem('nomadic_onboarded', 'true')
+      if (user) {
+        supabase.from('profiles').update({ persona_key: personaKey }).eq('id', user.id).then(() => {})
+      }
     }
   }
 

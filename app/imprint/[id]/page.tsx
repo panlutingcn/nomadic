@@ -3,6 +3,7 @@ export const runtime = 'edge'
 import { useParams, useRouter } from 'next/navigation'
 import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
+import { supabase } from '@/lib/supabase'
 import { useState, useRef, useEffect } from 'react'
 import ShareSheet from '@/components/ShareSheet'
 import ImprintCard from '@/components/cards/ImprintCard'
@@ -31,6 +32,9 @@ export default function ImprintDetailPage() {
   const { allPublicImprints, imprints, deleteImprint, likeImprint } = useApp()
   const { user } = useAuth()
   const [liked, setLiked] = useState(false)
+  const [comments, setComments] = useState<{ id: string; userId: string; author: string; content: string; createdAt: string }[]>([])
+  const [commentText, setCommentText] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const [pageUrl, setPageUrl] = useState('')
@@ -48,6 +52,23 @@ export default function ImprintDetailPage() {
     if (!user || !id) return
     setLiked(localStorage.getItem(`liked_${user.id}_${id}`) === '1')
   }, [user?.id, id])
+
+  useEffect(() => {
+    if (!id || id.startsWith('sample')) return
+    supabase.from('comments')
+      .select('id, user_id, author, content, created_at')
+      .eq('imprint_id', id)
+      .order('created_at', { ascending: true })
+      .then(({ data }) => {
+        if (data) setComments(data.map(c => ({
+          id: c.id,
+          userId: c.user_id,
+          author: c.author,
+          content: c.content,
+          createdAt: new Date(c.created_at).toLocaleDateString('zh-CN').replace(/\//g, '.'),
+        })))
+      })
+  }, [id])
 
   if (!id) {
     return (
@@ -82,6 +103,28 @@ export default function ImprintDetailPage() {
         </button>
       </div>
     )
+  }
+
+  const handleSubmitComment = async () => {
+    if (!commentText.trim() || !user || submitting) return
+    setSubmitting(true)
+    const { data } = await supabase.from('comments').insert({
+      imprint_id: id,
+      user_id: user.id,
+      author: profileNickname ?? '探索者',
+      content: commentText.trim(),
+    }).select('id, created_at').single()
+    setSubmitting(false)
+    if (data) {
+      setComments(prev => [...prev, {
+        id: data.id,
+        userId: user.id,
+        author: profileNickname ?? '探索者',
+        content: commentText.trim(),
+        createdAt: new Date(data.created_at).toLocaleDateString('zh-CN').replace(/\//g, '.'),
+      }])
+      setCommentText('')
+    }
   }
 
   const handleLike = () => {
@@ -143,7 +186,10 @@ export default function ImprintDetailPage() {
             {(isMyImprint ? profileNickname : imprint.author)?.[0]?.toUpperCase() ?? 'N'}
           </div>
           <div>
-            <div style={{ fontSize: 14, color: 'var(--text-primary)' }}>{isMyImprint ? (profileNickname ?? '我') : (imprint.author ?? '游民')}</div>
+            <div
+              onClick={() => !isMyImprint && imprint.userId && router.push(`/user/${imprint.userId}`)}
+              style={{ fontSize: 14, color: 'var(--text-primary)', cursor: (!isMyImprint && imprint.userId) ? 'pointer' : 'default' }}
+            >{isMyImprint ? (profileNickname ?? '我') : (imprint.author ?? '游民')}</div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{imprint.createdAt}</div>
           </div>
         </div>
@@ -182,7 +228,7 @@ export default function ImprintDetailPage() {
               }}
             >
               <span>{liked ? '❤️' : '🤍'}</span>
-              <span>{(imprint.likes || 0) + (liked ? 1 : 0)}</span>
+              <span>{imprint.likes ?? 0}</span>
             </button>
           )}
           <button
@@ -232,6 +278,51 @@ export default function ImprintDetailPage() {
             </>
           )}
         </div>
+
+        {/* Comments */}
+        {imprint.isPublic && (
+          <div style={{ marginTop: 28 }}>
+            <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 14 }}>评论 {comments.length > 0 ? `(${comments.length})` : ''}</div>
+            {comments.length === 0 && (
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>还没有评论，来第一个留言吧</div>
+            )}
+            {comments.map(c => (
+              <div key={c.id} style={{ marginBottom: 14 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                  <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: 'var(--accent-text)', flexShrink: 0 }}>
+                    {c.author[0]?.toUpperCase() ?? 'N'}
+                  </div>
+                  <span
+                    onClick={() => c.userId && router.push(`/user/${c.userId}`)}
+                    style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', cursor: 'pointer' }}
+                  >{c.author}</span>
+                  <span style={{ fontSize: 11, color: 'var(--text-muted)', marginLeft: 'auto' }}>{c.createdAt}</span>
+                </div>
+                <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, paddingLeft: 34 }}>{c.content}</div>
+              </div>
+            ))}
+            {user ? (
+              <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                <input
+                  value={commentText}
+                  onChange={e => setCommentText(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleSubmitComment()}
+                  placeholder="写下你的想法…"
+                  style={{ flex: 1, padding: '9px 12px', borderRadius: 10, border: '0.5px solid var(--border-light)', background: 'var(--bg-card)', fontSize: 13, color: 'var(--text-primary)', outline: 'none', fontFamily: 'inherit' }}
+                />
+                <button
+                  onClick={handleSubmitComment}
+                  disabled={!commentText.trim() || submitting}
+                  style={{ padding: '9px 16px', borderRadius: 10, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: (!commentText.trim() || submitting) ? 'not-allowed' : 'pointer', opacity: (!commentText.trim() || submitting) ? 0.5 : 1, fontFamily: 'inherit', flexShrink: 0 }}
+                >
+                  发送
+                </button>
+              </div>
+            ) : (
+              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>登录后参与评论</div>
+            )}
+          </div>
+        )}
 
         {/* Bottom Section */}
         <div style={{ marginTop: 24 }}>

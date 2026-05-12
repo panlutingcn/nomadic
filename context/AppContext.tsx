@@ -14,6 +14,7 @@ export interface Imprint {
   id: string
   city: string
   author?: string
+  userId?: string
   title: string
   narrative: string
   tags: string[]
@@ -122,6 +123,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           tags: r.tags ?? [],
           isPublic: r.is_public,
           author: r.author ?? undefined,
+          userId: r.user_id ?? undefined,
           likes: r.likes ?? 0,
           createdAt: formatDate(r.created_at),
           photo: r.photo_url ?? undefined,
