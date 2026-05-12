@@ -56,7 +56,7 @@ export default function ExplorePage() {
             <img
               src="/logo-nomadic-t.png"
               alt="Nomadic"
-              style={{ height: 80, width: 'auto', display: 'block', margin: '0 auto' }}
+              style={{ height: 53, width: 'auto', display: 'block', margin: '0 auto' }}
             />
             <div style={{ fontSize: 14, fontWeight: 500, color: '#3d3020', marginTop: 4, lineHeight: 1.45 }}>在世界各地扎根，而不只是路过。</div>
             <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>一个给数字游民的灵感与商机社区。</div>
