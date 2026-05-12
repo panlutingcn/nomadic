@@ -442,7 +442,6 @@ export default function StoryPage() {
         <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 10 }}>谁可以看到这条印迹</div>
         {[
           { key: 'public' as const, label: '公开', desc: '出现在社区探索流', icon: '🌍' },
-          { key: 'nomad' as const, label: '仅游民可见', desc: '已认证游民可见', icon: '🧭' },
           { key: 'private' as const, label: '仅自己', desc: '私藏，只存在我的领地', icon: '🔒' },
         ].map(opt => (
           <button key={opt.key} onClick={() => setVisibility(opt.key)}
