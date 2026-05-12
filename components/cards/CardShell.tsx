@@ -35,7 +35,7 @@ export default function CardShell({ nickname, contentBg, children }: CardShellPr
         <img
           src="/logo-full-t.png"
           alt="Nomadic"
-          style={{ height: 38, width: 'auto', marginTop: 5 }}
+          style={{ height: 25, width: 'auto', marginTop: 5 }}
         />
         {/* Username — bold, no avatar */}
         <div style={{
