@@ -3,17 +3,17 @@ import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 
 interface UserProfile {
-  nickname: string
+  nickname: string | null
   avatarUrl: string | null
 }
 
 export function useUserProfile(): UserProfile {
   const { user } = useAuth()
-  const [nickname, setNickname] = useState<string>('探索者')
+  const [nickname, setNickname] = useState<string | null>(null)
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!user) { setNickname('探索者'); setAvatarUrl(null); return }
+    if (!user) { setNickname(null); setAvatarUrl(null); return }
     supabase.from('profiles').select('nickname, avatar_url').eq('id', user.id).single()
       .then(({ data }) => {
         const displayName =

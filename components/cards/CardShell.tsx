@@ -1,7 +1,7 @@
 import { QRCodeCanvas } from 'qrcode.react'
 
 interface CardShellProps {
-  nickname: string
+  nickname?: string | null
   avatarUrl: string | null
   qrValue?: string
   contentBg?: string
@@ -28,25 +28,25 @@ export default function CardShell({ nickname, contentBg, children }: CardShellPr
         borderBottom: '0.5px solid rgba(61,48,32,0.12)',
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         flexShrink: 0,
       }}>
-        {/* Logo: marginTop shifts image down so Nomadic text aligns with nickname */}
         <img
           src="/logo-full-t.png"
           alt="Nomadic"
-          style={{ height: 25, width: 'auto', marginTop: 5 }}
+          style={{ height: 25, width: 'auto' }}
         />
-        {/* Username — bold, no avatar */}
-        <div style={{
-          fontSize: 12,
-          fontWeight: 700,
-          color: '#5a4a38',
-          lineHeight: '20px',
-          whiteSpace: 'nowrap',
-        }}>
-          {nickname}
-        </div>
+        {nickname ? (
+          <div style={{
+            fontSize: 12,
+            fontWeight: 700,
+            color: '#5a4a38',
+            lineHeight: 1,
+            whiteSpace: 'nowrap',
+          }}>
+            {nickname}
+          </div>
+        ) : null}
       </div>
 
       {/* Content zone */}
