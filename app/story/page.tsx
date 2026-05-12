@@ -76,7 +76,7 @@ export default function StoryPage() {
   const [flashCity, setFlashCity] = useState(false)
   const [flashTags, setFlashTags] = useState(false)
   const [visibility, setVisibility] = useState<'public' | 'nomad' | 'private'>('public')
-  const TAG_LIMIT = 5
+  const TAG_LIMIT = 10
   const prevCityRef = useRef('')
   const gpsDetectedRef = useRef(false)
 
