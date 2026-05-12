@@ -302,7 +302,7 @@ export default function StoryPage() {
       return
     }
     const photoUrl = await getPhotoDataUrl()
-    addImprint({ city: trimmedCity, title: extractTitle(narrative, trimmedCity), narrative, tags, isPublic, photo: photoUrl, author: nickname ?? undefined })
+    await addImprint({ city: trimmedCity, title: extractTitle(narrative, trimmedCity), narrative, tags, isPublic, photo: photoUrl, author: nickname ?? undefined })
     router.push(isPublic ? '/meet' : '/mine')
   }
 
