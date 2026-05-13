@@ -406,8 +406,6 @@ export default function InsightsPage() {
             personality={'personality' in city.soul ? city.soul.personality : undefined}
             economy={'economy' in city.soul ? city.soul.economy : undefined}
             cityKey={selectedCity || undefined}
-            lat={searchContext?.lat}
-            lon={searchContext?.lon}
             qrValue={cityQrUrl || 'https://nomadictree.io/insights'}
           />
         </div>

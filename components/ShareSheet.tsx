@@ -1,9 +1,13 @@
 'use client'
-import { useState, useEffect, RefObject } from 'react'
+import { useState, useEffect, useRef, RefObject } from 'react'
 import { generateCardPreview } from '@/lib/generateCardImage'
 
 type Phase = 'menu' | 'generating' | 'preview'
-type SaveStatus = 'idle' | 'saving' | 'saved'
+type SaveStatus = 'idle' | 'saving' | 'saved' | 'blocked' | 'picker-stuck'
+
+// Module-level lock: survives component unmount/remount so only one
+// showSaveFilePicker dialog can ever be open at a time across the entire page.
+let pickerActive = false
 
 interface ShareSheetProps {
   anchorRect: DOMRect | null
@@ -19,6 +23,8 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
   const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle')
   const [previewData, setPreviewData] = useState<{ dataUrl: string; file: File; blobUrl: string } | null>(null)
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
+  // Prevent double-click from calling showSaveFilePicker while dialog is already open
+  const savingRef = useRef(false)
 
   useEffect(() => {
     if (autoGenerate && anchorRect) {
@@ -34,7 +40,8 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
     setPhase('menu')
     setPreviewData(null)
     setCopyStatus('idle')
-    setSaveStatus('idle')
+    setSaveStatus('idle' as SaveStatus)
+    savingRef.current = false
     onClose()
   }
 
@@ -78,15 +85,91 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
     }
   }
 
-  const handleDownloadClick = () => {
+  const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
+  // Trigger a direct <a download> — works in all browsers, no user gesture needed after this point
+  const triggerDirectDownload = (data: { blobUrl: string }) => {
+    const a = document.createElement('a')
+    a.href = data.blobUrl
+    a.download = 'nomadic-card.png'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
     setSaveStatus('saved')
     setTimeout(() => setSaveStatus('idle'), 2500)
+  }
+
+  const handleSaveClick = async () => {
+    if (!previewData || savingRef.current) return
+    savingRef.current = true
+
+    try {
+      // Mobile: native share sheet → fallback to direct download
+      if (isMobile) {
+        if (
+          typeof navigator.share === 'function' &&
+          typeof navigator.canShare === 'function' &&
+          navigator.canShare({ files: [previewData.file] })
+        ) {
+          try {
+            await navigator.share({ files: [previewData.file], title: 'nomadic-card' })
+            setSaveStatus('saved')
+            setTimeout(() => setSaveStatus('idle'), 2500)
+          } catch (err) {
+            if (err instanceof Error && err.name !== 'AbortError') {
+              triggerDirectDownload(previewData)
+            }
+          }
+        } else {
+          triggerDirectDownload(previewData)
+        }
+        return
+      }
+
+      // Desktop: showSaveFilePicker is not supported (Safari/Firefox) → direct download
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (typeof (window as any).showSaveFilePicker !== 'function') {
+        triggerDirectDownload(previewData)
+        return
+      }
+
+      // Desktop Chrome/Edge: showSaveFilePicker → folder picker dialog
+      // Guard against multiple dialogs accumulating in the background.
+      if (pickerActive) {
+        setSaveStatus('picker-stuck')
+        return
+      }
+      pickerActive = true
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const fileHandle = await (window as any).showSaveFilePicker({
+          suggestedName: 'nomadic-card.png',
+          types: [{ description: 'PNG 图片', accept: { 'image/png': ['.png'] } }],
+        })
+        setSaveStatus('saving')
+        const writable = await fileHandle.createWritable()
+        await writable.write(previewData.file)
+        await writable.close()
+        setSaveStatus('saved')
+        setTimeout(() => setSaveStatus('idle'), 2500)
+      } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') {
+          // User cancelled the dialog — that's fine, just reset.
+          return
+        }
+        console.error('[save] showSaveFilePicker failed:', err)
+        setSaveStatus('blocked')
+      } finally {
+        pickerActive = false
+      }
+    } finally {
+      savingRef.current = false
+    }
   }
 
   const handleForward = async () => {
     if (!previewData) return
 
-    // Attempt image file share first (works in most mobile browsers)
     try {
       if (
         typeof navigator.share === 'function' &&
@@ -97,12 +180,9 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
         return
       }
     } catch (err) {
-      // AbortError = user cancelled, stop here
       if (err instanceof Error && err.name === 'AbortError') return
-      // Other errors (e.g. WeChat iOS crashes on file shares) — fall through to URL-only share
     }
 
-    // Fallback: share page URL — WeChat and other apps handle links reliably
     try {
       if (typeof navigator.share === 'function') {
         await navigator.share({
@@ -111,12 +191,7 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
           url: copyUrl || 'https://nomadictree.io',
         })
       } else if (previewData?.blobUrl) {
-        const a = document.createElement('a')
-        a.href = previewData.blobUrl
-        a.download = 'nomadic-card.png'
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
+        triggerDirectDownload(previewData)
       }
     } catch { /* user cancelled */ }
   }
@@ -141,21 +216,40 @@ export default function ShareSheet({ anchorRect, onClose, cardRef, showCopyLink 
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: 10, marginTop: saveStatus === 'saved' ? 8 : 16 }}>
+          {saveStatus === 'picker-stuck' && (
+            <div style={{ textAlign: 'center', color: '#f0c040', fontSize: 12, marginTop: 10, lineHeight: 1.6 }}>
+              有一个选择窗口隐藏在浏览器后面，请按 <strong>Esc</strong> 或切换窗口找到它并关闭，再点保存重试
+            </div>
+          )}
+
+          {saveStatus === 'blocked' && (
             <a
               href={previewData.blobUrl}
               download="nomadic-card.png"
-              onClick={handleDownloadClick}
+              onClick={() => { setSaveStatus('saved'); setTimeout(() => setSaveStatus('idle'), 2500) }}
+              style={{
+                display: 'block', textAlign: 'center', marginTop: 10,
+                color: '#f0c040', fontSize: 13, cursor: 'pointer',
+              }}
+            >
+              浏览器阻止了自动保存，请点击这里下载 ↓
+            </a>
+          )}
+
+          <div style={{ display: 'flex', gap: 10, marginTop: (saveStatus === 'saved' || saveStatus === 'blocked' || saveStatus === 'picker-stuck') ? 8 : 16 }}>
+            <button
+              onClick={() => { setSaveStatus('idle'); handleSaveClick() }}
+              disabled={saveStatus === 'saving' || saveStatus === 'blocked'}
               style={{
                 flex: 1, padding: '13px', borderRadius: 12,
                 background: '#f0c040', border: 'none',
-                fontSize: 14, color: '#3d2c0a', cursor: 'pointer', fontWeight: 600,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                textDecoration: 'none',
+                fontSize: 14, color: '#3d2c0a',
+                cursor: (saveStatus === 'saving' || saveStatus === 'blocked') ? 'default' : 'pointer',
+                fontWeight: 600, opacity: (saveStatus === 'saving' || saveStatus === 'blocked') ? 0.65 : 1,
               }}
             >
-              保存
-            </a>
+              {saveStatus === 'saving' ? '保存中…' : saveStatus === 'picker-stuck' ? '重试' : '保存'}
+            </button>
             <button
               onClick={handleForward}
               style={{

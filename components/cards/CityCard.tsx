@@ -17,18 +17,15 @@ interface CityCardProps {
   economy?: string
   qrValue?: string
   cityKey?: string
-  lat?: number
-  lon?: number
 }
 
 export default function CityCard({
   nickname, avatarUrl, cityNameZh, cityNameEn, countryZh, flag,
-  description, personality, economy, qrValue, cityKey, lat: latProp, lon: lonProp,
+  description, personality, economy, qrValue, cityKey,
 }: CityCardProps) {
   const coords = cityKey ? CITY_COORDS[cityKey] : null
-  const lon = coords ? coords[0] : (lonProp ?? 0)
-  const lat = coords ? coords[1] : (latProp ?? 0)
-  const hasCoords = !!(coords || (latProp && lonProp))
+  const [lon, lat] = coords ?? [0, 0]
+  const hasCoords = !!coords
 
   const p1 = personality || description
   const p2 = economy ?? ''

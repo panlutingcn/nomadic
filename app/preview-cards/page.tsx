@@ -1,6 +1,5 @@
 'use client'
 export const dynamic = 'force-static'
-import BrandCard from '@/components/cards/BrandCard'
 import CityCard from '@/components/cards/CityCard'
 import ImprintCard from '@/components/cards/ImprintCard'
 import { CITIES } from '@/data/cities'
@@ -21,11 +20,6 @@ export default function PreviewCardsPage() {
     }}>
       <div style={{ color: '#555', fontSize: 11, letterSpacing: 2, textTransform: 'uppercase' }}>
         Share Card Preview — Dev Only
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
-        <div style={{ color: '#555', fontSize: 11 }}>主页卡 · Brand Card</div>
-        <BrandCard nickname={MOCK_USER.nickname} avatarUrl={MOCK_USER.avatarUrl} />
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>

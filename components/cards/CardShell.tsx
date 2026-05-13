@@ -43,8 +43,6 @@ export default function CardShell({ nickname, contentBg, children }: CardShellPr
             color: '#5a4a38',
             lineHeight: 1,
             whiteSpace: 'nowrap',
-            position: 'relative',
-            top: -7,
           }}>
             {nickname}
           </div>
@@ -52,7 +50,7 @@ export default function CardShell({ nickname, contentBg, children }: CardShellPr
       </div>
 
       {/* Content zone */}
-      <div style={{ flex: 1, minHeight: 0, background: contentBg, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, minHeight: 0, background: contentBg, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div style={{ flex: 1, padding: '14px 16px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           {children}
         </div>
