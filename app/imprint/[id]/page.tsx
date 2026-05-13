@@ -43,6 +43,7 @@ export default function ImprintDetailPage() {
   const [pageUrl, setPageUrl] = useState('')
   const imprintCardRef = useRef<HTMLDivElement>(null)
   const { nickname: profileNickname, avatarUrl: profileAvatar } = useUserProfile()
+  const [cachedCityMeta, setCachedCityMeta] = useState<{ nameZh: string; countryZh: string; flag: string } | null>(null)
 
   const allImprints = [...imprints, ...allPublicImprints.filter(i => !imprints.some(u => u.id === i.id))]
   const id = Array.isArray(params.id) ? params.id[0] : params.id
@@ -70,6 +71,27 @@ export default function ImprintDetailPage() {
           content: c.content,
           createdAt: new Date(c.created_at).toLocaleDateString('zh-CN').replace(/\//g, '.'),
         })))
+      })
+  }, [id])
+
+  // Fetch flag + country from city_cache for cities not in static CITIES data
+  useEffect(() => {
+    if (!id) return
+    const cityKey = Array.isArray(params.id) ? params.id[0] : params.id
+    const imp = [...imprints, ...allPublicImprints].find(i => i.id === cityKey)
+    if (!imp || imp.city in CITIES) return
+    supabase.from('city_cache')
+      .select('data')
+      .or(`city_name.ilike.${imp.city},city_name_zh.eq.${imp.city}`)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!data?.data) return
+        const d = data.data as { cityNameZh?: string; countryZh?: string; flag?: string }
+        setCachedCityMeta({
+          nameZh: d.cityNameZh ?? imp.city,
+          countryZh: d.countryZh ?? '',
+          flag: d.flag ?? '',
+        })
       })
   }, [id])
 
@@ -168,10 +190,10 @@ export default function ImprintDetailPage() {
   }
 
   const isMyImprint = imprints.some(i => i.id === id)
-  const cityNameZh = CITY_NAME_MAP[imprint.city] || imprint.city
   const cityEntry = CITIES[imprint.city]
-  const imprintCountryZh = cityEntry?.countryZh ?? ''
-  const imprintFlag = cityEntry?.flag ?? ''
+  const cityNameZh = CITY_NAME_MAP[imprint.city] || cityEntry?.nameZh || cachedCityMeta?.nameZh || imprint.city
+  const imprintCountryZh = cityEntry?.countryZh ?? cachedCityMeta?.countryZh ?? ''
+  const imprintFlag = cityEntry?.flag ?? cachedCityMeta?.flag ?? ''
   const CITY_BG: Record<string, string> = {
     Berlin: '#ede8df', Amsterdam: '#e8edf0', Lisbon: '#e8e2d8', Prague: '#e8e8ed',
   }
