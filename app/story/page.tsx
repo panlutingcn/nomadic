@@ -311,6 +311,14 @@ export default function StoryPage() {
       const photoUrl = await getPhotoDataUrl()
       const finalTitle = title.trim()
       const id = await addImprint({ city: trimmedCity, title: finalTitle, narrative, tags, isPublic, photo: photoUrl, author: nickname ?? undefined })
+      // Auto-cache city insights for cities not in static CITIES data
+      if (!(trimmedCity in CITIES)) {
+        fetch('/api/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: trimmedCity }),
+        }).catch(() => {})
+      }
       setPublished(true)
       setTimeout(() => router.push(`/imprint/${id}`), 800)
     } finally {

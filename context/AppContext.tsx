@@ -32,6 +32,8 @@ export interface SearchContext {
   country: string
   countryZh: string
   flag: string
+  lat?: number
+  lon?: number
   confidence: number
   userIntent: string
   relevantSections: string[]

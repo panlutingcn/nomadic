@@ -137,6 +137,7 @@ function SearchContent() {
         const ctx: SearchContext = {
           cityName: r.cityName, cityNameZh: r.cityNameZh,
           country: r.country, countryZh: r.countryZh, flag: r.flag,
+          lat: r.lat ?? undefined, lon: r.lon ?? undefined,
           confidence: r.confidence, userIntent: r.userIntent,
           relevantSections: r.relevantSections, aiInsight: r.aiInsight,
           soulHeadline: r.soulHeadline, soulBody: r.soulBody,

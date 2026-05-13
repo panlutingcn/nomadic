@@ -4,6 +4,8 @@ export interface SearchResult {
   country: string
   countryZh: string
   flag: string
+  lat: number
+  lon: number
   confidence: number
   userIntent: string
   relevantSections: ('soul' | 'base' | 'chance' | 'local')[]
@@ -35,7 +37,7 @@ const USER_PROMPT = (query: string) =>
   `Identify the city from this query and return nomad-friendly data about it.
 
 Return JSON only:
-{"cityName":"English name","cityNameZh":"中文名","country":"Country","countryZh":"国家中文名","flag":"country flag emoji","confidence":0.0-1.0,"userIntent":"意图摘要","relevantSections":["soul","base","chance","local"],"aiInsight":"50-100字中文，说明这座城市对数字游民的吸引力","soulHeadline":"10-20字中文，描述城市灵魂与气质","soulBody":"40-60字中文，用诗意的语言描述城市精神内核，类似：这座城市永远在建设中——不是因为它未完成，而是因为它拒绝停止生长。","soulPersonality":"80-120字中文，描述城市文化性格与精神内核","soulEconomy":"60-100字中文，描述城市经济支柱与产业结构","soulFestivals":"60-100字中文，描述代表性节庆活动","soulFigures":"60-100字中文，描述与该城市相关的代表人物","wifiSpeed":"XX Mbps","costLevel":"$ or $$ or $$$","visaInfo":"签证信息如90天申根免签","baseVisaDays":"最适合数字游民的签证天数，格式如：90 days 或 365 days","baseVisaDesc":"🛂 开头，30-50字中文，描述该签证的具体信息与申请要点","baseSafety":"60-100字中文，描述治安状况与安全注意事项","baseDailyCost":"用如下固定格式返回（保留\\n换行）：每日预算参考：\\n• 餐饮：[货币]X–X（午餐[货币]X–X，晚餐[货币]X–X）\\n• 住宿：[货币]X–X（描述）\\n• 交通：[货币]X–X（描述）\\n• 合计：约[货币]X–X/天。货币规则：欧元区城市（德国/法国/西班牙/葡萄牙/意大利/荷兰/比利时/奥地利/爱尔兰/芬兰/希腊/卢森堡等）用€，其他城市用$或本地货币加$换算","baseVisaDetail":"60-100字中文，描述签证政策详情与长期居留选项","baseSociety":"60-100字中文，描述社会保障与生活节奏","chanceParagraph":"50-80字中文，描述商业与工作机会","chancePolicy":{"label":"该国官方投资促进机构或创业支持计划的名称","url":"该国官方投资促进机构、商业支持或创业计划的官方网站URL（必须是政府官方网站，如投资促进局、商业发展机构等，不要使用签证网站或旅游中介）","desc":"20-30字中文描述"},"localParagraph":"30-50字中文，描述当地社群氛围与外籍人士融入情况","fallbackCity":null}
+{"cityName":"English name","cityNameZh":"中文名","country":"Country","countryZh":"国家中文名","flag":"country flag emoji","lat":latitude_decimal,"lon":longitude_decimal,"confidence":0.0-1.0,"userIntent":"意图摘要","relevantSections":["soul","base","chance","local"],"aiInsight":"50-100字中文，说明这座城市对数字游民的吸引力","soulHeadline":"10-20字中文，描述城市灵魂与气质","soulBody":"40-60字中文，用诗意的语言描述城市精神内核，类似：这座城市永远在建设中——不是因为它未完成，而是因为它拒绝停止生长。","soulPersonality":"80-120字中文，描述城市文化性格与精神内核","soulEconomy":"60-100字中文，描述城市经济支柱与产业结构","soulFestivals":"60-100字中文，描述代表性节庆活动","soulFigures":"60-100字中文，描述与该城市相关的代表人物","wifiSpeed":"XX Mbps","costLevel":"$ or $$ or $$$","visaInfo":"签证信息如90天申根免签","baseVisaDays":"最适合数字游民的签证天数，格式如：90 days 或 365 days","baseVisaDesc":"🛂 开头，30-50字中文，描述该签证的具体信息与申请要点","baseSafety":"60-100字中文，描述治安状况与安全注意事项","baseDailyCost":"用如下固定格式返回（保留\\n换行）：每日预算参考：\\n• 餐饮：[货币]X–X（午餐[货币]X–X，晚餐[货币]X–X）\\n• 住宿：[货币]X–X（描述）\\n• 交通：[货币]X–X（描述）\\n• 合计：约[货币]X–X/天。货币规则：欧元区城市（德国/法国/西班牙/葡萄牙/意大利/荷兰/比利时/奥地利/爱尔兰/芬兰/希腊/卢森堡等）用€，其他城市用$或本地货币加$换算","baseVisaDetail":"60-100字中文，描述签证政策详情与长期居留选项","baseSociety":"60-100字中文，描述社会保障与生活节奏","chanceParagraph":"50-80字中文，描述商业与工作机会","chancePolicy":{"label":"该国官方投资促进机构或创业支持计划的名称","url":"该国官方投资促进机构、商业支持或创业计划的官方网站URL（必须是政府官方网站，如投资促进局、商业发展机构等，不要使用签证网站或旅游中介）","desc":"20-30字中文描述"},"localParagraph":"30-50字中文，描述当地社群氛围与外籍人士融入情况","fallbackCity":null}
 
 IMPORTANT for chancePolicy: The URL must point to the country's official investment promotion agency, business development organization, or startup support program (e.g., Germany Trade & Invest, Business France, IDA Ireland). DO NOT use visa websites, immigration portals, or tourism agencies. Focus on business and investment support resources.
 
