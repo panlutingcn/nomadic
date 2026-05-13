@@ -366,10 +366,13 @@ export default function StoryPage() {
         `}</style>
 
         {/* 标题 */}
-        <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginBottom: 6 }}>标题 <span style={{ color: '#c04040' }}>*</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+          <span style={{ fontSize: 10, color: 'var(--text-secondary)' }}>标题 <span style={{ color: '#c04040' }}>*</span></span>
+          <span style={{ fontSize: 10, color: title.length > 20 ? '#c04040' : 'var(--text-muted)' }}>{title.length}/20</span>
+        </div>
         <input
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={e => { if (e.target.value.length <= 20) setTitle(e.target.value) }}
           placeholder="为这条印迹起个标题"
           className={flashTitle ? 'flash-border' : ''}
           style={{ width: '100%', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '10px 12px', fontSize: 11, color: '#3d3020', lineHeight: 1.65, boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit', marginBottom: 12 }}

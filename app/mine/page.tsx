@@ -7,6 +7,7 @@ import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
 import { PERSONAS } from '@/data/travelPersona'
 import { CITIES } from '@/data/cities'
+import { CITY_COORDS } from '@/data/cityCoords'
 import LoginModal from '@/components/LoginModal'
 import ContactModal from '@/components/ContactModal'
 import { useUserProfile } from '@/hooks/useUserProfile'
@@ -30,8 +31,19 @@ export default function MinePage() {
   }, [user?.id, authLoading])
 
   const persona = user ? PERSONAS[personaKey] : undefined
-  const imprintCities = Array.from(new Set(imprints.map(i => i.city)))
-  const uniqueCountries = Array.from(new Set(imprintCities.map(c => CITIES[c]?.country || c))).length
+
+  // Build Chinese→English lookup so cities stored in Chinese still light up on globe
+  const zhToEn: Record<string, string> = {}
+  Object.entries(CITIES).forEach(([en, data]) => { if (data.nameZh) zhToEn[data.nameZh] = en })
+
+  const resolveGlobeKey = (city: string) => {
+    if (CITY_COORDS[city]) return city
+    const en = zhToEn[city]
+    return en && CITY_COORDS[en] ? en : city
+  }
+
+  const imprintCities = Array.from(new Set(imprints.map(i => resolveGlobeKey(i.city))))
+  const uniqueCountries = Array.from(new Set(imprints.map(i => CITIES[i.city]?.country || CITIES[zhToEn[i.city] ?? '']?.country || i.city))).length
 
   return (
     <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column' }}>

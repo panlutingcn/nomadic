@@ -14,18 +14,14 @@ interface ImprintCardProps {
   qrValue?: string
 }
 
-// At 15px bold, ~16 Chinese chars fit on one line in the 343px text column
-const MAX_TITLE_CHARS = 16
 // At 13px, ~24 chars/line × 3 lines = 72; use 78 for a little more content
 const MAX_BODY_CHARS = 78
 
 export default function ImprintCard({
   nickname, avatarUrl, photo, title, narrative, cityNameZh, countryZh, flag, cityBgColor = '#ede8df', qrValue
 }: ImprintCardProps) {
-  // Truncate title to single display line
-  const displayTitle = title
-    ? (title.length > MAX_TITLE_CHARS ? title.slice(0, MAX_TITLE_CHARS - 1) + '…' : title)
-    : undefined
+  // Title: show in full (publish limits to 20 chars, fits within card width at 15px)
+  const displayTitle = title ?? undefined
 
   // Join all paragraphs into continuous text, truncate to ~3 display lines
   const body = getBodyText(narrative, title)
@@ -36,7 +32,6 @@ export default function ImprintCard({
 
   return (
     <CardShell nickname={nickname} avatarUrl={avatarUrl} qrValue={qrValue}>
-      {/* Outer wrapper: flex-column, vertically centered in the content zone */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {/* Photo */}
         <div style={{
@@ -49,16 +44,16 @@ export default function ImprintCard({
           {!photo && cityNameZh}
         </div>
 
-        {/* Title — JS-truncated so it always fits on one line, no CSS clipping */}
+        {/* Title — full display, lineHeight 1.6 prevents any descender clipping */}
         {displayTitle && (
           <div style={{
             fontSize: 15, fontWeight: 700, color: '#3d3020',
-            lineHeight: 1.6, marginBottom: 0, flexShrink: 0,
+            lineHeight: 1.6, marginBottom: 9, flexShrink: 0,
           }}>{displayTitle}</div>
         )}
 
-        {/* Divider below title */}
-        <div style={{ height: 0.5, background: 'rgba(61,48,32,0.18)', margin: '8px 0 10px', flexShrink: 0 }} />
+        {/* Divider — equal spacing above (marginBottom of title) and below */}
+        <div style={{ height: 0.5, background: 'rgba(61,48,32,0.18)', marginBottom: 9, flexShrink: 0 }} />
 
         {/* Body — continuous text, ~3 display lines */}
         <div style={{ fontSize: 13, color: '#5a4a38', lineHeight: 1.8, marginBottom: 12, flexShrink: 0 }}>
