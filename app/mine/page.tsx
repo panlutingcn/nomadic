@@ -30,9 +30,8 @@ export default function MinePage() {
   }, [user?.id, authLoading])
 
   const persona = user ? PERSONAS[personaKey] : undefined
-  const imprintCities = Array.from(new Set(imprints.map(i => i.city))).slice(0, 8)
+  const imprintCities = Array.from(new Set(imprints.map(i => i.city)))
   const uniqueCountries = Array.from(new Set(imprintCities.map(c => CITIES[c]?.country || c))).length
-  const cityNamesZh = imprintCities.map(c => CITIES[c]?.nameZh || c)
 
   return (
     <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column' }}>

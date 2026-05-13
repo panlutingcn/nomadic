@@ -206,7 +206,7 @@ export default function ImprintDetailPage() {
 
       {/* Content */}
       <div style={{ padding: '20px 16px' }}>
-        <h1 style={{ fontSize: 20, fontWeight: 500, marginBottom: 16, color: 'var(--text-primary)' }}>{getDisplayTitle(imprint.narrative, imprint.title, imprint.city)}</h1>
+        <h1 style={{ fontSize: 20, fontWeight: 500, marginBottom: 16, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{getDisplayTitle(imprint.narrative, imprint.title, imprint.city)}</h1>
 
         {/* Author */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>

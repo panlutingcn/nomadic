@@ -30,14 +30,24 @@ export default function ImprintCard({
           {!photo && cityNameZh}
         </div>
         {title && (
-          <div style={{ fontSize: 15, fontWeight: 700, color: '#3d3020', lineHeight: 1.3, marginBottom: 8 }}>{title}</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: '#3d3020', lineHeight: 1.3, marginBottom: 8, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</div>
         )}
-        <div style={{
-          fontSize: 13, color: '#5a4a38', lineHeight: 1.8, marginBottom: 10,
-        }}>{getBodyText(narrative, title)}</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#8a7560' }}>
-          <span>📍</span>
-          <span>{cityNameZh}{countryZh ? ` · ${flag} ${countryZh}` : ''}</span>
+        {(() => {
+          const body = getBodyText(narrative, title)
+          const paras = body.split('\n').filter(p => p.trim())
+          const shown = paras.slice(0, 3)
+          const hasMore = paras.length > 3
+          return (
+            <div style={{ fontSize: 13, color: '#5a4a38', lineHeight: 1.8, marginBottom: 10 }}>
+              {shown.map((p, i) => (
+                <div key={i}>{p}{hasMore && i === shown.length - 1 ? '…' : ''}</div>
+              ))}
+            </div>
+          )
+        })()}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12, color: '#8a7560' }}>
+          {flag && <span>{flag}</span>}
+          <span>{cityNameZh}{countryZh ? ` · ${countryZh}` : ''}</span>
         </div>
       </div>
     </CardShell>
