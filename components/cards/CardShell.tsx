@@ -53,7 +53,7 @@ export default function CardShell({ nickname, contentBg, children }: CardShellPr
 
       {/* Content zone */}
       <div style={{ flex: 1, minHeight: 0, background: contentBg, display: 'flex', flexDirection: 'column' }}>
-        <div style={{ flex: 1, padding: '14px 16px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+        <div style={{ flex: 1, padding: '14px 16px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           {children}
         </div>
       </div>
