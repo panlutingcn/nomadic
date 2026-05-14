@@ -87,6 +87,8 @@ export default function PersonaCard({
                 fontWeight: 700,
                 color: '#1a1a1a',
                 lineHeight: 1.75,
+                paddingLeft: '1em',
+                paddingRight: '1em',
               }}>
                 {personaOverview}
               </div>

@@ -16,13 +16,24 @@ interface ImprintCardProps {
 export default function ImprintCard({
   nickname, avatarUrl, photo, title, narrative, cityNameZh, countryZh, flag, cityBgColor = '#ede8df', qrValue
 }: ImprintCardProps) {
+  // Pre-truncate for html2canvas compatibility (~26 CJK chars/line × 3 lines)
+  const MAX_CHARS = 78
+  const displayNarrative = narrative.length > MAX_CHARS
+    ? narrative.slice(0, MAX_CHARS - 1) + '…'
+    : narrative
 
   return (
     <CardShell nickname={nickname} avatarUrl={avatarUrl} qrValue={qrValue}>
       <div>
         <div style={{ width: '100%', height: 150, borderRadius: 10, overflow: 'hidden', marginBottom: 12, background: cityBgColor, position: 'relative' }}>
           {photo ? (
-            <img src={photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} crossOrigin="anonymous" />
+            <div style={{
+              width: '100%',
+              height: '100%',
+              backgroundImage: `url(${photo})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }} />
           ) : (
             <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'rgba(61,48,32,0.4)' }}>
               {cityNameZh}
@@ -30,13 +41,16 @@ export default function ImprintCard({
           )}
         </div>
         {title && (
-          <div style={{ fontSize: 15, fontWeight: 700, color: '#3d3020', lineHeight: 1.3, marginBottom: 8 }}>{title}</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: '#3d3020', lineHeight: 1.3, marginBottom: 8 }}>
+            {title.length > 20 ? title.slice(0, 20) + '…' : title}
+          </div>
         )}
         <div style={{
           fontSize: 13, color: '#5a4a38', lineHeight: 1.8, marginBottom: 10,
           display: '-webkit-box', WebkitLineClamp: 3,
           WebkitBoxOrient: 'vertical' as const, overflow: 'hidden',
-        }}>{narrative}</div>
+          paddingBottom: 4,
+        }}>{displayNarrative}</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#8a7560' }}>
           <span>📍</span>
           <span>{cityNameZh}{countryZh ? ` · ${flag} ${countryZh}` : ''}</span>

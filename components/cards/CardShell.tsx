@@ -43,6 +43,8 @@ export default function CardShell({ nickname, contentBg, children }: CardShellPr
             color: '#5a4a38',
             lineHeight: 1,
             whiteSpace: 'nowrap',
+            position: 'relative',
+            top: -8,
           }}>
             {nickname}
           </div>
@@ -58,18 +60,21 @@ export default function CardShell({ nickname, contentBg, children }: CardShellPr
 
       {/* Bottom zone */}
       <div style={{
-        padding: '12px 22px 18px',
+        padding: '12px 22px 0',
         borderTop: '0.5px solid rgba(61,48,32,0.12)',
         background: 'rgba(255,255,255,0.35)',
         flexShrink: 0,
       }}>
-        <div style={{ marginBottom: 10 }}>
+        <div>
           <div style={{ fontSize: 14, fontWeight: 500, color: '#5a4a38', lineHeight: 1.7 }}>在世界各地扎根，而不只是路过。</div>
           <div style={{ fontSize: 13, color: '#8a7560', lineHeight: 1.7 }}>一个给数字游民的灵感与商机社区。</div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontSize: 13, color: '#166b4c', fontWeight: 600, letterSpacing: 0.3 }}>nomadictree.io</div>
-          <QRCodeCanvas value="https://nomadictree.io" size={60} bgColor="transparent" fgColor="#3d3020" />
+        {/* URL vertically centered in the full space below the text block */}
+        <div style={{ height: 88, position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <div style={{ fontSize: 13, color: '#166b4c', fontWeight: 600, letterSpacing: 0.3, position: 'relative', top: -11 }}>nomadictree.io</div>
+          <div style={{ position: 'absolute', right: 0, bottom: 21 }}>
+            <QRCodeCanvas value="https://nomadictree.io" size={60} bgColor="transparent" fgColor="#3d3020" />
+          </div>
         </div>
       </div>
     </div>
