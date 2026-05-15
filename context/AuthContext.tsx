@@ -97,12 +97,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
       })
       if (signUpError) {
-        // Account exists (registered via OAuth / Google) — auto-send password reset
         const msg = signUpError.message ?? ''
         if (msg.toLowerCase().includes('already registered') || (signUpError as { status?: number }).status === 422) {
-          const baseUrl2 = process.env.NEXT_PUBLIC_BASE_URL ?? window.location.origin
-          await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${baseUrl2}/auth/reset-password` })
-          return { error: '该邮箱已注册，重置密码邮件已发送，请查收邮箱并设置密码后登录' }
+          return { error: '该邮箱已通过第三方账号注册，尚未设置密码。请点击下方「忘记密码？」来设置密码后登录。' }
         }
         return { error: signUpError.message }
       }
