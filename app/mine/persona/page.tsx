@@ -52,6 +52,7 @@ function PersonaDetailContent() {
   const [euroRandomCities, setEuroRandomCities] = useState<{ name: string; reason: string }[] | null>(null)
   const [loadingCity, setLoadingCity] = useState<string | null>(null)
   const [cardSaving, setCardSaving] = useState(false)
+  const [prebuiltCard, setPrebuiltCard] = useState<File | null>(null)
   const personaCardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -74,8 +75,22 @@ function PersonaDetailContent() {
   useEffect(() => {
     if (personaKey) {
       setGlobalCities(getRandomGlobalCities(personaKey))
-      setEuroRandomCities(null) // reset to axis-score selection on persona load
+      setEuroRandomCities(null)
     }
+  }, [personaKey])
+
+  // Pre-generate share card so showSaveFilePicker runs within user gesture on click
+  useEffect(() => {
+    if (!personaKey) return
+    setPrebuiltCard(null)
+    const timer = setTimeout(async () => {
+      if (!personaCardRef.current) return
+      try {
+        const file = await generateCardImage(personaCardRef.current)
+        setPrebuiltCard(file)
+      } catch { /* silent */ }
+    }, 800)
+    return () => clearTimeout(timer)
   }, [personaKey])
 
   // Show persona only when: coming from a shared URL (?key=), or user is logged in with own result
@@ -89,10 +104,11 @@ function PersonaDetailContent() {
   }
 
   const handleSaveCard = async () => {
-    if (cardSaving || !personaCardRef.current) return
+    if (cardSaving) return
     setCardSaving(true)
     try {
-      const file = await generateCardImage(personaCardRef.current)
+      const file = prebuiltCard ?? (personaCardRef.current ? await generateCardImage(personaCardRef.current) : null)
+      if (!file) throw new Error('card_ref_missing')
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
       if (isMobile && typeof navigator.share === 'function' && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], title: 'nomadic-persona' }).catch(() => {})

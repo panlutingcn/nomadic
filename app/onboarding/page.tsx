@@ -1,6 +1,6 @@
 'use client'
 export const dynamic = 'force-static'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { QUIZ_QUESTIONS, calcPersona, computeAxisScores, PERSONAS } from '@/data/travelPersona'
 import { selectCities } from '@/data/personaCities'
@@ -22,7 +22,23 @@ export default function OnboardingPage() {
   const [personaKey, setPersonaKey] = useState('')
   const [axisScores, setAxisScores] = useState<Record<string, number>>({})
   const [cardSaving, setCardSaving] = useState(false)
+  const [prebuiltCard, setPrebuiltCard] = useState<File | null>(null)
   const personaCardRef = useRef<HTMLDivElement>(null)
+
+  // Pre-generate card when result step renders so showSaveFilePicker
+  // can be called immediately on click (user gesture preserved)
+  useEffect(() => {
+    if (step !== 'result' || !personaKey) return
+    setPrebuiltCard(null)
+    const timer = setTimeout(async () => {
+      if (!personaCardRef.current) return
+      try {
+        const file = await generateCardImage(personaCardRef.current)
+        setPrebuiltCard(file)
+      } catch { /* silent — fallback to on-click generation */ }
+    }, 600)
+    return () => clearTimeout(timer)
+  }, [step, personaKey])
 
   const advanceOrFinish = (newAnswers: Record<number, string[]>) => {
     if (currentQ < QUIZ_QUESTIONS.length - 1) {
@@ -76,11 +92,13 @@ export default function OnboardingPage() {
   }
 
   const handleSaveCard = async () => {
-    if (cardSaving || !personaCardRef.current) return
+    if (cardSaving) return
     setCardSaving(true)
     savePersona()
     try {
-      const file = await generateCardImage(personaCardRef.current)
+      // Use pre-built file (synchronous) so showSaveFilePicker runs within user gesture
+      const file = prebuiltCard ?? (personaCardRef.current ? await generateCardImage(personaCardRef.current) : null)
+      if (!file) throw new Error('card_ref_missing')
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
       if (isMobile && typeof navigator.share === 'function' && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], title: 'nomadic-persona' }).catch(() => {})
