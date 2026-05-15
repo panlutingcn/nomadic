@@ -46,21 +46,28 @@ export default function ResetPasswordPage() {
     setLoading(false)
     if (err) { setError(err.message); return }
     setDone(true)
-    setTimeout(() => router.push('/vault'), 2000)
+    setTimeout(() => router.push('/mine'), 2000)
   }
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px', fontFamily: '-apple-system, PingFang SC, Microsoft YaHei, sans-serif' }}>
       <div style={{ background: '#f0ebe0', borderRadius: 20, padding: '28px 24px', maxWidth: 360, width: '100%', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
-        <div style={{ fontSize: 15, fontWeight: 600, color: '#3d3020', textAlign: 'center', marginBottom: 20 }}>
-          重置密码
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
+          <button
+            onClick={() => router.push('/mine')}
+            style={{ background: 'none', border: 'none', color: '#7a6a50', fontSize: 12, cursor: 'pointer', padding: 0, marginRight: 'auto' }}
+          >← 返回</button>
+          <div style={{ fontSize: 15, fontWeight: 600, color: '#3d3020', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+            重置密码
+          </div>
+          <div style={{ width: 40 }} />
         </div>
 
         {done ? (
           <div style={{ textAlign: 'center', padding: '12px 0' }}>
             <div style={{ fontSize: 28, marginBottom: 12 }}>✅</div>
             <div style={{ fontSize: 13, fontWeight: 500, color: '#3d3020', marginBottom: 6 }}>密码已更新</div>
-            <div style={{ fontSize: 12, color: '#7a6a50' }}>正在跳转至领地页面…</div>
+            <div style={{ fontSize: 12, color: '#7a6a50' }}>正在跳转至「我的」页面…</div>
           </div>
         ) : !ready ? (
           <div style={{ textAlign: 'center', padding: '12px 0' }}>
