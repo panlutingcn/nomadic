@@ -100,7 +100,12 @@ export default function OnboardingPage() {
         setTimeout(() => URL.revokeObjectURL(url), 1000)
       }
     } catch (err) {
-      if (err instanceof Error && err.name !== 'AbortError') console.error(err)
+      if (err instanceof Error && err.name !== 'AbortError') {
+        console.error(err)
+        if (err.message === 'render_timeout') {
+          alert('卡片生成超时，请重试。如持续失败，可截图保存。')
+        }
+      }
     } finally {
       setCardSaving(false)
     }

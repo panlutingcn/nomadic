@@ -1,10 +1,20 @@
+function timeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => setTimeout(() => reject(new Error('render_timeout')), ms)),
+  ])
+}
+
 async function renderCanvas(element: HTMLElement) {
   const html2canvas = (await import('html2canvas')).default
-  // Ensure web fonts (Dancing Script) are loaded before capture
   if (typeof document !== 'undefined' && document.fonts?.ready) {
-    await document.fonts.ready
+    // Cap font wait at 3 s so a slow font never hangs the whole flow
+    await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 3000))])
   }
-  return html2canvas(element, { scale: 2, useCORS: true, backgroundColor: null, logging: false })
+  return timeout(
+    html2canvas(element, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: null, logging: false }),
+    10000,
+  )
 }
 
 function canvasToFile(canvas: HTMLCanvasElement): Promise<File> {
