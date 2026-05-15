@@ -1,11 +1,14 @@
 'use client'
 export const dynamic = 'force-static'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { QUIZ_QUESTIONS, calcPersona, PERSONAS } from '@/data/travelPersona'
+import { QUIZ_QUESTIONS, calcPersona, computeAxisScores, PERSONAS } from '@/data/travelPersona'
+import { selectCities } from '@/data/personaCities'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
 import LoginModal from '@/components/LoginModal'
+import PersonaCard from '@/components/cards/PersonaCard'
+import { generateCardImage } from '@/lib/generateCardImage'
 
 type Step = 'welcome' | 'quiz' | 'result'
 
@@ -14,29 +17,55 @@ export default function OnboardingPage() {
   const { user } = useAuth()
   const [step, setStep] = useState<Step>('welcome')
   const [showLogin, setShowLogin] = useState(false)
-  const [answers, setAnswers] = useState<Record<number, 'A' | 'B'>>({})
+  const [answers, setAnswers] = useState<Record<number, string[]>>({})
   const [currentQ, setCurrentQ] = useState(0)
   const [personaKey, setPersonaKey] = useState('')
+  const [axisScores, setAxisScores] = useState<Record<string, number>>({})
+  const [cardSaving, setCardSaving] = useState(false)
+  const personaCardRef = useRef<HTMLDivElement>(null)
 
-  const handleAnswer = (choice: 'A' | 'B') => {
-    const newAnswers = { ...answers, [currentQ]: choice }
-    setAnswers(newAnswers)
+  const advanceOrFinish = (newAnswers: Record<number, string[]>) => {
     if (currentQ < QUIZ_QUESTIONS.length - 1) {
       setTimeout(() => setCurrentQ(q => q + 1), 280)
     } else {
+      const scores = computeAxisScores(newAnswers)
       const key = calcPersona(newAnswers)
+      setAxisScores(scores)
       setPersonaKey(key)
       setTimeout(() => setStep('result'), 300)
     }
   }
 
+  const handleSingleSelect = (optionId: string) => {
+    const newAnswers = { ...answers, [currentQ]: [optionId] }
+    setAnswers(newAnswers)
+    advanceOrFinish(newAnswers)
+  }
+
+  const handleMultiToggle = (optionId: string) => {
+    const current = answers[currentQ] ?? []
+    const max = QUIZ_QUESTIONS[currentQ].maxSelect ?? 2
+    const next = current.includes(optionId)
+      ? current.filter(id => id !== optionId)
+      : current.length < max ? [...current, optionId] : current
+    setAnswers({ ...answers, [currentQ]: next })
+  }
+
+  const handleMultiConfirm = () => {
+    if ((answers[currentQ] ?? []).length === 0) return
+    advanceOrFinish(answers)
+  }
+
   const savePersona = () => {
     if (personaKey) {
-      const storageKey = user ? `nomadic_persona_${user.id}` : 'nomadic_persona'
+      const uid = user?.id
+      const storageKey = uid ? `nomadic_persona_${uid}` : 'nomadic_persona'
+      const scoresKey = uid ? `nomadic_persona_scores_${uid}` : 'nomadic_persona_scores'
       localStorage.setItem(storageKey, personaKey)
+      localStorage.setItem(scoresKey, JSON.stringify(axisScores))
       localStorage.setItem('nomadic_onboarded', 'true')
-      if (user) {
-        supabase.from('profiles').update({ persona_key: personaKey }).eq('id', user.id).then(() => {})
+      if (uid) {
+        supabase.from('profiles').update({ persona_key: personaKey }).eq('id', uid).then(() => {})
       }
     }
   }
@@ -44,6 +73,37 @@ export default function OnboardingPage() {
   const finishOnboarding = () => {
     savePersona()
     router.replace('/')
+  }
+
+  const handleSaveCard = async () => {
+    if (cardSaving || !personaCardRef.current) return
+    setCardSaving(true)
+    savePersona()
+    try {
+      const file = await generateCardImage(personaCardRef.current)
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+      if (isMobile && typeof navigator.share === 'function' && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'nomadic-persona' }).catch(() => {})
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } else if (!isMobile && typeof (window as any).showSaveFilePicker === 'function') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const handle = await (window as any).showSaveFilePicker({ suggestedName: 'nomadic-persona.png', types: [{ description: 'PNG 图片', accept: { 'image/png': ['.png'] } }] })
+        const writable = await handle.createWritable()
+        await writable.write(file)
+        await writable.close()
+      } else {
+        const url = URL.createObjectURL(file)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = 'nomadic-persona.png'
+        a.click()
+        setTimeout(() => URL.revokeObjectURL(url), 1000)
+      }
+    } catch (err) {
+      if (err instanceof Error && err.name !== 'AbortError') console.error(err)
+    } finally {
+      setCardSaving(false)
+    }
   }
 
   const skipOnboarding = () => {
@@ -60,8 +120,14 @@ export default function OnboardingPage() {
   const progress = (currentQ / QUIZ_QUESTIONS.length) * 100
   const q = QUIZ_QUESTIONS[currentQ]
 
+  const dynamicCities = personaKey && Object.keys(axisScores).length > 0
+    ? selectCities(personaKey, axisScores)
+    : persona?.cities.map(name => ({ name, reason: persona.cityReasons[name] ?? '' })) ?? []
+  const cityNames = dynamicCities.map(c => c.name)
+  const cityReasons = Object.fromEntries(dynamicCities.map(c => [c.name, c.reason]))
+
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: step === 'result' ? 'flex-start' : 'center', padding: step === 'result' ? '28px 24px 40px' : '0 24px' }}>
 
       {/* ── 欢迎页 ── */}
       {step === 'welcome' && (
@@ -109,94 +175,170 @@ export default function OnboardingPage() {
             </div>
             <button onClick={skipOnboarding} style={{ fontSize: 12, color: '#b8a98a', background: 'none', border: 'none', cursor: 'pointer' }}>稍后完成</button>
           </div>
-          <div style={{ display: 'inline-block', fontSize: 11, color: '#1D9E75', fontWeight: 500, background: 'rgba(29,158,117,0.1)', padding: '3px 10px', borderRadius: 6, marginBottom: 14 }}>
-            {q.dimension}
+
+          {/* 维度标签 + 多选提示 */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 14 }}>
+            <div style={{ display: 'inline-block', fontSize: 11, color: '#1D9E75', fontWeight: 500, background: 'rgba(29,158,117,0.1)', padding: '3px 10px', borderRadius: 6 }}>
+              {q.dimension}
+            </div>
+            {q.type === 'multi' && (
+              <div style={{ fontSize: 11, color: '#b8952a', background: 'rgba(184,149,42,0.1)', padding: '3px 10px', borderRadius: 6 }}>
+                多选 · 最多 {q.maxSelect} 项
+              </div>
+            )}
           </div>
-          <div style={{ fontSize: 16, fontWeight: 500, color: '#2d2418', lineHeight: 1.55, marginBottom: 24 }}>
+
+          <div style={{ fontSize: 16, fontWeight: 500, color: '#2d2418', lineHeight: 1.55, marginBottom: 20 }}>
             {q.question}
           </div>
-          {(['A', 'B'] as const).map(choice => (
+
+          {/* 选项 */}
+          {q.options.map(option => {
+            const selected = answers[currentQ] ?? []
+            const isSelected = selected.includes(option.id)
+            const maxReached = q.type === 'multi' && selected.length >= (q.maxSelect ?? 2) && !isSelected
+            return (
+              <button
+                key={option.id}
+                onClick={() => q.type === 'single' ? handleSingleSelect(option.id) : (!maxReached && handleMultiToggle(option.id))}
+                style={{
+                  width: '100%', display: 'flex', alignItems: 'flex-start', gap: 12,
+                  padding: '13px 14px',
+                  background: isSelected ? 'rgba(29,158,117,0.06)' : '#fff',
+                  border: `0.5px solid ${isSelected ? '#1D9E75' : '#ddd4c0'}`,
+                  borderRadius: 12, cursor: maxReached ? 'default' : 'pointer',
+                  marginBottom: 9, opacity: maxReached ? 0.45 : 1,
+                  transition: 'opacity 150ms, border-color 150ms, background 150ms',
+                }}
+              >
+                {/* 单选：圆形radio  多选：方形checkbox */}
+                {q.type === 'single' ? (
+                  <div style={{
+                    width: 18, height: 18, borderRadius: '50%', flexShrink: 0, marginTop: 1,
+                    border: `1.5px solid ${isSelected ? '#1D9E75' : '#ddd4c0'}`,
+                    background: isSelected ? '#1D9E75' : 'transparent',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    {isSelected && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff' }} />}
+                  </div>
+                ) : (
+                  <div style={{
+                    width: 18, height: 18, borderRadius: 4, flexShrink: 0, marginTop: 1,
+                    border: `1.5px solid ${isSelected ? '#1D9E75' : '#ddd4c0'}`,
+                    background: isSelected ? '#1D9E75' : 'transparent',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    {isSelected && <span style={{ fontSize: 11, color: '#fff', lineHeight: 1 }}>✓</span>}
+                  </div>
+                )}
+                <span style={{ fontSize: 14, color: '#3d3020', lineHeight: 1.5, textAlign: 'left' }}>
+                  {option.text}
+                </span>
+              </button>
+            )
+          })}
+
+          {/* 多选确认按钮 / 单选提示 */}
+          {q.type === 'multi' ? (
             <button
-              key={choice}
-              onClick={() => handleAnswer(choice)}
+              onClick={handleMultiConfirm}
+              disabled={(answers[currentQ] ?? []).length === 0}
               style={{
-                width: '100%', display: 'flex', alignItems: 'flex-start', gap: 12,
-                padding: '14px 16px',
-                background: answers[currentQ] === choice ? 'rgba(29,158,117,0.06)' : '#fff',
-                border: `0.5px solid ${answers[currentQ] === choice ? '#1D9E75' : '#ddd4c0'}`,
-                borderRadius: 12, cursor: 'pointer', marginBottom: 10,
+                width: '100%', padding: '12px 0', marginTop: 4,
+                borderRadius: 12, border: 'none',
+                background: (answers[currentQ] ?? []).length > 0 ? '#1D9E75' : '#ddd4c0',
+                color: '#fff', fontSize: 14, fontWeight: 500,
+                cursor: (answers[currentQ] ?? []).length > 0 ? 'pointer' : 'default',
+                transition: 'background 200ms',
               }}
             >
-              <div style={{
-                width: 18, height: 18, borderRadius: '50%', flexShrink: 0, marginTop: 1,
-                border: `1.5px solid ${answers[currentQ] === choice ? '#1D9E75' : '#ddd4c0'}`,
-                background: answers[currentQ] === choice ? '#1D9E75' : 'transparent',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                {answers[currentQ] === choice && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff' }} />}
-              </div>
-              <span style={{ fontSize: 14, color: '#3d3020', lineHeight: 1.5, textAlign: 'left' }}>
-                {choice === 'A' ? q.optionA : q.optionB}
-              </span>
+              {(answers[currentQ] ?? []).length > 0
+                ? `已选 ${(answers[currentQ] ?? []).length} 项，确认下一题 →`
+                : '请至少选择 1 项'}
             </button>
-          ))}
-          <div style={{ fontSize: 11, color: '#b8a98a', textAlign: 'center', marginTop: 8 }}>选择后自动进入下一题</div>
+          ) : (
+            <div style={{ fontSize: 11, color: '#b8a98a', textAlign: 'center', marginTop: 4 }}>选择后自动进入下一题</div>
+          )}
         </div>
       )}
 
       {/* ── 结果页 ── */}
       {step === 'result' && persona && (
-        <div style={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
-          <div style={{ fontSize: 72, marginBottom: 12, lineHeight: 1, textAlign: 'center' }}>{persona.emoji}</div>
-          <div style={{ fontSize: 12, color: '#854f0b', letterSpacing: '0.05em', marginBottom: 4 }}>你的旅行人格</div>
-          <div style={{ fontSize: 24, fontWeight: 500, color: '#633806', marginBottom: 4 }}>{persona.name}</div>
-          <div style={{ fontSize: 12, color: '#b8952a', marginBottom: 16 }}>{personaKey} · {persona.tags}</div>
-          <div style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 14, padding: '14px 16px', marginBottom: 20, textAlign: 'left' }}>
-            <div style={{ fontSize: 13, color: '#633806', lineHeight: 1.7 }}>{persona.description}</div>
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {/* PersonaCard scaled to fit mobile */}
+          <div style={{ transform: 'scale(0.88)', transformOrigin: 'top center', marginBottom: -80, flexShrink: 0 }}>
+            <PersonaCard
+              nickname=""
+              avatarUrl={null}
+              personaKey={personaKey}
+              personaName={persona.name}
+              personaEmoji={persona.emoji}
+              personaTags={persona.tags}
+              personaDescription={persona.description}
+              personaOverview={persona.overview}
+              cities={cityNames}
+              cityReasons={cityReasons}
+            />
           </div>
-          <div style={{ fontSize: 12, color: '#8a7a62', marginBottom: 10, textAlign: 'left' }}>根据你的人格，推荐探索这些城市</div>
-          <div style={{ display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap' }}>
-            {persona.cities.map((city: string) => (
-              <span key={city} style={{ fontSize: 13, fontWeight: 500, padding: '5px 14px', borderRadius: 9, background: '#fff', color: '#1D9E75', border: '0.5px solid rgba(29,158,117,0.3)', cursor: 'pointer' }}>
-                {city}
-              </span>
-            ))}
-          </div>
-          {user ? (
+          {/* Buttons */}
+          <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
             <button
-              onClick={() => { savePersona(); router.replace('/mine/persona') }}
+              onClick={handleSaveCard}
+              disabled={cardSaving}
+              style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#f0c040', border: 'none', color: '#3d2800', fontSize: 15, fontWeight: 500, cursor: cardSaving ? 'default' : 'pointer', opacity: cardSaving ? 0.7 : 1 }}
+            >
+              {cardSaving ? '生成中…' : '保存旅行人格卡片'}
+            </button>
+            <button
+              onClick={() => { savePersona(); user ? router.replace('/mine/persona') : setShowLogin(true) }}
               style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
             >
-              查看我的旅行人格卡片 →
+              {user ? '查看人格详情' : '登录解锁五大洲推荐城市'}
             </button>
-          ) : (
-            <>
-              <button
-                onClick={() => { savePersona(); setShowLogin(true) }}
-                style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
-              >
-                解锁我的旅行人格卡片
-              </button>
-              <button
-                onClick={finishOnboarding}
-                style={{ width: '100%', padding: '11px 0', borderRadius: 12, background: 'transparent', border: 'none', color: '#8a7a62', fontSize: 13, cursor: 'pointer' }}
-              >
-                先逛逛，稍后保存
-              </button>
-            </>
-          )}
+          </div>
         </div>
       )}
+      {/* 隐藏的 PersonaCard，供 html2canvas 截图 */}
+      {step === 'result' && persona && (
+        <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
+          <div ref={personaCardRef}>
+            <PersonaCard
+              nickname=""
+              avatarUrl={null}
+              personaKey={personaKey}
+              personaName={persona.name}
+              personaEmoji={persona.emoji}
+              personaTags={persona.tags}
+              personaDescription={persona.description}
+              personaOverview={persona.overview}
+              cities={cityNames}
+              cityReasons={cityReasons}
+            />
+          </div>
+        </div>
+      )}
+
       {showLogin && (
         <LoginModal
           onClose={() => setShowLogin(false)}
-          onSuccess={() => {
+          onSuccess={async () => {
             setShowLogin(false)
+            if (personaKey) {
+              const { data: { session } } = await supabase.auth.getSession()
+              const u = session?.user
+              if (u) {
+                localStorage.setItem(`nomadic_persona_${u.id}`, personaKey)
+                localStorage.setItem(`nomadic_persona_scores_${u.id}`, JSON.stringify(axisScores))
+                localStorage.removeItem('nomadic_persona')
+                localStorage.removeItem('nomadic_persona_scores')
+                localStorage.setItem('nomadic_onboarded', 'true')
+                supabase.from('profiles').update({ persona_key: personaKey }).eq('id', u.id).then(() => {})
+              }
+            }
             router.replace('/mine/persona')
           }}
         />
       )}
-      <div style={{ height: 32 }} />
     </div>
   )
 }

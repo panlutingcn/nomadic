@@ -28,7 +28,6 @@ export default function PersonaCard({
   qrUrl = 'https://nomadictree.io',
 }: PersonaCardProps) {
   const tagList = personaTags.split('·').map(t => t.trim())
-  const descSentences = personaDescription.match(/[^。！？]*[。！？]/g) ?? [personaDescription]
   const overviewSize = personaOverview.length > 80 ? 10.5 : personaOverview.length > 55 ? 11 : 12
 
   return (
@@ -66,18 +65,16 @@ export default function PersonaCard({
             </div>
 
             {/* description */}
-            <div style={{ textAlign: 'center' }}>
-              {descSentences.map((sentence, i) => (
-                <div key={i} style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: '#f0c040',
-                  lineHeight: 1.8,
-                  textShadow: '0 1px 4px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.75), 1px 1px 2px rgba(0,0,0,0.8)',
-                }}>
-                  {sentence}
-                </div>
-              ))}
+            <div style={{ textAlign: 'center', paddingLeft: '1em', paddingRight: '1em' }}>
+              <div style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: '#f0c040',
+                lineHeight: 1.8,
+                textShadow: '0 1px 4px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.75), 1px 1px 2px rgba(0,0,0,0.8)',
+              }}>
+                {personaDescription}
+              </div>
             </div>
 
             {/* overview */}
@@ -98,7 +95,7 @@ export default function PersonaCard({
           {/* 推荐城市 */}
           <div style={{ textAlign: 'center', marginTop: 16 }}>
             <div style={{ fontSize: 10, color: LABEL_COLOR, marginBottom: 5, letterSpacing: '0.05em' }}>
-              —— 为你推荐的城市 ——
+              —— 为你推荐的欧洲城市 ——
             </div>
             <div style={{ fontSize: 12, color: '#1a1a1a', lineHeight: 1.5 }}>
               {cities.slice(0, 3).join(' | ')}

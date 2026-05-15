@@ -1,81 +1,205 @@
-export const QUIZ_QUESTIONS = [
-  { id: 0, dimension: '节奏轴 · 你的旅行速度', axis: 'SD',
+export interface QuizOption {
+  id: string
+  text: string
+  weights: Partial<Record<string, number>>
+}
+
+export interface QuizQuestion {
+  id: number
+  dimension: string
+  question: string
+  type: 'single' | 'multi'
+  maxSelect?: number
+  options: QuizOption[]
+}
+
+export const QUIZ_QUESTIONS: QuizQuestion[] = [
+  // ── 节奏轴 (S vs D) ──────────────────────────────────────────
+  {
+    id: 0, dimension: '节奏轴 · 你的旅行速度', type: 'single',
     question: '你理想的旅行节奏是？',
-    optionA: '在一座城市住满三周，认识固定的街坊', optionB: '平均五天换一个地方，永远有新的第一次',
-    A: 'S', B: 'D' },
-  { id: 1, dimension: '节奏轴 · 你的旅行速度', axis: 'SD',
+    options: [
+      { id: 'A', text: '在一座城市住满三周，认识固定的街坊', weights: { S: 2 } },
+      { id: 'B', text: '住十天左右，把主要街区慢慢走遍', weights: { S: 1 } },
+      { id: 'C', text: '平均五天换一个地方，不断有新发现', weights: { D: 1 } },
+      { id: 'D', text: '一座城市住久了就手痒，不留恋的话立刻走人', weights: { D: 2 } },
+    ],
+  },
+  {
+    id: 1, dimension: '节奏轴 · 你的旅行速度', type: 'single',
     question: '当你爱上一座城市，你会？',
-    optionA: '盘算怎么留下来，或者至少年年回来', optionB: '把它放进记忆，期待下一座让你心动的城市',
-    A: 'S', B: 'D' },
-  { id: 2, dimension: '节奏轴 · 你的旅行速度', axis: 'SD',
-    question: '旅途中你的照片大多是？',
-    optionA: '同一个街角不同时刻的光线变化', optionB: '每张背景都不同，记录不断移动的轨迹',
-    A: 'S', B: 'D' },
-  { id: 3, dimension: '节奏轴 · 你的旅行速度', axis: 'SD',
+    options: [
+      { id: 'A', text: '盘算怎么留下来，或者至少每年都回来', weights: { S: 2 } },
+      { id: 'B', text: '标记为备选，某天可能搬来住一段', weights: { S: 1 } },
+      { id: 'C', text: '把它放进记忆，然后期待下一座让你心动的', weights: { D: 1 } },
+      { id: 'D', text: '留下最好的瞬间，然后迫不及待出发去下一站', weights: { D: 2 } },
+    ],
+  },
+  {
+    id: 2, dimension: '节奏轴 · 你的旅行速度', type: 'multi', maxSelect: 2,
+    question: '旅途中你的照片通常是？（最多选 2 项）',
+    options: [
+      { id: 'A', text: '同一个街角在不同时刻的光线变化', weights: { S: 1 } },
+      { id: 'B', text: '同一家咖啡馆里反复出现的日常角落', weights: { S: 1 } },
+      { id: 'C', text: '每张背景都不同，记录不断移动的轨迹', weights: { D: 1 } },
+      { id: 'D', text: '各座城市的全景和标志性地标', weights: { D: 1 } },
+    ],
+  },
+  {
+    id: 3, dimension: '节奏轴 · 你的旅行速度', type: 'single',
     question: '你如何定义"了解一座城市"？',
-    optionA: '知道哪家市集只有本地人去，哪条巷子傍晚最安静', optionB: '感受过它的气质，哪怕只有两天',
-    A: 'S', B: 'D' },
-  { id: 4, dimension: '动力轴 · 什么驱动你出发', axis: 'CV',
+    options: [
+      { id: 'A', text: '知道哪家市集只有本地人去，哪条巷子傍晚最安静', weights: { S: 2 } },
+      { id: 'B', text: '找到几家真正喜欢的馆子和常去的咖啡馆', weights: { S: 1 } },
+      { id: 'C', text: '感受过它的气质，了解它的历史脉络', weights: { D: 1 } },
+      { id: 'D', text: '踏过它的土地，留下照片，就算了解了', weights: { D: 2 } },
+    ],
+  },
+  // ── 动力轴 (C vs V) ──────────────────────────────────────────
+  {
+    id: 4, dimension: '动力轴 · 什么驱动你出发', type: 'single',
     question: '到达新城市，你第一个想去的是？',
-    optionA: '老城区、博物馆或有百年历史的市场', optionB: '山、海、森林或一条能骑行的河边小道',
-    A: 'C', B: 'V' },
-  { id: 5, dimension: '动力轴 · 什么驱动你出发', axis: 'CV',
-    question: '你认为旅行最大的意义是？',
-    optionA: '理解不同文明如何解答"人应该怎么活"这个问题', optionB: '用身体感受世界，让感官被彻底打开',
-    A: 'C', B: 'V' },
-  { id: 6, dimension: '动力轴 · 什么驱动你出发', axis: 'CV',
+    options: [
+      { id: 'A', text: '老城区、博物馆或有百年历史的市场', weights: { C: 2 } },
+      { id: 'B', text: '本地人聚集的菜市场或街边小馆', weights: { C: 1 } },
+      { id: 'C', text: '有名的公园、湖边或城市自然景观', weights: { V: 1 } },
+      { id: 'D', text: '山、海、森林或一条能骑行的河边小道', weights: { V: 2 } },
+    ],
+  },
+  {
+    id: 5, dimension: '动力轴 · 什么驱动你出发', type: 'multi', maxSelect: 2,
+    question: '你认为旅行最大的意义是？（选最重要的 2 项）',
+    options: [
+      { id: 'A', text: '理解不同文明如何解答"人应该怎么活"', weights: { C: 1 } },
+      { id: 'B', text: '发现与自己相似却又截然不同的人和故事', weights: { C: 1 } },
+      { id: 'C', text: '用身体感受世界，让感官被彻底打开', weights: { V: 1 } },
+      { id: 'D', text: '突破舒适区，完成有挑战性的体验', weights: { V: 1 } },
+    ],
+  },
+  {
+    id: 6, dimension: '动力轴 · 什么驱动你出发', type: 'single',
     question: '旅途中最令你难忘的往往是？',
-    optionA: '和当地老人聊天，或偶然闯入一场传统庆典', optionB: '在某个自然奇景前屏住呼吸，或累到极限后的成就感',
-    A: 'C', B: 'V' },
-  { id: 7, dimension: '动力轴 · 什么驱动你出发', axis: 'CV',
+    options: [
+      { id: 'A', text: '和当地老人聊天，或偶然闯入一场传统庆典', weights: { C: 2 } },
+      { id: 'B', text: '发现一家藏在巷子里的冷门书店或博物馆', weights: { C: 1 } },
+      { id: 'C', text: '在某个自然奇景前屏住呼吸', weights: { V: 1 } },
+      { id: 'D', text: '累到极限后的成就感，或危险边缘的刺激', weights: { V: 2 } },
+    ],
+  },
+  {
+    id: 7, dimension: '动力轴 · 什么驱动你出发', type: 'single',
     question: '你更愿意花半天做哪件事？',
-    optionA: '泡在城市的档案馆或一家独立书店里', optionB: '徒步到一个没有信号的地方，什么都不做',
-    A: 'C', B: 'V' },
-  { id: 8, dimension: '社交轴 · 你的旅行方式', axis: 'LT',
+    options: [
+      { id: 'A', text: '泡在城市的档案馆、独立书店或画廊里', weights: { C: 2 } },
+      { id: 'B', text: '逛当地集市，和摊主聊聊手艺和故事', weights: { C: 1 } },
+      { id: 'C', text: '在城市周边徒步，找条少有人走的路', weights: { V: 1 } },
+      { id: 'D', text: '去一个没有信号的自然里，什么都不做', weights: { V: 2 } },
+    ],
+  },
+  // ── 社交轴 (L vs T) ──────────────────────────────────────────
+  {
+    id: 8, dimension: '社交轴 · 你的旅行方式', type: 'single',
     question: '你理想的旅伴数量是？',
-    optionA: '零个，或最多一个极度合拍的人', optionB: '一个小群体，或随时愿意加入当地的聚会',
-    A: 'L', B: 'T' },
-  { id: 9, dimension: '社交轴 · 你的旅行方式', axis: 'LT',
+    options: [
+      { id: 'A', text: '零个——一个人，完全的自由', weights: { L: 2 } },
+      { id: 'B', text: '最多一个极度合拍的人', weights: { L: 1 } },
+      { id: 'C', text: '两三个亲近的朋友', weights: { T: 1 } },
+      { id: 'D', text: '一个小群体，或随时愿意加入当地的聚会', weights: { T: 2 } },
+    ],
+  },
+  {
+    id: 9, dimension: '社交轴 · 你的旅行方式', type: 'single',
     question: '旅途中陌生人主动和你搭话，你通常？',
-    optionA: '礼貌回应但心里希望他们不要聊太久', optionB: '聊开了，甚至一起去了某个原本没计划的地方',
-    A: 'L', B: 'T' },
-  { id: 10, dimension: '社交轴 · 你的旅行方式', axis: 'LT',
-    question: '旅行中最有价值的"收获"是？',
-    optionA: '与自己相处，重新认识自己', optionB: '认识一个改变你视角的人',
-    A: 'L', B: 'T' },
-  { id: 11, dimension: '社交轴 · 你的旅行方式', axis: 'LT',
-    question: '对于旅行中的社交媒体分享，你？',
-    optionA: '自己记录就好，不太需要实时分享', optionB: '分享是旅行的一部分，喜欢和别人交换感受',
-    A: 'L', B: 'T' },
-  { id: 12, dimension: '决策轴 · 你的旅行风格', axis: 'PF',
+    options: [
+      { id: 'A', text: '礼貌回应，心里希望他们不要聊太久', weights: { L: 2 } },
+      { id: 'B', text: '简短交流，有缘分才会深入', weights: { L: 1 } },
+      { id: 'C', text: '聊开了，可能顺手交换联系方式', weights: { T: 1 } },
+      { id: 'D', text: '聊到停不下来，甚至一起去了原本没计划的地方', weights: { T: 2 } },
+    ],
+  },
+  {
+    id: 10, dimension: '社交轴 · 你的旅行方式', type: 'multi', maxSelect: 2,
+    question: '旅行中最有价值的"收获"是？（最多选 2 项）',
+    options: [
+      { id: 'A', text: '与自己相处，重新认识自己', weights: { L: 1 } },
+      { id: 'B', text: '独自完成一件对自己有意义的事', weights: { L: 1 } },
+      { id: 'C', text: '认识一个改变了你视角的人', weights: { T: 1 } },
+      { id: 'D', text: '和陌生人建立了意想不到的真实连接', weights: { T: 1 } },
+    ],
+  },
+  {
+    id: 11, dimension: '社交轴 · 你的旅行方式', type: 'single',
+    question: '对于旅行中的记录和分享，你？',
+    options: [
+      { id: 'A', text: '自己记录就好，完全不需要分享给别人', weights: { L: 2 } },
+      { id: 'B', text: '回来才整理，只选几张发给最亲近的人', weights: { L: 1 } },
+      { id: 'C', text: '偶尔实时发一条，喜欢和好友交换感受', weights: { T: 1 } },
+      { id: 'D', text: '旅途中实时记录，分享本身也是旅行的一部分', weights: { T: 2 } },
+    ],
+  },
+  // ── 决策轴 (P vs F) ──────────────────────────────────────────
+  {
+    id: 12, dimension: '决策轴 · 你的旅行风格', type: 'single',
     question: '出发前两周，你的状态是？',
-    optionA: '行程表已按天规划好，备用方案也有了', optionB: '大概知道要去哪，其他的到了再说',
-    A: 'P', B: 'F' },
-  { id: 13, dimension: '决策轴 · 你的旅行风格', axis: 'PF',
+    options: [
+      { id: 'A', text: '行程表已按天规划好，备用方案也准备好了', weights: { P: 2 } },
+      { id: 'B', text: '大框架定好了，具体安排留了一些弹性', weights: { P: 1 } },
+      { id: 'C', text: '只订了机票和第一晚住宿，其他到了再说', weights: { F: 1 } },
+      { id: 'D', text: '可能昨天才决定要去，什么都还没定', weights: { F: 2 } },
+    ],
+  },
+  {
+    id: 13, dimension: '决策轴 · 你的旅行风格', type: 'single',
     question: '旅途中遇到临时变故，你的第一反应是？',
-    optionA: '有点沮丧，但立刻开始想替代方案', optionB: '无所谓，说不定这个意外会更有趣',
-    A: 'P', B: 'F' },
-  { id: 14, dimension: '决策轴 · 你的旅行风格', axis: 'PF',
-    question: '你订住宿的习惯是？',
-    optionA: '提前至少一周，选好位置、看好评价', optionB: '当天或提前一两天，有时候就直接找上门问',
-    A: 'P', B: 'F' },
-  { id: 15, dimension: '决策轴 · 你的旅行风格', axis: 'PF',
+    options: [
+      { id: 'A', text: '有点沮丧，但立刻开始制定替代方案', weights: { P: 2 } },
+      { id: 'B', text: '接受变化，翻出备选清单找下一个', weights: { P: 1 } },
+      { id: 'C', text: '无所谓，随机应变就好', weights: { F: 1 } },
+      { id: 'D', text: '反而有点兴奋——这个意外说不定更有趣', weights: { F: 2 } },
+    ],
+  },
+  {
+    id: 14, dimension: '决策轴 · 你的旅行风格', type: 'multi', maxSelect: 2,
+    question: '关于旅行预算，你更接近哪种？（最多选 2 项）',
+    options: [
+      { id: 'A', text: '提前做好预算，尽量控制在计划内', weights: { P: 1 } },
+      { id: 'B', text: '重要体验愿意花，日常消费很谨慎', weights: { P: 1 } },
+      { id: 'C', text: '遇到喜欢的就花，账后面再算', weights: { F: 1 } },
+      { id: 'D', text: '从来不提前算，走到哪算到哪', weights: { F: 1 } },
+    ],
+  },
+  {
+    id: 15, dimension: '决策轴 · 你的旅行风格', type: 'single',
     question: '旅行结束后，你会？',
-    optionA: '整理照片、写游记或做一个完整的回顾', optionB: '带着感受就够了，记录这件事没那么重要',
-    A: 'P', B: 'F' },
+    options: [
+      { id: 'A', text: '整理照片、写游记或做一个完整的回顾', weights: { P: 2 } },
+      { id: 'B', text: '挑最精华的发一条，配几句真实的感受', weights: { P: 1 } },
+      { id: 'C', text: '把最好的感受随手记在备忘录里', weights: { F: 1 } },
+      { id: 'D', text: '带着感受就够了，记录这件事没那么重要', weights: { F: 2 } },
+    ],
+  },
 ]
 
-export function calcPersona(answers: Record<number, 'A' | 'B'>): string {
-  const axes = [
-    { qs: [0, 1, 2, 3], A: 'S', B: 'D' },
-    { qs: [4, 5, 6, 7], A: 'C', B: 'V' },
-    { qs: [8, 9, 10, 11], A: 'L', B: 'T' },
-    { qs: [12, 13, 14, 15], A: 'P', B: 'F' },
-  ]
-  return axes.map(({ qs, A, B }) => {
-    const aCount = qs.filter(q => answers[q] === 'A').length
-    return aCount >= 2 ? A : B
-  }).join('')
+export function computeAxisScores(answers: Record<number, string[]>): Record<string, number> {
+  const scores: Record<string, number> = {}
+  for (const [qIdStr, selectedIds] of Object.entries(answers)) {
+    const q = QUIZ_QUESTIONS.find(q => q.id === Number(qIdStr))
+    if (!q) continue
+    for (const optId of selectedIds) {
+      const opt = q.options.find(o => o.id === optId)
+      if (!opt) continue
+      for (const [letter, weight] of Object.entries(opt.weights)) {
+        scores[letter] = (scores[letter] ?? 0) + (weight as number)
+      }
+    }
+  }
+  return scores
+}
+
+export function calcPersona(answers: Record<number, string[]>): string {
+  const scores = computeAxisScores(answers)
+  const axes: Array<[string, string]> = [['S', 'D'], ['C', 'V'], ['L', 'T'], ['P', 'F']]
+  return axes.map(([a, b]) => (scores[a] ?? 0) >= (scores[b] ?? 0) ? a : b).join('')
 }
 
 export const PERSONAS: Record<string, {
