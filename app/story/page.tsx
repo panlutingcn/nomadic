@@ -63,6 +63,7 @@ export default function StoryPage() {
   const [photo, setPhoto] = useState<string | undefined>(undefined)
   const fileRef = useRef<HTMLInputElement>(null)
   const [showLogin, setShowLogin] = useState(false)
+  const [showVerifyPrompt, setShowVerifyPrompt] = useState(false)
   const [tags, setTags] = useState<string[]>([])
   const [tagInput, setTagInput] = useState('')
   const [showTagInput, setShowTagInput] = useState(false)
@@ -291,6 +292,12 @@ export default function StoryPage() {
       return
     }
 
+    // 公开发布需要已验证邮箱
+    if (isPublic && user && !user.email_confirmed_at) {
+      setShowVerifyPrompt(true)
+      return
+    }
+
     if (!user) {
       const photoUrl = await getPhotoDataUrl()
       const payload = JSON.stringify({ city: trimmedCity, narrative, tags, isPublic, photo: photoUrl })
@@ -487,6 +494,37 @@ export default function StoryPage() {
         <LoginModal
           onClose={() => setShowLogin(false)}
         />
+      )}
+
+      {/* 邮箱未验证弹窗 */}
+      {showVerifyPrompt && (
+        <div
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '0 24px' }}
+          onClick={() => setShowVerifyPrompt(false)}
+        >
+          <div
+            style={{ background: '#f0ebe0', borderRadius: 20, padding: '28px 22px 22px', maxWidth: 380, width: '100%', boxShadow: '0 8px 24px rgba(0,0,0,0.18)' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{ fontSize: 32, textAlign: 'center', marginBottom: 12 }}>📧</div>
+            <div style={{ fontSize: 15, fontWeight: 600, color: '#2d2418', textAlign: 'center', marginBottom: 8 }}>公开发布需要验证邮箱</div>
+            <div style={{ fontSize: 13, color: '#7a6a50', lineHeight: 1.65, textAlign: 'center', marginBottom: 20 }}>
+              验证邮箱后才能将印迹公开到社区，防止垃圾内容。你可以先保存为私藏，验证后再公开。
+            </div>
+            <button
+              onClick={() => { setShowVerifyPrompt(false); router.push('/mine') }}
+              style={{ width: '100%', padding: '12px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
+            >
+              去「我的」页面验证邮箱
+            </button>
+            <button
+              onClick={() => setShowVerifyPrompt(false)}
+              style={{ width: '100%', padding: '11px 0', borderRadius: 12, background: 'transparent', border: 'none', color: '#8a7a62', fontSize: 13, cursor: 'pointer' }}
+            >
+              先保存为私藏
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )

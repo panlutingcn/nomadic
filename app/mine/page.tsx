@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
+import { supabase } from '@/lib/supabase'
 import { PERSONAS } from '@/data/travelPersona'
 import { CITIES } from '@/data/cities'
 import { CITY_COORDS } from '@/data/cityCoords'
@@ -24,6 +25,7 @@ export default function MinePage() {
   const [personaKey, setPersonaKey] = useState('')
   const [showLogin, setShowLogin] = useState(false)
   const [showContact, setShowContact] = useState(false)
+  const [verifyState, setVerifyState] = useState<'idle' | 'sending' | 'sent'>('idle')
   useEffect(() => {
     if (authLoading) return
     const storageKey = user ? `nomadic_persona_${user.id}` : 'nomadic_persona'
@@ -45,8 +47,34 @@ export default function MinePage() {
   const imprintCities = Array.from(new Set(imprints.map(i => resolveGlobeKey(i.city))))
   const uniqueCountries = Array.from(new Set(imprints.map(i => CITIES[i.city]?.country || CITIES[zhToEn[i.city] ?? '']?.country || i.city))).length
 
+  const emailUnverified = !!user && !user.email_confirmed_at
+
+  const handleResendVerification = async () => {
+    if (!user?.email || verifyState !== 'idle') return
+    setVerifyState('sending')
+    await supabase.auth.resend({ type: 'signup', email: user.email })
+    setVerifyState('sent')
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column' }}>
+      {/* 邮箱未验证横条 */}
+      {emailUnverified && (
+        <div style={{ background: '#fffbe6', borderBottom: '0.5px solid #f0c040', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+          <span style={{ fontSize: 12, color: '#7a5a00', lineHeight: 1.4 }}>
+            {verifyState === 'sent' ? '✅ 验证邮件已发送，请查收（含垃圾邮件箱）' : '你的邮箱尚未验证，部分功能受限'}
+          </span>
+          {verifyState !== 'sent' && (
+            <button
+              onClick={handleResendVerification}
+              disabled={verifyState === 'sending'}
+              style={{ fontSize: 12, fontWeight: 500, color: '#1D9E75', background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', padding: 0, opacity: verifyState === 'sending' ? 0.6 : 1 }}
+            >
+              {verifyState === 'sending' ? '发送中…' : '立即验证 →'}
+            </button>
+          )}
+        </div>
+      )}
       <div style={{ padding: '12px 16px 0', flex: 1 }}>
 
         {/* 用户信息栏 */}
