@@ -61,16 +61,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })()
   }, [user?.id])
 
-  // Migrate guest persona to user-scoped key on login (covers OAuth redirect flow)
+  // Migrate guest persona to user-scoped key on login.
+  // Always overwrite with the guest result — it is the most recent test.
   useEffect(() => {
     if (!user) return
-    const guestKey = 'nomadic_persona'
-    const userKey = `nomadic_persona_${user.id}`
-    const guestPersona = localStorage.getItem(guestKey)
-    const userPersona = localStorage.getItem(userKey)
-    if (guestPersona && !userPersona) {
-      localStorage.setItem(userKey, guestPersona)
-      localStorage.removeItem(guestKey)
+    const guestPersona = localStorage.getItem('nomadic_persona')
+    const guestScores  = localStorage.getItem('nomadic_persona_scores')
+    if (guestPersona) {
+      localStorage.setItem(`nomadic_persona_${user.id}`, guestPersona)
+      localStorage.removeItem('nomadic_persona')
+      supabase.from('profiles').update({ persona_key: guestPersona }).eq('id', user.id).then(() => {})
+    }
+    if (guestScores) {
+      localStorage.setItem(`nomadic_persona_scores_${user.id}`, guestScores)
+      localStorage.removeItem('nomadic_persona_scores')
     }
   }, [user?.id])
 
