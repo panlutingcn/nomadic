@@ -12,7 +12,7 @@ async function renderCanvas(element: HTMLElement) {
     await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 3000))])
   }
   return timeout(
-    html2canvas(element, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: null, logging: false }),
+    html2canvas(element, { scale: 2, useCORS: true, backgroundColor: null, logging: false }),
     10000,
   )
 }

@@ -102,9 +102,7 @@ export default function OnboardingPage() {
     } catch (err) {
       if (err instanceof Error && err.name !== 'AbortError') {
         console.error(err)
-        if (err.message === 'render_timeout') {
-          alert('卡片生成超时，请重试。如持续失败，可截图保存。')
-        }
+        alert('卡片生成失败，请重试。如持续失败，可截图保存。')
       }
     } finally {
       setCardSaving(false)
