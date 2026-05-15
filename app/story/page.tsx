@@ -486,7 +486,6 @@ export default function StoryPage() {
       {showLogin && (
         <LoginModal
           onClose={() => setShowLogin(false)}
-          redirectPath="/story"
         />
       )}
     </div>

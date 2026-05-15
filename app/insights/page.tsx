@@ -388,7 +388,6 @@ export default function InsightsPage() {
         <LoginModal
           onClose={() => setShowLogin(false)}
           onSuccess={handleLoginConfirm}
-          redirectPath="/insights"
         />
       )}
 

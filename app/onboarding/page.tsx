@@ -194,7 +194,6 @@ export default function OnboardingPage() {
             setShowLogin(false)
             router.replace('/mine/persona')
           }}
-          redirectPath="/mine/persona"
         />
       )}
       <div style={{ height: 32 }} />

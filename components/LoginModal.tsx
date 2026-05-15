@@ -5,10 +5,9 @@ import { useAuth } from '@/context/AuthContext'
 interface LoginModalProps {
   onClose: () => void
   onSuccess?: () => void
-  redirectPath?: string
 }
 
-type Screen = 'method' | 'email' | 'forgot'
+type Screen = 'email' | 'forgot'
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -24,10 +23,10 @@ const inputStyle: React.CSSProperties = {
   marginBottom: 10,
 }
 
-export default function LoginModal({ onClose, onSuccess, redirectPath = '/vault' }: LoginModalProps) {
-  const { loginWithEmail, loginWithGoogle, resetPassword } = useAuth()
+export default function LoginModal({ onClose, onSuccess }: LoginModalProps) {
+  const { loginWithEmail, resetPassword } = useAuth()
   const [show, setShow] = useState(true)
-  const [screen, setScreen] = useState<Screen>('method')
+  const [screen, setScreen] = useState<Screen>('email')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -61,22 +60,6 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/vault'
     handleClose()
   }
 
-  const methodCardStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    height: 48,
-    borderRadius: 11,
-    border: '1px solid #e0d8cc',
-    background: '#fff',
-    cursor: 'pointer',
-    transition: 'transform 150ms ease',
-    marginBottom: 8,
-    width: '100%',
-    boxSizing: 'border-box',
-  }
-
   return (
     <div
       style={{
@@ -105,9 +88,9 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/vault'
       >
         {/* Header row: 返回 | 登录 Nomadic | × */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
-          {screen === 'email' || screen === 'forgot' ? (
+          {screen === 'forgot' ? (
             <button
-              onClick={() => { setScreen('method'); setError(null); setEmailSent(false); setResetSent(false) }}
+              onClick={() => { setScreen('email'); setError(null); setResetSent(false) }}
               style={{ background: 'none', border: 'none', color: '#7a6a50', fontSize: 12, cursor: 'pointer', padding: 0, minWidth: 40 }}
             >← 返回</button>
           ) : (
@@ -120,41 +103,6 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/vault'
             aria-label="关闭"
           >×</button>
         </div>
-
-        {screen === 'method' && (
-          <>
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={() => setScreen('email')}
-              onKeyDown={e => e.key === 'Enter' && setScreen('email')}
-              onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.02)')}
-              onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
-              style={methodCardStyle}
-            >
-              <span style={{ fontSize: 18 }}>📧</span>
-              <span style={{ fontSize: 13, fontWeight: 500, color: '#3d3020' }}>邮箱登录</span>
-            </div>
-
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={() => loginWithGoogle(redirectPath)}
-              onKeyDown={e => e.key === 'Enter' && loginWithGoogle(redirectPath)}
-              onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.02)')}
-              onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
-              style={methodCardStyle}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-              <span style={{ fontSize: 13, fontWeight: 500, color: '#3d3020' }}>Gmail 快捷登录</span>
-            </div>
-          </>
-        )}
 
         {screen === 'email' && (
           <>

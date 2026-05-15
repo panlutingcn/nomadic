@@ -431,7 +431,6 @@ function SearchContent() {
         <LoginModal
           onClose={() => setShowLogin(false)}
           onSuccess={() => { setShowLogin(false); if (cityData) toggleSaveCity(cityData.name, cityData.country, cityData.nameZh || undefined) }}
-          redirectPath={`/search?q=${encodeURIComponent(q)}`}
         />
       )}
     </div>
