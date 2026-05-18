@@ -293,7 +293,7 @@ function PersonaDetailContent() {
         {/* 五大洲推荐城市 */}
         <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 16, padding: '14px 16px', marginBottom: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>五大洲推荐城市</div>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>七大洲推荐城市</div>
             <button
               onClick={() => setGlobalCities(getRandomGlobalCities(personaKey))}
               style={{ fontSize: 11, color: '#1D9E75', background: 'rgba(29,158,117,0.08)', border: '0.5px solid rgba(29,158,117,0.25)', borderRadius: 8, padding: '4px 10px', cursor: 'pointer', fontFamily: 'inherit' }}
@@ -306,7 +306,7 @@ function PersonaDetailContent() {
               const city = globalCities[continent]
               if (!city) return null
               const isLoading = loadingCity === city
-              const continentEmoji: Record<string, string> = { 亚洲: '🌏', 欧洲: '🌍', 美洲: '🌎', 非洲: '🌍', 大洋洲: '🌏' }
+              const continentEmoji: Record<string, string> = { 亚洲: '🌏', 欧洲: '🌍', 北美洲: '🌎', 南美洲: '🌎', 非洲: '🌍', 大洋洲: '🌏', 南极洲: '🧊' }
               const desc = continent === '欧洲'
                 ? getEuroCityReason(personaKey, city)
                 : (CITY_GLOBAL_INFO[city]?.desc ?? '')
