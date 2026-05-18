@@ -6,7 +6,7 @@ import { Suspense } from 'react'
 import { PERSONAS } from '@/data/travelPersona'
 import { selectCities, getRandomGlobalCities, getRandomEuroCities, getEuroCityReason, CONTINENT_ORDER } from '@/data/personaCities'
 import { CITY_GLOBAL_INFO } from '@/data/cityInfo'
-import { generateCardImage } from '@/lib/generateCardImage'
+import { generateCardImage, generateCardDataUrl } from '@/lib/generateCardImage'
 import { CITIES } from '@/data/cities'
 import { useUserProfile } from '@/hooks/useUserProfile'
 import { useAuth } from '@/context/AuthContext'
@@ -52,7 +52,7 @@ function PersonaDetailContent() {
   const [euroRandomCities, setEuroRandomCities] = useState<{ name: string; reason: string }[] | null>(null)
   const [loadingCity, setLoadingCity] = useState<string | null>(null)
   const [cardSaving, setCardSaving] = useState(false)
-  const [prebuiltCard, setPrebuiltCard] = useState<File | null>(null)
+  const [prebuiltDataUrl, setPrebuiltDataUrl] = useState<string | null>(null)
   const personaCardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -79,16 +79,12 @@ function PersonaDetailContent() {
     }
   }, [personaKey])
 
-  // Pre-generate share card so showSaveFilePicker runs within user gesture on click
   useEffect(() => {
     if (!personaKey) return
-    setPrebuiltCard(null)
+    setPrebuiltDataUrl(null)
     const timer = setTimeout(async () => {
       if (!personaCardRef.current) return
-      try {
-        const file = await generateCardImage(personaCardRef.current)
-        setPrebuiltCard(file)
-      } catch { /* silent */ }
+      try { setPrebuiltDataUrl(await generateCardDataUrl(personaCardRef.current)) } catch { /* silent */ }
     }, 800)
     return () => clearTimeout(timer)
   }, [personaKey])
@@ -105,26 +101,31 @@ function PersonaDetailContent() {
 
   const handleSaveCard = async () => {
     if (cardSaving) return
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    if (!isMobile && prebuiltDataUrl) {
+      // Synchronous desktop download — a.click() before any await, user gesture intact
+      const a = document.createElement('a')
+      a.href = prebuiltDataUrl
+      a.download = 'nomadic-persona.png'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      return
+    }
+    if (!personaCardRef.current) return
     setCardSaving(true)
     try {
-      const file = prebuiltCard ?? (personaCardRef.current ? await generateCardImage(personaCardRef.current) : null)
-      if (!file) throw new Error('card_ref_missing')
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+      const file = await generateCardImage(personaCardRef.current)
       if (isMobile && typeof navigator.share === 'function' && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], title: 'nomadic-persona' }).catch(() => {})
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } else if (!isMobile && typeof (window as any).showSaveFilePicker === 'function') {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const handle = await (window as any).showSaveFilePicker({ suggestedName: 'nomadic-persona.png', types: [{ description: 'PNG 图片', accept: { 'image/png': ['.png'] } }] })
-        const writable = await handle.createWritable()
-        await writable.write(file)
-        await writable.close()
       } else {
         const url = URL.createObjectURL(file)
         const a = document.createElement('a')
         a.href = url
         a.download = 'nomadic-persona.png'
+        document.body.appendChild(a)
         a.click()
+        document.body.removeChild(a)
         setTimeout(() => URL.revokeObjectURL(url), 1000)
       }
     } catch (err) {
@@ -334,7 +335,7 @@ function PersonaDetailContent() {
         {/* 操作按钮 */}
         <button onClick={handleSaveCard} disabled={cardSaving}
           style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#f0c040', border: 'none', color: '#3d2c0a', fontSize: 14, fontWeight: 500, cursor: cardSaving ? 'default' : 'pointer', opacity: cardSaving ? 0.7 : 1, marginBottom: 10 }}>
-          {cardSaving ? '生成中…' : '保存旅行人格卡片'}
+          {cardSaving ? '生成中…' : '生成旅行人格卡片'}
         </button>
         <button onClick={handleRetake}
           style={{ width: '100%', padding: '12px 0', borderRadius: 12, background: 'transparent', border: '0.5px solid #ddd4c0', color: '#8a7a62', fontSize: 13, cursor: 'pointer' }}>

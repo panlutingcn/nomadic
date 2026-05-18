@@ -31,6 +31,11 @@ export async function generateCardImage(element: HTMLElement): Promise<File> {
   return canvasToFile(canvas)
 }
 
+export async function generateCardDataUrl(element: HTMLElement): Promise<string> {
+  const canvas = await renderCanvas(element)
+  return canvas.toDataURL('image/png')
+}
+
 export async function generateCardPreview(element: HTMLElement): Promise<{ dataUrl: string; file: File }> {
   const canvas = await renderCanvas(element)
   const dataUrl = canvas.toDataURL('image/png')

@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
 import LoginModal from '@/components/LoginModal'
 import PersonaCard from '@/components/cards/PersonaCard'
-import { generateCardImage } from '@/lib/generateCardImage'
+import { generateCardImage, generateCardDataUrl } from '@/lib/generateCardImage'
 
 type Step = 'welcome' | 'quiz' | 'result'
 
@@ -22,20 +22,15 @@ export default function OnboardingPage() {
   const [personaKey, setPersonaKey] = useState('')
   const [axisScores, setAxisScores] = useState<Record<string, number>>({})
   const [cardSaving, setCardSaving] = useState(false)
-  const [prebuiltCard, setPrebuiltCard] = useState<File | null>(null)
+  const [prebuiltDataUrl, setPrebuiltDataUrl] = useState<string | null>(null)
   const personaCardRef = useRef<HTMLDivElement>(null)
 
-  // Pre-generate card when result step renders so showSaveFilePicker
-  // can be called immediately on click (user gesture preserved)
   useEffect(() => {
     if (step !== 'result' || !personaKey) return
-    setPrebuiltCard(null)
+    setPrebuiltDataUrl(null)
     const timer = setTimeout(async () => {
       if (!personaCardRef.current) return
-      try {
-        const file = await generateCardImage(personaCardRef.current)
-        setPrebuiltCard(file)
-      } catch { /* silent — fallback to on-click generation */ }
+      try { setPrebuiltDataUrl(await generateCardDataUrl(personaCardRef.current)) } catch { /* silent */ }
     }, 600)
     return () => clearTimeout(timer)
   }, [step, personaKey])
@@ -93,28 +88,33 @@ export default function OnboardingPage() {
 
   const handleSaveCard = async () => {
     if (cardSaving) return
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    if (!isMobile && prebuiltDataUrl) {
+      // Synchronous desktop download — a.click() before any await, user gesture intact
+      savePersona()
+      const a = document.createElement('a')
+      a.href = prebuiltDataUrl
+      a.download = 'nomadic-persona.png'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      return
+    }
+    if (!personaCardRef.current) return
     setCardSaving(true)
     savePersona()
     try {
-      // Use pre-built file (synchronous) so showSaveFilePicker runs within user gesture
-      const file = prebuiltCard ?? (personaCardRef.current ? await generateCardImage(personaCardRef.current) : null)
-      if (!file) throw new Error('card_ref_missing')
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+      const file = await generateCardImage(personaCardRef.current)
       if (isMobile && typeof navigator.share === 'function' && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], title: 'nomadic-persona' }).catch(() => {})
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } else if (!isMobile && typeof (window as any).showSaveFilePicker === 'function') {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const handle = await (window as any).showSaveFilePicker({ suggestedName: 'nomadic-persona.png', types: [{ description: 'PNG 图片', accept: { 'image/png': ['.png'] } }] })
-        const writable = await handle.createWritable()
-        await writable.write(file)
-        await writable.close()
       } else {
         const url = URL.createObjectURL(file)
         const a = document.createElement('a')
         a.href = url
         a.download = 'nomadic-persona.png'
+        document.body.appendChild(a)
         a.click()
+        document.body.removeChild(a)
         setTimeout(() => URL.revokeObjectURL(url), 1000)
       }
     } catch (err) {
