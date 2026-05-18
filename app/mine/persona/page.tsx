@@ -6,7 +6,7 @@ import { Suspense } from 'react'
 import { PERSONAS } from '@/data/travelPersona'
 import { selectCities, getRandomGlobalCities, getRandomEuroCities, getEuroCityReason, CONTINENT_ORDER } from '@/data/personaCities'
 import { CITY_GLOBAL_INFO } from '@/data/cityInfo'
-import { generateCardImage, generateCardDataUrl } from '@/lib/generateCardImage'
+import { generateCardImage, generateCardDataUrl, dataUrlToFile } from '@/lib/generateCardImage'
 import { CITIES } from '@/data/cities'
 import { useUserProfile } from '@/hooks/useUserProfile'
 import { useAuth } from '@/context/AuthContext'
@@ -102,8 +102,29 @@ function PersonaDetailContent() {
   const handleSaveCard = async () => {
     if (cardSaving) return
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-    if (!isMobile && prebuiltDataUrl) {
-      // Synchronous desktop download — a.click() before any await, user gesture intact
+    if (prebuiltDataUrl) {
+      if (isMobile) {
+        // Synchronous base64 → File: no await before navigator.share, user gesture intact on iOS
+        const file = dataUrlToFile(prebuiltDataUrl, 'nomadic-persona.png')
+        const canShare = typeof navigator.share === 'function' &&
+          typeof navigator.canShare === 'function' &&
+          navigator.canShare({ files: [file] })
+        if (canShare) {
+          await navigator.share({ files: [file], title: 'nomadic-persona' }).catch(() => {})
+          return
+        }
+        // Mobile without Web Share API → object-URL download
+        const url = URL.createObjectURL(file)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = 'nomadic-persona.png'
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        setTimeout(() => URL.revokeObjectURL(url), 1000)
+        return
+      }
+      // Desktop: synchronous data-URL download
       const a = document.createElement('a')
       a.href = prebuiltDataUrl
       a.download = 'nomadic-persona.png'
@@ -112,6 +133,7 @@ function PersonaDetailContent() {
       document.body.removeChild(a)
       return
     }
+    // Pre-build not ready yet: generate on click (rare, < 800 ms after load)
     if (!personaCardRef.current) return
     setCardSaving(true)
     try {
