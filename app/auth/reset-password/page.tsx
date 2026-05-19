@@ -21,6 +21,7 @@ const inputStyle: React.CSSProperties = {
 export default function ResetPasswordPage() {
   const router = useRouter()
   const [ready, setReady] = useState(false)
+  const [timedOut, setTimedOut] = useState(false)
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [loading, setLoading] = useState(false)
@@ -28,10 +29,14 @@ export default function ResetPasswordPage() {
   const [done, setDone] = useState(false)
 
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | null = setTimeout(() => setTimedOut(true), 6000)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY') setReady(true)
+      if (event === 'PASSWORD_RECOVERY') {
+        if (timer) { clearTimeout(timer); timer = null }
+        setReady(true)
+      }
     })
-    return () => subscription.unsubscribe()
+    return () => { subscription.unsubscribe(); if (timer) clearTimeout(timer) }
   }, [])
 
   const handleSubmit = async () => {
@@ -70,9 +75,23 @@ export default function ResetPasswordPage() {
             <div style={{ fontSize: 12, color: '#7a6a50' }}>正在跳转至「我的」页面…</div>
           </div>
         ) : !ready ? (
-          <div style={{ textAlign: 'center', padding: '12px 0' }}>
-            <div style={{ fontSize: 13, color: '#7a6a50' }}>正在验证链接…</div>
-          </div>
+          timedOut ? (
+            <div style={{ textAlign: 'center', padding: '12px 0' }}>
+              <div style={{ fontSize: 24, marginBottom: 12 }}>⚠️</div>
+              <div style={{ fontSize: 13, fontWeight: 500, color: '#3d3020', marginBottom: 8 }}>链接已失效</div>
+              <div style={{ fontSize: 12, color: '#7a6a50', lineHeight: 1.6, marginBottom: 20 }}>
+                重置链接只能使用一次，或已过期。<br />请重新申请。
+              </div>
+              <button
+                onClick={() => router.push('/')}
+                style={{ padding: '8px 20px', borderRadius: 8, background: 'var(--accent)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}
+              >返回首页重新申请</button>
+            </div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '12px 0' }}>
+              <div style={{ fontSize: 13, color: '#7a6a50' }}>正在验证链接…</div>
+            </div>
+          )
         ) : (
           <>
             <input

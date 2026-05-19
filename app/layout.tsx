@@ -3,6 +3,7 @@ import './globals.css'
 import { AppProvider } from '@/context/AppContext'
 import { AuthProvider } from '@/context/AuthContext'
 import OnboardingGuard from '@/components/OnboardingGuard'
+import NicknameGuard from '@/components/NicknameGuard'
 
 export const metadata: Metadata = {
   title: 'Nomadic',
@@ -34,7 +35,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <AppProvider>
             <OnboardingGuard>
-              {children}
+              <NicknameGuard>
+                {children}
+              </NicknameGuard>
             </OnboardingGuard>
           </AppProvider>
         </AuthProvider>

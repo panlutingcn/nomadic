@@ -9,7 +9,9 @@ interface AuthState {
   profileNickname: string | null
   profileAvatarUrl: string | null
   sendEmailOTP: (email: string, redirectTo?: string) => Promise<{ error: string | null }>
-  loginWithEmail: (email: string, password: string, nickname?: string) => Promise<{ error: string | null; needsConfirmation?: boolean }>
+  loginWithEmail: (email: string, password: string) => Promise<{ error: string | null; needsConfirmation?: boolean }>
+  registerWithEmail: (email: string, password: string) => Promise<{ error: string | null }>
+  resendVerificationEmail: (email: string) => Promise<void>
   loginWithGoogle: (redirectPath?: string) => void
   loginWithWeChat: (redirectPath?: string) => void
   resetPassword: (email: string) => Promise<{ error: string | null }>
@@ -86,36 +88,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error: error?.message ?? null }
   }, [])
 
-  const loginWithEmail = useCallback(async (email: string, password: string, nickname?: string) => {
+  const loginWithEmail = useCallback(async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (!error) return { error: null }
-    if (error.code === 'email_not_confirmed') return { error: null, needsConfirmation: true }
-    if (error.code === 'invalid_credentials') {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? window.location.origin
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { nickname },
-          emailRedirectTo: `${window.location.origin}/`,
-        },
-      })
-      if (signUpError) {
-        const msg = signUpError.message ?? ''
-        if (msg.toLowerCase().includes('already registered') || (signUpError as { status?: number }).status === 422) {
-          return { error: '该邮箱已通过第三方账号注册，尚未设置密码。请点击下方「忘记密码？」来设置密码后登录。' }
-        }
-        return { error: signUpError.message }
-      }
-      if (data.user && window.location.hostname !== 'localhost') {
-        await supabase.from('profiles').insert({
-          id: data.user.id,
-          nickname: nickname || 'Nomadic 用户',
-        })
-      }
+    if (error.code === 'email_not_confirmed') {
+      await supabase.auth.resend({ type: 'signup', email })
       return { error: null, needsConfirmation: true }
     }
+    if (error.code === 'invalid_credentials') {
+      return { error: '邮箱或密码不正确，如曾通过第三方登录请点击「忘记密码？」设置密码' }
+    }
     return { error: error.message }
+  }, [])
+
+  const registerWithEmail = useCallback(async (email: string, password: string) => {
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: `${window.location.origin}/` },
+    })
+    if (signUpError) {
+      const msg = signUpError.message ?? ''
+      if (msg.toLowerCase().includes('already registered') || (signUpError as { status?: number }).status === 422) {
+        return { error: '该邮箱已注册，请直接登录，或通过「忘记密码？」设置密码' }
+      }
+      return { error: signUpError.message }
+    }
+    if (data.user) {
+      // identities === [] means Supabase returned a fake user to prevent email enumeration;
+      // the email is already registered and confirmed — do NOT overwrite their profile.
+      if (!data.user.identities?.length) {
+        return { error: '该邮箱已注册，请直接登录，或通过「忘记密码？」重置密码' }
+      }
+      await supabase.from('profiles').upsert({ id: data.user.id, nickname: 'Nomadic 用户' }, { onConflict: 'id' })
+    }
+    return { error: null }
+  }, [])
+
+  const resendVerificationEmail = useCallback(async (email: string) => {
+    await supabase.auth.resend({ type: 'signup', email })
   }, [])
 
   const loginWithGoogle = useCallback((redirectPath = '/') => {
@@ -181,7 +192,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider value={{
       user, loading,
       profileNickname, profileAvatarUrl,
-      sendEmailOTP, loginWithEmail, loginWithGoogle, loginWithWeChat,
+      sendEmailOTP, loginWithEmail, registerWithEmail, resendVerificationEmail,
+      loginWithGoogle, loginWithWeChat,
       resetPassword, updateProfile, updateEmail, deleteAccount, logout,
     }}>
       {children}

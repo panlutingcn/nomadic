@@ -29,7 +29,9 @@ export default function AccountPage() {
   const [savingNickname, setSavingNickname] = useState(false)
   const [nicknameSaved, setNicknameSaved] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
+  const [savingEmail, setSavingEmail] = useState(false)
   const [resetSent, setResetSent] = useState(false)
+  const [sendingReset, setSendingReset] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -57,17 +59,21 @@ export default function AccountPage() {
   }
 
   const handleUpdateEmail = async () => {
-    if (!newEmail.trim()) return
-    setError(null)
-    const { error: err } = await updateEmail(newEmail.trim())
+    const trimmed = newEmail.trim()
+    if (!trimmed) return
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) { setError('请输入有效的邮箱地址'); return }
+    setSavingEmail(true); setError(null)
+    const { error: err } = await updateEmail(trimmed)
+    setSavingEmail(false)
     if (err) { setError(err); return }
     setEmailSent(true)
   }
 
   const handleResetPassword = async () => {
     if (!user.email) return
-    setError(null)
+    setSendingReset(true); setError(null)
     const { error: err } = await resetPassword(user.email)
+    setSendingReset(false)
     if (err) { setError(err); return }
     setResetSent(true)
   }
@@ -148,9 +154,10 @@ export default function AccountPage() {
             />
             <button
               onClick={handleUpdateEmail}
-              style={{ fontSize: 12, padding: '5px 12px', borderRadius: 8, background: '#f0ebe2', color: '#4a3c28', border: '0.5px solid #ddd4c0', cursor: 'pointer', flexShrink: 0 }}
+              disabled={savingEmail}
+              style={{ fontSize: 12, padding: '5px 12px', borderRadius: 8, background: '#f0ebe2', color: '#4a3c28', border: '0.5px solid #ddd4c0', cursor: savingEmail ? 'not-allowed' : 'pointer', flexShrink: 0, opacity: savingEmail ? 0.6 : 1 }}
             >
-              更换
+              {savingEmail ? '发送中…' : '更换'}
             </button>
           </div>
         ) : (
@@ -161,10 +168,10 @@ export default function AccountPage() {
         {sectionTitle('密码')}
         {!resetSent ? (
           <div
-            onClick={handleResetPassword}
-            style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 12, padding: '12px 13px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', marginBottom: 4 }}
+            onClick={sendingReset ? undefined : handleResetPassword}
+            style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 12, padding: '12px 13px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: sendingReset ? 'default' : 'pointer', marginBottom: 4, opacity: sendingReset ? 0.6 : 1 }}
           >
-            <span style={{ fontSize: 13, color: '#2d2418' }}>发送密码重置邮件</span>
+            <span style={{ fontSize: 13, color: '#2d2418' }}>{sendingReset ? '发送中…' : '发送密码重置邮件'}</span>
             <span style={{ fontSize: 14, color: '#c8bfaa' }}>›</span>
           </div>
         ) : (

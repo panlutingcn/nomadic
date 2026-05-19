@@ -1,14 +1,13 @@
 'use client'
 import { useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
-import { supabase } from '@/lib/supabase'
 
 interface NicknamePromptProps {
   userId: string
   onComplete: (nickname: string) => void
 }
 
-export default function NicknamePrompt({ userId, onComplete }: NicknamePromptProps) {
+export default function NicknamePrompt({ userId: _userId, onComplete }: NicknamePromptProps) {
   const { updateProfile } = useAuth()
   const [nickname, setNickname] = useState('')
   const [loading, setLoading] = useState(false)
@@ -18,9 +17,9 @@ export default function NicknamePrompt({ userId, onComplete }: NicknamePromptPro
     const trimmed = nickname.trim()
     if (!trimmed) { setError('请输入昵称'); return }
     setLoading(true)
-    await supabase.from('profiles').insert({ id: userId, nickname: trimmed })
-    await updateProfile({ nickname: trimmed })
+    const { error: err } = await updateProfile({ nickname: trimmed })
     setLoading(false)
+    if (err) { setError('保存失败，请重试'); return }
     onComplete(trimmed)
   }
 

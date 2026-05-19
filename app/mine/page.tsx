@@ -229,7 +229,13 @@ export default function MinePage() {
       <div style={{ height: 32 }} />
       <BottomNav />
 
-      {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
+      {showLogin && (
+        <LoginModal
+          redirectPath="/mine/persona"
+          onClose={() => setShowLogin(false)}
+          onSuccess={() => { setShowLogin(false); router.replace('/mine/persona') }}
+        />
+      )}
       {showContact && <ContactModal onClose={() => setShowContact(false)} />}
     </div>
   )

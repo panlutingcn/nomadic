@@ -25,6 +25,18 @@ export default function OnboardingPage() {
   const [prebuiltDataUrl, setPrebuiltDataUrl] = useState<string | null>(null)
   const personaCardRef = useRef<HTMLDivElement>(null)
 
+  // Restore result state if user navigated back from an OAuth redirect
+  useEffect(() => {
+    const backup = sessionStorage.getItem('nomadic_result_backup')
+    if (backup) {
+      try {
+        const { personaKey: pk, axisScores: ax } = JSON.parse(backup) as { personaKey: string; axisScores: Record<string, number> }
+        if (pk) { setPersonaKey(pk); setAxisScores(ax); setStep('result') }
+      } catch { /* ignore */ }
+      sessionStorage.removeItem('nomadic_result_backup')
+    }
+  }, [])
+
   useEffect(() => {
     if (step !== 'result' || !personaKey) return
     setPrebuiltDataUrl(null)
@@ -333,7 +345,15 @@ export default function OnboardingPage() {
               {cardSaving ? '生成中…' : '保存旅行人格卡片'}
             </button>
             <button
-              onClick={() => { savePersona(); user ? router.replace('/mine/persona') : setShowLogin(true) }}
+              onClick={() => {
+                savePersona()
+                if (user) {
+                  router.replace('/mine/persona')
+                } else {
+                  sessionStorage.setItem('nomadic_result_backup', JSON.stringify({ personaKey, axisScores }))
+                  setShowLogin(true)
+                }
+              }}
               style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
             >
               {user ? '查看人格详情' : '登录解锁五大洲推荐城市'}
@@ -363,6 +383,7 @@ export default function OnboardingPage() {
 
       {showLogin && (
         <LoginModal
+          redirectPath="/mine/persona"
           onClose={() => setShowLogin(false)}
           onSuccess={async () => {
             setShowLogin(false)
