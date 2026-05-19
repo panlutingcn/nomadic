@@ -100,6 +100,35 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [searchContext, setSearchContext] = useState<SearchContext | null>(null)
   const [savedCities, setSavedCities] = useState<SavedCity[]>(SAMPLE_SAVED_CITIES)
   const [imprints, setImprints] = useState<Imprint[]>(SAMPLE_USER_IMPRINTS)
+  const [communityImprints, setCommunityImprints] = useState<Imprint[]>([])
+
+  // Load all public imprints from all users (independent of auth state)
+  useEffect(() => {
+    let cancelled = false
+    supabase
+      .from('imprints')
+      .select('*')
+      .eq('is_public', true)
+      .is('deleted_at', null)
+      .order('created_at', { ascending: false })
+      .then(({ data, error }) => {
+        if (cancelled || error || !data) return
+        setCommunityImprints(data.map(r => ({
+          id: r.id,
+          city: r.city,
+          title: r.title,
+          narrative: r.narrative ?? '',
+          tags: r.tags ?? [],
+          isPublic: true,
+          author: r.author ?? undefined,
+          userId: r.user_id ?? undefined,
+          likes: r.likes ?? 0,
+          createdAt: formatDate(r.created_at),
+          photo: r.photo_url ?? undefined,
+        })))
+      })
+    return () => { cancelled = true }
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -221,8 +250,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         author: imprint.author ?? null,
       }).select('id').single()
       if (data?.id) {
-        setImprints(prev => prev.map(i => i.id === tempId ? { ...i, id: data.id } : i))
-        return data.id
+        const realId = data.id
+        setImprints(prev => prev.map(i => i.id === tempId ? { ...i, id: realId } : i))
+        if (imprint.isPublic) {
+          setCommunityImprints(prev => [{ ...newImprint, id: realId }, ...prev.filter(i => i.id !== tempId)])
+        }
+        return realId
       }
     }
     return tempId
@@ -279,10 +312,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const trashedImprints = imprints.filter(i => i.deletedAt && now - new Date(i.deletedAt).getTime() < THREE_DAYS_MS)
 
   const samplePublic: Imprint[] = SAMPLE_IMPRINTS.map(s => ({ ...s, author: s.author, likes: s.likes }))
-  const userPublicIds = new Set(activeImprints.filter(i => i.isPublic).map(i => i.id))
+  // Current user's public imprints take priority (reflect real-time local updates)
+  const currentUserPublicIds = new Set(activeImprints.filter(i => i.isPublic).map(i => i.id))
+  const allPublicIds = new Set([...currentUserPublicIds, ...communityImprints.map(i => i.id)])
   const allPublicImprints = [
     ...activeImprints.filter(i => i.isPublic),
-    ...samplePublic.filter(s => !userPublicIds.has(s.id)),
+    ...communityImprints.filter(i => !currentUserPublicIds.has(i.id)),
+    ...samplePublic.filter(s => !allPublicIds.has(s.id)),
   ]
 
   return (
