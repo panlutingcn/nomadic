@@ -75,9 +75,146 @@ body {
 .l21{animation-delay:2.70s} .l22{animation-delay:2.78s} .l23{animation-delay:2.86s} .l24{animation-delay:2.94s}
 
 html, body {
+  min-height: 100vh;
+}
+
+/* ── 响应式 App Shell ──────────────────────────────────── */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* 手机端：480px 居中，与原版一致 */
   max-width: 480px;
   margin: 0 auto;
-  min-height: 100vh;
+}
+
+.app-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* 桌面端 (≥ 1024px) */
+@media (min-width: 1024px) {
+  /* app-shell 全宽铺满：左侧边栏贴左，内容区向右延伸至边缘
+     全屏只有两种背景色，在导航栏右边界处分割，无多余色块 */
+  .app-shell {
+    flex-direction: row;
+    max-width: none;
+    width: 100%;
+    margin: 0;
+  }
+
+  /* 侧边栏：粘性，撑满视口高度 */
+  .side-nav-desktop {
+    width: 330px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  /* 隐藏手机底部导航 */
+  .bottom-nav-mobile {
+    display: none !important;
+  }
+}
+
+/* 手机端：隐藏桌面侧边栏 */
+@media (max-width: 1023px) {
+  .side-nav-desktop {
+    display: none !important;
+  }
+}
+
+/* ── 桌面端内容响应式工具类 ─────────────────────────── */
+@media (min-width: 1024px) {
+  /* 页面内容区：增大左右内边距 */
+  .page-inner {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+
+  /* 2 列等宽网格 */
+  .desktop-2col-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .desktop-2col-grid > * {
+    margin-bottom: 0 !important;
+  }
+
+  /* 搜索框限宽居中 */
+  .desktop-search-wrap {
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 首页城市标签：桌面端保持手机 flex-wrap 排版，仅限宽居中 */
+  .desktop-tags-wrap {
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 首页遇见社区预览：与搜索框同宽对齐 */
+  .desktop-preview-wrap {
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 首页社区预览标题行限宽 */
+  .desktop-section-header {
+    max-width: 100%;
+  }
+
+  /* 我的页：收藏夹 + 印迹列表单列堆叠（参考手机端排版） */
+  .mine-bottom-cols {
+    display: block;
+  }
+
+  /* 遇见社区：卡片图片在桌面增高 */
+  .meet-card-photo {
+    height: 190px !important;
+  }
+
+  /* 底部导航占位间距桌面隐藏 */
+  .nav-spacer-mobile {
+    display: none !important;
+  }
+
+  /* 发布印迹 & 我的：内容限宽居中，缩进参考搜索框 */
+  .desktop-page-inner-wrap {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  /* 全屏时：body 背景统一为导航栏色，内容区保持页面色 */
+  body {
+    background: #ede5d8;
+  }
+  .app-content {
+    background: var(--bg-page);
+  }
+}
+
+/* 首页社区预览卡片：统一高度（手机 + 桌面通用） */
+.home-preview-card {
+  height: 88px;
+}
+.home-preview-card--hover {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.home-preview-card--hover:hover {
+  transform: scale(1.025);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.09) !important;
 }
 
 button { font-family: inherit; }
@@ -101,10 +238,13 @@ a { text-decoration: none; }
 }
 
 .nav-btn {
-  transition: transform 120ms ease;
+  transition: transform 140ms ease;
 }
 .nav-btn:hover {
-  transform: scale(1.08);
+  transform: scale(1.14);
+}
+.nav-btn:active {
+  transform: scale(1.06);
 }
 
 .hover-lift {

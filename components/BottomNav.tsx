@@ -195,9 +195,9 @@ export default function BottomNav() {
   const isStory = isActive('/story')
 
   return (
-    <nav style={navStyle}>
+    <nav className="bottom-nav-mobile" style={navStyle}>
       {/* 探索 */}
-      <button onClick={handleExplore} style={niStyle()}>
+      <button onClick={handleExplore} className="nav-btn" style={niStyle()}>
         <VolcanoIcon erupting={erupting} />
         <span style={{ fontSize: 10, color: isHome ? '#2d2418' : '#8a7a62', fontWeight: isHome ? 500 : 400 }}>探索</span>
         {isHome && <div style={{ height: 2, width: 18, background: '#1D9E75', borderRadius: 1, marginTop: 1 }} />}
@@ -207,6 +207,7 @@ export default function BottomNav() {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flex: 1 }}>
         <button
           onClick={() => router.push('/story')}
+          className="nav-btn"
           style={{
             width: 50, height: 50, borderRadius: '50%',
             border: isStory ? '1.5px solid #1D9E75' : '1.5px solid #c8bfaa',
@@ -230,7 +231,7 @@ export default function BottomNav() {
       </div>
 
       {/* 我的 */}
-      <button onClick={() => router.push('/mine')} style={niStyle()}>
+      <button onClick={() => router.push('/mine')} className="nav-btn" style={niStyle()}>
         <span style={{ fontSize: 20 }}>🗺️</span>
         <span style={{ fontSize: 10, color: isMine ? '#2d2418' : '#8a7a62', fontWeight: isMine ? 500 : 400 }}>我的</span>
         {isMine && <div style={{ height: 2, width: 18, background: '#1D9E75', borderRadius: 1, marginTop: 1 }} />}

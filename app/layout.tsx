@@ -4,6 +4,7 @@ import { AppProvider } from '@/context/AppContext'
 import { AuthProvider } from '@/context/AuthContext'
 import OnboardingGuard from '@/components/OnboardingGuard'
 import NicknameGuard from '@/components/NicknameGuard'
+import SideNav from '@/components/SideNav'
 
 export const metadata: Metadata = {
   title: 'Nomadic',
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
+  // 移除 maximumScale: 1，允许桌面用户自由缩放
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -36,7 +37,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <AppProvider>
             <OnboardingGuard>
               <NicknameGuard>
-                {children}
+                {/* app-shell：手机端单列 480px 居中；桌面端双列 侧边栏 + 内容区 */}
+                <div className="app-shell">
+                  <SideNav />
+                  <div className="app-content">
+                    {children}
+                  </div>
+                </div>
               </NicknameGuard>
             </OnboardingGuard>
           </AppProvider>

@@ -335,7 +335,8 @@ export default function StoryPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ flex: 1, padding: '14px 16px 12px' }}>
+      <div className="page-inner" style={{ flex: 1, padding: '14px 16px 12px' }}>
+        <div className="desktop-page-inner-wrap">
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <button onClick={() => router.back()} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer' }}>✕ 取消</button>
@@ -486,6 +487,7 @@ export default function StoryPage() {
         <button onClick={handlePublish} disabled={publishing || published} style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: published ? '#e8f5ee' : 'var(--accent)', border: published ? '1px solid #1D9E75' : 'none', color: published ? '#085041' : '#fff', fontSize: 16, fontWeight: 500, cursor: (publishing || published) ? 'not-allowed' : 'pointer', opacity: publishing ? 0.7 : 1, marginTop: 4, transition: 'all 0.3s' }}>
           {published ? '✓ 已发布' : publishing ? '发布中…' : '发布印迹'}
         </button>
+        </div>{/* /desktop-page-inner-wrap */}
       </div>
       <div style={{ height: 32 }} />
       <BottomNav />

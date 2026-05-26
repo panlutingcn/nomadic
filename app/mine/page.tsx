@@ -75,7 +75,8 @@ export default function MinePage() {
           )}
         </div>
       )}
-      <div style={{ padding: '12px 16px 0', flex: 1 }}>
+      <div className="page-inner" style={{ padding: '12px 16px 0', flex: 1 }}>
+        <div className="desktop-page-inner-wrap">
 
         {/* 用户信息栏 */}
         <div style={{ background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 16, padding: '13px 15px', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
@@ -146,73 +147,82 @@ export default function MinePage() {
           <div style={{ fontSize: 10, color: '#8a7a62', textAlign: 'center', padding: '7px 0 9px' }}>点击发光点 · 进入该城市印迹</div>
         </div>
 
-        {/* 收藏夹 */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>收藏夹</span>
-          <span style={{ fontSize: 12, color: '#1D9E75', cursor: 'pointer' }}>管理 ›</span>
-        </div>
-        <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 12, padding: '10px 13px', marginBottom: 12 }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-            {savedCities.map(city => {
-              const inCities = city.name in CITIES
-              const label = CITIES[city.name]?.nameZh || city.nameZh || city.name
-              return (
-                <button key={city.name}
-                  onClick={() => {
-                    setSelectedCity(city.name)
-                    if (inCities) {
-                      router.push('/insights')
-                    } else {
-                      router.push(`/search?q=${encodeURIComponent(city.nameZh || city.name)}`)
-                    }
-                  }}
-                  style={{ fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 8, background: 'rgba(29,158,117,0.1)', color: '#0f6e56', border: '0.5px solid rgba(29,158,117,0.25)', cursor: 'pointer' }}>
-                  {label}
-                </button>
-              )
-            })}
-            {savedCities.length === 0 && <span style={{ fontSize: 12, color: '#b8a98a' }}>还没有收藏的城市</span>}
-          </div>
-        </div>
+        {/* 收藏夹 + 印迹：桌面左右两栏 */}
+        <div className="mine-bottom-cols">
 
-        {/* 我的印迹 */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的印迹</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprints.length} 个 · 最新在前</span>
-            {user && (
-              <span onClick={() => router.push('/vault')}
-                style={{ fontSize: 11, color: trashedImprints.length > 0 ? '#c04040' : '#b8a98a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}>
-                🗑️ {trashedImprints.length > 0 && `${trashedImprints.length}`}
-              </span>
-            )}
-          </div>
-        </div>
-        {user && imprints.length === 0 && (
-          <div onClick={() => router.push('/story')}
-            style={{ background: '#fff', border: '0.5px dashed #ddd4c0', borderRadius: 12, height: 64, marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <span style={{ fontSize: 12, color: '#b8a98a' }}>+ 记录你的城市印迹</span>
-          </div>
-        )}
-        {imprints.map(imp => (
-          <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ display: 'flex', background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
-            <div style={{ width: 68, background: '#ede8df', flexShrink: 0, alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {imp.photo ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 9, color: '#c8bfaa' }}>图片</span>}
+          {/* 左栏：收藏夹 */}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>收藏夹</span>
+              <span style={{ fontSize: 12, color: '#1D9E75', cursor: 'pointer' }}>管理 ›</span>
             </div>
-            <div style={{ padding: '8px 10px', flex: 1, minWidth: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
-                <span style={{ fontSize: 10, padding: '2px 7px', borderRadius: 5, fontWeight: 500, background: imp.isPublic ? 'rgba(29,158,117,0.1)' : '#f0ebe2', color: imp.isPublic ? '#085041' : '#8a7a62', border: `0.5px solid ${imp.isPublic ? 'rgba(29,158,117,0.2)' : '#ddd4c0'}` }}>
-                  {imp.isPublic ? '公开' : '私藏'}
-                </span>
-                <span style={{ fontSize: 10, color: '#b8a98a' }}>
-                  {CITIES[imp.city]?.nameZh || imp.city}
-                </span>
+            <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 12, padding: '10px 13px', marginBottom: 12 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {savedCities.map(city => {
+                  const inCities = city.name in CITIES
+                  const label = CITIES[city.name]?.nameZh || city.nameZh || city.name
+                  return (
+                    <button key={city.name}
+                      onClick={() => {
+                        setSelectedCity(city.name)
+                        if (inCities) {
+                          router.push('/insights')
+                        } else {
+                          router.push(`/search?q=${encodeURIComponent(city.nameZh || city.name)}`)
+                        }
+                      }}
+                      style={{ fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 8, background: 'rgba(29,158,117,0.1)', color: '#0f6e56', border: '0.5px solid rgba(29,158,117,0.25)', cursor: 'pointer' }}>
+                      {label}
+                    </button>
+                  )
+                })}
+                {savedCities.length === 0 && <span style={{ fontSize: 12, color: '#b8a98a' }}>还没有收藏的城市</span>}
               </div>
-              <div style={{ fontSize: 12, fontWeight: 500, color: '#2d2418', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{getDisplayTitle(imp.narrative, imp.title, imp.city)}</div>
-              <div style={{ fontSize: 10, color: '#b8a98a', marginTop: 3, textAlign: 'right' }}>{imp.createdAt}</div>
             </div>
           </div>
-        ))}
+
+          {/* 右栏：我的印迹 */}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的印迹</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprints.length} 个 · 最新在前</span>
+                {user && (
+                  <span onClick={() => router.push('/vault')}
+                    style={{ fontSize: 11, color: trashedImprints.length > 0 ? '#c04040' : '#b8a98a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}>
+                    🗑️ {trashedImprints.length > 0 && `${trashedImprints.length}`}
+                  </span>
+                )}
+              </div>
+            </div>
+            {user && imprints.length === 0 && (
+              <div onClick={() => router.push('/story')}
+                style={{ background: '#fff', border: '0.5px dashed #ddd4c0', borderRadius: 12, height: 64, marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                <span style={{ fontSize: 12, color: '#b8a98a' }}>+ 记录你的城市印迹</span>
+              </div>
+            )}
+            {imprints.map(imp => (
+              <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ display: 'flex', background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+                <div style={{ width: 68, background: '#ede8df', flexShrink: 0, alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {imp.photo ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 9, color: '#c8bfaa' }}>图片</span>}
+                </div>
+                <div style={{ padding: '8px 10px', flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
+                    <span style={{ fontSize: 10, padding: '2px 7px', borderRadius: 5, fontWeight: 500, background: imp.isPublic ? 'rgba(29,158,117,0.1)' : '#f0ebe2', color: imp.isPublic ? '#085041' : '#8a7a62', border: `0.5px solid ${imp.isPublic ? 'rgba(29,158,117,0.2)' : '#ddd4c0'}` }}>
+                      {imp.isPublic ? '公开' : '私藏'}
+                    </span>
+                    <span style={{ fontSize: 10, color: '#b8a98a' }}>
+                      {CITIES[imp.city]?.nameZh || imp.city}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: '#2d2418', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{getDisplayTitle(imp.narrative, imp.title, imp.city)}</div>
+                  <div style={{ fontSize: 10, color: '#b8a98a', marginTop: 3, textAlign: 'right' }}>{imp.createdAt}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
 
         {/* 联系共创 */}
         <div style={{ height: 8 }} />
@@ -224,6 +234,7 @@ export default function MinePage() {
           <div style={{ fontSize: 13, color: '#2d2418', lineHeight: 1.6 }}>期待听到你的想法或故事 →</div>
         </div>
         <div style={{ height: 12 }} />
+        </div>{/* /desktop-page-inner-wrap */}
       </div>
 
       <div style={{ height: 32 }} />

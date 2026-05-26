@@ -173,7 +173,8 @@ function SearchContent() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ flex: 1, padding: '12px 16px 10px' }}>
+      <div className="page-inner" style={{ flex: 1, padding: '12px 16px 10px' }}>
+      <div className="desktop-search-wrap">
 
         {/* 搜索栏 + 收藏/分享按钮 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
@@ -394,7 +395,8 @@ function SearchContent() {
             )}
           </>
         )}
-      </div>
+      </div>{/* /desktop-search-wrap */}
+      </div>{/* /page-inner */}
       <div style={{ height: 32 }} />
       <BottomNav />
 
