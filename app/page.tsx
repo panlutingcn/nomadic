@@ -59,8 +59,8 @@ export default function ExplorePage() {
               alt="Nomadic"
               style={{ height: 53, width: 'auto', display: 'block', margin: '0 auto' }}
             />
-            <div style={{ fontSize: 14, fontWeight: 500, color: '#3d3020', marginTop: 4, lineHeight: 1.45 }}>数字游民搜索引擎</div>
-            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>真正融入当地的文化灵魂与商业脉络</div>
+            <div style={{ fontSize: 14, fontWeight: 500, color: '#3d3020', marginTop: 4, lineHeight: 1.45 }}>为旅居者打造的城市深度平台</div>
+            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>在世界各地扎根，而不只是路过。</div>
           </div>
         </div>
 
@@ -78,13 +78,11 @@ export default function ExplorePage() {
               onClick={() => handleCityClick(city)}
               onMouseEnter={() => setHoveredCity(city.en)}
               onMouseLeave={() => setHoveredCity(null)}
+              className="crystal-tag"
               style={{
                 fontSize: 11,
                 padding: '5px 11px',
                 borderRadius: 8,
-                background: 'var(--accent-dim)',
-                color: 'var(--accent-text)',
-                border: `${hoveredCity === city.en ? '1.5px' : '0.5px'} solid var(--accent-border)`,
                 cursor: 'pointer',
                 fontWeight: hoveredCity === city.en ? 600 : 500,
                 transform: hoveredCity === city.en ? 'scale(1.06)' : 'scale(1)',
@@ -98,10 +96,9 @@ export default function ExplorePage() {
             onClick={handleRandomExplore}
             onMouseEnter={() => setHoveredCity('__random__')}
             onMouseLeave={() => setHoveredCity(null)}
+            className="crystal-tag"
             style={{
               fontSize: 11, padding: '5px 11px', borderRadius: 8,
-              background: 'var(--bg-card-2)', color: 'var(--text-secondary)',
-              border: `${hoveredCity === '__random__' ? '1.5px' : '0.5px'} solid var(--border-light)`,
               cursor: 'pointer',
               fontWeight: hoveredCity === '__random__' ? 600 : 500,
               transform: hoveredCity === '__random__' ? 'scale(1.06)' : 'scale(1)',
@@ -157,10 +154,10 @@ export default function ExplorePage() {
           <div style={{ textAlign: 'center', marginBottom: 20 }}>
             <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px' }} />
             <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-              Digital Nomad Search Engine
+              The Deep-Dive Platform for Global Residents
             </div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-              Integrate into the local cultural soul and business pulse.
+              Rooted in the world, never just passing by.
             </div>
           </div>
 
