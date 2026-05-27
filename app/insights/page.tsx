@@ -171,7 +171,8 @@ export default function InsightsPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ flex: 1, padding: '14px 16px 10px' }}>
+      <div className="page-inner" style={{ flex: 1, padding: '14px 16px 10px' }}>
+      <div className="desktop-search-wrap">
 
         {/* 返回 + 收藏/分享按钮同行 */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
@@ -380,7 +381,8 @@ export default function InsightsPage() {
             分享城市洞察 →
           </button>
         )}
-      </div>
+      </div>{/* /desktop-search-wrap */}
+      </div>{/* /page-inner */}
       <div style={{ height: 32 }} />
       <BottomNav />
 
