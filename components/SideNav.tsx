@@ -197,15 +197,15 @@ export default function SideNav() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 padding: '10px 28px 10px 14px', borderRadius: 11, border: 'none',
                 cursor: 'pointer', fontSize: 14,
-                fontWeight: active ? 600 : 400,
+                fontWeight: active ? 600 : hovered ? 500 : 400,
                 background: active
                   ? '#1D9E75'
                   : hovered
                     ? 'rgba(45,36,24,0.05)'
                     : 'none',
-                color: active ? '#fff' : 'var(--text-secondary)',
+                color: active ? '#fff' : hovered ? '#0f6e56' : 'var(--text-secondary)',
                 transform: hovered ? 'scale(1.06)' : 'scale(1)',
-                transition: 'background 150ms ease, transform 140ms ease',
+                transition: 'background 150ms ease, transform 140ms ease, color 150ms ease',
               }}
             >
               {item.volcano ? (
