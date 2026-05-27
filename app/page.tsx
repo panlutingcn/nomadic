@@ -26,7 +26,7 @@ export default function ExplorePage() {
   const searchBoxRef = useRef<SearchBoxHandle>(null)
 
   useEffect(() => {
-    const allCities = [...PINNED_CITIES, ...NOMAD_CITY_POOL]
+    const allCities = [...PINNED_CITIES, ...NOMAD_CITY_POOL].filter(c => !!CITIES[c.en])
     setRandomCities(shuffle(NOMAD_CITY_POOL).slice(0, RANDOM_COUNT))
     setInsightCities(shuffle(allCities).slice(0, 5))
   }, [])
