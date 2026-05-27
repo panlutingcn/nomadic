@@ -163,6 +163,7 @@ export default function SideNav() {
                 onClick={() => handleNav(item.path, false)}
                 onMouseEnter={() => setHoveredPath(item.path)}
                 onMouseLeave={() => setHoveredPath(null)}
+                className={active ? '' : 'glass-nav-btn'}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                   padding: '10px 28px 10px 14px', borderRadius: 11, border: 'none',
@@ -191,6 +192,7 @@ export default function SideNav() {
               onClick={() => handleNav(item.path, item.volcano)}
               onMouseEnter={() => setHoveredPath(item.path)}
               onMouseLeave={() => setHoveredPath(null)}
+              className={active ? '' : 'glass-nav-btn'}
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 padding: '10px 28px 10px 14px', borderRadius: 11, border: 'none',
@@ -225,6 +227,7 @@ export default function SideNav() {
         onClick={() => router.push('/onboarding')}
         onMouseEnter={() => setHoveredPath('__persona__')}
         onMouseLeave={() => setHoveredPath(null)}
+        className="glass-nav-btn"
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
           padding: '10px 28px 10px 14px', borderRadius: 11, border: 'none',
@@ -247,6 +250,7 @@ export default function SideNav() {
         onClick={() => setShowQR(true)}
         onMouseEnter={() => setHoveredPath('__qr__')}
         onMouseLeave={() => setHoveredPath(null)}
+        className="glass-nav-btn"
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
           padding: '10px 28px 10px 14px', borderRadius: 11, border: 'none',
