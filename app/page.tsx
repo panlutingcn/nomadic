@@ -78,11 +78,13 @@ export default function ExplorePage() {
               onClick={() => handleCityClick(city)}
               onMouseEnter={() => setHoveredCity(city.en)}
               onMouseLeave={() => setHoveredCity(null)}
-              className="crystal-tag"
               style={{
                 fontSize: 11,
                 padding: '5px 11px',
                 borderRadius: 8,
+                background: 'var(--accent-dim)',
+                color: 'var(--accent-text)',
+                border: `${hoveredCity === city.en ? '1.5px' : '0.5px'} solid var(--accent-border)`,
                 cursor: 'pointer',
                 fontWeight: hoveredCity === city.en ? 600 : 500,
                 transform: hoveredCity === city.en ? 'scale(1.06)' : 'scale(1)',
@@ -96,9 +98,10 @@ export default function ExplorePage() {
             onClick={handleRandomExplore}
             onMouseEnter={() => setHoveredCity('__random__')}
             onMouseLeave={() => setHoveredCity(null)}
-            className="crystal-tag"
             style={{
               fontSize: 11, padding: '5px 11px', borderRadius: 8,
+              background: 'var(--bg-card-2)', color: 'var(--text-secondary)',
+              border: `${hoveredCity === '__random__' ? '1.5px' : '0.5px'} solid var(--border-light)`,
               cursor: 'pointer',
               fontWeight: hoveredCity === '__random__' ? 600 : 500,
               transform: hoveredCity === '__random__' ? 'scale(1.06)' : 'scale(1)',

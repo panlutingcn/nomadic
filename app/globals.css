@@ -1,65 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --bg-page:       #eceff9;
-  --bg-card:       rgba(255, 255, 255, 0.80);
-  --bg-card-2:     rgba(218, 226, 250, 0.45);
-  --bg-nav:        rgba(228, 233, 252, 0.90);
-  --border:        rgba(170, 185, 230, 0.28);
-  --border-light:  rgba(190, 208, 245, 0.22);
-  --text-primary:  #1b2040;
-  --text-secondary:#5a6482;
-  --text-muted:    #96a0c4;
+  --bg-page:       #f5f0e8;
+  --bg-card:       #ffffff;
+  --bg-card-2:     #ede8df;
+  --bg-nav:        #ede5d8;
+  --border:        #e2d9c8;
+  --border-light:  #ddd4c0;
+  --text-primary:  #2d2418;
+  --text-secondary:#8a7a62;
+  --text-muted:    #b8a98a;
   --accent:        #1D9E75;
   --accent-dim:    rgba(29,158,117,0.10);
-  --accent-border: rgba(29,158,117,0.25);
+  --accent-border: rgba(29,158,117,0.22);
   --accent-text:   #0f6e56;
 }
 
 body {
-  background: linear-gradient(155deg, #e6ebf8 0%, #eaf6f2 40%, #e8ecf8 75%, #eaf4f0 100%);
-  background-attachment: fixed;
+  background: var(--bg-page);
   font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   color: var(--text-primary);
-}
-
-/* ── 水晶玻璃按钮 ── */
-.glass-btn {
-  background: rgba(255, 255, 255, 0.55) !important;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.72) !important;
-  box-shadow:
-    0 0 0 1px rgba(150, 175, 240, 0.14),
-    0 2px 18px rgba(80, 100, 200, 0.07),
-    inset 0 1px 0 rgba(255, 255, 255, 0.90) !important;
-}
-.glass-btn:hover {
-  background: rgba(255, 255, 255, 0.72) !important;
-  box-shadow:
-    0 0 0 1.5px rgba(130, 165, 240, 0.22),
-    0 4px 22px rgba(80, 100, 200, 0.11),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
-}
-
-/* ── 水晶城市标签 ── */
-.crystal-tag {
-  background: rgba(255, 255, 255, 0.52) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.68) !important;
-  box-shadow:
-    0 0 0 1px rgba(155, 180, 245, 0.13),
-    inset 0 1px 0 rgba(255, 255, 255, 0.88);
-  color: #2a3a6a !important;
-}
-.crystal-tag:hover {
-  background: rgba(255, 255, 255, 0.78) !important;
-  border-color: rgba(255, 255, 255, 0.88) !important;
-  box-shadow:
-    0 0 0 1.5px rgba(130, 165, 240, 0.20),
-    0 3px 14px rgba(80, 110, 200, 0.09),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
 @keyframes volcano-shake {
@@ -236,15 +196,12 @@ html, body {
     width: 100%;
   }
 
-  /* 桌面：侧边栏背景与整体渐变融合 */
-  .side-nav-desktop {
-    background: rgba(224, 230, 252, 0.88) !important;
-    border-right-color: rgba(175, 195, 240, 0.25) !important;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+  /* 全屏时：body 背景统一为导航栏色，内容区保持页面色 */
+  body {
+    background: #ede5d8;
   }
   .app-content {
-    background: transparent;
+    background: var(--bg-page);
   }
 }
 
