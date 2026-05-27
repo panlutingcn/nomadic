@@ -25,6 +25,7 @@ export default function MinePage() {
   const [personaKey, setPersonaKey] = useState('')
   const [showLogin, setShowLogin] = useState(false)
   const [showContact, setShowContact] = useState(false)
+  const [showQR, setShowQR] = useState(false)
   const [verifyState, setVerifyState] = useState<'idle' | 'sending' | 'sent'>('idle')
   useEffect(() => {
     if (authLoading) return
@@ -128,6 +129,17 @@ export default function MinePage() {
             <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500 }}>开始测试 →</span>
           </div>
         )}
+
+        {/* 扫码加入社群 */}
+        <div onClick={() => setShowQR(true)}
+          style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12 }}>
+          <span style={{ fontSize: 22, flexShrink: 0 }}>💬</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>扫码加入社群</div>
+            <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>加微信 · 进入 Nomadic 游民社区</div>
+          </div>
+          <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500 }}>扫码 →</span>
+        </div>
 
         {/* 全球版图 — 容器 160px，地球 5× */}
         <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, overflow: 'hidden', marginBottom: 12 }}>
@@ -248,6 +260,44 @@ export default function MinePage() {
         />
       )}
       {showContact && <ContactModal onClose={() => setShowContact(false)} />}
+
+      {/* 微信二维码弹窗 */}
+      {showQR && (
+        <div
+          onClick={() => setShowQR(false)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 9999,
+            background: 'rgba(0,0,0,0.55)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: '#fff', borderRadius: 20, padding: '28px 28px 24px',
+              maxWidth: 300, width: '88vw', textAlign: 'center',
+              boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
+            }}
+          >
+            <div style={{ fontSize: 16, fontWeight: 600, color: '#2d2418', marginBottom: 4 }}>加入 Nomadic 社群</div>
+            <div style={{ fontSize: 12, color: '#8a7a62', marginBottom: 16 }}>扫码添加微信，进入游民社区</div>
+            <img
+              src="/wechat-qr.jpg"
+              alt="微信二维码"
+              style={{ width: '100%', borderRadius: 12, display: 'block' }}
+            />
+            <button
+              onClick={() => setShowQR(false)}
+              style={{
+                marginTop: 18, fontSize: 13, color: '#8a7a62',
+                background: 'none', border: 'none', cursor: 'pointer',
+              }}
+            >
+              关闭
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

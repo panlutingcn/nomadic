@@ -117,6 +117,7 @@ export default function SideNav() {
   const pathname = usePathname()
   const [hoveredPath, setHoveredPath] = useState<string | null>(null)
   const [erupting, setErupting] = useState(false)
+  const [showQR, setShowQR] = useState(false)
 
   const isActive = (path: string) =>
     path === '/' ? pathname === '/' : pathname.startsWith(path + '/') || pathname === path
@@ -130,6 +131,7 @@ export default function SideNav() {
   }
 
   return (
+    <>
     <nav className="side-nav-desktop" style={{
       background: '#ede5d8',
       borderRight: '0.5px solid #d8cdb8',
@@ -191,7 +193,7 @@ export default function SideNav() {
               onMouseLeave={() => setHoveredPath(null)}
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-                padding: '10px 14px', borderRadius: 11, border: 'none',
+                padding: '10px 28px 10px 14px', borderRadius: 11, border: 'none',
                 cursor: 'pointer', fontSize: 14,
                 fontWeight: active ? 600 : 400,
                 background: active
@@ -225,9 +227,9 @@ export default function SideNav() {
         onMouseLeave={() => setHoveredPath(null)}
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-          padding: '10px 14px', borderRadius: 11, border: 'none',
+          padding: '10px 28px 10px 14px', borderRadius: 11, border: 'none',
           cursor: 'pointer', fontSize: 13, fontWeight: 500,
-          width: '100%', marginBottom: 8,
+          width: '100%', marginBottom: 6,
           background: hoveredPath === '__persona__'
             ? 'rgba(29,158,117,0.08)'
             : 'rgba(29,158,117,0.04)',
@@ -238,6 +240,28 @@ export default function SideNav() {
       >
         <span style={{ fontSize: 17, lineHeight: 1 }}>🧭</span>
         <span>旅行人格测试</span>
+      </button>
+
+      {/* 扫码加入社群 */}
+      <button
+        onClick={() => setShowQR(true)}
+        onMouseEnter={() => setHoveredPath('__qr__')}
+        onMouseLeave={() => setHoveredPath(null)}
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+          padding: '10px 28px 10px 14px', borderRadius: 11, border: 'none',
+          cursor: 'pointer', fontSize: 13, fontWeight: 500,
+          width: '100%', marginBottom: 8,
+          background: hoveredPath === '__qr__'
+            ? 'rgba(29,158,117,0.08)'
+            : 'rgba(29,158,117,0.04)',
+          color: hoveredPath === '__qr__' ? '#0f6e56' : '#5a8a76',
+          transform: hoveredPath === '__qr__' ? 'scale(1.06)' : 'scale(1)',
+          transition: 'background 150ms ease, transform 140ms ease',
+        }}
+      >
+        <span style={{ fontSize: 17, lineHeight: 1 }}>💬</span>
+        <span>扫码加入社群</span>
       </button>
 
       {/* 底部标语 */}
@@ -255,5 +279,44 @@ export default function SideNav() {
         </div>
       </div>
     </nav>
+
+    {/* 微信二维码弹窗 */}
+    {showQR && (
+      <div
+        onClick={() => setShowQR(false)}
+        style={{
+          position: 'fixed', inset: 0, zIndex: 9999,
+          background: 'rgba(0,0,0,0.55)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}
+      >
+        <div
+          onClick={e => e.stopPropagation()}
+          style={{
+            background: '#fff', borderRadius: 20, padding: '28px 28px 24px',
+            maxWidth: 300, width: '90vw', textAlign: 'center',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
+          }}
+        >
+          <div style={{ fontSize: 16, fontWeight: 600, color: '#2d2418', marginBottom: 4 }}>加入 Nomadic 社群</div>
+          <div style={{ fontSize: 12, color: '#8a7a62', marginBottom: 16 }}>扫码添加微信，进入游民社区</div>
+          <img
+            src="/wechat-qr.jpg"
+            alt="微信二维码"
+            style={{ width: '100%', borderRadius: 12, display: 'block' }}
+          />
+          <button
+            onClick={() => setShowQR(false)}
+            style={{
+              marginTop: 18, fontSize: 13, color: '#8a7a62',
+              background: 'none', border: 'none', cursor: 'pointer',
+            }}
+          >
+            关闭
+          </button>
+        </div>
+      </div>
+    )}
+  </>
   )
 }
