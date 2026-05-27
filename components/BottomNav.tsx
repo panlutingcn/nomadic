@@ -161,7 +161,6 @@ function VolcanoIcon({ erupting }: { erupting: boolean }) {
 export default function BottomNav() {
   const router = useRouter()
   const pathname = usePathname()
-  const isActive = (path: string) => pathname === path || pathname.startsWith(path + '/')
   const [erupting, setErupting] = useState(false)
 
   const handleExplore = () => {
@@ -190,9 +189,10 @@ export default function BottomNav() {
     overflow: 'visible',
   })
 
-  const isHome = isActive('/') && pathname === '/'
-  const isMine = isActive('/mine')
-  const isStory = isActive('/story')
+  // 子页面归属：search/insights 归 探索，story 归 印迹，mine/* 归 我的
+  const isHome = pathname === '/' || pathname.startsWith('/search') || pathname.startsWith('/insights')
+  const isMine = pathname === '/mine' || pathname.startsWith('/mine/')
+  const isStory = pathname === '/story' || pathname.startsWith('/story/')
 
   return (
     <nav className="bottom-nav-mobile" style={navStyle}>

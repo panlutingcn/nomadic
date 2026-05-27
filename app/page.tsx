@@ -18,14 +18,17 @@ const RANDOM_COUNT = 9
 
 export default function ExplorePage() {
   const router = useRouter()
-  const { allPublicImprints } = useApp()
+  const { allPublicImprints, setSelectedCity } = useApp()
   const [errorMessage, setErrorMessage] = useState('')
   const [randomCities, setRandomCities] = useState<NomadCity[]>([])
+  const [insightCities, setInsightCities] = useState<NomadCity[]>([])
   const [hoveredCity, setHoveredCity] = useState<string | null>(null)
   const searchBoxRef = useRef<SearchBoxHandle>(null)
 
   useEffect(() => {
+    const allCities = [...PINNED_CITIES, ...NOMAD_CITY_POOL]
     setRandomCities(shuffle(NOMAD_CITY_POOL).slice(0, RANDOM_COUNT))
+    setInsightCities(shuffle(allCities).slice(0, 5))
   }, [])
 
   const handleCityClick = (city: NomadCity) => {
@@ -110,16 +113,60 @@ export default function ExplorePage() {
           </button>
         </div>
 
-        <div className="desktop-search-wrap" style={{ margin: '12px auto' }}>
-          <div style={{ height: '0.5px', background: 'var(--border)' }} />
+        {/* ── 城市洞察预览卡片 ── */}
+        <div className="desktop-search-wrap" style={{ marginBottom: 4 }}>
+          <div style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 8 }}>—— 城市洞察 ——</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+            {insightCities.map(city => {
+              const cityData = CITIES[city.en]
+              if (!cityData) return null
+              return (
+                <div
+                  key={city.en}
+                  onClick={() => { setSelectedCity(city.en); router.push('/insights') }}
+                  style={{
+                    background: 'var(--bg-card)', border: '0.5px solid var(--border-light)',
+                    borderRadius: 12, padding: '10px 13px', cursor: 'pointer',
+                    boxShadow: '0 1px 6px rgba(0,0,0,0.05)',
+                    transition: 'transform 140ms ease, box-shadow 140ms ease',
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.012)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 14px rgba(0,0,0,0.09)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 1px 6px rgba(0,0,0,0.05)' }}
+                >
+                  {/* 行一：flag · 城市名 · 国家 · 一句话简介 */}
+                  <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 9, display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <span style={{ fontSize: 17, lineHeight: 1, flexShrink: 0 }}>{cityData.flag}</span>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', flexShrink: 0 }}>{cityData.nameZh}</span>
+                    <span style={{ color: 'var(--border)', flexShrink: 0 }}>·</span>
+                    <span style={{ fontSize: 12, color: 'var(--text-muted)', flexShrink: 0 }}>{cityData.countryZh}</span>
+                    <span style={{ color: 'var(--border)', flexShrink: 0 }}>·</span>
+                    <span style={{ fontSize: 12, color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis' }}>{cityData.soul.headline}</span>
+                  </div>
+                  {/* 行二：四象限徽章一行（中英双语）+ 探索详情 */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    {([
+                      { emoji: '🌍', label: '城市灵魂 SOUL',   bg: '#fde4a0', color: '#633806', border: '#c8a830' },
+                      { emoji: '🌿', label: '生存基准 BASE',   bg: '#d4ede0', color: '#085041', border: '#9fd4b8' },
+                      { emoji: '💼', label: '商业机会 CHANCE', bg: '#c8dcf0', color: '#0c447c', border: '#84b8d8' },
+                      { emoji: '👥', label: '本地圈子 LOCAL',  bg: '#dbd2f0', color: '#3c3489', border: '#b8a8e0' },
+                    ] as const).map(q => (
+                      <div key={q.label} style={{ background: q.bg, border: `0.5px solid ${q.border}`, borderRadius: 6, padding: '3px 6px', display: 'flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
+                        <span style={{ fontSize: 9 }}>{q.emoji}</span>
+                        <span style={{ fontSize: 9, fontWeight: 600, color: q.color }}>{q.label}</span>
+                      </div>
+                    ))}
+                    <div style={{ flex: 1 }} />
+                    <span style={{ fontSize: 11, color: 'var(--accent)', fontWeight: 500, flexShrink: 0 }}>探索详情 →</span>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
 
-        {/* 社区最新印迹：复用 desktop-search-wrap 保证与搜索框完全等宽 */}
-        <div className="desktop-search-wrap">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>遇见社区 · 最新印迹</span>
-          <button onClick={() => router.push('/meet')} style={{ fontSize: 12, color: 'var(--accent)', background: 'none', border: 'none', cursor: 'pointer' }}>查看全部 ›</button>
-        </div>
+        {/* 遇见社区 */}
+        <div className="desktop-search-wrap" style={{ marginTop: 12 }}>
+        <div style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 10 }}>—— 遇见社区 ——</div>
         {/* 印迹预览：自然高度，与手机端相同单列排版 */}
         <div>
           {previewImprints.map(imp => (

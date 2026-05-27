@@ -119,8 +119,12 @@ export default function SideNav() {
   const [erupting, setErupting] = useState(false)
   const [showQR, setShowQR] = useState(false)
 
-  const isActive = (path: string) =>
-    path === '/' ? pathname === '/' : pathname.startsWith(path + '/') || pathname === path
+  // 子页面归属规则：凡属该导航范围内的路径均高亮
+  const isActive = (path: string) => {
+    if (path === '/') return pathname === '/' || pathname.startsWith('/search') || pathname.startsWith('/insights')
+    if (path === '/meet') return pathname === '/meet' || pathname.startsWith('/imprint')
+    return pathname === path || pathname.startsWith(path + '/')
+  }
 
   const handleNav = (path: string, isVolcano: boolean) => {
     router.push(path)
