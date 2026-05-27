@@ -135,10 +135,10 @@ export default function MinePage() {
           style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12 }}>
           <span style={{ fontSize: 22, flexShrink: 0 }}>💬</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>扫码加入社群</div>
-            <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>加微信 · 进入 Nomadic 游民社区</div>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>加入线上全球社群</div>
+            <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>连接全球的数字游民和深度旅行者</div>
           </div>
-          <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500 }}>扫码 →</span>
+          <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500 }}>扫码加入</span>
         </div>
 
         {/* 全球版图 — 容器 160px，地球 5× */}
@@ -243,7 +243,7 @@ export default function MinePage() {
         </div>
         <div onClick={() => setShowContact(true)}
           style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 12, padding: '14px 15px', marginBottom: 12, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
-          <div style={{ fontSize: 13, color: '#2d2418', lineHeight: 1.6 }}>期待听到你的想法或故事 →</div>
+          <div style={{ fontSize: 13, color: '#2d2418', lineHeight: 1.6 }}>有建议、故事或合作意向？欢迎来信➡️ </div>
         </div>
         <div style={{ height: 12 }} />
         </div>{/* /desktop-page-inner-wrap */}

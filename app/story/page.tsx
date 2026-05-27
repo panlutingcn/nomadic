@@ -60,7 +60,7 @@ export default function StoryPage() {
   const { nickname } = useUserProfile()
   const [city, setCity] = useState('')
   const [editingCity, setEditingCity] = useState(false)
-  const [photo, setPhoto] = useState<string | undefined>(undefined)
+  const [photos, setPhotos] = useState<string[]>([])
   const fileRef = useRef<HTMLInputElement>(null)
   const [showLogin, setShowLogin] = useState(false)
   const [showVerifyPrompt, setShowVerifyPrompt] = useState(false)
@@ -85,7 +85,7 @@ export default function StoryPage() {
   useEffect(() => {
     const pending = sessionStorage.getItem('pendingPhoto')
     if (pending) {
-      setPhoto(pending)
+      setPhotos([pending])
       sessionStorage.removeItem('pendingPhoto')
     }
 
@@ -138,9 +138,9 @@ export default function StoryPage() {
   // 清理 blob URL
   useEffect(() => {
     return () => {
-      if (photo && photo.startsWith('blob:')) URL.revokeObjectURL(photo)
+      photos.forEach(p => { if (p.startsWith('blob:')) URL.revokeObjectURL(p) })
     }
-  }, [photo])
+  }, [photos])
 
   // Restore and auto-publish after OAuth redirect
   useEffect(() => {
@@ -150,8 +150,8 @@ export default function StoryPage() {
     sessionStorage.removeItem('pendingImprint')
     ;(async () => {
       try {
-        const data = JSON.parse(pending) as { city: string; narrative: string; tags: string[]; isPublic: boolean; photo?: string }
-        await addImprint({ city: data.city, title: extractTitle(data.narrative, data.city), narrative: data.narrative, tags: data.tags, isPublic: data.isPublic, photo: data.photo, author: nickname ?? undefined })
+        const data = JSON.parse(pending) as { city: string; narrative: string; tags: string[]; isPublic: boolean; photo?: string; photos?: string[] }
+        await addImprint({ city: data.city, title: extractTitle(data.narrative, data.city), narrative: data.narrative, tags: data.tags, isPublic: data.isPublic, photo: data.photo, photos: data.photos, author: nickname ?? undefined })
         router.push(data.isPublic ? '/meet' : '/mine')
       } catch {
         // ignore malformed sessionStorage data
@@ -164,8 +164,9 @@ export default function StoryPage() {
     setGenerating(true)
     try {
       let imageBase64: string | undefined
-      if (photo) {
-        const res = await fetch(photo)
+      const firstPhoto = photos[0]
+      if (firstPhoto) {
+        const res = await fetch(firstPhoto)
         const blob = await res.blob()
         imageBase64 = await new Promise<string>(resolve => {
           const reader = new FileReader()
@@ -189,8 +190,7 @@ export default function StoryPage() {
     }
   }
 
-  const getPhotoDataUrl = async (): Promise<string | undefined> => {
-    if (!photo) return undefined
+  const compressPhoto = async (src: string): Promise<string> => {
     try {
       return await new Promise<string>((resolve, reject) => {
         const img = new Image()
@@ -208,11 +208,16 @@ export default function StoryPage() {
           resolve(canvas.toDataURL('image/jpeg', 0.82))
         }
         img.onerror = reject
-        img.src = photo
+        img.src = src
       })
     } catch {
-      return photo
+      return src
     }
+  }
+
+  const getPhotosDataUrls = async (): Promise<string[]> => {
+    if (photos.length === 0) return []
+    return Promise.all(photos.map(p => compressPhoto(p)))
   }
 
   const handleConfirmCity = async () => {
@@ -241,11 +246,12 @@ export default function StoryPage() {
   }
 
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      if (photo && photo.startsWith('blob:')) URL.revokeObjectURL(photo)
-      setPhoto(URL.createObjectURL(file))
-    }
+    const files = Array.from(e.target.files ?? [])
+    if (files.length === 0) return
+    // revoke old blob URLs
+    photos.forEach(p => { if (p.startsWith('blob:')) URL.revokeObjectURL(p) })
+    setPhotos(files.map(f => URL.createObjectURL(f)))
+    e.target.value = ''
   }
 
   const handleAddTag = () => {
@@ -299,8 +305,8 @@ export default function StoryPage() {
     }
 
     if (!user) {
-      const photoUrl = await getPhotoDataUrl()
-      const payload = JSON.stringify({ city: trimmedCity, narrative, tags, isPublic, photo: photoUrl })
+      const photoUrls = await getPhotosDataUrls()
+      const payload = JSON.stringify({ city: trimmedCity, narrative, tags, isPublic, photo: photoUrls[0], photos: photoUrls.length > 1 ? photoUrls : undefined })
       try {
         sessionStorage.setItem('pendingImprint', payload)
       } catch {
@@ -315,9 +321,9 @@ export default function StoryPage() {
     }
     setPublishing(true)
     try {
-      const photoUrl = await getPhotoDataUrl()
+      const photoUrls = await getPhotosDataUrls()
       const finalTitle = title.trim()
-      const id = await addImprint({ city: trimmedCity, title: finalTitle, narrative, tags, isPublic, photo: photoUrl, author: nickname ?? undefined })
+      const id = await addImprint({ city: trimmedCity, title: finalTitle, narrative, tags, isPublic, photo: photoUrls[0], photos: photoUrls.length > 1 ? photoUrls : undefined, author: nickname ?? undefined })
       // Auto-cache city insights for cities not in static CITIES data
       if (!(trimmedCity in CITIES)) {
         fetch('/api/search', {
@@ -344,16 +350,31 @@ export default function StoryPage() {
           <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>草稿</span>
         </div>
 
-        <input ref={fileRef} type="file" accept="image/*" style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }} onChange={handlePhoto} />
-        <div onClick={() => fileRef.current?.click()} style={{ background: 'var(--bg-card)', border: '0.5px dashed #c8bfaa', borderRadius: 14, height: 120, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 14, cursor: 'pointer', overflow: 'hidden' }}>
-          {photo
-            ? <img src={photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            : <>
-                <span style={{ fontSize: 22, color: '#c8bfaa' }}>⊙</span>
-                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>点击选择照片 或 直接拍摄</span>
-              </>
-          }
-        </div>
+        <input ref={fileRef} type="file" accept="image/*" multiple style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }} onChange={handlePhoto} />
+        {photos.length > 0 ? (
+          <div style={{ marginBottom: 14 }}>
+            <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 6 }}>
+              {photos.map((p, i) => (
+                <div key={i} style={{ flexShrink: 0, width: 90, height: 90, borderRadius: 10, overflow: 'hidden', border: '0.5px solid #ddd4c0', position: 'relative' }}>
+                  <img src={p} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <button
+                    onClick={(e) => { e.stopPropagation(); if (p.startsWith('blob:')) URL.revokeObjectURL(p); setPhotos(prev => prev.filter((_, j) => j !== i)) }}
+                    style={{ position: 'absolute', top: 3, right: 3, width: 18, height: 18, borderRadius: '50%', background: 'rgba(0,0,0,0.5)', border: 'none', color: '#fff', fontSize: 10, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}
+                  >✕</button>
+                </div>
+              ))}
+              <div onClick={() => fileRef.current?.click()} style={{ flexShrink: 0, width: 90, height: 90, borderRadius: 10, border: '0.5px dashed #c8bfaa', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, cursor: 'pointer', background: 'var(--bg-card)' }}>
+                <span style={{ fontSize: 18, color: '#c8bfaa' }}>+</span>
+                <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>添加</span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div onClick={() => fileRef.current?.click()} style={{ background: 'var(--bg-card)', border: '0.5px dashed #c8bfaa', borderRadius: 14, height: 120, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 14, cursor: 'pointer', overflow: 'hidden' }}>
+            <span style={{ fontSize: 22, color: '#c8bfaa' }}>⊙</span>
+            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>点击选择照片，可多选</span>
+          </div>
+        )}
 
         <style>{`
           @keyframes borderFlash {

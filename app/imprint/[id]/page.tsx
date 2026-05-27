@@ -202,32 +202,55 @@ export default function ImprintDetailPage() {
   return (
     <div style={{ minHeight: '100vh' }}>
       {/* Top Nav */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-page)', borderBottom: '1px solid var(--border)', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-page)', borderBottom: '1px solid var(--border)', padding: '12px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button aria-label="返回" onClick={() => router.back()} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--text-primary)' }}>←</button>
         <button aria-label="分享" onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())} style={{ width: 32, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--text-secondary)', cursor: 'pointer' }}>⤴</button>
       </div>
 
-      {/* Photo */}
+      {/* Photo / Gallery */}
       {(() => {
         const bg = PHOTO_BG[imprint.city] || '#ede8df'
-        return (
-          <div style={{ position: 'relative', background: bg, minHeight: imprint.photo ? 0 : 240 }}>
-            {imprint.photo ? (
-              <img src={imprint.photo} alt={imprint.title} style={{ width: '100%', height: 'auto', display: 'block' }} />
-            ) : (
-              <div style={{ width: '100%', height: 240, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: 'rgba(0,0,0,0.3)' }}>
-                [ 照片 ]
-              </div>
-            )}
-            <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(0,0,0,0.6)', color: 'white', padding: '4px 10px', borderRadius: 6, fontSize: 12 }}>
+        const allPhotos = imprint.photos ?? (imprint.photo ? [imprint.photo] : [])
+        if (allPhotos.length === 0) return (
+          <div style={{ margin: '12px 20px 0', borderRadius: 16, overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.08)', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', background: bg, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'rgba(0,0,0,0.25)' }}>
+            [ 照片 ]
+          </div>
+        )
+        if (allPhotos.length === 1) return (
+          <div style={{ margin: '12px 20px 0', borderRadius: 16, overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.08)', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', position: 'relative' }}>
+            <img src={allPhotos[0]} alt={imprint.title} style={{ width: '100%', height: 'auto', display: 'block' }} />
+            <div style={{ position: 'absolute', top: 10, left: 12, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)', color: 'white', padding: '3px 9px', borderRadius: 6, fontSize: 11 }}>
               {cityNameZh}
+            </div>
+          </div>
+        )
+        // Multiple photos — swipeable gallery
+        return (
+          <div style={{ margin: '12px 20px 0', position: 'relative' }}>
+            <div style={{ display: 'flex', overflowX: 'auto', scrollSnapType: 'x mandatory', gap: 0, borderRadius: 16, overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.08)', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', scrollbarWidth: 'none' }}>
+              {allPhotos.map((src, idx) => (
+                <div key={idx} style={{ flexShrink: 0, width: '100%', scrollSnapAlign: 'start', position: 'relative' }}>
+                  <img src={src} alt={`${imprint.title} ${idx + 1}`} style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  {idx === 0 && (
+                    <div style={{ position: 'absolute', top: 10, left: 12, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)', color: 'white', padding: '3px 9px', borderRadius: 6, fontSize: 11 }}>
+                      {cityNameZh}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            {/* Dot indicators */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 5, marginTop: 8 }}>
+              {allPhotos.map((_, idx) => (
+                <div key={idx} style={{ width: 5, height: 5, borderRadius: '50%', background: idx === 0 ? 'var(--accent)' : 'rgba(0,0,0,0.15)' }} />
+              ))}
             </div>
           </div>
         )
       })()}
 
       {/* Content */}
-      <div style={{ padding: '20px 16px' }}>
+      <div style={{ padding: '20px 20px' }}>
         <h1 style={{ fontSize: 20, fontWeight: 500, marginBottom: 16, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{getDisplayTitle(imprint.narrative, imprint.title, imprint.city)}</h1>
 
         {/* Author */}

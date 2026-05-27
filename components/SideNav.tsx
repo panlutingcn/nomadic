@@ -271,8 +271,7 @@ export default function SideNav() {
         textAlign: 'center',
       }}>
         <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-          在世界各地扎根<br />
-          而不只是路过。
+          数字游民搜索引擎
         </div>
         <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 6, opacity: 0.7 }}>
           nomadictree.io

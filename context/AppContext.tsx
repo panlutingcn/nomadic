@@ -23,7 +23,19 @@ export interface Imprint {
   likes?: number
   createdAt: string
   photo?: string
+  photos?: string[]
   deletedAt?: string
+}
+
+function parsePhotoUrl(raw: string | null | undefined): { photo?: string; photos?: string[] } {
+  if (!raw) return {}
+  if (raw.startsWith('[')) {
+    try {
+      const arr = JSON.parse(raw) as string[]
+      return { photo: arr[0], photos: arr }
+    } catch { /* fall through */ }
+  }
+  return { photo: raw }
 }
 
 export interface SearchContext {
@@ -124,7 +136,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           userId: r.user_id ?? undefined,
           likes: r.likes ?? 0,
           createdAt: formatDate(r.created_at),
-          photo: r.photo_url ?? undefined,
+          ...parsePhotoUrl(r.photo_url),
         })))
       })
     return () => { cancelled = true }
@@ -158,7 +170,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           userId: r.user_id ?? undefined,
           likes: r.likes ?? 0,
           createdAt: formatDate(r.created_at),
-          photo: r.photo_url ?? undefined,
+          ...parsePhotoUrl(r.photo_url),
           deletedAt: r.deleted_at ?? undefined,
         })))
       }
@@ -246,7 +258,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         narrative: imprint.narrative,
         tags: imprint.tags,
         is_public: imprint.isPublic,
-        photo_url: imprint.photo ?? null,
+        photo_url: imprint.photos && imprint.photos.length > 1
+          ? JSON.stringify(imprint.photos)
+          : (imprint.photo ?? imprint.photos?.[0] ?? null),
         author: imprint.author ?? null,
       }).select('id').single()
       if (data?.id) {
