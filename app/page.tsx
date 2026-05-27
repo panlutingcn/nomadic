@@ -150,6 +150,45 @@ export default function ExplorePage() {
           ))}
         </div>
         </div>{/* /desktop-search-wrap preview */}
+
+        {/* ── 页脚 ── */}
+        <footer style={{ marginTop: 24, borderTop: '0.5px solid var(--border)', paddingTop: 24, paddingBottom: 8 }}>
+          {/* 品牌 + 简介 */}
+          <div style={{ textAlign: 'center', marginBottom: 20 }}>
+            <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px' }} />
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
+              Integrate into the local business pulse and cultural soul.<br />
+              A community of inspiration and opportunity for digital nomads.
+            </div>
+          </div>
+
+          {/* 链接区 */}
+          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '8px 24px', marginBottom: 20 }}>
+            {[
+              { label: '探索世界', href: '/' },
+              { label: '遇见社区', href: '/meet' },
+              { label: '旅行人格测试', href: '/onboarding' },
+              { label: '发布印迹', href: '/story' },
+              { label: '我的版图', href: '/mine' },
+            ].map(link => (
+              <a
+                key={link.href}
+                href={link.href}
+                style={{ fontSize: 12, color: 'var(--text-muted)', textDecoration: 'none' }}
+                onMouseOver={e => (e.currentTarget.style.color = 'var(--accent)')}
+                onMouseOut={e => (e.currentTarget.style.color = 'var(--text-muted)')}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          {/* 版权 */}
+          <div style={{ textAlign: 'center', fontSize: 11, color: 'var(--text-muted)', opacity: 0.7, lineHeight: 1.8 }}>
+            <div>© 2026 Nomadic · nomadictree.io</div>
+          </div>
+        </footer>
+
       </div>
 
       <div className="nav-spacer-mobile" style={{ height: 32 }} />
