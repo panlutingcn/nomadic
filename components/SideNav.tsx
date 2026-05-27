@@ -279,7 +279,7 @@ export default function SideNav() {
         textAlign: 'center',
       }}>
         <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-          全球身份 · 在地资源
+          全球身份 · 在地链接
         </div>
         <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 6 }}>
           nomadictree.io
