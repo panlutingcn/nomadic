@@ -38,6 +38,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
   const [loading, setLoading] = useState(false)
   const [placeholder, setPlaceholder] = useState('')
   const [pulsing, setPulsing] = useState(false)
+  const [focused, setFocused] = useState(false)
   const router = useRouter()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -87,29 +88,43 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
     }
   }
 
-  const borderColor = pulsing ? 'var(--accent)' : 'var(--border-light)'
-  const boxShadow = pulsing ? 'none' : '0 2px 6px rgba(0,0,0,0.06)'
+  const containerBorder = pulsing
+    ? '1.5px solid var(--accent)'
+    : focused
+      ? '1.5px solid rgba(29, 158, 117, 0.40)'
+      : '1.5px solid rgba(255, 248, 232, 0.82)'
+
+  const containerShadow = pulsing
+    ? '0 0 0 3px rgba(29,158,117,0.14), inset 0 1px 0 rgba(255,255,255,0.92)'
+    : focused
+      ? '0 0 0 3px rgba(29,158,117,0.10), 0 4px 20px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(255,248,230,0.45)'
+      : '0 0 0 1px rgba(200,178,135,0.13), 0 4px 18px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.90), inset 0 -1px 0 rgba(255,248,230,0.35)'
+
   const containerAnimation = pulsing ? 'pulse-random 2.4s ease-in-out infinite' : 'none'
 
   return (
     <div style={{
-      background: 'var(--bg-card)',
-      border: `2.5px solid ${borderColor}`,
-      borderRadius: '12px',
+      background: 'rgba(255, 252, 246, 0.76)',
+      backdropFilter: 'blur(14px)',
+      WebkitBackdropFilter: 'blur(14px)',
+      border: containerBorder,
+      borderRadius: '14px',
       padding: '12px 14px',
       display: 'flex',
       flexDirection: 'column',
       gap: '10px',
       margin: '14px 0 4px',
-      boxShadow,
+      boxShadow: containerShadow,
       animation: containerAnimation,
-      transition: pulsing ? 'border-color 200ms ease' : 'border-color 200ms ease, box-shadow 200ms ease',
+      transition: 'border-color 220ms ease, box-shadow 220ms ease',
     }}>
       <textarea
         ref={textareaRef}
         value={query}
         onChange={e => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         placeholder={placeholder}
         rows={3}
         disabled={loading}
@@ -129,16 +144,20 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
         <button
           onClick={handleSearch}
           style={{
-            background: loading ? '#e8f5ee' : 'var(--accent)',
+            background: loading
+              ? 'rgba(232,245,238,0.80)'
+              : 'linear-gradient(150deg, #27b882 0%, #1D9E75 55%, #178f68 100%)',
             color: loading ? 'var(--accent)' : '#fff',
             fontSize: '12px',
             fontWeight: 500,
-            padding: '8px 16px',
-            borderRadius: '8px',
-            border: loading ? '0.5px solid var(--border-light)' : 'none',
+            padding: '8px 18px',
+            borderRadius: '9px',
+            border: loading ? '0.5px solid rgba(29,158,117,0.25)' : 'none',
             cursor: loading ? 'not-allowed' : 'pointer',
             pointerEvents: loading ? 'none' : 'auto',
             animation: loading ? 'pulse-hero 2.4s ease-in-out infinite' : 'none',
+            boxShadow: loading ? 'none' : '0 2px 10px rgba(29,158,117,0.32), inset 0 1px 0 rgba(255,255,255,0.22)',
+            transition: 'box-shadow 200ms ease',
           }}
         >
           {loading ? '开启英雄之旅中……' : 'GO'}
