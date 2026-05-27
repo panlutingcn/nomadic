@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase'
 import { useState, useRef, useEffect } from 'react'
 import ShareSheet from '@/components/ShareSheet'
 import ImprintCard from '@/components/cards/ImprintCard'
+import LoginModal from '@/components/LoginModal'
 import { CITIES } from '@/data/cities'
 import { getBodyText, getDisplayTitle } from '@/lib/imprintUtils'
 import { useUserProfile } from '@/hooks/useUserProfile'
@@ -39,6 +40,7 @@ export default function ImprintDetailPage() {
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null)
   const [editingCommentText, setEditingCommentText] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
   const [shareAnchor, setShareAnchor] = useState<DOMRect | null>(null)
   const [pageUrl, setPageUrl] = useState('')
   const imprintCardRef = useRef<HTMLDivElement>(null)
@@ -178,7 +180,11 @@ export default function ImprintDetailPage() {
   }
 
   const handleLike = () => {
-    if (!imprint.isPublic || !user) return
+    if (!imprint.isPublic) return
+    if (!user) {
+      setShowLoginModal(true)
+      return
+    }
     setLiked(prev => !prev)
     likeImprint(id)
   }
@@ -201,33 +207,45 @@ export default function ImprintDetailPage() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      {/* Top Nav */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-page)', borderBottom: '1px solid var(--border)', padding: '12px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <button aria-label="返回" onClick={() => router.back()} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--text-primary)' }}>←</button>
-        <button aria-label="分享" onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())} style={{ width: 32, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--text-secondary)', cursor: 'pointer' }}>⤴</button>
+      {/* Top Nav — sticky 全宽，内容跟随 desktop-search-wrap 居中限宽 */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-page)', borderBottom: '1px solid var(--border)' }}>
+        <div className="page-inner" style={{ padding: '0 16px' }}>
+          <div className="desktop-search-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0' }}>
+            <button aria-label="返回" onClick={() => router.back()} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--text-primary)' }}>←</button>
+            <button aria-label="分享" onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())} style={{ width: 32, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--text-secondary)', cursor: 'pointer' }}>⤴</button>
+          </div>
+        </div>
       </div>
+
+      {/* 整体内容板块 — 宽度与首页搜索框一致 */}
+      <div className="page-inner" style={{ padding: '0 16px' }}>
+      <div className="desktop-search-wrap">
 
       {/* Photo / Gallery */}
       {(() => {
         const bg = PHOTO_BG[imprint.city] || '#ede8df'
         const allPhotos = imprint.photos ?? (imprint.photo ? [imprint.photo] : [])
         if (allPhotos.length === 0) return (
-          <div style={{ margin: '12px 20px 0', borderRadius: 16, overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.08)', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', background: bg, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'rgba(0,0,0,0.25)' }}>
-            [ 照片 ]
+          <div style={{ margin: '12px 0 0', padding: 4, background: 'var(--bg-card)', borderRadius: 18, border: '0.5px solid var(--border-light)', boxShadow: '0 3px 18px rgba(0,0,0,0.07)' }}>
+            <div style={{ borderRadius: 14, background: bg, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'rgba(0,0,0,0.25)' }}>
+              [ 照片 ]
+            </div>
           </div>
         )
         if (allPhotos.length === 1) return (
-          <div style={{ margin: '12px 20px 0', borderRadius: 16, overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.08)', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', position: 'relative' }}>
-            <img src={allPhotos[0]} alt={imprint.title} style={{ width: '100%', height: 'auto', display: 'block' }} />
-            <div style={{ position: 'absolute', top: 10, left: 12, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)', color: 'white', padding: '3px 9px', borderRadius: 6, fontSize: 11 }}>
-              {cityNameZh}
+          <div style={{ margin: '12px 0 0', padding: 4, background: 'var(--bg-card)', borderRadius: 18, border: '0.5px solid var(--border-light)', boxShadow: '0 3px 18px rgba(0,0,0,0.07)' }}>
+            <div style={{ borderRadius: 14, overflow: 'hidden', position: 'relative' }}>
+              <img src={allPhotos[0]} alt={imprint.title} style={{ width: '100%', height: 'auto', display: 'block' }} />
+              <div style={{ position: 'absolute', top: 10, left: 12, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)', color: 'white', padding: '3px 9px', borderRadius: 6, fontSize: 11 }}>
+                {cityNameZh}
+              </div>
             </div>
           </div>
         )
         // Multiple photos — swipeable gallery
         return (
-          <div style={{ margin: '12px 20px 0', position: 'relative' }}>
-            <div style={{ display: 'flex', overflowX: 'auto', scrollSnapType: 'x mandatory', gap: 0, borderRadius: 16, overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.08)', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', scrollbarWidth: 'none' }}>
+          <div style={{ margin: '12px 0 0', padding: 4, background: 'var(--bg-card)', borderRadius: 18, border: '0.5px solid var(--border-light)', boxShadow: '0 3px 18px rgba(0,0,0,0.07)' }}>
+            <div style={{ display: 'flex', overflowX: 'auto', scrollSnapType: 'x mandatory', gap: 0, borderRadius: 14, overflow: 'hidden', scrollbarWidth: 'none' }}>
               {allPhotos.map((src, idx) => (
                 <div key={idx} style={{ flexShrink: 0, width: '100%', scrollSnapAlign: 'start', position: 'relative' }}>
                   <img src={src} alt={`${imprint.title} ${idx + 1}`} style={{ width: '100%', height: 'auto', display: 'block' }} />
@@ -240,7 +258,7 @@ export default function ImprintDetailPage() {
               ))}
             </div>
             {/* Dot indicators */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 5, marginTop: 8 }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 5, marginTop: 8, marginBottom: 2 }}>
               {allPhotos.map((_, idx) => (
                 <div key={idx} style={{ width: 5, height: 5, borderRadius: '50%', background: idx === 0 ? 'var(--accent)' : 'rgba(0,0,0,0.15)' }} />
               ))}
@@ -250,7 +268,7 @@ export default function ImprintDetailPage() {
       })()}
 
       {/* Content */}
-      <div style={{ padding: '20px 20px' }}>
+      <div style={{ padding: '20px 0' }}>
         <h1 style={{ fontSize: 20, fontWeight: 500, marginBottom: 16, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{getDisplayTitle(imprint.narrative, imprint.title, imprint.city)}</h1>
 
         {/* Author */}
@@ -451,6 +469,10 @@ export default function ImprintDetailPage() {
         </div>
       </div>
 
+      <div style={{ height: 32 }} />
+      </div>{/* /desktop-search-wrap */}
+      </div>{/* /page-inner */}
+
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px' }}>
@@ -483,6 +505,20 @@ export default function ImprintDetailPage() {
         </div>
       )}
 
+      {/* Login Modal — 未登录点赞时弹出 */}
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          onSuccess={() => {
+            setShowLoginModal(false)
+            // 登录成功后自动执行点赞
+            setLiked(true)
+            likeImprint(id)
+          }}
+          redirectPath={`/imprint/${id}`}
+        />
+      )}
+
       {/* Hidden imprint card for html2canvas capture */}
       <div style={{ position: 'absolute', left: -9999, top: 0, pointerEvents: 'none' }}>
         <div ref={imprintCardRef}>
@@ -500,8 +536,6 @@ export default function ImprintDetailPage() {
           />
         </div>
       </div>
-
-      <div style={{ height: 32 }} />
 
       <ShareSheet
         anchorRect={shareAnchor}
