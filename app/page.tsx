@@ -59,8 +59,8 @@ export default function ExplorePage() {
               alt="Nomadic"
               style={{ height: 53, width: 'auto', display: 'block', margin: '0 auto' }}
             />
-            <div style={{ fontSize: 14, fontWeight: 500, color: '#3d3020', marginTop: 4, lineHeight: 1.45 }}>在世界各地扎根，而不只是路过。</div>
-            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>一个给数字游民的灵感与商机社区。</div>
+            <div style={{ fontSize: 14, fontWeight: 500, color: '#3d3020', marginTop: 4, lineHeight: 1.45 }}>数字游民搜索引擎</div>
+            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>真正融入当地的文化灵魂与商业脉络</div>
           </div>
         </div>
 
@@ -157,34 +157,15 @@ export default function ExplorePage() {
           <div style={{ textAlign: 'center', marginBottom: 20 }}>
             <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px' }} />
             <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-              Integrate into the local business pulse and cultural soul.<br />
-              A community of inspiration and opportunity for digital nomads.
+              Digital Nomad Search Engine
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
+              Integrate into the local cultural soul and business pulse.
             </div>
           </div>
 
-          {/* 链接区 */}
-          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '8px 24px', marginBottom: 20 }}>
-            {[
-              { label: '探索世界', href: '/' },
-              { label: '遇见社区', href: '/meet' },
-              { label: '旅行人格测试', href: '/onboarding' },
-              { label: '发布印迹', href: '/story' },
-              { label: '我的版图', href: '/mine' },
-            ].map(link => (
-              <a
-                key={link.href}
-                href={link.href}
-                style={{ fontSize: 12, color: 'var(--text-muted)', textDecoration: 'none' }}
-                onMouseOver={e => (e.currentTarget.style.color = 'var(--accent)')}
-                onMouseOut={e => (e.currentTarget.style.color = 'var(--text-muted)')}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-
           {/* 版权 */}
-          <div style={{ textAlign: 'center', fontSize: 11, color: 'var(--text-muted)', opacity: 0.7, lineHeight: 1.8 }}>
+          <div style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.8 }}>
             <div>© 2026 Nomadic · nomadictree.io</div>
           </div>
         </footer>

@@ -270,10 +270,10 @@ export default function SideNav() {
         paddingTop: 16,
         textAlign: 'center',
       }}>
-        <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-          数字游民搜索引擎
+        <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
+          全球身份 · 在地资源
         </div>
-        <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 6, opacity: 0.7 }}>
+        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 6 }}>
           nomadictree.io
         </div>
       </div>
