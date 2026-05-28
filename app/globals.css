@@ -127,6 +127,9 @@ html, body {
   .side-nav-desktop {
     display: none !important;
   }
+  .hide-mobile {
+    display: none !important;
+  }
 }
 
 /* ── 桌面端内容响应式工具类 ─────────────────────────── */
