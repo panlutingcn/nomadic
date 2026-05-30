@@ -146,10 +146,10 @@ export default function ExplorePage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 4, flex: 1 }}>
                       {([
-                        { emoji: '🌍', label: '城市灵魂', bg: '#fde4a0', color: '#633806', border: '#c8a830' },
-                        { emoji: '🌿', label: '生存基准', bg: '#d4ede0', color: '#085041', border: '#9fd4b8' },
+                        { emoji: '🌿', label: '落地指南', bg: '#d4ede0', color: '#085041', border: '#9fd4b8' },
+                        { emoji: '🌍', label: '文化内核', bg: '#fde4a0', color: '#633806', border: '#c8a830' },
+                        { emoji: '👥', label: '本地社区', bg: '#dbd2f0', color: '#3c3489', border: '#b8a8e0' },
                         { emoji: '💼', label: '商业机会', bg: '#c8dcf0', color: '#0c447c', border: '#84b8d8' },
-                        { emoji: '👥', label: '本地圈子', bg: '#dbd2f0', color: '#3c3489', border: '#b8a8e0' },
                       ] as const).map(q => (
                         <div key={q.label} style={{ background: q.bg, border: `0.5px solid ${q.border}`, borderRadius: 6, padding: '3px 7px', display: 'flex', alignItems: 'center', gap: 3 }}>
                           <span style={{ fontSize: 11 }}>{q.emoji}</span>

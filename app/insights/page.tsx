@@ -44,14 +44,14 @@ export default function InsightsPage() {
     match: 0,
     soul: {
       headline: '每座城市都有自己的故事。',
-      body: '选择一座城市，开始探索它的灵魂、生存基准、商业机会和本地圈子。',
+      body: '选择一座城市，开始探索它的落地指南、文化内核、本地社区和商业机会。',
       sub: '文化 · 生活 · 工作',
       personality: '选择具体城市查看文化性格。',
       economy: '选择具体城市查看经济支柱。',
       festivals: '选择具体城市查看节庆活动。',
       figures: '选择具体城市查看代表人物。',
     },
-    base: {
+    landing: {
       visaDetail: '选择具体城市查看签证政策。',
       dailyCost: '选择具体城市查看每日花销。',
       safety: '选择具体城市查看治安安全信息。',
@@ -63,7 +63,7 @@ export default function InsightsPage() {
       localJobs: [],
       remoteJobs: []
     },
-    local: {
+    community: {
       paragraph: '',
       platforms: []
     }
@@ -88,7 +88,7 @@ export default function InsightsPage() {
           festivals: searchContext?.soulFestivals || '',
           figures: searchContext?.soulFigures || '',
         },
-        base: {
+        landing: {
           wifi: searchContext?.wifiSpeed || '未知',
           cost: searchContext?.costLevel || '$$',
           visa: searchContext?.visaInfo || '请查询当地签证政策',
@@ -109,7 +109,7 @@ export default function InsightsPage() {
             { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
           ]
         },
-        local: {
+        community: {
           paragraph: searchContext?.localParagraph || '',
           platforms: [
             { name: 'Meetup', url: `https://www.meetup.com/find/?location=${encodeURIComponent(selectedCity)}`, desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -202,8 +202,74 @@ export default function InsightsPage() {
           </div>
         )}
 
+        {/* LANDING 落地指南 */}
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#fde4a0', border: '0.5px solid #c8a830', color: '#633806' }}>🌍 SOUL 城市灵魂</div>
+          <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#d4ede0', border: '0.5px solid #9fd4b8', color: '#085041' }}>🌿 LANDING 落地指南</div>
+          {'wifi' in city.landing && (
+            <>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5, marginBottom: 5 }}>
+                {[
+                  { num: city.landing.wifi, label: 'WiFi' },
+                  { num: city.landing.cost, label: '物价' },
+                  { num: ('visaDays' in city.landing && city.landing.visaDays) ? city.landing.visaDays : city.landing.visa, label: '签证' },
+                ].map(item => (
+                  <div key={item.label} style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 8, padding: '8px 6px', textAlign: 'center' }}>
+                    <div style={{ fontSize: 15, fontWeight: 500, color: '#085041' }}>{item.num}</div>
+                    <div style={{ fontSize: 10, color: '#3a8a64', marginTop: 2 }}>{item.label}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 7, padding: '8px 11px', marginBottom: 6 }}>
+                <span style={{ fontSize: 12, color: '#085041', lineHeight: 1.55 }}>{city.landing.welfare}</span>
+              </div>
+            </>
+          )}
+          <div style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 10, padding: '11px 12px' }}>
+            {'visaDetail' in city.landing && city.landing.visaDetail && (
+              <div style={{ marginBottom: 11 }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>签证政策</div>
+                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65 }}>{city.landing.visaDetail}</div>
+              </div>
+            )}
+            {'dailyCost' in city.landing && city.landing.dailyCost && (
+              <div style={{ marginBottom: 11 }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>每日花销</div>
+                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65, whiteSpace: 'pre-line' }}>{city.landing.dailyCost}</div>
+              </div>
+            )}
+            {'safety' in city.landing && city.landing.safety && (
+              <div style={{ marginBottom: 11 }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>治安与安全</div>
+                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65 }}>{city.landing.safety}</div>
+              </div>
+            )}
+            {'society' in city.landing && city.landing.society && (
+              <div style={{ marginBottom: 11 }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>社会运转</div>
+                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65 }}>{city.landing.society}</div>
+              </div>
+            )}
+            {'housing' in city.landing && city.landing.housing && (
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>🏠 住房与租房</div>
+                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65, marginBottom: city.landing.housingLinks?.length ? 8 : 0 }}>{city.landing.housing}</div>
+                {city.landing.housingLinks?.map(link => (
+                  <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#c2e0ce', border: '0.5px solid #9fd4b8', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 12, color: '#085041' }}>
+                      {link.name}
+                      {'desc' in link && link.desc && <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {link.desc}</span>}
+                    </span>
+                    <span style={{ fontSize: 12, color: '#085041', flexShrink: 0, marginLeft: 6 }}>›</span>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* SOUL 文化内核 */}
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#fde4a0', border: '0.5px solid #c8a830', color: '#633806' }}>🌍 SOUL 文化内核</div>
           <div style={{ background: '#fde4a0', border: '0.5px solid #c8a830', borderRadius: 10, padding: '10px 12px', marginBottom: 6 }}>
             <div style={{ fontSize: 14, fontWeight: 500, color: '#3d2010', marginBottom: 2 }}>{city.soul.headline}</div>
             {'body' in city.soul && city.soul.body && (
@@ -238,63 +304,49 @@ export default function InsightsPage() {
           </div>
         </div>
 
+        {/* COMMUNITY 本地社区 */}
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#d4ede0', border: '0.5px solid #9fd4b8', color: '#085041' }}>🌿 BASE 生存基准</div>
-          {'wifi' in city.base && (
-            <>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5, marginBottom: 5 }}>
-                {[
-                  { num: city.base.wifi, label: 'WiFi' },
-                  { num: city.base.cost, label: '物价' },
-                  { num: ('visaDays' in city.base && city.base.visaDays) ? city.base.visaDays : city.base.visa, label: '签证' },
-                ].map(item => (
-                  <div key={item.label} style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 8, padding: '8px 6px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 15, fontWeight: 500, color: '#085041' }}>{item.num}</div>
-                    <div style={{ fontSize: 10, color: '#3a8a64', marginTop: 2 }}>{item.label}</div>
-                  </div>
+          <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#dbd2f0', border: '0.5px solid #b8a8e0', color: '#3c3489' }}>👥 COMMUNITY 本地社区</div>
+          <div style={{ background: '#dbd2f0', border: '0.5px solid #b8a8e0', borderRadius: 10, padding: '10px 12px' }}>
+            {'paragraph' in city.community && city.community.paragraph && (
+              <div style={{ fontSize: 12, color: '#3c3489', lineHeight: 1.6, marginBottom: 11 }}>{city.community.paragraph}</div>
+            )}
+            {city.community.platforms.length > 0 && (
+              <div style={{ marginBottom: 11 }}>
+                <div style={{ fontSize: 12, color: '#3c3489', marginBottom: 6 }}>📍 本地社群平台</div>
+                {city.community.platforms.map(p => (
+                  <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 12, color: '#6b5bb5' }}>
+                      {p.name}
+                      {'desc' in p && p.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {p.desc}</span>}
+                    </span>
+                    <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
+                  </a>
                 ))}
               </div>
-              <div style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 7, padding: '8px 11px', marginBottom: 6 }}>
-                <span style={{ fontSize: 12, color: '#085041', lineHeight: 1.55 }}>{city.base.welfare}</span>
-              </div>
-            </>
-          )}
-          <div style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 10, padding: '11px 12px' }}>
-            {'visaDetail' in city.base && city.base.visaDetail && (
-              <div style={{ marginBottom: 11 }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>签证政策</div>
-                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65 }}>{city.base.visaDetail}</div>
-              </div>
             )}
-            {'dailyCost' in city.base && city.base.dailyCost && (
-              <div style={{ marginBottom: 11 }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>每日花销</div>
-                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65, whiteSpace: 'pre-line' }}>{city.base.dailyCost}</div>
-              </div>
-            )}
-            {'safety' in city.base && city.base.safety && (
-              <div style={{ marginBottom: 11 }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>治安与安全</div>
-                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65 }}>{city.base.safety}</div>
-              </div>
-            )}
-            {'society' in city.base && city.base.society && (
-              <div style={{ marginBottom: 11 }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>社会运转</div>
-                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65 }}>{city.base.society}</div>
-              </div>
-            )}
-            {'housing' in city.base && city.base.housing && (
-              <div>
-                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>🏠 住房与租房</div>
-                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65, marginBottom: city.base.housingLinks?.length ? 8 : 0 }}>{city.base.housing}</div>
-                {city.base.housingLinks?.map(link => (
-                  <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#c2e0ce', border: '0.5px solid #9fd4b8', marginBottom: 5, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 12, color: '#085041' }}>
-                      {link.name}
-                      {'desc' in link && link.desc && <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {link.desc}</span>}
+            {GLOBAL_COMMUNITIES.length > 0 && (
+              <div style={{ marginBottom: 'zhCommunity' in city.community && city.community.zhCommunity ? 11 : 0 }}>
+                <div style={{ fontSize: 12, color: '#3c3489', marginBottom: 6 }}>🌍 全球游民社群</div>
+                {GLOBAL_COMMUNITIES.map(c => (
+                  <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 12, color: '#6b5bb5' }}>
+                      {c.name}
+                      {c.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {c.desc}</span>}
                     </span>
-                    <span style={{ fontSize: 12, color: '#085041', flexShrink: 0, marginLeft: 6 }}>›</span>
+                    <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
+                  </a>
+                ))}
+              </div>
+            )}
+            {'zhCommunity' in city.community && city.community.zhCommunity && (
+              <div>
+                <div style={{ fontSize: 12, color: '#6b5bb5', fontWeight: 500, marginBottom: 6 }}>🀄 华人旅居圈</div>
+                <div style={{ fontSize: 12, color: '#3c3489', lineHeight: 1.65, marginBottom: city.community.zhCommunityLinks?.length ? 8 : 0 }}>{city.community.zhCommunity}</div>
+                {city.community.zhCommunityLinks?.map(link => (
+                  <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 12, color: '#6b5bb5' }}>{link.name}</span>
+                    <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
                   </a>
                 ))}
               </div>
@@ -302,6 +354,7 @@ export default function InsightsPage() {
           </div>
         </div>
 
+        {/* CHANCE 商业机会 */}
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#c8dcf0', border: '0.5px solid #84b8d8', color: '#0c447c' }}>💼 CHANCE 商业机会</div>
           <div style={{ background: '#c8dcf0', border: '0.5px solid #84b8d8', borderRadius: 10, padding: '10px 12px' }}>
@@ -343,55 +396,6 @@ export default function InsightsPage() {
                       {'desc' in j && j.desc && <span style={{ color: '#3a7fc0', fontWeight: 400 }}> | {j.desc}</span>}
                     </span>
                     <span style={{ fontSize: 12, color: '#185fa5', flexShrink: 0, marginLeft: 6 }}>›</span>
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#dbd2f0', border: '0.5px solid #b8a8e0', color: '#3c3489' }}>👥 LOCAL 本地圈子</div>
-          <div style={{ background: '#dbd2f0', border: '0.5px solid #b8a8e0', borderRadius: 10, padding: '10px 12px' }}>
-            {'paragraph' in city.local && city.local.paragraph && (
-              <div style={{ fontSize: 12, color: '#3c3489', lineHeight: 1.6, marginBottom: 11 }}>{city.local.paragraph}</div>
-            )}
-            {city.local.platforms.length > 0 && (
-              <div style={{ marginBottom: 11 }}>
-                <div style={{ fontSize: 12, color: '#3c3489', marginBottom: 6 }}>📍 本地社群平台</div>
-                {city.local.platforms.map(p => (
-                  <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 12, color: '#6b5bb5' }}>
-                      {p.name}
-                      {'desc' in p && p.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {p.desc}</span>}
-                    </span>
-                    <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
-                  </a>
-                ))}
-              </div>
-            )}
-            {GLOBAL_COMMUNITIES.length > 0 && (
-              <div style={{ marginBottom: 'zhCommunity' in city.local && city.local.zhCommunity ? 11 : 0 }}>
-                <div style={{ fontSize: 12, color: '#3c3489', marginBottom: 6 }}>🌍 全球游民社群</div>
-                {GLOBAL_COMMUNITIES.map(c => (
-                  <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 12, color: '#6b5bb5' }}>
-                      {c.name}
-                      {c.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {c.desc}</span>}
-                    </span>
-                    <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
-                  </a>
-                ))}
-              </div>
-            )}
-            {'zhCommunity' in city.local && city.local.zhCommunity && (
-              <div>
-                <div style={{ fontSize: 12, color: '#6b5bb5', fontWeight: 500, marginBottom: 6 }}>🀄 华人旅居圈</div>
-                <div style={{ fontSize: 12, color: '#3c3489', lineHeight: 1.65, marginBottom: city.local.zhCommunityLinks?.length ? 8 : 0 }}>{city.local.zhCommunity}</div>
-                {city.local.zhCommunityLinks?.map(link => (
-                  <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
-                    <span style={{ fontSize: 12, color: '#6b5bb5' }}>{link.name}</span>
-                    <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
                   </a>
                 ))}
               </div>

@@ -14,7 +14,7 @@ export interface CityData {
     festivals?: string
     figures?: string
   }
-  base: {
+  landing: {
     wifi: string
     cost: string
     visa: string
@@ -34,7 +34,7 @@ export interface CityData {
     localJobs: { name: string; url: string; desc?: string }[]
     remoteJobs: { name: string; url: string; desc?: string }[]
   }
-  local: {
+  community: {
     paragraph?: string
     platforms: { name: string; url: string; desc?: string }[]
     zhCommunity?: string
@@ -54,7 +54,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '柏林国际电影节（Berlinale，每年2月）是全球三大电影节之一；Karneval der Kulturen（文化狂欢节，每年5月）是欧洲最大的多元文化街头节日；Lollapalooza Berlin 和 Melt Festival 是夏季音乐节的代表；圣诞市场（Weihnachtsmarkt）遍布全城，是冬季最温暖的仪式。',
       figures: '大卫·鲍伊（David Bowie）在柏林创作了他最具实验性的三张专辑，称之为"柏林三部曲"；伊莎多拉·邓肯在此开创现代舞；克里斯托弗·伊舍伍德的《再见，柏林》记录了魏玛共和国末期的浮华与颓废；当代艺术家安塞尔姆·基弗（Anselm Kiefer）的作品深刻反映了德国历史的创伤与救赎。',
     },
-    base: {
+    landing: {
       wifi: '98 Mbps', cost: '$$', visa: '90天申根免签',
       visaDays: '90天', visaDesc: '🛂 申根区90天免签，自由职业签证（Freiberufler）可长期居留，审批周期2-4个月。',
       welfare: '🏥 持有效签证可加入法定医保（GKV），公立医院覆盖广泛，费用较低。',
@@ -84,7 +84,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Contra', url: 'https://contra.com', desc: '面向独立创作者的无佣金接单平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '柏林的社群文化极度多元，从科技创业者到艺术家，从环保活动家到电子音乐爱好者，总能找到同频的人。',
       platforms: [
         { name: 'Meetup Berlin', url: 'https://www.meetup.com/cities/de/berlin/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -105,7 +105,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '国王节（Koningsdag，4月27日）是全城最盛大的橙色狂欢；阿姆斯特丹国际纪录片节（IDFA）是全球最大纪录片节；博物馆之夜（Museumnacht）每年11月让全城博物馆通宵开放；Gay Pride 运河游行是欧洲规模最大的骄傲游行之一。',
       figures: '安妮·弗兰克（Anne Frank）的日记让这座城市成为二战记忆的象征；伦勃朗（Rembrandt）在此创作了《夜巡》；斯宾诺莎（Spinoza）在阿姆斯特丹的宽容氛围中发展了他的哲学体系；当代DJ Tiësto 和 Armin van Buuren 将荷兰电子音乐推向全球。',
     },
-    base: {
+    landing: {
       wifi: '120 Mbps', cost: '$$$', visa: '90天申根免签',
       visaDays: '90天', visaDesc: '🛂 申根区90天免签，荷兰自雇居留许可（DAFT）适合美国公民，其他国籍可申请创业签证。',
       welfare: '🏥 工作满一定时间可享受荷兰社保，医疗保险强制购买，质量高且报销比例大。',
@@ -133,7 +133,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Toptal', url: 'https://www.toptal.com', desc: '顶尖自由职业者网络，严格筛选机制' },
       ]
     },
-    local: {
+    community: {
       paragraph: '阿姆斯特丹的外籍人士社群成熟活跃，英语是通用语言，各类专业社群和兴趣小组让融入变得轻松自然。',
       platforms: [
         { name: 'Meetup Amsterdam', url: 'https://www.meetup.com/cities/nl/amsterdam/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -153,7 +153,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: 'Santos Populares（6月圣人节）是里斯本最热闹的街头节日，全城烤沙丁鱼、跳舞狂欢；里斯本国际纪录片节（DocLisboa）是葡语世界最重要的纪录片节；Lisbon & Estoril Film Festival 每年秋季举办；法多音乐节贯穿全年，阿尔法玛区的小酒馆是最真实的舞台。',
       figures: '费尔南多·佩索阿（Fernando Pessoa）是里斯本最著名的文学灵魂，他的异名写作实验至今影响全球文学；瓦斯科·达·伽马（Vasco da Gama）从里斯本出发开辟了通往印度的航路；法多歌手阿玛利亚·罗德里格斯（Amália Rodrigues）将葡萄牙音乐带向世界。',
     },
-    base: {
+    landing: {
       wifi: '85 Mbps', cost: '$', visa: '90天申根免签',
       visaDays: '365天', visaDesc: '🛂 数字游民签证（D8）有效期1年，可续签，适合月收入超过€3,040的远程工作者。',
       welfare: '🏥 持 D8 签证可访问公共医疗系统（SNS），费用低廉；长期居民可申请 NHR 税务优惠。',
@@ -181,7 +181,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs', desc: '数字游民社区旗下远程职位聚合平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '里斯本的数字游民社群是欧洲最活跃的之一，共享办公空间遍布全城，游民聚会几乎每周都有。',
       platforms: [
         { name: 'Meetup Lisbon', url: 'https://www.meetup.com/cities/pt/lisbon/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -201,7 +201,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '布拉格之春音乐节（每年5月）是欧洲最重要的古典音乐节之一；布拉格国际电影节（Febiofest）汇聚全球独立电影；圣诞市场（12月）在老城广场举行，是中欧最美的节日场景之一；布拉格啤酒节每年5月吸引数十万人参与。',
       figures: '弗兰茨·卡夫卡（Franz Kafka）在布拉格出生并创作了他所有重要作品；瓦茨拉夫·哈维尔（Václav Havel）从剧作家到总统，是天鹅绒革命的精神领袖；作曲家安东宁·德沃夏克（Antonín Dvořák）将波西米亚音乐带向世界；米兰·昆德拉（Milan Kundera）的《不能承受的生命之轻》让布拉格成为文学地标。',
     },
-    base: {
+    landing: {
       wifi: '80 Mbps', cost: '$', visa: '90天申根免签',
       visaDays: '90天', visaDesc: '🛂 申根区90天免签，自由职业贸易许可证（Živnostenský list）可合法自雇经营。',
       welfare: '🏥 申根区内医疗资源完善，建议购买旅行医疗保险，私立诊所英语服务良好。',
@@ -227,7 +227,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '布拉格的外籍人士社群以欧洲远程工作者为主，价格亲民的共享办公空间和活跃的创业社群让融入变得容易。',
       platforms: [
         { name: 'Meetup Prague', url: 'https://www.meetup.com/cities/cz/prague/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -247,7 +247,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '维也纳新年音乐会是全球收视率最高的古典音乐直播；维也纳歌剧舞会（Opernball）是欧洲最负盛名的社交盛事；维也纳电影节（Viennale）每年10月举行；圣诞市场遍布全城，市政厅前的市场是欧洲最美之一。',
       figures: '沃尔夫冈·阿马德乌斯·莫扎特（Mozart）在维也纳度过了他最重要的创作岁月；西格蒙德·弗洛伊德（Sigmund Freud）在此创立精神分析学；古斯塔夫·克里姆特（Gustav Klimt）的《吻》成为维也纳分离派的永恒象征；路德维希·维特根斯坦（Ludwig Wittgenstein）在维也纳的哲学圈中成长。',
     },
-    base: {
+    landing: {
       wifi: '90 Mbps', cost: '$$$', visa: '90天申根免签',
       visaDays: '90天', visaDesc: '🛂 申根区90天免签，红白红卡（自雇类别）适合高技能人才申请长期居留。',
       welfare: '🏥 奥地利医疗体系完善，持有效居留许可者可参加社会保险，公立医疗质量极高。',
@@ -274,7 +274,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '维也纳的社群文化相对内敛，但外籍专业人士圈子成熟，文化活动丰富，适合喜欢高质量社交的游民。',
       platforms: [
         { name: 'Meetup Vienna', url: 'https://www.meetup.com/cities/at/vienna/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -294,7 +294,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '巴黎时装周（每年1月/2月、9月/10月）是全球时尚日历的核心；法国国庆日（7月14日）的阅兵式与烟火是全球最壮观的国庆庆典之一；巴黎白夜节（Nuit Blanche）让全城博物馆与艺术空间通宵开放；巴黎书展（Salon du Livre）是法语世界最重要的文化盛事。',
       figures: '维克多·雨果（Victor Hugo）的《悲惨世界》让巴黎的街道成为文学地标；西蒙娜·德·波伏娃（Simone de Beauvoir）与萨特在圣日耳曼咖啡馆重塑了20世纪的思想版图；可可·香奈儿（Coco Chanel）在巴黎创造了现代女性时尚；毕加索（Pablo Picasso）在巴黎完成了立体主义的革命。',
     },
-    base: {
+    landing: {
       wifi: '100 Mbps', cost: '$$$', visa: '90天申根免签',
       visaDays: '90天', visaDesc: '🛂 申根区90天免签，人才护照（Talent Passport）适合自由职业者与创业者申请长期居留。',
       welfare: '🏥 法国医疗体系全球顶尖，持有效居留许可者可加入社会保险（Sécurité Sociale）。',
@@ -324,7 +324,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Malt', url: 'https://www.malt.fr', desc: '法国领先自由职业平台，创意与科技人才首选' },
       ]
     },
-    local: {
+    community: {
       paragraph: '巴黎的外籍人士社群以创意从业者和科技人才为主，Station F 周边聚集了大量初创圈子，社交机会丰富。',
       platforms: [
         { name: 'Meetup Paris', url: 'https://www.meetup.com/cities/fr/paris/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -345,7 +345,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: 'La Mercè（9月）是巴塞罗那最盛大的城市节日，人塔（Castellers）表演是加泰罗尼亚文化的象征；圣乔治节（Sant Jordi，4月23日）是加泰罗尼亚的情人节，全城互赠玫瑰与书籍；Primavera Sound 是欧洲最重要的独立音乐节之一；圣诞期间的 Fira de Santa Llúcia 是欧洲历史最悠久的圣诞市场。',
       figures: '安东尼·高迪（Antoni Gaudí）用圣家堂、奎尔公园重新定义了建筑的边界；胡安·米罗（Joan Miró）的超现实主义作品让巴塞罗那成为艺术圣地；费德里科·加西亚·洛尔迦（Federico García Lorca）在此度过了重要的创作岁月；当代厨神费兰·阿德里亚（Ferran Adrià）在巴塞罗那近郊创造了分子料理革命。',
     },
-    base: {
+    landing: {
       wifi: '95 Mbps', cost: '$$', visa: '90天申根免签',
       visaDays: '365天', visaDesc: '🛂 西班牙数字游民签证有效期1年，可续签至5年，适合月收入超过€2,334的远程工作者。',
       welfare: '🏥 西班牙公共医疗体系完善，持居留许可者可享受免费公立医疗，私立诊所英语服务普遍。',
@@ -373,7 +373,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Workana', url: 'https://www.workana.com', desc: '拉美最大自由职业平台，西语市场首选' },
       ]
     },
-    local: {
+    community: {
       paragraph: '巴塞罗那的游民社群充满活力，海滩、共享办公空间和各类创意活动让这里成为欧洲最受欢迎的游民目的地之一。',
       platforms: [
         { name: 'Meetup Barcelona', url: 'https://www.meetup.com/cities/es/barcelona/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -394,7 +394,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: 'São João（6月23日）是波尔图最盛大的节日，全城人手持塑料锤互敲头顶，在杜罗河边放灯；波尔图国际电影节（Fantasporto）是欧洲最重要的奇幻电影节之一；NOS Primavera Sound 是波尔图版本的巴塞罗那音乐节；圣诞期间的杜罗河畔灯光秀是葡萄牙最美的节日景观。',
       figures: '诗人阿尔瓦罗·德·坎波斯（Álvaro de Campos，佩索阿的异名之一）以波尔图为精神故乡；作家若泽·萨拉马戈（José Saramago）在葡萄牙北部的文化土壤中成长；当代建筑师阿尔瓦罗·西扎（Álvaro Siza）以波尔图为基地，创作了影响全球的极简主义建筑；足球明星迪亚戈（Deco）是波尔图足球文化的象征。',
     },
-    base: {
+    landing: {
       wifi: '80 Mbps', cost: '$', visa: '90天申根免签',
       visaDays: '365天', visaDesc: '🛂 数字游民签证（D8）有效期1年，可续签，适合月收入超过€3,040的远程工作者。',
       welfare: '🏥 葡萄牙公共医疗系统（SNS）覆盖广泛，持 D8 签证可低价就医，生活成本远低于西欧。',
@@ -422,7 +422,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs', desc: '数字游民社区旗下远程职位聚合平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '波尔图的游民社群规模虽小于里斯本，但氛围更加紧密，本地人与外籍人士的融合度高，容易建立真实的人际连接。',
       platforms: [
         { name: 'Meetup Porto', url: 'https://www.meetup.com/cities/pt/porto/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -442,7 +442,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: 'St. Patrick\'s Day（3月17日）是全球最著名的爱尔兰节日，都柏林的庆典是全球规模最大的之一；都柏林文学节（Dublin Literary Festival）向这座诺贝尔文学奖之城致敬；Bloomsday（6月16日）是纪念乔伊斯《尤利西斯》的文学朝圣日；都柏林国际电影节每年2月举行。',
       figures: '詹姆斯·乔伊斯（James Joyce）的《尤利西斯》将都柏林的一天变成了文学史上最伟大的实验；塞缪尔·贝克特（Samuel Beckett）在都柏林出生，后以《等待戈多》震撼世界；奥斯卡·王尔德（Oscar Wilde）是都柏林最著名的才子；U2 乐队从都柏林走向全球，成为爱尔兰文化最重要的当代符号。',
     },
-    base: {
+    landing: {
       wifi: '105 Mbps', cost: '$$$', visa: '90天免签（非申根）',
       visaDays: '90天', visaDesc: '🛂 爱尔兰非申根区，90天免签入境，创业签证（STEP）适合高潜力创业者申请长期居留。',
       welfare: '🏥 爱尔兰公共医疗（HSE）质量高，持有效签证可享受部分公共医疗服务，私立医疗保险推荐购买。',
@@ -469,7 +469,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Toptal', url: 'https://www.toptal.com', desc: '顶尖自由职业者网络，严格筛选机制' },
       ]
     },
-    local: {
+    community: {
       paragraph: '都柏林的科技社群以欧洲科技公司员工和创业者为主，酒吧文化让社交变得自然，英语母语环境大幅降低融入门槛。',
       platforms: [
         { name: 'Meetup Dublin', url: 'https://www.meetup.com/cities/ie/dublin/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -490,7 +490,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '杜布罗夫尼克夏季艺术节（Dubrovnik Summer Festival，7-8月）是克罗地亚最重要的文化盛事，在城墙与广场上演戏剧、音乐与舞蹈；圣布莱斯节（Feast of St. Blaise，2月3日）是城市守护神的节日，全城游行庆祝；每年夏季的《权力的游戏》主题活动吸引全球粉丝朝圣。',
       figures: '马可·波罗（Marco Polo）据传出生于克罗地亚，与杜布罗夫尼克的海洋文化一脉相承；尼古拉·特斯拉（Nikola Tesla）是克罗地亚最著名的科学家，虽非杜布罗夫尼克人，却是整个民族的骄傲；当代导演达利博尔·马塔尼奇（Dalibor Matanić）将克罗地亚电影带上国际舞台。',
     },
-    base: {
+    landing: {
       wifi: '70 Mbps', cost: '$$', visa: '90天申根免签',
       visaDays: '365天', visaDesc: '🛂 克罗地亚数字游民签证有效期1年，不可续签，适合非欧盟公民远程工作者申请。',
       welfare: '🏥 克罗地亚医疗体系完善，公立医院覆盖基本需求，建议购买旅行医疗保险。',
@@ -512,7 +512,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs', desc: '数字游民社区旗下远程职位聚合平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '杜布罗夫尼克的游民社群以季节性为主，夏季活跃度极高，克罗地亚数字游民签证吸引了大量欧洲远程工作者。',
       platforms: [
         { name: 'Meetup Croatia', url: 'https://www.meetup.com/cities/hr/zagreb/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -531,7 +531,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '卡尔切奥历史足球赛（Calcio Storico，6月）是文艺复兴时期流传下来的暴力足球比赛，是佛罗伦萨最独特的文化奇观；佛罗伦萨国际电影节（Florence Film Festival）每年秋季举行；复活节前夕的"爆炸车"（Scoppio del Carro）是延续600年的传统烟火仪式；每年5月的鸢尾花节（Iris Festival）在米开朗基罗广场举行。',
       figures: '列奥纳多·达·芬奇（Leonardo da Vinci）在佛罗伦萨接受训练并完成早期杰作；米开朗基罗（Michelangelo）在此雕刻了《大卫》；但丁·阿利吉耶里（Dante Alighieri）在佛罗伦萨出生，《神曲》奠定了意大利语文学的基础；伽利略（Galileo Galilei）在托斯卡纳的庇护下完成了他的科学革命。',
     },
-    base: {
+    landing: {
       wifi: '85 Mbps', cost: '$$', visa: '90天申根免签',
       visaDays: '365天', visaDesc: '🛂 意大利数字游民签证有效期1年，可续签，适合月收入超过€2,700的远程工作者。',
       welfare: '🏥 意大利国家医疗服务（SSN）覆盖广泛，持居留许可者可免费或低价就医，私立诊所质量高。',
@@ -559,7 +559,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Freelancer.com', url: 'https://www.freelancer.com', desc: '全球最大自由职业接单平台，项目类型多样' },
       ]
     },
-    local: {
+    community: {
       paragraph: '佛罗伦萨的外籍人士社群以艺术、设计和学术人士为主，意大利语能力可大幅提升融入深度，但英语社群同样活跃。',
       platforms: [
         { name: 'Meetup Florence', url: 'https://www.meetup.com/cities/it/florence/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -579,7 +579,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '塔林老城节（Tallinn Old Town Days，6月）是中世纪文化的年度复活；爱沙尼亚歌唱节（Song Festival，每5年一届）是波罗的海国家最重要的文化仪式，1988年的歌唱革命正是从这里开始；塔林黑夜电影节（PÖFF）是欧洲最重要的电影节之一；圣诞市场在市政厅广场举行，是北欧最美的节日场景之一。',
       figures: '卡尔·罗伯特·雅各布森（Carl Robert Jakobson）是爱沙尼亚民族觉醒运动的领袖；Skype 联合创始人亚纳斯·弗里斯（Janus Friis）和尼克拉斯·曾斯特罗姆（Niklas Zennström）将塔林推向全球科技版图；当代作曲家阿沃·帕特（Arvo Pärt）的极简主义音乐享誉全球；e-Residency 项目创始人卡斯帕·科尔尤斯（Kaspar Korjus）重新定义了国家与公民的关系。',
     },
-    base: {
+    landing: {
       wifi: '110 Mbps', cost: '$', visa: '90天申根免签',
       visaDays: '365天', visaDesc: '🛂 爱沙尼亚数字游民签证有效期1年，e-Residency可在欧盟注册公司，全球首个此类签证。',
       welfare: '🏥 爱沙尼亚数字游民签证持有者须自行购买医疗保险，本地私立诊所费用合理。',
@@ -606,7 +606,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Nomad List Jobs', url: 'https://nomadlist.com/jobs', desc: '数字游民社区旗下远程职位聚合平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '塔林的数字游民社群是欧洲最具凝聚力的之一，e-Residency 持有者遍布全球，本地科技社群开放且国际化。',
       platforms: [
         { name: 'Meetup Tallinn', url: 'https://www.meetup.com/cities/ee/tallinn/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -626,7 +626,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '圣伊西德罗节（5月）是最盛大的传统节庆，万人在马扎纳雷斯河畔共舞；Veranos de la Villa夏日文化节覆盖全城剧场与广场；三王节巡游（1月5日）是冬季的童话时刻。',
       figures: '戈雅在马德里完成了《黑色绘画》系列；导演阿尔莫多瓦用这座城市的街道重塑了西班牙电影；建筑师莫内欧的索菲亚王后艺术中心扩建改变了城市天际线。',
     },
-    base: {
+    landing: {
       wifi: '65 Mbps', cost: '$$', visa: '数字游民签证1年，可续签至3年',
       visaDays: '365 days',
       visaDesc: '🛂 西班牙数字游民签证要求月收入≥€2,646，在境外雇主或自雇，审批约1-3个月。',
@@ -648,7 +648,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '马德里有多个活跃的数字游民社群，共享办公空间密集，国际化程度高，英语交流无障碍。',
       platforms: [
         { name: 'Meetup Madrid', url: 'https://www.meetup.com/cities/es/madrid/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -667,7 +667,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '法雅节（Las Fallas，3月）是联合国非物质文化遗产，万千纸扎人偶在火光中消逝，是欧洲最壮观的节庆之一；番茄节（La Tomatina，8月，布尼奥尔）在附近小镇举行，每年吸引数万人参与。',
       figures: '建筑师圣地亚哥·卡拉特拉瓦以艺术科学城重塑了瓦伦西亚天际线；哲学家路易斯·比维斯是文艺复兴时代的人文主义先驱；网球运动员大卫·费雷尔以坚韧精神代表了瓦伦西亚人的气质。',
     },
-    base: {
+    landing: {
       wifi: '65 Mbps', cost: '$', visa: '数字游民签证1年，可续签至3年',
       visaDays: '365 days',
       visaDesc: '🛂 与马德里相同的西班牙数字游民签证，月收入门槛€2,646，瓦伦西亚办证流程顺畅。',
@@ -689,7 +689,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '瓦伦西亚数字游民社区规模快速增长，多个共享办公空间在旧城区聚集，国际化氛围浓厚。',
       platforms: [
         { name: 'Meetup Valencia', url: 'https://www.meetup.com/cities/es/valencia/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -708,7 +708,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '里加歌舞节（Dziesmu un deju svētki）是全球规模最大的合唱节之一，每5年举行一次；里加城市节（8月）是最盛大的街头狂欢；圣约翰节（Jāņi，6月24日）是波罗的海最浪漫的仲夏夜传统。',
       figures: '音乐指挥马里斯·扬颂斯将里加带上古典音乐的世界舞台；电影导演赛尔盖·爱森斯坦在里加度过了童年，奠定了他对视觉叙事的敏感；建筑师米哈伊尔·埃森施泰因（其父）设计了里加最著名的新艺术建筑。',
     },
-    base: {
+    landing: {
       wifi: '70 Mbps', cost: '$', visa: '申根90天免签，可申请拉脱维亚临时居留',
       visaDays: '90 days',
       visaDesc: '🛂 申根90天免签适用于多数护照。自雇或创业者可申请临时居留许可，审批约3个月。',
@@ -730,7 +730,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '里加外籍人士社群以科技从业者为主，Startup Latvia等计划孵化了活跃的创业者网络，Meetup活动频繁。',
       platforms: [
         { name: 'Meetup Riga', url: 'https://www.meetup.com/cities/lv/riga/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -749,7 +749,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '卡济米埃拉斯集市（Kaziukas，3月）是最古老的传统手工艺市集；维尔纽斯节（6月）是最盛大的夏季文化庆典；万灵节（Vėlinės，11月）是波罗的海最具诗意的悼念传统。',
       figures: '诗人密茨凯维奇在维尔纽斯留下波兰浪漫主义文学的根脉；乌皮斯共和国创建者Romas Lileikis以艺术行动震动了欧洲；物理学家马利亚·居里（祖籍立陶宛）是人类科学史上最重要的女性之一。',
     },
-    base: {
+    landing: {
       wifi: '75 Mbps', cost: '$', visa: '申根90天免签，可申请立陶宛创业签证',
       visaDays: '90 days',
       visaDesc: '🛂 申根90天免签。创业者可申请立陶宛Startup Visa，需获Startup Lithuania认证，审批2-3个月。',
@@ -771,7 +771,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '维尔纽斯创业社群以Fintech从业者为核心，Startup Lithuania定期举办活动，Tech Zity联合办公空间是聚会核心场地。',
       platforms: [
         { name: 'Meetup Vilnius', url: 'https://www.meetup.com/cities/lt/vilnius/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -790,7 +790,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '克拉科夫龙节（Wianki，6月）是维斯瓦河畔的夏至仲夏节庆；犹太文化节（Kraków Jewish Culture Festival，6-7月）是欧洲最重要的犹太文化活动之一；音乐节Film Music Festival聚焦电影配乐，全球瞩目。',
       figures: '教皇约翰·保罗二世在克拉科夫担任主教多年，这座城市至今是他精神遗产的守护者；导演安杰依·瓦伊达的史诗电影记录了波兰民族的苦难与荣光；诗人维斯瓦娃·辛波丝卡以日常的惊奇获得诺贝尔文学奖。',
     },
-    base: {
+    landing: {
       wifi: '70 Mbps', cost: '$', visa: '申根90天免签',
       visaDays: '90 days',
       visaDesc: '🛂 申根区90天免签，波兰尚无数字游民专属签证，长期居留可申请自雇或公司注册途径。',
@@ -812,7 +812,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '克拉科夫外籍人士社群以IT从业者与留学生为主，Krakow Expats等Facebook群组活跃，共享办公空间遍布老城区。',
       platforms: [
         { name: 'Meetup Kraków', url: 'https://www.meetup.com/cities/pl/krakow/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -831,7 +831,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '布达佩斯艺术周（Budapest Spring Festival，3-4月）是中欧最重要的古典艺术节；Sziget音乐节（8月）是欧洲最大的音乐节之一；圣诞市场（12月）被评为欧洲最美圣诞市场之一。',
       figures: '钢琴家弗朗茨·李斯特以布达佩斯为家，留下了最重要的音乐遗产；建筑师约瑟夫·霍夫曼的分离派风格影响了整座城市的建筑美学；小说家马格达·萨博的《门》是20世纪匈牙利文学的里程碑。',
     },
-    base: {
+    landing: {
       wifi: '72 Mbps', cost: '$', visa: '申根90天免签，可申请匈牙利白卡（White Card）',
       visaDays: '365 days',
       visaDesc: '🛂 匈牙利2022年推出White Card数字游民签证，允许在匈工作1年，月收入要求约€2,000，审批约30天。',
@@ -853,7 +853,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '布达佩斯数字游民社群以废墟酒吧为聚会场所，Budapest Digital Nomads等社区活跃，共享办公空间遍布佩斯商业区。',
       platforms: [
         { name: 'Meetup Budapest', url: 'https://www.meetup.com/cities/hu/budapest/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -872,7 +872,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '乔治·埃内斯库国际音乐节（George Enescu Festival，9月）是欧洲最重要的古典音乐节之一；布加勒斯特国际电影节（BIFF）聚焦独立电影；Untold音乐节（克卢日-纳波卡，8月）是罗马尼亚最大的电子音乐节。',
       figures: '雕塑家康斯坦丁·布朗库西是现代雕塑的奠基者之一；作家米尔恰·伊利亚德是宗教史学的全球权威；体操运动员纳迪亚·科马内奇在蒙特利尔奥运会上完成了体操历史上第一个满分10分。',
     },
-    base: {
+    landing: {
       wifi: '85 Mbps', cost: '$', visa: '申根90天免签（罗马尼亚非申根区），可申请居留许可',
       visaDays: '90 days',
       visaDesc: '🛂 罗马尼亚尚未加入申根区，但多数护照可免签90天。长期居留可申请D签证，罗马尼亚正在讨论游民签证方案。',
@@ -894,7 +894,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '布加勒斯特的外籍人士与数字游民社群快速增长，Nomad House与多个共享办公空间活跃于老城区周边。',
       platforms: [
         { name: 'Meetup Bucharest', url: 'https://www.meetup.com/cities/ro/bucharest/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -913,7 +913,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '索非亚国际电影节（Sofia International Film Festival，3月）是巴尔干半岛最重要的电影盛事；Rose Festival（卡赞勒克，5-6月）庆祝全球50%玫瑰精油的产地；伊凡·瓦佐夫文学节（9月）致敬保加利亚最伟大的民族作家。',
       figures: '奥林匹克摔跤冠军丹·科洛夫是20世纪最具传奇色彩的摔跤手；作曲家潘乔·弗拉基格罗夫将保加利亚音乐带上世界舞台；女高音吉娜·米哈诺娃是20世纪歌剧史上最动人的嗓音之一。',
     },
-    base: {
+    landing: {
       wifi: '68 Mbps', cost: '$', visa: '申根90天免签（保加利亚非申根区），可申请居留许可',
       visaDays: '90 days',
       visaDesc: '🛂 保加利亚尚未完全加入申根区（2024年空陆路已开放），多数护照免签90天。长期居留可申请D签证。',
@@ -935,7 +935,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '索非亚的科技社群规模不大但凝聚力强，Campus X联合办公空间是创业者的聚集地，外籍人士圈子活跃。',
       platforms: [
         { name: 'Meetup Sofia', url: 'https://www.meetup.com/cities/bg/sofia/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -954,7 +954,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '雅典音乐节（Athens Epidaurus Festival，6-8月）在埃庇道鲁斯古剧场演出，是欧洲最具震撼力的露天演出之一；复活节（4-5月）是希腊最重要的宗教节庆，午夜烛光游行令人动容；雅典马拉松（11月）沿古老的马拉松路线而跑。',
       figures: '苏格拉底、柏拉图、亚里士多德在雅典建立了西方哲学的根基；诗人卡瓦菲斯以亚历山大为背景写下希腊现代诗歌的巅峰之作；作曲家米基斯·狄奥多拉基斯的《希腊人左巴》旋律成为整个民族的灵魂标记。',
     },
-    base: {
+    landing: {
       wifi: '55 Mbps', cost: '$$', visa: '数字游民签证1年，可续签',
       visaDays: '365 days',
       visaDesc: '🛂 希腊2021年推出数字游民签证，月收入要求€3,500，允许在希腊工作1年，配偶子女可随行。',
@@ -976,7 +976,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '雅典数字游民社群依托Syntagma与Monastiraki周边联合办公空间，Athens Digital Arts Festival定期聚集创意人士。',
       platforms: [
         { name: 'Meetup Athens', url: 'https://www.meetup.com/cities/gr/athens/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -995,7 +995,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '萨格勒布圣诞市场（12月）连续多年被评为欧洲最美圣诞市场；INmusic音乐节（6月）是克罗地亚最大的露天音乐节；萨格勒布电影节（10月）聚焦中欧独立电影。',
       figures: '发明家尼古拉·特斯拉（塞尔维亚裔，克罗地亚境内出生）是交流电与现代电力系统的奠基者；作家米洛斯拉夫·克尔莱扎是20世纪最重要的南斯拉夫文学巨匠；建筑师赫尔曼·波勒的作品定义了萨格勒布下城区的城市风貌。',
     },
-    base: {
+    landing: {
       wifi: '60 Mbps', cost: '$', visa: '申根90天免签，可申请克罗地亚数字游民居留',
       visaDays: '365 days',
       visaDesc: '🛂 克罗地亚2021年推出数字游民居留许可，1年期，月收入要求约€2,539，申请门槛相对较低。',
@@ -1017,7 +1017,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '萨格勒布的数字游民社群以科技从业者为核心，Impact Hub Zagreb是最活跃的共享办公与创业社区。',
       platforms: [
         { name: 'Meetup Zagreb', url: 'https://www.meetup.com/cities/hr/zagreb/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1036,7 +1036,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '卢布尔雅那夏季节（Ljubljana Festival，6-9月）是中欧最负盛名的夏季艺术节；龙节（Dragon Festival，6月）以城市标志龙为主题；圣诞市场（12月）以精品手工艺著称。',
       figures: '建筑师约热·普莱契尼克重塑了20世纪卢布尔雅那的城市面貌，其作品已列入联合国教科文组织遗产；哲学家斯拉沃伊·齐泽克是当代最具争议的思想家之一；诗人弗朗茨·普雷谢伦是斯洛文尼亚民族文化的精神象征。',
     },
-    base: {
+    landing: {
       wifi: '65 Mbps', cost: '$$', visa: '申根90天免签，可申请斯洛文尼亚居留许可',
       visaDays: '90 days',
       visaDesc: '🛂 申根区90天免签，斯洛文尼亚尚无专属数字游民签证，长期居留可通过自雇或公司注册申请。',
@@ -1058,7 +1058,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '卢布尔雅那的创业社群规模小但高质量，ABC Accelerator是中欧知名孵化器，外籍人士社区以科技从业者为主。',
       platforms: [
         { name: 'Meetup Ljubljana', url: 'https://www.meetup.com/cities/si/ljubljana/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1077,7 +1077,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '鹿特丹国际电影节（IFFR，1-2月）是全球最重要的独立电影节之一；North Sea Jazz Festival（7月）是欧洲规模最大的室内爵士音乐节；鹿特丹马拉松（4月）是荷兰最大的路跑赛事。',
       figures: '哲学家伊拉斯谟（Erasmus）在鹿特丹出生，成为文艺复兴人文主义的代名词；建筑师雷姆·库哈斯的OMA事务所以鹿特丹为基地改变了全球建筑话语；荷兰画家扬·斯坦受到鹿特丹港口文化深刻影响。',
     },
-    base: {
+    landing: {
       wifi: '100 Mbps', cost: '$$', visa: '申根90天免签，可申请荷兰自雇居留',
       visaDays: '90 days',
       visaDesc: '🛂 荷兰尚无数字游民专属签证，但自雇居留（Zelfstandige）申请相对成熟，需通过IND审核，审批约3个月。',
@@ -1099,7 +1099,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '鹿特丹外籍人士社区以港口与科技行业从业者为主，YES!Delft创业生态系统是中欧重要的孵化平台。',
       platforms: [
         { name: 'Meetup Rotterdam', url: 'https://www.meetup.com/cities/nl/rotterdam/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1118,7 +1118,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '仲夏节（Midsommar，6月）是瑞典最神圣的传统节日，竖花柱、跳青蛙舞是必不可少的仪式；诺贝尔颁奖典礼（12月10日）让斯德哥尔摩成为全球关注的焦点；音乐节Way Out West（哥德堡，8月）是北欧最重要的音乐节。',
       figures: 'ABBA成员均来自瑞典，用流行音乐征服了全球；阿尔弗雷德·诺贝尔在斯德哥尔摩留下了改变世界的遗产；建筑师拉尔夫·厄斯金的北极建筑哲学影响了全球极地设计。',
     },
-    base: {
+    landing: {
       wifi: '95 Mbps', cost: '$$$', visa: '申根90天免签，可申请瑞典自雇居留',
       visaDays: '90 days',
       visaDesc: '🛂 申根90天免签，瑞典无专属数字游民签证。自雇居留（F-skatt）申请需提供商业计划，审批约3-6个月。',
@@ -1140,7 +1140,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '斯德哥尔摩创业社群以科技从业者为主，SUP46等孵化器是活跃中心，外籍人士英语社群规模庞大。',
       platforms: [
         { name: 'Meetup Stockholm', url: 'https://www.meetup.com/cities/se/stockholm/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1159,7 +1159,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '哥本哈根爵士音乐节（Copenhagen Jazz Festival，7月）是欧洲最大的爵士节；CPH:DOX纪录片电影节（3月）是全球顶尖的纪录片盛事；圣诞市场（12月）以Tivoli游乐园为核心，是北欧最浪漫的节日体验。',
       figures: '童话作家汉斯·克里斯蒂安·安徒生在哥本哈根留下了全球最美丽的儿童文学遗产；哲学家索伦·克尔凯郭尔在此建立了存在主义哲学；建筑师约恩·乌松设计了悉尼歌剧院，以哥本哈根为永久精神家园。',
     },
-    base: {
+    landing: {
       wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，可申请丹麦自雇居留',
       visaDays: '90 days',
       visaDesc: '🛂 申根90天免签，丹麦无专属数字游民签证。自雇居留申请需证明可在丹麦维持生计，审批3-6个月。',
@@ -1181,7 +1181,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '哥本哈根创业生态成熟，Rainmaking、SCAPE等孵化器聚集，外籍人士英语社群活跃，融入障碍极低。',
       platforms: [
         { name: 'Meetup Copenhagen', url: 'https://www.meetup.com/cities/dk/copenhagen/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1200,7 +1200,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '赫尔辛基节（Helsinki Festival，8月）是芬兰最大的艺术节，覆盖音乐、视觉艺术与表演；Flow Festival（8月）是北欧最重要的当代音乐节；仲夏节（Juhannus，6月）是芬兰最神圣的传统节日，全城迁往乡村别墅。',
       figures: '建筑师埃罗·萨里宁设计了纽约TWA候机楼，以芬兰功能主义震动世界；作曲家让·西贝柳斯的交响诗《芬兰颂》是民族精神的音乐化身；游戏设计师彼得里·雅尔维宁带领Supercell创造了《部落冲突》等全球爆款。',
     },
-    base: {
+    landing: {
       wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，可申请芬兰自雇居留',
       visaDays: '90 days',
       visaDesc: '🛂 申根90天免签，芬兰无专属数字游民签证。芬兰Talent Boost计划鼓励国际人才落地，自雇申请审批约3个月。',
@@ -1222,7 +1222,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '赫尔辛基的创业社群以Maria 01为核心，是北欧最大的专注初创企业园区，外籍人士融入渠道成熟。',
       platforms: [
         { name: 'Meetup Helsinki', url: 'https://www.meetup.com/cities/fi/helsinki/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1241,7 +1241,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '苏黎世艺术节（Zurich Fest，8月）是瑞士最大的城市节庆；蓝调节（Blues Festival，11月）是瑞士最重要的蓝调音乐聚会；圣诞市场（12月，Bellevue广场）是欧洲最美圣诞市集之一。',
       figures: '物理学家阿尔伯特·爱因斯坦在苏黎世联邦理工学院求学，改变了人类对宇宙的认知；心理学家卡尔·荣格在苏黎世创立了分析心理学；建筑师勒·柯布西耶早年在苏黎世接受艺术训练，奠定了现代主义建筑的基础。',
     },
-    base: {
+    landing: {
       wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，可申请瑞士自雇居留',
       visaDays: '90 days',
       visaDesc: '🛂 瑞士非欧盟成员，申根规则适用。自雇居留申请需证明财务自足与商业可行性，审批约3-6个月。',
@@ -1263,7 +1263,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '苏黎世外籍人士社群规模庞大（占人口约30%），Impact Hub苏黎世是全球影响力最大的社会创新孵化网络发源地。',
       platforms: [
         { name: 'Meetup Zurich', url: 'https://www.meetup.com/cities/ch/zurich/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1282,7 +1282,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '灯光节（Fête des Lumières，12月8日）是全球最壮观的城市灯光展，每年吸引200万游客；里昂国际纪录片电影节（Sunny Side of the Doc，6月）是欧洲最重要的纪录片市场；保罗·博古斯美食节每年致敬这座城市的厨艺传统。',
       figures: '大厨保罗·博古斯是法国新式烹饪（Nouvelle Cuisine）的缔造者，让里昂成为全球美食朝圣地；电影发明者卢米埃尔兄弟在里昂完成了人类第一部电影放映；小说家安托万·德·圣-埃克苏佩里是《小王子》的作者。',
     },
-    base: {
+    landing: {
       wifi: '70 Mbps', cost: '$$', visa: '申根90天免签，可申请法国数字游民签证（Talent Passport）',
       visaDays: '365 days',
       visaDesc: '🛂 法国Talent Passport（人才护照）适合自雇与创业者，有效期4年，月收入要求约€2,700，审批约2个月。',
@@ -1304,7 +1304,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '里昂的创业生态以EMLYON商学院校友网络为核心，法国Tech Lyon社区活跃，外籍人士多集中于Presqu\'île半岛区域。',
       platforms: [
         { name: 'Meetup Lyon', url: 'https://www.meetup.com/cities/fr/lyon/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1323,7 +1323,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '尼斯狂欢节（Carnaval de Nice，2月）是全球规模最大的狂欢节之一，花车游行壮观华丽；尼斯爵士节（Nice Jazz Festival，7月）是法国历史最悠久的爵士音乐节；Corso fleuri鲜花游行（2月）展示蔚蓝海岸的花卉盛况。',
       figures: '画家亨利·马蒂斯在尼斯度过了生命的后半段，其野兽主义色彩受地中海阳光的直接启发；雕塑家阿尔曼（Arman）在尼斯出生，是新现实主义艺术运动的核心人物；作家罗杰·波多斯以尼斯为背景写下了著名的侦探小说系列。',
     },
-    base: {
+    landing: {
       wifi: '65 Mbps', cost: '$$', visa: '申根90天免签，可申请法国Talent Passport',
       visaDays: '365 days',
       visaDesc: '🛂 法国Talent Passport适合自雇与创业者，4年期，月收入要求约€2,700。尼斯近邻摩纳哥，税务规划选项多样。',
@@ -1345,7 +1345,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '尼斯的外籍人士社区以英国人、意大利人与科技从业者为主，Sophia Antipolis科技园是最大的专业人士聚集地。',
       platforms: [
         { name: 'Meetup Nice', url: 'https://www.meetup.com/cities/fr/nice/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1364,7 +1364,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: 'Bordeaux Fête le Vin葡萄酒节（6月，双年举办）是全球最大的葡萄酒盛宴，河边汇聚数十万酒客；FACTS动漫节（10月）是法国南部最大的流行文化节；Fête de la Musique（6月21日）是全城共享的免费音乐夜。',
       figures: '哲学家孟德斯鸠是波尔多人，其《论法的精神》奠定了现代法治理念的基础；画家弗朗西斯科·戈雅在流亡期间在波尔多度过了生命的最后岁月；导演让·维果以波尔多的自由精神为创作源泉。',
     },
-    base: {
+    landing: {
       wifi: '68 Mbps', cost: '$$', visa: '申根90天免签，可申请法国Talent Passport',
       visaDays: '365 days',
       visaDesc: '🛂 法国Talent Passport适合自雇与创业者，4年期，月收入要求约€2,700，审批约2个月。',
@@ -1386,7 +1386,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '波尔多创业社群以Darwin生态园为核心，可持续与社会创新主题的外籍人士社区在此汇聚。',
       platforms: [
         { name: 'Meetup Bordeaux', url: 'https://www.meetup.com/cities/fr/bordeaux/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1405,7 +1405,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '蒙彼利埃舞蹈节（Montpellier Danse，6-7月）是全球最重要的当代舞蹈节；Radio France音乐节（7月）带来古典与爵士的交融；葡萄酒节（Foire aux Vins，7月）是朗格多克产区的年度盛宴。',
       figures: '哲学家奥古斯特·孔德在蒙彼利埃大学学习，创立了社会学这门学科；诗人保罗·瓦莱里在蒙彼利埃留下了其知识形成的关键岁月；医学先驱弗朗索瓦·拉伯雷在蒙彼利埃医学院就读，开创了人文主义医学传统。',
     },
-    base: {
+    landing: {
       wifi: '65 Mbps', cost: '$', visa: '申根90天免签，可申请法国Talent Passport',
       visaDays: '365 days',
       visaDesc: '🛂 法国Talent Passport适合自雇与创业者，4年期，月收入要求约€2,700。蒙彼利埃生活成本在法国大城市中最低之列。',
@@ -1427,7 +1427,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '蒙彼利埃的数字游民社群以年轻从业者为主，BIC蒙彼利埃创业孵化器是最活跃的创业者社区聚集地。',
       platforms: [
         { name: 'Meetup Montpellier', url: 'https://www.meetup.com/cities/fr/montpellier/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1446,7 +1446,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '爱丁堡弗林奇艺术节（Edinburgh Festival Fringe，8月）是全球最大的艺术节，3500+个节目在整座城市上演；爱丁堡国际电影节（6月）是全球历史最悠久的电影节；跨年夜Hogmanay庆典是苏格兰最重要的传统节日。',
       figures: 'J.K.罗琳在爱丁堡咖啡馆写出哈利·波特的第一章，改变了全球儿童文学的面貌；亚当·斯密的《国富论》在爱丁堡的启蒙思想土壤中诞生；查尔斯·达尔文在爱丁堡大学开始了他的博物学训练。',
     },
-    base: {
+    landing: {
       wifi: '75 Mbps', cost: '$$', visa: '英国免签6个月（因国籍而异），可申请英国自雇签证',
       visaDays: '180 days',
       visaDesc: '🛂 英国脱欧后，欧盟护照需申请电子旅行授权（ETA）。长期居留可申请Global Talent Visa或自雇签证。',
@@ -1468,7 +1468,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '爱丁堡外籍人士社群规模庞大，Codebase是英国最大的科技创业中心之一，社群活动频繁。',
       platforms: [
         { name: 'Meetup Edinburgh', url: 'https://www.meetup.com/cities/gb/edinburgh/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1487,7 +1487,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '米兰时装周（Milano Fashion Week，2月/9月）是全球四大时装周之一；米兰设计周（Salone del Mobile，4月）是全球最大的家具与设计展；米兰圣安布罗吉奥节（12月7日）是城市的守护圣人节庆。',
       figures: '达芬奇的《最后的晚餐》永久保存在米兰；设计师吉奥·庞帝（Gio Ponti）以皮雷利大厦重塑了米兰的现代天际线；作曲家朱塞佩·威尔第在斯卡拉歌剧院首演了他最重要的歌剧作品。',
     },
-    base: {
+    landing: {
       wifi: '75 Mbps', cost: '$$$', visa: '申根90天免签，可申请意大利数字游民签证',
       visaDays: '365 days',
       visaDesc: '🛂 意大利2024年推出数字游民签证，月收入要求约€2,700，在欧盟境外雇主工作或自雇，审批约2-3个月。',
@@ -1509,7 +1509,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '米兰的外籍人士社群庞大而多元，Talent Garden等联合办公空间是创意从业者的聚集地，国际化程度远超意大利其他城市。',
       platforms: [
         { name: 'Meetup Milan', url: 'https://www.meetup.com/cities/it/milan/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1528,7 +1528,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '博洛尼亚儿童书展（Bologna Children\'s Book Fair，3月）是全球最重要的出版业盛会；宗教圣象巡游（Festa di San Petronio，10月）是城市守护圣人节庆；Cinema Ritrovato电影节（6月）致敬经典电影遗产。',
       figures: '天文学家尼古拉·哥白尼在博洛尼亚大学学习了法学与天文学，奠定了日心说的知识基础；画家乔治·莫兰迪在博洛尼亚度过了一生，以静物画建立了独特的视觉哲学；作曲家奥托里诺·雷斯庇基将博洛尼亚的声音带向了全球交响乐厅。',
     },
-    base: {
+    landing: {
       wifi: '72 Mbps', cost: '$$', visa: '申根90天免签，可申请意大利数字游民签证',
       visaDays: '365 days',
       visaDesc: '🛂 意大利数字游民签证月收入要求约€2,700，博洛尼亚申请流程与全国一致，审批约2-3个月。',
@@ -1550,7 +1550,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '博洛尼亚的数字游民社群依托大学生态快速成长，Impact Hub Bologna是创意从业者与社会创业者的聚集地。',
       platforms: [
         { name: 'Meetup Bologna', url: 'https://www.meetup.com/cities/it/bologna/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1569,7 +1569,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '那不勒斯圣热纳罗节（Festa di San Gennaro，9月）是全城守护圣人节庆，液化血奇迹牵动全市神经；Maggio dei Monumenti（5月）开放全城历史遗迹；那不勒斯披萨节（Napoli Pizza Village，9月）是全球最大的披萨节。',
       figures: '诗人维吉尔在那不勒斯度过了生命的最后岁月，《埃涅伊德》的灵感源于此处；哲学家乔尔达诺·布鲁诺在那不勒斯出生，以自由思想殉道；女演员索菲亚·罗兰是那不勒斯最骄傲的文化符号。',
     },
-    base: {
+    landing: {
       wifi: '60 Mbps', cost: '$', visa: '申根90天免签，可申请意大利数字游民签证',
       visaDays: '365 days',
       visaDesc: '🛂 意大利数字游民签证月收入要求约€2,700，那不勒斯生活成本在意大利大城市中最低，性价比突出。',
@@ -1591,7 +1591,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '那不勒斯的数字游民社群以内容创作者与旅游从业者为主，BASE Napoli是本地最活跃的创意与创业社区。',
       platforms: [
         { name: 'Meetup Naples', url: 'https://www.meetup.com/cities/it/naples/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1610,7 +1610,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '安特卫普时尚周（Antwerp Fashion Week，4月）展示下一代设计天才；坚不可摧节（Sfinks Festival，7月）是比利时最大的世界音乐节；鲁本斯集市（Rubenianum，8月）将整座城市带回巴洛克时代。',
       figures: '巴洛克画家彼得·保罗·鲁本斯在安特卫普度过了创作生涯的鼎盛时期，故居至今完好；时尚设计师安·迪穆拉米斯特是"安特卫普六君子"的核心人物；印刷商克里斯托弗·普朗坦在安特卫普建立了欧洲最重要的16世纪印刷坊。',
     },
-    base: {
+    landing: {
       wifi: '80 Mbps', cost: '$$', visa: '申根90天免签，比利时无数字游民专属签证',
       visaDays: '90 days',
       visaDesc: '🛂 比利时无专属数字游民签证，申根90天免签。长期居留可通过自雇或受雇途径申请，审批约3-6个月。',
@@ -1632,7 +1632,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '安特卫普的创意社群聚集在旧城区与时尚区，Start it @KBC是比利时最大的创业孵化社区之一，外籍人士融入相对容易。',
       platforms: [
         { name: 'Meetup Antwerp', url: 'https://www.meetup.com/cities/be/antwerp/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1651,7 +1651,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '根特节（Gentse Feesten，7月）是欧洲最大的免费城市音乐节，连续10天将整座城市变成露天舞台；根特灯光节（Lichtfestival，2年一届）是欧洲最美的城市光艺术节之一；圣尼古拉斯日（12月6日）是根特最传统的儿童节庆。',
       figures: '根特祭坛画《神秘羔羊》是扬·凡·艾克最重要的作品，是北欧文艺复兴的奠基之作；皇帝查理五世（卡洛斯一世）在根特出生，开创了哈布斯堡王朝的全球霸权；社会学家埃米尔·杜尔凯姆的思想在根特大学学术传统中深有影响。',
     },
-    base: {
+    landing: {
       wifi: '80 Mbps', cost: '$$', visa: '申根90天免签，比利时无数字游民专属签证',
       visaDays: '90 days',
       visaDesc: '🛂 比利时无专属数字游民签证，申根90天免签。自雇居留申请需通过市政厅注册，审批约3-6个月。',
@@ -1673,7 +1673,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '根特的创业社群以可持续与社会创新为主题，iMind与Ghent Bio-Energy Valley是最活跃的专业社区。',
       platforms: [
         { name: 'Meetup Ghent', url: 'https://www.meetup.com/cities/be/gent/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1692,7 +1692,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '奥斯陆爵士音乐节（Oslo Jazz Festival，8月）是北欧最重要的爵士节之一；挪威国庆节（5月17日）是北欧最壮观的民族庆典，全城着传统民族服装游行；极地光夜（极光季，10-3月）让整个峡湾成为自然的展演舞台。',
       figures: '剧作家亨利克·易卜生在奥斯陆创作了《玩偶之家》，开创了现代戏剧的先河；画家爱德华·蒙克的《呐喊》是20世纪最广为人知的艺术作品之一；探险家罗尔德·阿蒙森是第一个到达南极点的人，象征着挪威对极限的追求。',
     },
-    base: {
+    landing: {
       wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，挪威无数字游民专属签证',
       visaDays: '90 days',
       visaDesc: '🛂 挪威非欧盟但为申根区成员，90天免签。自雇居留申请需证明财务自足，审批约3-4个月。',
@@ -1714,7 +1714,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '奥斯陆的外籍人士社群以能源与科技行业从业者为主，StartupLab是北欧最活跃的创业孵化器之一。',
       platforms: [
         { name: 'Meetup Oslo', url: 'https://www.meetup.com/cities/no/oslo/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1733,7 +1733,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '雷克雅未克艺术节（Reykjavík Arts Festival，5-6月）覆盖所有艺术形式；Secret Solstice音乐节（6月）在午夜阳光下进行，全球最独特的音乐节体验；Iceland Airwaves（10-11月）是发掘北欧独立音乐的最佳窗口。',
       figures: '歌手Björk将冰岛的奇异美学带向了全球流行音乐；萨迦文学（Sagas）是中世纪北欧最重要的文学遗产，雷克雅未克是其精神家园；棋手鲍比·菲舍尔以冰岛为庇护所，在此度过了人生的最后岁月。',
     },
-    base: {
+    landing: {
       wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，冰岛有长期远程工作签证',
       visaDays: '180 days',
       visaDesc: '🛂 冰岛推出远程工作长居签证，允许停留6个月，月收入要求约$7,000，审批约30天，可续签。',
@@ -1755,7 +1755,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '雷克雅未克的外籍人士社群规模不大但凝聚力极强，Startup Iceland每年聚集北大西洋最重要的创业者与投资人。',
       platforms: [
         { name: 'Meetup Reykjavik', url: 'https://www.meetup.com/cities/is/reykjavik/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1774,7 +1774,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '日内瓦汽车展（Geneva International Motor Show，3月）是全球最重要的汽车展之一；时尚节（Fête de la Escalade，12月）纪念1602年的保卫战，巧克力浇头传统令人难忘；跨年烟火在莱蒙湖上燃放，是欧洲最精致的跨年景观之一。',
       figures: '让-雅克·卢梭在日内瓦出生，其社会契约论奠定了现代民主思想基础；物理学家尼尔斯·玻尔与爱因斯坦在日内瓦进行了影响量子力学的重要辩论；人道主义先驱亨利·杜南在日内瓦创立了红十字会。',
     },
-    base: {
+    landing: {
       wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，可申请瑞士自雇居留',
       visaDays: '90 days',
       visaDesc: '🛂 瑞士非欧盟成员，申根规则适用。自雇居留申请需证明财务自足与商业可行性，审批约3-6个月。',
@@ -1796,7 +1796,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '日内瓦的专业社群以国际组织与金融从业者为主，Impact Hub日内瓦是社会创新领域的核心聚集地，外籍人士英语社群规模庞大。',
       platforms: [
         { name: 'Meetup Geneva', url: 'https://www.meetup.com/cities/ch/geneva/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1815,7 +1815,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: 'Art Basel（6月）是全球最重要的当代艺术博览会，每年吸引9万名艺术界人士；巴塞尔狂欢节（Basler Fasnacht，2-3月）是瑞士最大、欧洲最著名的狂欢节之一；Baloise Session音乐节（10月）是瑞士最重要的室内爵士与流行音乐节。',
       figures: '哲学家弗里德里希·尼采在巴塞尔大学任古典语言学教授，在此完成了早期最重要的著作；建筑师赫尔佐格与德梅隆（Herzog & de Meuron）以巴塞尔为基地改变了全球建筑话语；化学家保罗·穆勒在巴塞尔发现了DDT的杀虫特性，获诺贝尔医学奖。',
     },
-    base: {
+    landing: {
       wifi: '100 Mbps', cost: '$$$', visa: '申根90天免签，可申请瑞士自雇居留',
       visaDays: '90 days',
       visaDesc: '🛂 瑞士非欧盟成员，申根规则适用。巴塞尔三国边境地位使居住灵活性高，许多人在德国或法国居住、在瑞士工作。',
@@ -1837,7 +1837,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '巴塞尔的外籍人士社群以制药、金融与艺术从业者为主，BaselArea Business & Innovation是本地最活跃的创业支持机构。',
       platforms: [
         { name: 'Meetup Basel', url: 'https://www.meetup.com/cities/ch/basel/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1856,7 +1856,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '图卢兹探戈节（Festival Rio Loco，6月）是法国最大的世界音乐节之一；Toulouse Game Show（11月）是法国最大的电子游戏文化节；橄榄球赛季（TOP14联赛，9-5月）让斯塔德德法兰西球迷文化成为城市日历的核心。',
       figures: '作家安托万·德·圣-埃克苏佩里是图卢兹的飞行员诗人，《小王子》的原型部分来自他在此飞越比利牛斯山的经历；音乐家克劳德·努加罗是图卢兹的民谣大使；数学家皮埃尔·德·费马在图卢兹完成了影响数学史三个世纪的"费马大定理"。',
     },
-    base: {
+    landing: {
       wifi: '68 Mbps', cost: '$$', visa: '申根90天免签，可申请法国Talent Passport',
       visaDays: '365 days',
       visaDesc: '🛂 法国Talent Passport适合自雇与创业者，4年期，月收入要求约€2,700。图卢兹生活成本在法国大城市中属中等偏低。',
@@ -1878,7 +1878,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '图卢兹的创业社群依托Aerospace Valley聚集，EPITECH与INSA等工程院校校友网络是最活跃的技术社区来源。',
       platforms: [
         { name: 'Meetup Toulouse', url: 'https://www.meetup.com/cities/fr/toulouse/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1897,7 +1897,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '马赛-普罗旺斯欧洲文化之都遗产系列活动延续至今；Marseille Jazz des cinq Continents（7月）是全球顶级的世界爵士节；马赛圣诞节（Foire aux Santons，11-1月）是以手工陶偶著称的传统节庆。',
       figures: '亚历山大·仲马（大仲马）以马赛为背景写下《基督山伯爵》，将这座城市的地中海传奇带向全世界；建筑师勒·柯布西耶的"马赛公寓"（Unité d\'Habitation）是现代主义建筑史上的里程碑；说唱音乐人IAM将马赛的多元文化带入了法语流行音乐的核心。',
     },
-    base: {
+    landing: {
       wifi: '65 Mbps', cost: '$$', visa: '申根90天免签，可申请法国Talent Passport',
       visaDays: '365 days',
       visaDesc: '🛂 法国Talent Passport适合自雇与创业者，4年期，月收入要求约€2,700。马赛生活成本在法国大城市中偏低。',
@@ -1919,7 +1919,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '马赛的数字游民社群以内容创作者、远程设计师与港口行业从业者为主，La Friche la Belle de Mai创意园区是最活跃的聚集地。',
       platforms: [
         { name: 'Meetup Marseille', url: 'https://www.meetup.com/cities/fr/marseille/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1938,7 +1938,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '曼彻斯特国际节（Manchester International Festival，7月，双年举行）是全球首个专为原创艺术作品设计的节日；Manchester Day（6月）是城市最大的街头庆典；奥尔德姆街音乐节（Neighbourhood Weekender，5月）聚焦独立音乐。',
       figures: '乐队绿洲（Oasis）和The Smiths在曼彻斯特的砖墙里写出了英国流行音乐的一个时代；计算机先驱艾伦·图灵在曼彻斯特大学完成了现代计算机科学的奠基性工作；工业革命纺纱机发明家詹姆斯·哈格里夫斯改变了曼彻斯特，也改变了世界。',
     },
-    base: {
+    landing: {
       wifi: '80 Mbps', cost: '$$', visa: '英国免签6个月（因国籍而异），可申请UK Global Talent Visa',
       visaDays: '180 days',
       visaDesc: '🛂 英国脱欧后，欧盟护照需申请ETA。Global Talent Visa适合科技与创意领域精英，需获认可机构背书，有效期5年。',
@@ -1960,7 +1960,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '曼彻斯特的外籍人士社群以科技与媒体从业者为主，Manchester Tech Trust等机构定期举办活动，Northern Quarter是创意社群聚集的核心街区。',
       platforms: [
         { name: 'Meetup Manchester', url: 'https://www.meetup.com/cities/gb/manchester/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -1979,7 +1979,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '布里斯托尔国际气球节（Bristol International Balloon Fiesta，8月）是欧洲最大的热气球节；Encounters国际短片节（11月）是欧洲顶级的短片电影节；St Pauls Carnival（7月）是英国规模最大的加勒比文化节庆。',
       figures: 'Banksy在布里斯托尔街头开始了他的涂鸦生涯，改变了全球对街头艺术的认知；Aardman动画创始人彼得·罗德创造了憨豆先生的好友——小羊肖恩；探险家约翰·卡伯特从布里斯托尔港出发，发现了北美大陆。',
     },
-    base: {
+    landing: {
       wifi: '75 Mbps', cost: '$$', visa: '英国免签6个月（因国籍而异），可申请UK Global Talent Visa',
       visaDays: '180 days',
       visaDesc: '🛂 英国脱欧后，欧盟护照需申请ETA。Global Talent Visa适合科技与创意领域精英，5年期，审批约3-8周。',
@@ -2001,7 +2001,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '布里斯托尔的数字游民与创意社群聚集在Stokes Croft与Clifton区，Watershed创意科技中心是最活跃的社区聚集地。',
       platforms: [
         { name: 'Meetup Bristol', url: 'https://www.meetup.com/cities/gb/bristol/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -2020,7 +2020,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '国际书展（Salone Internazionale del Libro，5月）是欧洲最重要的书展之一；CinemAmbiente环境电影节（6月）聚焦环境与可持续话题；都灵国际电影节（11月）是意大利最具先锋精神的电影节。',
       figures: '尼采在都灵完成了人生最后的清醒写作，宣称这是他最喜爱的城市；导演米开朗基罗·安东尼奥尼的镜头语言深受都灵工业景观影响；设计师埃托雷·索特萨斯以都灵为基地创立了Memphis设计运动，改变了20世纪设计史。',
     },
-    base: {
+    landing: {
       wifi: '70 Mbps', cost: '$$', visa: '申根90天免签，可申请意大利数字游民签证',
       visaDays: '365 days',
       visaDesc: '🛂 意大利数字游民签证月收入要求约€2,700，都灵生活成本比米兰低约30%，是意大利北部最具性价比的目的地。',
@@ -2042,7 +2042,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '都灵的数字游民社群正在快速成长，Toolbox Coworking是意大利历史最悠久的联合办公空间之一，汽车与AI主题社群活跃。',
       platforms: [
         { name: 'Meetup Turin', url: 'https://www.meetup.com/cities/it/turin/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -2061,7 +2061,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '华沙音乐节（Warsaw Music Week，9月）是波兰最重要的当代音乐节；科学节（Festiwal Nauki，9月）是欧洲规模最大的公众科学节之一；华沙国际电影节（10月）是中欧最重要的电影盛事之一。',
       figures: '钢琴家弗雷德里克·肖邦在华沙出生，以波洛涅兹舞曲永久定义了波兰的民族音乐灵魂；物理学家玛丽·居里（居里夫人）在华沙出生，是人类历史上唯一获得两个不同科学领域诺贝尔奖的人；作家波莱斯瓦夫·普鲁斯在《玩偶》中留下了19世纪华沙最完整的城市肖像。',
     },
-    base: {
+    landing: {
       wifi: '75 Mbps', cost: '$', visa: '申根90天免签',
       visaDays: '90 days',
       visaDesc: '🛂 申根区90天免签，波兰尚无数字游民专属签证。长期居留可通过公司注册或受雇途径申请居留许可，审批约2-4个月。',
@@ -2083,7 +2083,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '华沙的科技社群以IT从业者为核心，Campus Warsaw（Google孵化器）与众多联合办公空间是创业者的聚集地，外籍人士社区快速扩大。',
       platforms: [
         { name: 'Meetup Warsaw', url: 'https://www.meetup.com/cities/pl/warsaw/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -2102,7 +2102,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '萨尔茨堡音乐节（Salzburg Festival，7-8月）是全球最重要的古典音乐节，每年吸引25万音乐爱好者；莫扎特周（Mozartwoche，1月）在作曲家诞辰前后举行；萨尔茨堡圣诞市场（12月）是欧洲最古老最美丽的圣诞市场之一。',
       figures: '沃尔夫冈·阿马多伊斯·莫扎特是萨尔茨堡最骄傲的儿子，其故居是全球访问量最高的音乐家博物馆；指挥家赫伯特·冯·卡拉扬是萨尔茨堡音乐节的灵魂缔造者；电影《音乐之声》让全球观众记住了萨尔茨堡的山丘与湖泊。',
     },
-    base: {
+    landing: {
       wifi: '75 Mbps', cost: '$$$', visa: '申根90天免签，奥地利无数字游民专属签证',
       visaDays: '90 days',
       visaDesc: '🛂 欧元区及申根区成员，90天免签。奥地利尚无数字游民专属签证，长期居留可申请自雇许可，审批约3-4个月。',
@@ -2124,7 +2124,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '萨尔茨堡的外籍人士社群规模不大但质量高，音乐节带来的国际人脉与科技园区从业者构成两个主要社群。',
       platforms: [
         { name: 'Meetup Salzburg', url: 'https://www.meetup.com/cities/at/salzburg/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
@@ -2143,7 +2143,7 @@ export const CITIES: Record<string, CityData> = {
       festivals: '因斯布鲁克古乐节（Innsbrucker Festwochen der Alten Musik，8月）是全球最重要的古乐专业音乐节之一；新年游行（1月）是蒂罗尔传统节庆的精华展示；冬奥会遗产设施全年对公众开放，是独特的运动旅游体验。',
       figures: '皇帝马克西米利安一世选择因斯布鲁克作为哈布斯堡帝国的临时首都，留下了辉煌的帝国建筑遗产；建筑师扎哈·哈迪德为因斯布鲁克设计了伯吉塞尔滑雪跳台与北链缆车站，以解构主义重塑了城市天际线；探险家安德烈亚斯·霍弗是蒂罗尔自由精神的民族英雄。',
     },
-    base: {
+    landing: {
       wifi: '70 Mbps', cost: '$$$', visa: '申根90天免签，奥地利无数字游民专属签证',
       visaDays: '90 days',
       visaDesc: '🛂 欧元区及申根区成员，90天免签。长期居留可申请奥地利自雇许可，审批约3-4个月，因斯布鲁克大学城氛围有助于申请。',
@@ -2165,7 +2165,7 @@ export const CITIES: Record<string, CityData> = {
         { name: 'We Work Remotely', url: 'https://weworkremotely.com', desc: '全球最大远程工作社区与招聘平台' },
       ]
     },
-    local: {
+    community: {
       paragraph: '因斯布鲁克的外籍人士社群以学生、运动员与户外从业者为主，Mountain Hub等空间是远程工作者与创业者的聚集地。',
       platforms: [
         { name: 'Meetup Innsbruck', url: 'https://www.meetup.com/cities/at/innsbruck/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
