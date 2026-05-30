@@ -8,6 +8,7 @@ import { useAuth } from '@/context/AuthContext'
 import { useUserProfile } from '@/hooks/useUserProfile'
 import { CITIES, GLOBAL_COMMUNITIES, CityData } from '@/data/cities'
 import { CITY_SAFETY_LINKS } from '@/data/safetyData'
+import { CITY_EXPERIENCE_LINKS } from '@/data/experienceData'
 import { SearchContext } from '@/context/AppContext'
 import { localSearch } from '@/lib/search'
 import ShareSheet from '@/components/ShareSheet'
@@ -344,6 +345,20 @@ function SearchContent() {
                         </div>
                       ) : null
                     })}
+                    {CITY_EXPERIENCE_LINKS[cityData.name] && (
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 500, color: '#854f0b', marginBottom: 8 }}>🎨 文化体验入口</div>
+                        {CITY_EXPERIENCE_LINKS[cityData.name].map(link => (
+                          <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#fef0c0', border: '0.5px solid #c8a830', marginBottom: 5, textDecoration: 'none' }}>
+                            <span style={{ fontSize: 12, color: '#633806' }}>
+                              {link.name}
+                              <span style={{ color: '#9a6b1a', fontWeight: 400 }}> | {link.desc}</span>
+                            </span>
+                            <span style={{ fontSize: 12, color: '#633806', flexShrink: 0, marginLeft: 6 }}>›</span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 

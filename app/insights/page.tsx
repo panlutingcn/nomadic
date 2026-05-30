@@ -8,6 +8,7 @@ import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
 import { CITIES, GLOBAL_COMMUNITIES } from '@/data/cities'
 import { CITY_SAFETY_LINKS } from '@/data/safetyData'
+import { CITY_EXPERIENCE_LINKS } from '@/data/experienceData'
 import ShareSheet from '@/components/ShareSheet'
 import LoginModal from '@/components/LoginModal'
 import CityCard from '@/components/cards/CityCard'
@@ -314,9 +315,23 @@ export default function InsightsPage() {
               </div>
             )}
             {'figures' in city.soul && city.soul.figures && (
-              <div>
+              <div style={{ marginBottom: selectedCity && CITY_EXPERIENCE_LINKS[selectedCity] ? 11 : 0 }}>
                 <div style={{ fontSize: 13, fontWeight: 500, color: '#854f0b', marginBottom: 5 }}>代表人物</div>
                 <div style={{ fontSize: 12, color: '#3d2010', lineHeight: 1.65 }}>{city.soul.figures}</div>
+              </div>
+            )}
+            {selectedCity && CITY_EXPERIENCE_LINKS[selectedCity] && (
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#854f0b', marginBottom: 8 }}>🎨 文化体验入口</div>
+                {CITY_EXPERIENCE_LINKS[selectedCity].map(link => (
+                  <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#fef0c0', border: '0.5px solid #c8a830', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 12, color: '#633806' }}>
+                      {link.name}
+                      <span style={{ color: '#9a6b1a', fontWeight: 400 }}> | {link.desc}</span>
+                    </span>
+                    <span style={{ fontSize: 12, color: '#633806', flexShrink: 0, marginLeft: 6 }}>›</span>
+                  </a>
+                ))}
               </div>
             )}
           </div>
