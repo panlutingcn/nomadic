@@ -7,6 +7,7 @@ import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
 import { useUserProfile } from '@/hooks/useUserProfile'
 import { CITIES, GLOBAL_COMMUNITIES, CityData } from '@/data/cities'
+import { CITY_SAFETY_LINKS } from '@/data/safetyData'
 import { SearchContext } from '@/context/AppContext'
 import { localSearch } from '@/lib/search'
 import ShareSheet from '@/components/ShareSheet'
@@ -289,7 +290,7 @@ function SearchContent() {
                       ) : null
                     })}
                     {'housing' in cityData.landing && cityData.landing.housing && (
-                      <div>
+                      <div style={{ marginBottom: 11 }}>
                         <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>🏠 住房与租房</div>
                         <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65, marginBottom: cityData.landing.housingLinks?.length ? 8 : 0 }}>{cityData.landing.housing}</div>
                         {cityData.landing.housingLinks?.map(link => (
@@ -301,6 +302,23 @@ function SearchContent() {
                             <span style={{ fontSize: 12, color: '#085041', flexShrink: 0, marginLeft: 6 }}>›</span>
                           </a>
                         ))}
+                      </div>
+                    )}
+                    {CITY_SAFETY_LINKS[cityData.name] && (
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>🛡️ 安全守护</div>
+                        {CITY_SAFETY_LINKS[cityData.name].map(link => (
+                          <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#c2e0ce', border: '0.5px solid #9fd4b8', marginBottom: 5, textDecoration: 'none' }}>
+                            <span style={{ fontSize: 12, color: '#085041' }}>
+                              {link.name}
+                              <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {link.desc}</span>
+                            </span>
+                            <span style={{ fontSize: 12, color: '#085041', flexShrink: 0, marginLeft: 6 }}>›</span>
+                          </a>
+                        ))}
+                        <div style={{ fontSize: 10, color: '#3a8a64', lineHeight: 1.5, marginTop: 6, padding: '6px 8px', background: 'rgba(9,80,65,0.06)', borderRadius: 6 }}>
+                          免责声明：以上信息仅供参考，实际情况请以当地官方渠道为准。医疗建议请遵从专业医生意见。
+                        </div>
                       </div>
                     )}
                   </div>

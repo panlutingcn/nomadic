@@ -27,6 +27,7 @@ export interface CityData {
     society?: string
     housing?: string
     housingLinks?: { name: string; url: string; desc?: string }[]
+    safetyLinks?: { name: string; url: string; desc: string }[]
   }
   chance: {
     paragraph: string
