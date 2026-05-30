@@ -256,21 +256,21 @@ function SearchContent() {
             {activeTab === 'insights' && (
               <>
                 <div style={{ marginBottom: 10 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6, padding: '10px 10px', borderRadius: 7, background: '#fde4a0', border: '0.5px solid #c8a830', color: '#633806' }}>🌍 SOUL 城市灵魂</div>
-                  <div style={{ background: '#fde4a0', border: '0.5px solid #c8a830', borderRadius: 10, padding: '9px 11px', marginBottom: 6 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#3d2010', marginBottom: 2 }}>{cityData.soul.headline}</div>
+                  <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#fde4a0', border: '0.5px solid #c8a830', color: '#633806' }}>🌍 SOUL 城市灵魂</div>
+                  <div style={{ background: '#fde4a0', border: '0.5px solid #c8a830', borderRadius: 10, padding: '10px 12px', marginBottom: 6 }}>
+                    <div style={{ fontSize: 14, fontWeight: 500, color: '#3d2010', marginBottom: 2 }}>{cityData.soul.headline}</div>
                     {'body' in cityData.soul && cityData.soul.body && (
-                      <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.55, marginTop: 5 }}>{cityData.soul.body}</div>
+                      <div style={{ fontSize: 12, color: '#3d2010', lineHeight: 1.6, marginTop: 5 }}>{cityData.soul.body}</div>
                     )}
                   </div>
-                  <div style={{ background: '#fde4a0', border: '0.5px solid #c8a830', borderRadius: 10, padding: '10px 11px' }}>
+                  <div style={{ background: '#fde4a0', border: '0.5px solid #c8a830', borderRadius: 10, padding: '11px 12px' }}>
                     {['personality', 'economy', 'festivals', 'figures'].map(key => {
                       const val = (cityData.soul as Record<string, string | undefined>)[key]
                       const labels: Record<string, string> = { personality: '文化性格', economy: '经济支柱', festivals: '节庆活动', figures: '代表人物' }
                       return val ? (
-                        <div key={key} style={{ marginBottom: 10 }}>
-                          <div style={{ fontSize: 11, fontWeight: 500, color: '#854f0b', marginBottom: 4 }}>{labels[key]}</div>
-                          <div style={{ fontSize: 10, color: '#3d2010', lineHeight: 1.6 }}>{val}</div>
+                        <div key={key} style={{ marginBottom: 11 }}>
+                          <div style={{ fontSize: 13, fontWeight: 500, color: '#854f0b', marginBottom: 5 }}>{labels[key]}</div>
+                          <div style={{ fontSize: 12, color: '#3d2010', lineHeight: 1.65 }}>{val}</div>
                         </div>
                       ) : null
                     })}
@@ -278,7 +278,7 @@ function SearchContent() {
                 </div>
 
                 <div style={{ marginBottom: 10 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6, padding: '10px 10px', borderRadius: 7, background: '#d4ede0', border: '0.5px solid #9fd4b8', color: '#085041' }}>🌿 BASE 生存基准</div>
+                  <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#d4ede0', border: '0.5px solid #9fd4b8', color: '#085041' }}>🌿 BASE 生存基准</div>
                   {'wifi' in cityData.base && (
                     <>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5, marginBottom: 5 }}>
@@ -287,60 +287,75 @@ function SearchContent() {
                           { num: cityData.base.cost, label: '物价' },
                           { num: ('visaDays' in cityData.base && cityData.base.visaDays) ? cityData.base.visaDays : cityData.base.visa, label: '签证' },
                         ].map(item => (
-                          <div key={item.label} style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 8, padding: '7px 6px', textAlign: 'center' }}>
-                            <div style={{ fontSize: 13, fontWeight: 500, color: '#085041' }}>{item.num}</div>
-                            <div style={{ fontSize: 9, color: '#3a8a64', marginTop: 1 }}>{item.label}</div>
+                          <div key={item.label} style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 8, padding: '8px 6px', textAlign: 'center' }}>
+                            <div style={{ fontSize: 15, fontWeight: 500, color: '#085041' }}>{item.num}</div>
+                            <div style={{ fontSize: 10, color: '#3a8a64', marginTop: 2 }}>{item.label}</div>
                           </div>
                         ))}
                       </div>
-                      <div style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 7, padding: '7px 10px', marginBottom: 6 }}>
-                        <span style={{ fontSize: 10, color: '#085041', lineHeight: 1.5 }}>{cityData.base.welfare}</span>
+                      <div style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 7, padding: '8px 11px', marginBottom: 6 }}>
+                        <span style={{ fontSize: 12, color: '#085041', lineHeight: 1.55 }}>{cityData.base.welfare}</span>
                       </div>
                     </>
                   )}
-                  <div style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 10, padding: '10px 11px' }}>
+                  <div style={{ background: '#d4ede0', border: '0.5px solid #9fd4b8', borderRadius: 10, padding: '11px 12px' }}>
                     {['visaDetail', 'dailyCost', 'safety', 'society'].map(key => {
-                      const val = (cityData.base as Record<string, string | undefined>)[key]
+                      const val = (cityData.base as unknown as Record<string, string | undefined>)[key]
                       const labels: Record<string, string> = { visaDetail: '签证政策', dailyCost: '每日花销', safety: '治安与安全', society: '社会运转' }
                       return val ? (
-                        <div key={key} style={{ marginBottom: 10 }}>
-                          <div style={{ fontSize: 11, fontWeight: 500, color: '#085041', marginBottom: 4 }}>{labels[key]}</div>
-                          <div style={{ fontSize: 10, color: '#085041', lineHeight: 1.6, whiteSpace: key === 'dailyCost' ? 'pre-line' : 'normal' }}>{val}</div>
+                        <div key={key} style={{ marginBottom: 11 }}>
+                          <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>{labels[key]}</div>
+                          <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65, whiteSpace: key === 'dailyCost' ? 'pre-line' : 'normal' }}>{val}</div>
                         </div>
                       ) : null
                     })}
+                    {'housing' in cityData.base && cityData.base.housing && (
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>🏠 住房与租房</div>
+                        <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65, marginBottom: cityData.base.housingLinks?.length ? 8 : 0 }}>{cityData.base.housing}</div>
+                        {cityData.base.housingLinks?.map(link => (
+                          <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#c2e0ce', border: '0.5px solid #9fd4b8', marginBottom: 5, textDecoration: 'none' }}>
+                            <span style={{ fontSize: 12, color: '#085041' }}>
+                              {link.name}
+                              {link.desc && <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {link.desc}</span>}
+                            </span>
+                            <span style={{ fontSize: 12, color: '#085041', flexShrink: 0, marginLeft: 6 }}>›</span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 <div style={{ marginBottom: 10 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6, padding: '10px 10px', borderRadius: 7, background: '#c8dcf0', border: '0.5px solid #84b8d8', color: '#0c447c' }}>💼 CHANCE 商业机会</div>
-                  <div style={{ background: '#c8dcf0', border: '0.5px solid #84b8d8', borderRadius: 10, padding: '9px 11px' }}>
-                    <div style={{ fontSize: 10, color: '#0c447c', lineHeight: 1.55, marginBottom: 10 }}>{cityData.chance.paragraph}</div>
-                    <div style={{ marginBottom: 10 }}>
-                      <div style={{ fontSize: 10, color: '#0c447c', marginBottom: 5 }}>📋 政策环境</div>
-                      <a href={cityData.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ddeaf8', border: '0.5px solid #84b8d8', textDecoration: 'none' }}>
-                        <span style={{ fontSize: 11, color: '#185fa5' }}>{cityData.chance.policy.label}</span>
-                        <span style={{ fontSize: 11, color: '#185fa5', flexShrink: 0, marginLeft: 6 }}>›</span>
+                  <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#c8dcf0', border: '0.5px solid #84b8d8', color: '#0c447c' }}>💼 CHANCE 商业机会</div>
+                  <div style={{ background: '#c8dcf0', border: '0.5px solid #84b8d8', borderRadius: 10, padding: '10px 12px' }}>
+                    <div style={{ fontSize: 12, color: '#0c447c', lineHeight: 1.6, marginBottom: 11 }}>{cityData.chance.paragraph}</div>
+                    <div style={{ marginBottom: 11 }}>
+                      <div style={{ fontSize: 12, color: '#0c447c', marginBottom: 6 }}>📋 政策环境</div>
+                      <a href={cityData.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ddeaf8', border: '0.5px solid #84b8d8', textDecoration: 'none' }}>
+                        <span style={{ fontSize: 12, color: '#185fa5' }}>{cityData.chance.policy.label}{'desc' in cityData.chance.policy && cityData.chance.policy.desc && <span style={{ color: '#3a7fc0', fontWeight: 400 }}> | {cityData.chance.policy.desc}</span>}</span>
+                        <span style={{ fontSize: 12, color: '#185fa5', flexShrink: 0, marginLeft: 6 }}>›</span>
                       </a>
                     </div>
                     {cityData.chance.localJobs.length > 0 && (
-                      <div style={{ marginBottom: 10 }}>
-                        <div style={{ fontSize: 10, color: '#0c447c', marginBottom: 5 }}>🏢 本地招聘平台</div>
+                      <div style={{ marginBottom: 11 }}>
+                        <div style={{ fontSize: 12, color: '#0c447c', marginBottom: 6 }}>🏢 本地招聘平台</div>
                         {cityData.chance.localJobs.map(j => (
-                          <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ddeaf8', border: '0.5px solid #84b8d8', marginBottom: 5, textDecoration: 'none' }}>
-                            <span style={{ fontSize: 11, color: '#185fa5' }}>{j.name}{'desc' in j && j.desc && <span style={{ color: '#3a7fc0', fontWeight: 400 }}> | {j.desc}</span>}</span>
-                            <span style={{ fontSize: 11, color: '#185fa5', flexShrink: 0, marginLeft: 6 }}>›</span>
+                          <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ddeaf8', border: '0.5px solid #84b8d8', marginBottom: 5, textDecoration: 'none' }}>
+                            <span style={{ fontSize: 12, color: '#185fa5' }}>{j.name}{'desc' in j && j.desc && <span style={{ color: '#3a7fc0', fontWeight: 400 }}> | {j.desc}</span>}</span>
+                            <span style={{ fontSize: 12, color: '#185fa5', flexShrink: 0, marginLeft: 6 }}>›</span>
                           </a>
                         ))}
                       </div>
                     )}
                     {cityData.chance.remoteJobs.length > 0 && (
                       <div>
-                        <div style={{ fontSize: 10, color: '#0c447c', marginBottom: 5 }}>🌐 全球远程平台</div>
+                        <div style={{ fontSize: 12, color: '#0c447c', marginBottom: 6 }}>🌐 全球远程平台</div>
                         {cityData.chance.remoteJobs.map(j => (
-                          <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ddeaf8', border: '0.5px solid #84b8d8', marginBottom: 5, textDecoration: 'none' }}>
-                            <span style={{ fontSize: 11, color: '#185fa5' }}>{j.name}</span>
-                            <span style={{ fontSize: 11, color: '#185fa5', flexShrink: 0, marginLeft: 6 }}>›</span>
+                          <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ddeaf8', border: '0.5px solid #84b8d8', marginBottom: 5, textDecoration: 'none' }}>
+                            <span style={{ fontSize: 12, color: '#185fa5' }}>{j.name}</span>
+                            <span style={{ fontSize: 12, color: '#185fa5', flexShrink: 0, marginLeft: 6 }}>›</span>
                           </a>
                         ))}
                       </div>
@@ -349,31 +364,43 @@ function SearchContent() {
                 </div>
 
                 <div style={{ marginBottom: 10 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6, padding: '10px 10px', borderRadius: 7, background: '#dbd2f0', border: '0.5px solid #b8a8e0', color: '#3c3489' }}>👥 LOCAL 本地圈子</div>
-                  <div style={{ background: '#dbd2f0', border: '0.5px solid #b8a8e0', borderRadius: 10, padding: '9px 11px' }}>
+                  <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#dbd2f0', border: '0.5px solid #b8a8e0', color: '#3c3489' }}>👥 LOCAL 本地圈子</div>
+                  <div style={{ background: '#dbd2f0', border: '0.5px solid #b8a8e0', borderRadius: 10, padding: '10px 12px' }}>
                     {'paragraph' in cityData.local && cityData.local.paragraph && (
-                      <div style={{ fontSize: 10, color: '#3d3020', lineHeight: 1.55, marginBottom: 10 }}>{cityData.local.paragraph}</div>
+                      <div style={{ fontSize: 12, color: '#3d3020', lineHeight: 1.6, marginBottom: 11 }}>{cityData.local.paragraph}</div>
                     )}
                     {cityData.local.platforms.length > 0 && (
-                      <div style={{ marginBottom: 10 }}>
-                        <div style={{ fontSize: 10, color: '#3c3489', marginBottom: 5 }}>📍 本地社群平台</div>
+                      <div style={{ marginBottom: 11 }}>
+                        <div style={{ fontSize: 12, color: '#3c3489', marginBottom: 6 }}>📍 本地社群平台</div>
                         {cityData.local.platforms.map(p => (
-                          <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
-                            <span style={{ fontSize: 11, color: '#6b5bb5' }}>{p.name}{'desc' in p && p.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {p.desc}</span>}</span>
-                            <span style={{ fontSize: 11, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
+                          <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
+                            <span style={{ fontSize: 12, color: '#6b5bb5' }}>{p.name}{'desc' in p && p.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {p.desc}</span>}</span>
+                            <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
                           </a>
                         ))}
                       </div>
                     )}
-                    <div>
-                      <div style={{ fontSize: 10, color: '#3c3489', marginBottom: 5 }}>🌍 全球游民社群</div>
+                    <div style={{ marginBottom: 'zhCommunity' in cityData.local && cityData.local.zhCommunity ? 11 : 0 }}>
+                      <div style={{ fontSize: 12, color: '#3c3489', marginBottom: 6 }}>🌍 全球游民社群</div>
                       {GLOBAL_COMMUNITIES.map(c => (
-                        <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
-                          <span style={{ fontSize: 11, color: '#6b5bb5' }}>{c.name}{c.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {c.desc}</span>}</span>
-                          <span style={{ fontSize: 11, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
+                        <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
+                          <span style={{ fontSize: 12, color: '#6b5bb5' }}>{c.name}{c.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {c.desc}</span>}</span>
+                          <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
                         </a>
                       ))}
                     </div>
+                    {'zhCommunity' in cityData.local && cityData.local.zhCommunity && (
+                      <div>
+                        <div style={{ fontSize: 12, color: '#6b5bb5', fontWeight: 500, marginBottom: 6 }}>🀄 华人旅居圈</div>
+                        <div style={{ fontSize: 12, color: '#3d3020', lineHeight: 1.65, marginBottom: cityData.local.zhCommunityLinks?.length ? 8 : 0 }}>{cityData.local.zhCommunity}</div>
+                        {cityData.local.zhCommunityLinks?.map(link => (
+                          <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
+                            <span style={{ fontSize: 12, color: '#6b5bb5' }}>{link.name}</span>
+                            <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </>

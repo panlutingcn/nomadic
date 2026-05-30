@@ -25,6 +25,8 @@ export interface CityData {
     dailyCost?: string
     visaDetail?: string
     society?: string
+    housing?: string
+    housingLinks?: { name: string; url: string; desc?: string }[]
   }
   chance: {
     paragraph: string
@@ -35,6 +37,8 @@ export interface CityData {
   local: {
     paragraph?: string
     platforms: { name: string; url: string; desc?: string }[]
+    zhCommunity?: string
+    zhCommunityLinks?: { name: string; url: string }[]
   }
 }
 
@@ -58,6 +62,12 @@ export const CITIES: Record<string, CityData> = {
       dailyCost: '每日预算参考：\n• 餐饮：$20–30（自煮早餐 + 午餐外食 + 偶尔下馆子）\n• 住宿：$40–60（Airbnb 单间或合租公寓，按月租更划算）\n• 交通：$5–8（月票约 $90，日均约 $3；偶尔打车）\n• 合计：约 $65–100/天',
       visaDetail: '申根区90天免签适用于多数国家护照持有者。长期居留可申请自由职业签证（Freiberufler），需提供收入证明、德语能力证明（部分情况）及健康保险。审批周期2-4个月。',
       society: '德国拥有全球最完善的社会保障体系之一：法定医疗保险（GKV）覆盖广泛，失业保险、养老金制度健全。持有效工作签证或自雇许可的外籍人士可参与社保体系。德国人普遍重视工作与生活平衡（Work-Life Balance），法定带薪假期20天以上，社会整体节奏稳健而有序。',
+      housing: '主要租房平台：Immobilienscout24（长租主流）、WG-Gesucht（合租首选）、Airbnb / Wunderflats（短租）。押金通常为3个月冷租金，合同以德语签署，建议请人翻译核查。柏林住房市场竞争激烈，旺季（7–9月）尤甚，建议提前2–3个月开始找房，准备好收入证明、身份证件及Schufa信用报告。月租参考：合租单间 €600–900，独立一居室 €1,100–1,600。',
+      housingLinks: [
+        { name: 'Immobilienscout24', url: 'https://www.immobilienscout24.de', desc: '德国最大长租平台，覆盖公寓与独立屋' },
+        { name: 'WG-Gesucht', url: 'https://www.wg-gesucht.de', desc: '德语区合租信息首选，适合共享公寓找房' },
+        { name: 'Wunderflats', url: 'https://www.wunderflats.com', desc: '短中租专属平台，外籍友好，支持英语签约' },
+      ],
     },
     chance: {
       paragraph: '柏林设计审美偏向理性实用主义，创意产业密集，品牌出海需求旺盛。Mittelstand 中小企业构成商业骨干，咨询、策划与内容类项目持续活跃。',
@@ -80,7 +90,8 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Meetup Berlin', url: 'https://www.meetup.com/cities/de/berlin/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Berlin', url: 'https://www.eventbrite.de/d/germany--berlin/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
         { name: 'Berlin Startup Jobs Events', url: 'https://berlinstartupjobs.com/events/', desc: '柏林创业圈活动与招聘信息聚合' },
-      ]
+      ],
+      zhCommunity: '柏林华人圈以留学生、科技从业者和艺术家为主，社群相当活跃。小红书搜索「柏林旅居」「柏林生活」可找到最新攻略和本地旅居者；知乎有大量德国签证、租房、自雇经验分享。微信群入口可在小红书评论区或各类柏林旅居帖子中获取邀请链接。柏林华人微信互助群通常覆盖租房、二手物品交易、活动组织等实用信息。',
     }
   },
   Amsterdam: {
@@ -101,7 +112,13 @@ export const CITIES: Record<string, CityData> = {
       visaDetail: '申根区90天免签适用于多数国家护照持有者。荷兰自雇居留许可（DAFT）适合美国公民，其他国籍可申请创业签证（Startup Visa）或高技能移民签证（Highly Skilled Migrant），需提供商业计划书或雇主担保。',
       dailyCost: '每日预算参考：\n• 餐饮：€25–40（咖啡馆午餐€12–18，晚餐€20–35）\n• 住宿：€60–100（市中心合租公寓，住宿成本较高）\n• 交通：€3–5（地铁/电车单程€3.2，月票€100）\n• 合计：约€90–150/天',
       safety: '阿姆斯特丹整体安全，犯罪率低。需注意：红灯区和中央火车站周边有扒窃风险；骑行时注意自行车盗窃（建议使用两把锁）。夜间独行整体安全，当地人普遍友善。',
-      society: '荷兰拥有完善的社会保障体系，公共医疗（Zorgverzekering）为强制保险，居民须自行购买基础医保。工作文化注重效率与平衡，直接沟通是荷兰人的特点。英语普及率极高，几乎所有人都能流利交流。'
+      society: '荷兰拥有完善的社会保障体系，公共医疗（Zorgverzekering）为强制保险，居民须自行购买基础医保。工作文化注重效率与平衡，直接沟通是荷兰人的特点。英语普及率极高，几乎所有人都能流利交流。',
+      housing: '主要租房平台：Funda（长租主流）、Kamernet（合租）、HousingAnywhere（短中租，对外籍友好）。阿姆斯特丹住房市场极度紧张，是欧洲最难找房的城市之一，建议提前3个月以上开始找房。押金通常为1–2个月租金，房东普遍要求月收入为租金3倍的证明，部分房东要求荷兰本地担保人。月租参考：合租单间 €800–1,200，独立一居室 €1,600–2,400。短租可考虑 Airbnb 或 Wunderflats 过渡，但长期性价比差。',
+      housingLinks: [
+        { name: 'Funda', url: 'https://www.funda.nl', desc: '荷兰最大租房平台，覆盖各类长租公寓' },
+        { name: 'Kamernet', url: 'https://kamernet.nl', desc: '荷兰合租房源聚合，适合独立卧室找房' },
+        { name: 'HousingAnywhere', url: 'https://housinganywhere.com', desc: '短中租平台，外籍人士友好，支持英语签约' },
+      ],
     },
     chance: {
       paragraph: '阿姆斯特丹是欧洲科技初创与创意产业的重镇，英语普及率极高，对外籍人才极度友好。',
@@ -121,7 +138,8 @@ export const CITIES: Record<string, CityData> = {
       platforms: [
         { name: 'Meetup Amsterdam', url: 'https://www.meetup.com/cities/nl/amsterdam/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Amsterdam', url: 'https://www.eventbrite.nl/d/netherlands--amsterdam/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
-      ]
+      ],
+      zhCommunity: '阿姆斯特丹华人圈以科技从业者、金融人士和留学生为主。小红书搜索「阿姆斯特丹旅居」「荷兰生活」可找到实用攻略；知乎有大量荷兰签证、租房、税务经验。华人微信互助群涵盖租房资源、二手物品和活动信息，入口可在小红书相关帖子评论区获取。荷兰整体国际化程度极高，与外籍社群融合比较自然。',
     }
   },
   Lisbon: {
@@ -142,7 +160,13 @@ export const CITIES: Record<string, CityData> = {
       visaDetail: '申根区90天免签适用于多数国家护照持有者。葡萄牙数字游民签证（D8）有效期1年，可续签，适合月收入超过€3,040的远程工作者。申请需提供收入证明、健康保险及住址证明。',
       dailyCost: '每日预算参考：\n• 餐饮：€15–25（午餐套餐€8–12，晚餐€15–25）\n• 住宿：€35–60（市中心合租公寓，近年价格上涨明显）\n• 交通：€2–4（地铁单程€1.5，月票€40）\n• 合计：约€55–90/天',
       safety: '里斯本整体安全，是欧洲治安较好的首都之一。需注意：阿尔法玛区和旅游景点有扒窃风险；夜间独行整体安全，当地人友善。女性独行安全感较高。',
-      society: '葡萄牙公共医疗系统（SNS）覆盖广泛，持D8签证可低价就医。生活节奏悠闲，葡萄牙人重视家庭与社交。英语在年轻人和旅游业从业者中普及，但老一辈葡萄牙人英语较弱。'
+      society: '葡萄牙公共医疗系统（SNS）覆盖广泛，持D8签证可低价就医。生活节奏悠闲，葡萄牙人重视家庭与社交。英语在年轻人和旅游业从业者中普及，但老一辈葡萄牙人英语较弱。',
+      housing: '主要租房平台：Idealista（葡萄牙最大租房平台）、OLX（二手兼租房）、Uniplaces（学生/短租友好）。里斯本租房市场近年竞争显著加剧，建议提前1–2个月找房，准备好护照、收入证明和银行流水。押金通常为2个月租金，合同以葡萄牙语签署。月租参考：合租单间 €500–800，独立一居室 €900–1,400。市中心（Chiado、Príncipe Real）价格最贵，Santos、Mouraria等区性价比更高。',
+      housingLinks: [
+        { name: 'Idealista', url: 'https://www.idealista.pt', desc: '葡萄牙最大租房平台，长短租均有覆盖' },
+        { name: 'OLX', url: 'https://www.olx.pt', desc: '分类广告平台，含个人直租房源，价格透明' },
+        { name: 'Uniplaces', url: 'https://www.uniplaces.com', desc: '面向学生与短租用户，外籍友好，支持英语' },
+      ],
     },
     chance: {
       paragraph: '里斯本物价低廉、气候宜人，已成为欧洲增长最快的数字游民聚集地，初创生态活跃。',
@@ -162,7 +186,8 @@ export const CITIES: Record<string, CityData> = {
       platforms: [
         { name: 'Meetup Lisbon', url: 'https://www.meetup.com/cities/pt/lisbon/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Lisboa', url: 'https://www.eventbrite.pt/d/portugal--lisbon/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
-      ]
+      ],
+      zhCommunity: '里斯本华人旅居圈近年快速扩大，是欧洲华人游民最活跃的城市之一。小红书搜索「里斯本旅居」「葡萄牙D8签证」可获取大量一手经验；微博、知乎上葡萄牙生活社区活跃。华人微信群覆盖租房、签证、税务等实用话题，入口可在小红书相关帖子评论区或里斯本华人互助社区找到。部分共享工作空间（如Heden、Second Home）已有固定华人游民圈子。',
     }
   },
   Prague: {
@@ -183,7 +208,12 @@ export const CITIES: Record<string, CityData> = {
       visaDetail: '申根区90天免签适用于多数国家护照持有者。捷克自由职业贸易许可证（Živnostenský list）可合法自雇经营，申请相对简便，是欧洲最友好的自雇制度之一。',
       dailyCost: '每日预算参考：\n• 餐饮：Kč200–400（午餐套餐Kč150–200，晚餐Kč250–400）\n• 住宿：Kč800–1500（市中心合租公寓）\n• 交通：Kč30–50（地铁单程Kč30，月票Kč550）\n• 合计：约Kč1,100–2,000/天（约$50–90）',
       safety: '布拉格整体安全，犯罪率低。需注意：老城广场和查理大桥周边有扒窃风险；夜间独行整体安全，但建议避开偏僻街道。出租车建议使用Bolt或Uber，避免路边拦车。',
-      society: '捷克拥有完善的公共医疗体系，持有效居留许可者可参与国家医保。工作文化务实，捷克人普遍重视工作与生活平衡。英语在年轻人和商业环境中普及，但日常生活中捷克语为主。'
+      society: '捷克拥有完善的公共医疗体系，持有效居留许可者可参与国家医保。工作文化务实，捷克人普遍重视工作与生活平衡。英语在年轻人和商业环境中普及，但日常生活中捷克语为主。',
+      housing: '主要租房平台：Sreality.cz（捷克最大租房平台）、Bezrealitky（无中介直租）、Facebook群组「Prague Expats Accommodation」。布拉格租房市场相对宽松，外籍人士找房难度中等。押金通常为1–3个月，合同以捷克语签署，建议找人翻译。月租参考：合租单间 Kč8,000–14,000，独立一居室 Kč18,000–28,000（约€700–1,100）。Žižkov、Vinohrady、Smíchov区性价比好且生活便利。',
+      housingLinks: [
+        { name: 'Sreality.cz', url: 'https://www.sreality.cz', desc: '捷克最大租房平台，长租房源最全' },
+        { name: 'Bezrealitky', url: 'https://www.bezrealitky.cz', desc: '无中介直租平台，省去代理费，性价比高' },
+      ],
     },
     chance: {
       paragraph: '布拉格物价低于西欧三分之一，科技初创生态快速崛起，吸引大量欧洲远程工作者定居。',
@@ -202,7 +232,8 @@ export const CITIES: Record<string, CityData> = {
       platforms: [
         { name: 'Meetup Prague', url: 'https://www.meetup.com/cities/cz/prague/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Prague', url: 'https://www.eventbrite.com/d/czech-republic--prague/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
-      ]
+      ],
+      zhCommunity: '布拉格华人圈以留学生和远程工作者为主，规模适中但互助性强。小红书搜索「布拉格旅居」「捷克生活」可找到租房、签证攻略；知乎上有关捷克自雇许可（živnostenský list）的详细分享。华人微信互助群主要覆盖租房资源和日常生活信息，规模小于西欧城市，融入本地国际社群是更主流的社交方式。',
     }
   },
   Vienna: {
@@ -223,7 +254,13 @@ export const CITIES: Record<string, CityData> = {
       visaDetail: '申根区90天免签适用于多数国家护照持有者。奥地利人才护照（Talent Passport）适合自由职业者与创业者申请长期居留，需提供收入证明和专业资质。',
       dailyCost: '每日预算参考：\n• 餐饮：€20–35（咖啡馆午餐€12–18，晚餐€20–35）\n• 住宿：€50–80（市中心合租公寓）\n• 交通：€3–5（地铁单程€2.4，月票€51）\n• 合计：约€75–120/天',
       safety: '维也纳是全球最安全的城市之一，犯罪率极低。公共交通安全可靠，夜间独行无忧。需注意：中央火车站周边偶有扒窃，保管好随身物品即可。',
-      society: '奥地利拥有全球顶尖的社会保障体系，公共医疗（Krankenversicherung）覆盖广泛。工作文化正式而高效，奥地利人重视隐私和个人边界。德语是官方语言，英语在商业环境中普及。'
+      society: '奥地利拥有全球顶尖的社会保障体系，公共医疗（Krankenversicherung）覆盖广泛。工作文化正式而高效，奥地利人重视隐私和个人边界。德语是官方语言，英语在商业环境中普及。',
+      housing: '主要租房平台：Willhaben（奥地利最大平台）、ImmobilienScout24、Wohnungsbörse。维也纳有大量市政公寓（Gemeindebau），但外籍人士通常需通过私人市场找房。押金通常为3个月，合同以德语签署。月租参考：合租单间 €700–1,000，独立一居室 €1,100–1,700。建议避开旅游旺季（7–8月）找房，竞争更激烈。1区（内城）最贵，7区（Neubau）、8区（Josefstadt）文艺气息浓且价格适中。',
+      housingLinks: [
+        { name: 'Willhaben', url: 'https://www.willhaben.at', desc: '奥地利最大综合平台，租房与二手均覆盖' },
+        { name: 'ImmobilienScout24', url: 'https://www.immobilienscout24.de', desc: '德语区长租主流平台，覆盖维也纳各区' },
+        { name: 'Wohnungsbörse', url: 'https://www.wohnungsboerse.net', desc: '奥地利租房搜索引擎，汇聚多平台房源' },
+      ],
     },
     chance: {
       paragraph: '维也纳是中欧商业中心，金融与文化创意产业并重，生活质量连续多年全球排名第一。',
@@ -242,7 +279,8 @@ export const CITIES: Record<string, CityData> = {
       platforms: [
         { name: 'Meetup Vienna', url: 'https://www.meetup.com/cities/at/vienna/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Vienna', url: 'https://www.eventbrite.at/d/austria--vienna/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
-      ]
+      ],
+      zhCommunity: '维也纳华人圈以留学生、音乐学院学生和外交/国际机构从业者为主，社群相对精英化。小红书搜索「维也纳旅居」「奥地利生活」可找到签证和生活经验分享；知乎上奥地利人才签证话题有详细讨论。华人微信群活跃度中等，覆盖租房和文化活动。维也纳中文学校和春节晚会是华人圈固定社交节点。',
     }
   },
   Paris: {
@@ -263,7 +301,15 @@ export const CITIES: Record<string, CityData> = {
       visaDetail: '申根区90天免签适用于多数国家护照持有者。法国人才护照（Passeport Talent）适合创意工作者和高技能人才申请长期居留，有效期4年，可续签。',
       dailyCost: '每日预算参考：\n• 餐饮：€25–45（咖啡馆午餐€15–20，晚餐€25–45）\n• 住宿：€60–100（市中心合租公寓，住宿成本较高）\n• 交通：€4–6（地铁单程€2.1，月票€86）\n• 合计：约€90–150/天',
       safety: '巴黎整体安全，但扒窃问题较为突出，尤其在埃菲尔铁塔、卢浮宫和地铁站。建议随身携带复印件，使用防盗包。部分郊区治安较差，建议避开。夜间独行在市中心整体安全。',
-      society: '法国拥有全球最完善的社会保障体系之一，公共医疗（Sécurité Sociale）覆盖广泛。工作文化注重生活质量，法定带薪假期25天，35小时工作制是法律规定。法语是官方语言，法国人对语言有强烈的文化认同。'
+      society: '法国拥有全球最完善的社会保障体系之一，公共医疗（Sécurité Sociale）覆盖广泛。工作文化注重生活质量，法定带薪假期25天，35小时工作制是法律规定。法语是官方语言，法国人对语言有强烈的文化认同。',
+      housing: '主要租房平台：SeLoger（法国最大租房平台）、Le Bon Coin（兼分类广告）、Spotahome（短中租，对外籍友好）。巴黎住房市场竞争激烈，房东通常要求收入证明为月租3倍。外籍人士无法提供法国担保人时，可使用 Visale（政府免费担保服务）或 Garantme。押金通常为1–2个月。月租参考：合租单间 €800–1,200，独立一居室 €1,400–2,200。10–11区、18区（蒙马特）性价比相对较好。',
+      housingLinks: [
+        { name: 'SeLoger', url: 'https://www.seloger.com', desc: '法国最大租房平台，长租房源最全面' },
+        { name: 'Le Bon Coin', url: 'https://www.leboncoin.fr', desc: '法国最大分类广告平台，含个人直租房源' },
+        { name: 'Spotahome', url: 'https://www.spotahome.com', desc: '中短租平台，外籍人士友好，提供视频看房' },
+        { name: 'Visale', url: 'https://www.visale.fr', desc: '法国政府免费担保服务，解决无本地担保人问题' },
+        { name: 'Garantme', url: 'https://garantme.fr', desc: '商业担保平台，帮助外籍人士通过房东租房审核' },
+      ],
     },
     chance: {
       paragraph: '巴黎是全球时尚、奢侈品与创意产业的中心，科技初创生态（Station F）快速崛起，英语工作机会日益增多。',
@@ -284,7 +330,8 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Meetup Paris', url: 'https://www.meetup.com/cities/fr/paris/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Paris', url: 'https://www.eventbrite.fr/d/france--paris/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
         { name: 'Station F Events', url: 'https://stationf.co', desc: '全球最大创业园区，巴黎初创生态核心' },
-      ]
+      ],
+      zhCommunity: '巴黎华人圈规模庞大，是欧洲最大的华人聚居地之一（主要在13区唐人街）。小红书搜索「巴黎旅居」「法国旅居」有海量攻略；微博和微信公众号「巴黎生活圈」「旅法华人」等有实时资讯。巴黎华人微信群极为活跃，覆盖租房、法语课、创业等各类主题，建议加入小红书评论区曝光的活跃群组。旅法华人圈分层明显——留学生、创业者、时尚从业者各有圈子。',
     }
   },
   Barcelona: {
@@ -305,7 +352,13 @@ export const CITIES: Record<string, CityData> = {
       visaDetail: '申根区90天免签适用于多数国家护照持有者。西班牙数字游民签证有效期1年，可续签至5年，适合月收入超过€2,334的远程工作者。申请需提供收入证明、健康保险及无犯罪记录证明。',
       dailyCost: '每日预算参考：\n• 餐饮：€25–40（Tapas午餐€10–15，晚餐€20–30）\n• 住宿：€50–80（市中心合租公寓，按月租更划算）\n• 交通：€3–5（地铁单程€2.4，月票€40）\n• 合计：约€80–130/天',
       safety: '巴塞罗那整体安全，但扒窃问题较为突出，尤其在兰布拉大道、哥特区和地铁站。建议随身携带复印件而非原件，避免在人群密集处使用手机。夜间独行整体安全，但建议避开偏僻街道。',
-      society: '西班牙拥有完善的公共医疗体系（SNS），持居留许可者可享受免费公立医疗。工作节奏较为悠闲，午休文化（Siesta）仍存在于部分行业。加泰罗尼亚地区有独特的文化认同，当地人普遍使用加泰罗尼亚语和西班牙语双语。'
+      society: '西班牙拥有完善的公共医疗体系（SNS），持居留许可者可享受免费公立医疗。工作节奏较为悠闲，午休文化（Siesta）仍存在于部分行业。加泰罗尼亚地区有独特的文化认同，当地人普遍使用加泰罗尼亚语和西班牙语双语。',
+      housing: '主要租房平台：Idealista（西班牙最大租房平台）、Fotocasa、Habitaclia（加泰罗尼亚本地平台）、Airbnb（短租）。巴塞罗那租房竞争近年加剧，数字游民涌入推高了房价。押金通常为2个月，合同以西班牙语或加泰罗尼亚语签署。月租参考：合租单间 €600–950，独立一居室 €1,100–1,800。Gràcia、Poble Sec、Sants等区生活气息浓且性价比高，避开Eixample和哥特区（价格最贵）。',
+      housingLinks: [
+        { name: 'Idealista', url: 'https://www.idealista.es', desc: '西班牙最大租房平台，巴塞罗那房源最全' },
+        { name: 'Fotocasa', url: 'https://www.fotocasa.es', desc: '西班牙主流租房平台，覆盖公寓与独立屋' },
+        { name: 'Habitaclia', url: 'https://www.habitaclia.com', desc: '加泰罗尼亚本地主流平台，本地房源丰富' },
+      ],
     },
     chance: {
       paragraph: '巴塞罗那是欧洲最具活力的创意与科技中心之一，Mobile World Congress 每年在此举办，初创生态活跃，英语工作机会多。',
@@ -326,7 +379,8 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Meetup Barcelona', url: 'https://www.meetup.com/cities/es/barcelona/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Barcelona', url: 'https://www.eventbrite.es/d/spain--barcelona/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
         { name: 'Barcelona Activa', url: 'https://www.barcelonactiva.cat', desc: '巴塞罗那市政创业支持机构，提供资源与活动' },
-      ]
+      ],
+      zhCommunity: '巴塞罗那华人圈以创意从业者、电商运营者和数字游民为主，气氛轻松开放。小红书搜索「巴塞罗那旅居」「西班牙数字游民签证」有大量经验帖；微信公众号「在巴塞」「巴塞华人」等有本地资讯。华人微信互助群覆盖租房、签证和本地活动，在小红书帖子评论区或留学论坛可找入口。Barcelona Tech City的国际科技圈是与本地外籍社群融合的好入口。',
     }
   },
   Porto: {
@@ -347,7 +401,13 @@ export const CITIES: Record<string, CityData> = {
       visaDetail: '申根区90天免签适用于多数国家护照持有者。葡萄牙数字游民签证（D8）有效期1年，可续签，适合月收入超过€3,040的远程工作者。波尔图生活成本远低于里斯本，是申请D8签证的热门城市。',
       dailyCost: '每日预算参考：\n• 餐饮：€12–20（午餐套餐€7–10，晚餐€12–20）\n• 住宿：€25–50（市中心合租公寓，性价比高）\n• 交通：€2–3（地铁单程€1.5，月票€40）\n• 合计：约€40–75/天',
       safety: '波尔图整体安全，是葡萄牙治安最好的城市之一。需注意：旅游景点和地铁站有扒窃风险；夜间独行整体安全，当地人友善。女性独行安全感较高。',
-      society: '葡萄牙公共医疗系统（SNS）覆盖广泛，持D8签证可低价就医。波尔图生活节奏比里斯本更悠闲，当地人务实而热情。英语在年轻人中普及，但老一辈葡萄牙人英语较弱。'
+      society: '葡萄牙公共医疗系统（SNS）覆盖广泛，持D8签证可低价就医。波尔图生活节奏比里斯本更悠闲，当地人务实而热情。英语在年轻人中普及，但老一辈葡萄牙人英语较弱。',
+      housing: '主要租房平台：Idealista、OLX、Uniplaces。波尔图租房市场比里斯本宽松，价格也明显更低。押金通常为2个月，合同以葡萄牙语签署。月租参考：合租单间 €350–550，独立一居室 €650–1,000。Bonfim、Paranhos等区性价比出众，Ribeira历史区最贵。外籍旅居者聚集度高，找房信息也较易在本地游民社群获取。',
+      housingLinks: [
+        { name: 'Idealista', url: 'https://www.idealista.pt', desc: '葡萄牙最大租房平台，长短租均有覆盖' },
+        { name: 'OLX', url: 'https://www.olx.pt', desc: '分类广告平台，含个人直租房源，价格透明' },
+        { name: 'Uniplaces', url: 'https://www.uniplaces.com', desc: '面向学生与短租用户，外籍友好，支持英语' },
+      ],
     },
     chance: {
       paragraph: '波尔图物价低廉、生活质量高，近年吸引大量远程工作者和创意人才，科技初创生态快速成长。',
@@ -367,7 +427,8 @@ export const CITIES: Record<string, CityData> = {
       platforms: [
         { name: 'Meetup Porto', url: 'https://www.meetup.com/cities/pt/porto/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Porto', url: 'https://www.eventbrite.pt/d/portugal--porto/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
-      ]
+      ],
+      zhCommunity: '波尔图华人旅居圈规模小于里斯本，但正在快速成长，氛围更加紧密友好。小红书搜索「波尔图旅居」「波尔图生活」可找到近期经验分享；里斯本华人群组中也有不少人同时覆盖波尔图信息。华人微信互助群规模较小但互助性强，推荐先从里斯本华人群扩展联系，也可在波尔图的共享办公（如Cowork Porto）认识其他华人旅居者。',
     }
   },
   Dublin: {
@@ -388,7 +449,12 @@ export const CITIES: Record<string, CityData> = {
       visaDetail: '爱尔兰非申根区，多数国家护照持有者可免签入境90天。创业签证（Start-Up Entrepreneur Programme, STEP）适合高潜力创业者申请长期居留，需提供商业计划书和资金证明。',
       dailyCost: '每日预算参考：\n• 餐饮：€25–45（午餐€12–18，晚餐€25–45）\n• 住宿：€70–120（市中心合租公寓，住宿成本极高）\n• 交通：€3–5（公交单程€2.6，月票€140）\n• 合计：约€100–170/天',
       safety: '都柏林整体安全，但部分区域（如北内城）治安较差。市中心夜间需注意扒窃，尤其在酒吧区（Temple Bar）。夜间独行建议选择灯光充足的路线，避开偏僻街道。',
-      society: '爱尔兰拥有完善的公共医疗体系（HSE），但等待时间较长，私立医疗更为高效。工作文化友好开放，英语是官方语言，沟通无障碍。都柏林是欧洲科技公司（Google、Meta、Apple）欧洲总部的聚集地。'
+      society: '爱尔兰拥有完善的公共医疗体系（HSE），但等待时间较长，私立医疗更为高效。工作文化友好开放，英语是官方语言，沟通无障碍。都柏林是欧洲科技公司（Google、Meta、Apple）欧洲总部的聚集地。',
+      housing: '主要租房平台：Daft.ie（爱尔兰最大、最重要的租房平台）、Rent.ie、Airbnb（短租过渡）。都柏林住房危机严峻，空置率极低，是西欧找房最难的城市之一。建议提前3个月以上启动找房，加入Facebook「Dublin Accommodation」群组第一时间获取信息。押金通常为1个月，合同有法律保护。月租参考：合租单间 €900–1,300，独立一居室 €1,800–2,600。Rathmines、Stoneybatter、Phibsborough区相对亲民。',
+      housingLinks: [
+        { name: 'Daft.ie', url: 'https://www.daft.ie', desc: '爱尔兰最大也是最重要的租房平台' },
+        { name: 'Rent.ie', url: 'https://www.rent.ie', desc: '爱尔兰次大租房平台，覆盖全国各地房源' },
+      ],
     },
     chance: {
       paragraph: '都柏林是 Google、Meta、Apple 欧洲总部所在地，英语母语环境，科技与金融岗位密集，是进入欧洲市场的理想跳板。',
@@ -409,7 +475,8 @@ export const CITIES: Record<string, CityData> = {
         { name: 'Meetup Dublin', url: 'https://www.meetup.com/cities/ie/dublin/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Dublin', url: 'https://www.eventbrite.ie/d/ireland--dublin/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
         { name: 'Silicon Docks Events', url: 'https://www.siliconrepublic.com/events', desc: '都柏林科技圈活动聚合，初创与科技社群必备' },
-      ]
+      ],
+      zhCommunity: '都柏林华人圈以科技公司（Google、Meta）华人员工、留学生和少数游民为主，整体规模适中。小红书搜索「都柏林旅居」「爱尔兰生活」有签证、租房经验分享；知乎上爱尔兰工作签证话题有详细讨论。都柏林华人微信互助群活跃，覆盖租房（这是最大痛点）、生活资讯等；爱尔兰华人社区协会（Irish Chinese Community Association）也有定期活动。',
     }
   },
   Dubrovnik: {
@@ -471,7 +538,13 @@ export const CITIES: Record<string, CityData> = {
       visaDetail: '🛂 意大利数字游民签证（Visto per Nomadi Digitali）有效期1年，可续签。申请条件：月收入≥€2,700，需提供远程工作合同或自雇证明、医疗保险、住房证明。申根区90天免签适合短期探访，长期居留需办理居留许可（Permesso di Soggiorno）。',
       dailyCost: '每日预算参考：\n• 餐饮：€25–45（含一顿正餐）\n• 住宿：€60–120（市中心公寓/月租€1,200–2,000）\n• 交通：€5–10（公交/步行为主）\n• 合计：约€90–175/天',
       safety: '🔒 佛罗伦萨整体安全，但游客区扒窃频发，尤其是乌菲兹美术馆、圣十字广场周边。夜间独行较安全，建议保管好随身物品。',
-      society: '意大利人重视家庭、美食与社交，生活节奏悠闲。英语在旅游业和年轻人中普及，但日常生活以意大利语为主。外籍人士社群以艺术、设计和学术人士为主，融入本地生活需要一定意大利语基础。'
+      society: '意大利人重视家庭、美食与社交，生活节奏悠闲。英语在旅游业和年轻人中普及，但日常生活以意大利语为主。外籍人士社群以艺术、设计和学术人士为主，融入本地生活需要一定意大利语基础。',
+      housing: '主要租房平台：Immobiliare.it（意大利最大租房平台）、Subito.it（含二手兼租房）、Airbnb/Spotahome（短中租）。佛罗伦萨租房市场受旅游业影响，旺季（5–9月）短租供给多但价格高，长租更稳定。押金通常为2–3个月，合同以意大利语签署，有意大利语基础大幅降低沟通成本。月租参考：合租单间 €500–800，独立一居室 €900–1,400。Oltrarno、Campo di Marte等区生活气息足且价格合理。',
+      housingLinks: [
+        { name: 'Immobiliare.it', url: 'https://www.immobiliare.it', desc: '意大利最大租房平台，长租房源丰富' },
+        { name: 'Subito.it', url: 'https://www.subito.it', desc: '分类广告平台，含个人直租与二手物品' },
+        { name: 'Spotahome', url: 'https://www.spotahome.com', desc: '中短租平台，外籍人士友好，提供视频看房' },
+      ],
     },
     chance: {
       paragraph: '佛罗伦萨是全球时尚、皮革工艺与艺术设计的圣地，创意产业机会丰富，意大利语能力可大幅提升本地商业机会。',
@@ -491,7 +564,8 @@ export const CITIES: Record<string, CityData> = {
       platforms: [
         { name: 'Meetup Florence', url: 'https://www.meetup.com/cities/it/florence/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Firenze', url: 'https://www.eventbrite.it/d/italy--florence/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
-      ]
+      ],
+      zhCommunity: '佛罗伦萨华人圈以艺术设计留学生和皮革/时尚行业从业者为主，较为小众精英化。小红书搜索「佛罗伦萨旅居」「意大利艺术留学」有相关经验；知乎上意大利旅居和签证话题有讨论。本地华人社群规模较小，意大利语能力是深度融入的关键。建议通过佛罗伦萨中文学校或华人商会（Camera di Commercio Cinese）寻找联络点。',
     }
   },
   Tallinn: {
@@ -512,7 +586,12 @@ export const CITIES: Record<string, CityData> = {
       visaDetail: '🛂 爱沙尼亚数字游民签证（Digital Nomad Visa）有效期1年，可续签。申请条件：月收入≥€3,504，需提供远程工作合同或自雇证明、医疗保险。e-Residency（电子居民）项目允许全球任何人在爱沙尼亚注册欧盟公司，无需实际居住，是数字创业者的首选。',
       dailyCost: '每日预算参考：\n• 餐饮：€15–30（含一顿正餐）\n• 住宿：€40–80（市中心公寓/月租€800–1,400）\n• 交通：€3–8（公交/步行为主）\n• 合计：约€58–118/天',
       safety: '🔒 塔林是欧洲最安全的城市之一，犯罪率极低。老城区夜间也较安全，但建议避免深夜独自前往偏僻区域。',
-      society: '爱沙尼亚人内敛务实，重视个人空间与效率。英语普及率极高，尤其在科技和商业领域。塔林拥有欧洲最活跃的数字游民社群之一，e-Residency社区遍布全球，本地科技创业氛围浓厚。'
+      society: '爱沙尼亚人内敛务实，重视个人空间与效率。英语普及率极高，尤其在科技和商业领域。塔林拥有欧洲最活跃的数字游民社群之一，e-Residency社区遍布全球，本地科技创业氛围浓厚。',
+      housing: '主要租房平台：KV.ee（爱沙尼亚最大租房平台）、City24.ee、Airbnb（短租）。塔林住房市场相对宽松，外籍人士找房较容易，英语沟通无障碍。押金通常为1–2个月，合同通常可提供英语版本。月租参考：合租单间 €400–700，独立一居室 €700–1,100。老城区（Vanalinn）最贵但最美，Kalamaja、Telliskivi等新兴文艺区性价比高且游民聚集。',
+      housingLinks: [
+        { name: 'KV.ee', url: 'https://www.kv.ee', desc: '爱沙尼亚最大租房平台，覆盖全国各类房源' },
+        { name: 'City24.ee', url: 'https://www.city24.ee', desc: '波罗的海综合房产平台，含塔林各区租房' },
+      ],
     },
     chance: {
       paragraph: '塔林是全球数字游民签证的发源地，科技初创密度欧洲最高，e-Residency 项目让远程经营欧盟公司成为现实。',
@@ -532,7 +611,8 @@ export const CITIES: Record<string, CityData> = {
       platforms: [
         { name: 'Meetup Tallinn', url: 'https://www.meetup.com/cities/ee/tallinn/', desc: '本地兴趣小组活动平台，覆盖各类社群' },
         { name: 'Eventbrite Tallinn', url: 'https://www.eventbrite.com/d/estonia--tallinn/events/', desc: '活动票务与发现平台，涵盖各类线下活动' },
-      ]
+      ],
+      zhCommunity: '塔林华人圈规模较小，以科技从业者和 e-Residency 创业者为主。小红书搜索「塔林旅居」「爱沙尼亚数字游民」有近年经验分享；e-Residency 社区 Slack 和 Telegram 群中有华人创业者活跃。整体融入路径以国际游民社群（英语）为主，华人圈子规模有限，Telliskivi 创意园区是结识其他旅居者的好去处。',
     }
   },
   Madrid: {

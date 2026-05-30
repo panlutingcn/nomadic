@@ -279,9 +279,24 @@ export default function InsightsPage() {
               </div>
             )}
             {'society' in city.base && city.base.society && (
-              <div>
+              <div style={{ marginBottom: 11 }}>
                 <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>社会运转</div>
                 <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65 }}>{city.base.society}</div>
+              </div>
+            )}
+            {'housing' in city.base && city.base.housing && (
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#085041', marginBottom: 5 }}>🏠 住房与租房</div>
+                <div style={{ fontSize: 12, color: '#085041', lineHeight: 1.65, marginBottom: city.base.housingLinks?.length ? 8 : 0 }}>{city.base.housing}</div>
+                {city.base.housingLinks?.map(link => (
+                  <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#c2e0ce', border: '0.5px solid #9fd4b8', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 12, color: '#085041' }}>
+                      {link.name}
+                      {'desc' in link && link.desc && <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {link.desc}</span>}
+                    </span>
+                    <span style={{ fontSize: 12, color: '#085041', flexShrink: 0, marginLeft: 6 }}>›</span>
+                  </a>
+                ))}
               </div>
             )}
           </div>
@@ -339,7 +354,7 @@ export default function InsightsPage() {
           <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, padding: '11px 12px', borderRadius: 7, background: '#dbd2f0', border: '0.5px solid #b8a8e0', color: '#3c3489' }}>👥 LOCAL 本地圈子</div>
           <div style={{ background: '#dbd2f0', border: '0.5px solid #b8a8e0', borderRadius: 10, padding: '10px 12px' }}>
             {'paragraph' in city.local && city.local.paragraph && (
-              <div style={{ fontSize: 12, color: '#3d3020', lineHeight: 1.6, marginBottom: 11 }}>{city.local.paragraph}</div>
+              <div style={{ fontSize: 12, color: '#3c3489', lineHeight: 1.6, marginBottom: 11 }}>{city.local.paragraph}</div>
             )}
             {city.local.platforms.length > 0 && (
               <div style={{ marginBottom: 11 }}>
@@ -356,7 +371,7 @@ export default function InsightsPage() {
               </div>
             )}
             {GLOBAL_COMMUNITIES.length > 0 && (
-              <div>
+              <div style={{ marginBottom: 'zhCommunity' in city.local && city.local.zhCommunity ? 11 : 0 }}>
                 <div style={{ fontSize: 12, color: '#3c3489', marginBottom: 6 }}>🌍 全球游民社群</div>
                 {GLOBAL_COMMUNITIES.map(c => (
                   <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
@@ -364,6 +379,18 @@ export default function InsightsPage() {
                       {c.name}
                       {c.desc && <span style={{ color: '#8b7bc8', fontWeight: 400 }}> | {c.desc}</span>}
                     </span>
+                    <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
+                  </a>
+                ))}
+              </div>
+            )}
+            {'zhCommunity' in city.local && city.local.zhCommunity && (
+              <div>
+                <div style={{ fontSize: 12, color: '#6b5bb5', fontWeight: 500, marginBottom: 6 }}>🀄 华人旅居圈</div>
+                <div style={{ fontSize: 12, color: '#3c3489', lineHeight: 1.65, marginBottom: city.local.zhCommunityLinks?.length ? 8 : 0 }}>{city.local.zhCommunity}</div>
+                {city.local.zhCommunityLinks?.map(link => (
+                  <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ece8f8', border: '0.5px solid #b8a8e0', marginBottom: 5, textDecoration: 'none' }}>
+                    <span style={{ fontSize: 12, color: '#6b5bb5' }}>{link.name}</span>
                     <span style={{ fontSize: 12, color: '#6b5bb5', flexShrink: 0, marginLeft: 6 }}>›</span>
                   </a>
                 ))}
