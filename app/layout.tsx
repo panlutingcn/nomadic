@@ -4,7 +4,7 @@ import { AppProvider } from '@/context/AppContext'
 import { AuthProvider } from '@/context/AuthContext'
 import OnboardingGuard from '@/components/OnboardingGuard'
 import NicknameGuard from '@/components/NicknameGuard'
-import SideNav from '@/components/SideNav'
+import TopNav from '@/components/TopNav'
 
 export const metadata: Metadata = {
   title: 'Nomadic',
@@ -37,9 +37,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <AppProvider>
             <OnboardingGuard>
               <NicknameGuard>
-                {/* app-shell：手机端单列 480px 居中；桌面端双列 侧边栏 + 内容区 */}
                 <div className="app-shell">
-                  <SideNav />
+                  <TopNav />
                   <div className="app-content">
                     {children}
                   </div>

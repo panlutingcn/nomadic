@@ -2,7 +2,6 @@
 export const dynamic = 'force-static'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import BottomNav from '@/components/BottomNav'
 import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -93,17 +92,11 @@ export default function MinePage() {
             </div>
             <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>{savedCities.length} 个收藏 · {imprints.length} 个印迹</div>
           </div>
-          {user ? (
-            <div style={{ fontSize: 11, color: '#8a7a62', cursor: 'pointer', flexShrink: 0, padding: '4px 8px' }}
-              onClick={() => router.push('/mine/account')}>
-              账号 ›
-            </div>
-          ) : (
-            <button onClick={() => setShowLogin(true)}
-              style={{ fontSize: 12, fontWeight: 500, padding: '6px 14px', borderRadius: 9, background: '#1D9E75', color: '#fff', border: 'none', cursor: 'pointer', flexShrink: 0 }}>
-              登录
-            </button>
-          )}
+          <span
+            onClick={() => user ? router.push('/mine/account') : setShowLogin(true)}
+            style={{ fontSize: 20, color: '#c8bfaa', cursor: 'pointer', flexShrink: 0, padding: '4px 6px', lineHeight: 1 }}>
+            ›
+          </span>
         </div>
 
         {/* 旅行人格卡片 */}
@@ -118,28 +111,7 @@ export default function MinePage() {
             </div>
             <span style={{ fontSize: 16, color: '#c8a870' }}>›</span>
           </div>
-        ) : (
-          <div onClick={() => router.push('/onboarding')}
-            style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12 }}>
-            <span style={{ fontSize: 22, flexShrink: 0 }}>🧭</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>发现你的旅行人格</div>
-              <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>16 道题 · 约 1 分钟</div>
-            </div>
-            <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500 }}>开始测试 →</span>
-          </div>
-        )}
-
-        {/* 扫码加入社群 */}
-        <div onClick={() => setShowQR(true)}
-          style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12 }}>
-          <span style={{ fontSize: 22, flexShrink: 0 }}>💬</span>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>加入线上全球社群</div>
-            <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>连接世界各地的数字游民与旅行者</div>
-          </div>
-          <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500 }}>扫码加入 →</span>
-        </div>
+        ) : null}
 
         {/* 全球版图 — 容器 160px，地球 5× */}
         <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, overflow: 'hidden', marginBottom: 12 }}>
@@ -197,14 +169,12 @@ export default function MinePage() {
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
               <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的印迹</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprints.length} 个 · 最新在前</span>
-                {user && (
-                  <span onClick={() => router.push('/vault')}
-                    style={{ fontSize: 11, color: trashedImprints.length > 0 ? '#c04040' : '#b8a98a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}>
-                    🗑️ {trashedImprints.length > 0 && `${trashedImprints.length}`}
-                  </span>
-                )}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprints.length} 个</span>
+                <span onClick={() => router.push('/vault')}
+                  style={{ fontSize: 11, color: '#1D9E75', cursor: 'pointer', fontWeight: 500 }}>
+                  管理 ›
+                </span>
               </div>
             </div>
             {user && imprints.length === 0 && (
@@ -213,7 +183,7 @@ export default function MinePage() {
                 <span style={{ fontSize: 12, color: '#b8a98a' }}>+ 记录你的城市印迹</span>
               </div>
             )}
-            {imprints.map(imp => (
+            {imprints.slice(0, 5).map(imp => (
               <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ display: 'flex', background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
                 <div style={{ width: 68, background: '#ede8df', flexShrink: 0, alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {imp.photo ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 9, color: '#c8bfaa' }}>图片</span>}
@@ -232,6 +202,16 @@ export default function MinePage() {
                 </div>
               </div>
             ))}
+
+            {/* 发布印迹入口 */}
+            <div onClick={() => router.push('/story')}
+              style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginTop: 4, marginBottom: 8 }}>
+              <span style={{ fontSize: 22, flexShrink: 0 }}>✏️</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>发布旅行印迹</div>
+              </div>
+              <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500, flexShrink: 0 }}>点击发布 →</span>
+            </div>
           </div>
 
         </div>
@@ -249,12 +229,21 @@ export default function MinePage() {
           </div>
           <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500, flexShrink: 0 }}>欢迎来信 →</span>
         </div>
+        {/* 加入全球社群 */}
+        <div onClick={() => setShowQR(true)}
+          style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12 }}>
+          <span style={{ fontSize: 22, flexShrink: 0 }}>💬</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>加入全球社群</div>
+          </div>
+          <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500, flexShrink: 0 }}>扫码加入 →</span>
+        </div>
+
         <div style={{ height: 12 }} />
         </div>{/* /desktop-page-inner-wrap */}
       </div>
 
       <div style={{ height: 32 }} />
-      <BottomNav />
 
       {showLogin && (
         <LoginModal

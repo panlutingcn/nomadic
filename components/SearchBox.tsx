@@ -39,6 +39,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
   const [placeholder, setPlaceholder] = useState('')
   const [pulsing, setPulsing] = useState(false)
   const [focused, setFocused] = useState(false)
+  const [isMobile, setIsMobile] = useState(true)
   const router = useRouter()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -54,6 +55,13 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
     search: () => { handleSearch() },
     startLoading: () => { setLoading(true) },
   }))
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   useEffect(() => {
     const prompt = getDailyPrompt()
@@ -109,11 +117,12 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
       WebkitBackdropFilter: 'blur(14px)',
       border: containerBorder,
       borderRadius: '14px',
-      padding: '12px 14px',
+      padding: '8px 12px',
       display: 'flex',
-      flexDirection: 'column',
-      gap: '10px',
-      margin: '14px 0 4px',
+      flexDirection: isMobile ? 'row' : 'column',
+      alignItems: isMobile ? 'center' : 'stretch',
+      gap: isMobile ? '10px' : '6px',
+      margin: '8px 0 4px',
       boxShadow: containerShadow,
       animation: containerAnimation,
       transition: 'border-color 220ms ease, box-shadow 220ms ease',
@@ -129,6 +138,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
         rows={3}
         disabled={loading}
         style={{
+          ...(isMobile ? { flex: 1 } : {}),
           fontSize: '12px',
           color: 'var(--text-primary)',
           lineHeight: 1.6,
@@ -140,10 +150,10 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
           opacity: loading ? 0.6 : 1,
         }}
       />
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <button
+      <button
           onClick={handleSearch}
           style={{
+            alignSelf: isMobile ? 'auto' : 'flex-end',
             background: loading
               ? 'rgba(232,245,238,0.80)'
               : 'linear-gradient(150deg, #27b882 0%, #1D9E75 55%, #178f68 100%)',
@@ -162,7 +172,6 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
         >
           {loading ? '开启英雄之旅中……' : 'GO'}
         </button>
-      </div>
     </div>
   )
 })

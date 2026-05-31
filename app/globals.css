@@ -78,12 +78,11 @@ html, body {
   min-height: 100vh;
 }
 
-/* ── 响应式 App Shell ──────────────────────────────────── */
+/* ── App Shell ──────────────────────────────────── */
 .app-shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* 手机端：480px 居中，与原版一致 */
   max-width: 480px;
   margin: 0 auto;
 }
@@ -93,41 +92,31 @@ html, body {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  padding-top: 56px; /* fixed TopNav height */
+}
+
+/* Always hide old nav components */
+.bottom-nav-mobile,
+.nav-spacer-mobile,
+.side-nav-desktop {
+  display: none !important;
 }
 
 /* 桌面端 (≥ 1024px) */
 @media (min-width: 1024px) {
-  /* app-shell 全宽铺满：左侧边栏贴左，内容区向右延伸至边缘
-     全屏只有两种背景色，在导航栏右边界处分割，无多余色块 */
   .app-shell {
-    flex-direction: row;
     max-width: none;
     width: 100%;
     margin: 0;
   }
-
-  /* 侧边栏：粘性，撑满视口高度 */
-  .side-nav-desktop {
-    width: 330px;
-    flex-shrink: 0;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-  }
-
-  /* 隐藏手机底部导航 */
-  .bottom-nav-mobile {
-    display: none !important;
-  }
 }
 
-/* 手机端：隐藏桌面侧边栏 */
+/* 手机端专属隐藏 */
 @media (max-width: 1023px) {
-  .side-nav-desktop {
+  .hide-mobile {
     display: none !important;
   }
-  .hide-mobile {
+  .top-nav-logo {
     display: none !important;
   }
 }
@@ -199,11 +188,7 @@ html, body {
     width: 100%;
   }
 
-  /* 全屏时：body 背景统一为导航栏色，内容区保持页面色 */
   body {
-    background: #ede5d8;
-  }
-  .app-content {
     background: var(--bg-page);
   }
 }

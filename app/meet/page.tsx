@@ -6,7 +6,6 @@ import { useApp } from '@/context/AppContext'
 import { useAuth } from '@/context/AuthContext'
 import { CITIES } from '@/data/cities'
 import { getBodyText, getDisplayTitle } from '@/lib/imprintUtils'
-import BottomNav from '@/components/BottomNav'
 import LoginModal from '@/components/LoginModal'
 
 const CITY_FILTERS = [
@@ -28,7 +27,6 @@ export default function MeetPage() {
   const [showLogin, setShowLogin] = useState(false)
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set())
 
-  // Initialise liked-set from localStorage once user is known
   useEffect(() => {
     if (!user) { setLikedIds(new Set()); return }
     const liked = new Set<string>()
@@ -43,10 +41,7 @@ export default function MeetPage() {
 
   const handleLike = (e: React.MouseEvent, id: string) => {
     e.stopPropagation()
-    if (!user) {
-      setShowLogin(true)
-      return
-    }
+    if (!user) { setShowLogin(true); return }
     likeImprint(id)
     setLikedIds(prev => {
       const next = new Set(prev)
@@ -56,19 +51,45 @@ export default function MeetPage() {
     })
   }
 
+  const handlePublish = () => {
+    if (!user) { setShowLogin(true); return }
+    router.push('/story')
+  }
+
   const filtered = activeCity === '全部'
     ? allPublicImprints
     : allPublicImprints.filter(i => i.city === activeCity)
 
   return (
     <div style={{ minHeight: '100vh', background: '#f5f0e8' }}>
-      <div className="page-inner" style={{ padding: '16px 16px 0', textAlign: 'center', marginBottom: 14 }}>
-        <div style={{ fontSize: 18, fontWeight: 500, color: '#2d2418' }}>遇见社区</div>
-        <div style={{ fontSize: 12, color: '#b8a98a', marginTop: 4 }}>来自世界各地游民的印迹</div>
+
+      {/* 标题 + 发布按钮 */}
+      <div className="page-inner" style={{ padding: '16px 16px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+          <div>
+            <div style={{ fontSize: 18, fontWeight: 600, color: '#2d2418' }}>印迹社区</div>
+            <div style={{ fontSize: 12, color: '#b8a98a', marginTop: 2 }}>连接世界各地的旅居者</div>
+          </div>
+          <button
+            onClick={handlePublish}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              background: 'linear-gradient(150deg, #27b882 0%, #1D9E75 55%, #178f68 100%)',
+              border: 'none', borderRadius: 22,
+              padding: '9px 18px',
+              cursor: 'pointer', fontSize: 13, fontWeight: 500, color: '#fff',
+              boxShadow: '0 2px 10px rgba(29,158,117,0.30)',
+              flexShrink: 0,
+            }}
+          >
+            <span style={{ fontSize: 15 }}>✏️</span>
+            发布印迹
+          </button>
+        </div>
       </div>
 
       {/* 城市筛选 */}
-      <div className="page-inner" style={{ display: 'flex', gap: 7, overflowX: 'auto', padding: '0 16px 14px', scrollbarWidth: 'none' }}>
+      <div className="page-inner" style={{ display: 'flex', gap: 7, overflowX: 'auto', padding: '12px 16px 14px', scrollbarWidth: 'none' }}>
         {CITY_FILTERS.map(city => (
           <button key={city.en} onClick={() => setActiveCity(city.en)}
             style={{ fontSize: 12, fontWeight: 500, padding: '6px 14px', borderRadius: 20, whiteSpace: 'nowrap', cursor: 'pointer', background: activeCity === city.en ? '#1D9E75' : '#fff', color: activeCity === city.en ? '#fff' : '#8a7a62', border: activeCity === city.en ? 'none' : '0.5px solid #e2d9c8', flexShrink: 0 }}>
@@ -77,13 +98,12 @@ export default function MeetPage() {
         ))}
       </div>
 
-      {/* 卡片：桌面端 2 列网格 */}
-      <div className="page-inner desktop-2col-grid" style={{ padding: '0 16px 80px' }}>
+      {/* 卡片列表 */}
+      <div className="page-inner desktop-2col-grid" style={{ padding: '0 16px 40px' }}>
         {filtered.map(imp => {
           const liked = likedIds.has(imp.id)
           return (
             <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 16, overflow: 'hidden', marginBottom: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.04)', cursor: 'pointer' }}>
-              {/* 封面图：桌面端通过 CSS 加高 */}
               <div className="meet-card-photo" style={{ height: 130, background: photoBg[imp.city] ?? '#ede8df', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {imp.photo ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 11, color: '#c8bfaa' }}>[ 照片 ]</span>}
                 <span style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(245,240,232,0.92)', color: '#3d3020', fontSize: 11, fontWeight: 500, padding: '3px 10px', borderRadius: 8 }}>
@@ -102,17 +122,14 @@ export default function MeetPage() {
                   {imp.tags?.slice(0, 3).map(tag => (
                     <span key={tag} style={{ fontSize: 11, background: '#f5f0e8', color: '#8a7a62', border: '0.5px solid #e2d9c8', padding: '2px 8px', borderRadius: 6 }}>{tag}</span>
                   ))}
-                  {/* 点赞按钮 */}
                   <button
                     onClick={(e) => handleLike(e, imp.id)}
                     style={{
-                      marginLeft: 'auto',
-                      display: 'flex', alignItems: 'center', gap: 3,
+                      marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 3,
                       background: 'none', border: 'none', cursor: 'pointer',
-                      padding: '2px 6px', borderRadius: 6,
-                      fontSize: 12,
+                      padding: '2px 6px', borderRadius: 6, fontSize: 12,
                       color: liked ? '#e05a5a' : '#b8a98a',
-                      transition: 'color 150ms ease, transform 150ms ease',
+                      transition: 'color 150ms ease',
                     }}
                     aria-label="点赞"
                   >
@@ -125,9 +142,6 @@ export default function MeetPage() {
           )
         })}
       </div>
-
-      <div className="nav-spacer-mobile" style={{ height: 32 }} />
-      <BottomNav />
 
       {showLogin && (
         <LoginModal
