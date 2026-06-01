@@ -16,7 +16,7 @@ export default function RemindPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
       <div style={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
         <div style={{ fontSize: 52, marginBottom: 12 }}>🧭</div>
         <div style={{ fontSize: 20, fontWeight: 500, color: '#2d2418', marginBottom: 8 }}>还没完成旅行人格测试</div>

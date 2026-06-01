@@ -17,7 +17,7 @@
 }
 
 body {
-  background: var(--bg-page);
+  background: transparent;
   font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   color: var(--text-primary);
 }
@@ -189,7 +189,7 @@ html, body {
   }
 
   body {
-    background: var(--bg-page);
+    background: transparent;
   }
 }
 
@@ -250,22 +250,52 @@ a { text-decoration: none; }
 
 /* ── 暖调水晶标签（城市标签） ── */
 .crystal-tag {
-  background: rgba(255, 251, 244, 0.58) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 248, 230, 0.75) !important;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(255, 255, 255, 0.48) 100%
+  ) !important;
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: none !important;
   box-shadow:
-    0 0 0 1px rgba(200, 178, 135, 0.13),
-    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+    0 4px 14px rgba(255, 255, 255, 0.18),
+    0 1px 3px rgba(0, 0, 0, 0.10),
+    0 0 0 1px rgba(255, 255, 255, 0.82),
+    inset 0 2px 0 rgba(255, 255, 255, 1);
   color: var(--accent-text) !important;
+  transition: box-shadow 150ms ease, transform 120ms ease !important;
 }
 .crystal-tag:hover {
-  background: rgba(255, 253, 247, 0.82) !important;
-  border-color: rgba(255, 250, 235, 0.92) !important;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(255, 255, 255, 0.62) 100%
+  ) !important;
   box-shadow:
-    0 0 0 1.5px rgba(185, 162, 118, 0.18),
-    0 3px 14px rgba(140, 110, 60, 0.07),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    0 6px 20px rgba(255, 255, 255, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.92),
+    inset 0 2px 0 rgba(255, 255, 255, 1) !important;
+}
+
+/* ── 晶莹立体卡片 ── */
+.crystal-card {
+  background: rgba(255, 255, 255, 0.60) !important;
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 0.5px solid rgba(255, 255, 255, 0.80) !important;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.06),
+    0 1px 4px rgba(0, 0, 0, 0.05),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95) !important;
+}
+.crystal-card:hover {
+  background: rgba(255, 255, 255, 0.78) !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.09),
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    inset 0 1.5px 0 rgba(255, 255, 255, 1) !important;
 }
 
 /* ── 侧边栏导航项玻璃效果（非激活态） ── */

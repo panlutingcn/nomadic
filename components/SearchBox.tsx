@@ -96,25 +96,44 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
     }
   }
 
-  const containerBorder = pulsing
-    ? '1.5px solid var(--accent)'
-    : focused
-      ? '1.5px solid rgba(29, 158, 117, 0.40)'
-      : '1.5px solid rgba(255, 248, 232, 0.82)'
+  const containerBorder = 'none'
 
   const containerShadow = pulsing
-    ? '0 0 0 3px rgba(29,158,117,0.14), inset 0 1px 0 rgba(255,255,255,0.92)'
+    ? [
+        '0 6px 28px rgba(29,158,117,0.18)',
+        '0 2px 6px rgba(0,0,0,0.10)',
+        '0 0 0 1.5px rgba(29,158,117,0.45)',
+        '0 0 0 3px rgba(29,158,117,0.10)',
+        'inset 0 2.5px 0 rgba(255,255,255,1)',
+        'inset 1.5px 0 0 rgba(255,255,255,0.60)',
+        'inset -1.5px 0 0 rgba(255,255,255,0.60)',
+      ].join(', ')
     : focused
-      ? '0 0 0 3px rgba(29,158,117,0.10), 0 4px 20px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(255,248,230,0.45)'
-      : '0 0 0 1px rgba(200,178,135,0.13), 0 4px 18px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.90), inset 0 -1px 0 rgba(255,248,230,0.35)'
+      ? [
+          '0 8px 32px rgba(0,0,0,0.12)',
+          '0 2px 6px rgba(0,0,0,0.08)',
+          '0 0 0 1.5px rgba(29,158,117,0.35)',
+          '0 0 0 4px rgba(29,158,117,0.08)',
+          'inset 0 2.5px 0 rgba(255,255,255,1)',
+          'inset 1.5px 0 0 rgba(255,255,255,0.65)',
+          'inset -1.5px 0 0 rgba(255,255,255,0.65)',
+          ].join(', ')
+      : [
+          '0 6px 28px rgba(0,0,0,0.08)',
+          '0 2px 6px rgba(0,0,0,0.09)',
+          '0 0 0 1px rgba(255,255,255,0.90)',
+          'inset 0 2.5px 0 rgba(255,255,255,1)',
+          'inset 1.5px 0 0 rgba(255,255,255,0.60)',
+          'inset -1.5px 0 0 rgba(255,255,255,0.60)',
+          ].join(', ')
 
   const containerAnimation = pulsing ? 'pulse-random 2.4s ease-in-out infinite' : 'none'
 
   return (
     <div style={{
-      background: 'rgba(255, 252, 246, 0.76)',
-      backdropFilter: 'blur(14px)',
-      WebkitBackdropFilter: 'blur(14px)',
+      background: 'linear-gradient(160deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.52) 100%)',
+      backdropFilter: 'blur(20px) saturate(180%)',
+      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
       border: containerBorder,
       borderRadius: '14px',
       padding: '8px 12px',

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import LoginModal from '@/components/LoginModal'
@@ -28,6 +28,13 @@ export default function TopNav() {
   const { user, profileNickname } = useAuth()
   const [showLogin, setShowLogin] = useState(false)
   const [hoveredTab, setHoveredTab] = useState<string | null>(null)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <>
@@ -36,13 +43,15 @@ export default function TopNav() {
         top: 0, left: 0, right: 0,
         zIndex: 500,
         height: 56,
-        background: 'rgba(237,229,216,0.95)',
-        backdropFilter: 'blur(14px)',
-        WebkitBackdropFilter: 'blur(14px)',
-        borderBottom: '0.5px solid #d8cdb8',
+        background: scrolled ? 'rgba(255,253,249,0.68)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'blur(0px)',
+        WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'blur(0px)',
+        borderBottom: scrolled ? '0.5px solid rgba(255,248,228,0.70)' : 'none',
+        boxShadow: scrolled ? '0 1px 16px rgba(180,150,90,0.08), inset 0 -1px 0 rgba(255,255,255,0.55)' : 'none',
         display: 'flex',
         alignItems: 'center',
         padding: '0 20px',
+        transition: 'background 300ms ease, backdrop-filter 300ms ease, border-bottom 300ms ease, box-shadow 300ms ease',
       }}>
         {/* Logo 侧 — flex:1 占位，手机端 logo 隐藏但占位保留，保证中间 tab 居中 */}
         <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
@@ -72,7 +81,7 @@ export default function TopNav() {
                   cursor: 'pointer',
                   fontSize: 14,
                   fontWeight: active ? 600 : 400,
-                  color: active ? 'var(--accent-text)' : hovered ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  color: active ? 'var(--accent-text)' : hovered ? 'var(--text-primary)' : 'rgba(45,36,24,0.55)',
                   padding: '6px 14px',
                   borderRadius: 8,
                   position: 'relative',

@@ -60,7 +60,7 @@ export default function ExplorePage() {
   const photoBg: Record<string, string> = { Berlin: '#dde8d8', Lisbon: '#e8e2d8', Amsterdam: '#d8e0e8', Prague: '#e8e8ed', Florence: '#ede2d8' }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column' }}>
       <div className="page-inner" style={{ flex: 1, padding: '0 16px 10px' }}>
 
         {/* ── Hero Globe：搜索框 + 城市标签都在地球内 ── */}
@@ -167,10 +167,15 @@ export default function ExplorePage() {
             onMouseLeave={() => setHoveredPersona(false)}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 10,
-              background: hoveredPersona ? 'rgba(29,158,117,0.10)' : 'rgba(29,158,117,0.05)',
-              border: `0.5px solid ${hoveredPersona ? 'rgba(29,158,117,0.40)' : 'rgba(29,158,117,0.22)'}`,
+              background: hoveredPersona ? 'rgba(255,255,255,0.80)' : 'rgba(255,255,255,0.58)',
+              backdropFilter: 'blur(14px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+              border: `0.5px solid ${hoveredPersona ? 'rgba(29,158,117,0.38)' : 'rgba(255,255,255,0.80)'}`,
               borderRadius: 28, padding: '11px 24px',
               cursor: 'pointer',
+              boxShadow: hoveredPersona
+                ? '0 6px 24px rgba(0,0,0,0.09), inset 0 1.5px 0 rgba(255,255,255,1)'
+                : '0 3px 16px rgba(0,0,0,0.06), inset 0 1.5px 0 rgba(255,255,255,0.96)',
               transform: hoveredPersona ? 'scale(1.03)' : 'scale(1)',
               transition: 'all 150ms ease',
             }}
@@ -199,14 +204,13 @@ export default function ExplorePage() {
                 <div
                   key={city.en}
                   onClick={() => { setSelectedCity(city.en); router.push('/insights') }}
+                  className="crystal-card"
                   style={{
-                    background: 'var(--bg-card)', border: '0.5px solid var(--border-light)',
                     borderRadius: 12, padding: '10px 13px', cursor: 'pointer',
-                    boxShadow: '0 1px 6px rgba(0,0,0,0.05)',
                     transition: 'transform 140ms ease, box-shadow 140ms ease',
                   }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.012)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 14px rgba(0,0,0,0.09)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 1px 6px rgba(0,0,0,0.05)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.012)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)' }}
                 >
                   <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 9, display: 'flex', alignItems: 'center', gap: 5 }}>
                     <span style={{ fontSize: 17, lineHeight: 1, flexShrink: 0 }}>{cityData.flag}</span>
@@ -246,8 +250,8 @@ export default function ExplorePage() {
           <div>
             {previewImprints.map(imp => (
               <div key={imp.id} onClick={() => router.push('/meet')}
-                className="home-preview-card home-preview-card--hover"
-                style={{ display: 'flex', background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+                className="home-preview-card home-preview-card--hover crystal-card"
+                style={{ display: 'flex', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer' }}>
                 <div style={{ aspectRatio: '1 / 1', background: photoBg[imp.city] ?? '#dde8d8', flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', alignSelf: 'stretch' }}>
                   {imp.photo
                     ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />

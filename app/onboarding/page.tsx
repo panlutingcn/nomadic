@@ -182,7 +182,7 @@ export default function OnboardingPage() {
   const cityReasons = Object.fromEntries(dynamicCities.map(c => [c.name, c.reason]))
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: step === 'result' ? 'flex-start' : 'center', padding: step === 'result' ? '28px 24px 40px' : '0 24px' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: step === 'result' ? 'flex-start' : 'center', padding: step === 'result' ? '28px 24px 40px' : '0 24px' }}>
 
       {/* ── 欢迎页 ── */}
       {step === 'welcome' && (
