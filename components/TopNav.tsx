@@ -28,6 +28,7 @@ export default function TopNav() {
   const { user, profileNickname } = useAuth()
   const [showLogin, setShowLogin] = useState(false)
   const [hoveredTab, setHoveredTab] = useState<string | null>(null)
+  const [hoveredLogin, setHoveredLogin] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -76,16 +77,20 @@ export default function TopNav() {
                 onMouseEnter={() => setHoveredTab(tab.path)}
                 onMouseLeave={() => setHoveredTab(null)}
                 style={{
-                  background: hovered && !active ? 'rgba(45,36,24,0.04)' : 'none',
+                  background: 'transparent',
+                  backdropFilter: 'none',
+                  WebkitBackdropFilter: 'none',
+                  boxShadow: 'none',
                   border: 'none',
                   cursor: 'pointer',
                   fontSize: 14,
                   fontWeight: active ? 600 : 400,
                   color: active ? 'var(--accent-text)' : hovered ? 'var(--text-primary)' : 'rgba(45,36,24,0.55)',
                   padding: '6px 14px',
-                  borderRadius: 8,
+                  borderRadius: 10,
                   position: 'relative',
-                  transition: 'color 150ms ease, background 150ms ease',
+                  transform: hovered ? 'scale(1.10)' : 'scale(1)',
+                  transition: 'color 150ms ease, transform 150ms ease',
                   lineHeight: 1.5,
                 }}
               >
@@ -113,12 +118,17 @@ export default function TopNav() {
           {user ? (
             <button
               onClick={() => router.push('/mine')}
+              onMouseEnter={() => setHoveredLogin(true)}
+              onMouseLeave={() => setHoveredLogin(false)}
               style={{
                 width: 32, height: 32, borderRadius: '50%',
                 background: 'var(--accent)', border: 'none',
                 cursor: 'pointer', display: 'flex',
                 alignItems: 'center', justifyContent: 'center',
                 fontSize: 13, color: '#fff', fontWeight: 600,
+                transform: hoveredLogin ? 'scale(1.10)' : 'scale(1)',
+                boxShadow: hoveredLogin ? '0 4px 14px rgba(29,158,117,0.40)' : '0 2px 6px rgba(29,158,117,0.25)',
+                transition: 'transform 150ms ease, box-shadow 150ms ease',
               }}
             >
               {(profileNickname ?? user.email ?? '我')[0].toUpperCase()}
@@ -126,12 +136,22 @@ export default function TopNav() {
           ) : (
             <button
               onClick={() => setShowLogin(true)}
+              onMouseEnter={() => setHoveredLogin(true)}
+              onMouseLeave={() => setHoveredLogin(false)}
               style={{
-                background: 'var(--accent)', border: 'none',
+                background: hoveredLogin
+                  ? 'linear-gradient(135deg, #2ec990 0%, #1D9E75 100%)'
+                  : 'var(--accent)',
+                border: 'none',
                 borderRadius: 18, padding: '6px 16px',
                 cursor: 'pointer', fontSize: 13,
                 color: '#fff', fontWeight: 500,
                 whiteSpace: 'nowrap',
+                transform: hoveredLogin ? 'scale(1.05) translateY(-1px)' : 'scale(1)',
+                boxShadow: hoveredLogin
+                  ? '0 6px 18px rgba(29,158,117,0.40), inset 0 1px 0 rgba(255,255,255,0.25)'
+                  : '0 2px 8px rgba(29,158,117,0.28)',
+                transition: 'transform 150ms ease, box-shadow 150ms ease, background 150ms ease',
               }}
             >
               登录

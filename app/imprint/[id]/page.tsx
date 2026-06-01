@@ -208,7 +208,7 @@ export default function ImprintDetailPage() {
   return (
     <div style={{ minHeight: '100vh' }}>
       {/* Top Nav — sticky 全宽，内容跟随 desktop-search-wrap 居中限宽 */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg-page)', borderBottom: '1px solid var(--border)' }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(18px) saturate(180%)', WebkitBackdropFilter: 'blur(18px) saturate(180%)', borderBottom: '0.5px solid rgba(255,255,255,0.60)' }}>
         <div className="page-inner" style={{ padding: '0 16px' }}>
           <div className="desktop-search-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0' }}>
             <button aria-label="返回" onClick={() => router.back()} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--text-primary)' }}>←</button>

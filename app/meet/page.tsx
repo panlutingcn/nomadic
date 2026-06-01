@@ -61,49 +61,56 @@ export default function MeetPage() {
     : allPublicImprints.filter(i => i.city === activeCity)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f0e8' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent' }}>
 
-      {/* 标题 + 发布按钮 */}
+      {/* 发布按钮 */}
       <div className="page-inner" style={{ padding: '16px 16px 0' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-          <div>
-            <div style={{ fontSize: 18, fontWeight: 600, color: '#2d2418' }}>印迹社区</div>
-            <div style={{ fontSize: 12, color: '#b8a98a', marginTop: 2 }}>连接世界各地的旅居者</div>
-          </div>
+        <div className="meet-content-wrap" style={{ display: 'flex', justifyContent: 'center' }}>
           <button
             onClick={handlePublish}
             style={{
-              display: 'flex', alignItems: 'center', gap: 6,
-              background: 'linear-gradient(150deg, #27b882 0%, #1D9E75 55%, #178f68 100%)',
-              border: 'none', borderRadius: 22,
-              padding: '9px 18px',
-              cursor: 'pointer', fontSize: 13, fontWeight: 500, color: '#fff',
-              boxShadow: '0 2px 10px rgba(29,158,117,0.30)',
-              flexShrink: 0,
+              display: 'flex', alignItems: 'center', gap: 8,
+              background: 'linear-gradient(135deg, #34d899 0%, #1D9E75 50%, #15896a 100%)',
+              border: 'none', borderRadius: 32,
+              padding: '13px 36px',
+              cursor: 'pointer', fontSize: 15, fontWeight: 600, color: '#fff',
+              letterSpacing: '0.02em',
+              boxShadow: '0 6px 24px rgba(29,158,117,0.45), 0 2px 8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.25)',
+              transition: 'transform 150ms ease, box-shadow 150ms ease',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.04) translateY(-1px)'
+              ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 10px 32px rgba(29,158,117,0.55), 0 3px 10px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.28)'
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'
+              ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 24px rgba(29,158,117,0.45), 0 2px 8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.25)'
             }}
           >
-            <span style={{ fontSize: 15 }}>✏️</span>
+            <span style={{ fontSize: 17 }}>✏️</span>
             发布印迹
           </button>
         </div>
       </div>
 
       {/* 城市筛选 */}
-      <div className="page-inner" style={{ display: 'flex', gap: 7, overflowX: 'auto', padding: '12px 16px 14px', scrollbarWidth: 'none' }}>
+      <div className="page-inner" style={{ padding: '0 16px' }}>
+        <div className="meet-content-wrap" style={{ display: 'flex', gap: 7, overflowX: 'auto', padding: '16px 0 14px', scrollbarWidth: 'none' }}>
         {CITY_FILTERS.map(city => (
           <button key={city.en} onClick={() => setActiveCity(city.en)}
             style={{ fontSize: 12, fontWeight: 500, padding: '6px 14px', borderRadius: 20, whiteSpace: 'nowrap', cursor: 'pointer', background: activeCity === city.en ? '#1D9E75' : '#fff', color: activeCity === city.en ? '#fff' : '#8a7a62', border: activeCity === city.en ? 'none' : '0.5px solid #e2d9c8', flexShrink: 0 }}>
             {city.zh}
           </button>
         ))}
+        </div>
       </div>
 
       {/* 卡片列表 */}
-      <div className="page-inner desktop-2col-grid" style={{ padding: '0 16px 40px' }}>
+      <div className="page-inner desktop-2col-centered" style={{ padding: '0 16px 40px' }}>
         {filtered.map(imp => {
           const liked = likedIds.has(imp.id)
           return (
-            <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 16, overflow: 'hidden', marginBottom: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.04)', cursor: 'pointer' }}>
+            <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} className="crystal-card" style={{ borderRadius: 16, overflow: 'hidden', marginBottom: 12, cursor: 'pointer', transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
               <div className="meet-card-photo" style={{ height: 130, background: photoBg[imp.city] ?? '#ede8df', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {imp.photo ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 11, color: '#c8bfaa' }}>[ 照片 ]</span>}
                 <span style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(245,240,232,0.92)', color: '#3d3020', fontSize: 11, fontWeight: 500, padding: '3px 10px', borderRadius: 8 }}>

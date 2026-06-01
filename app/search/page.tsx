@@ -174,7 +174,7 @@ function SearchContent() {
   )
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column' }}>
       <div className="page-inner" style={{ flex: 1, padding: '12px 16px 10px' }}>
       <div className="desktop-search-wrap">
 
@@ -506,7 +506,7 @@ function SearchContent() {
 export default function SearchPage() {
   return (
     <Suspense fallback={
-      <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>加载中……</span>
       </div>
     }>

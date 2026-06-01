@@ -69,14 +69,14 @@ export default function UserProfilePage() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <span style={{ fontSize: 13, color: '#b8a98a' }}>加载中……</span>
       </div>
     )
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: '12px 16px 0', flex: 1 }}>
 
         {/* Header */}
@@ -149,7 +149,7 @@ export default function UserProfilePage() {
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
                 <div style={{ display: 'flex', gap: 4 }}>
                   {imp.tags.slice(0, 2).map(t => (
-                    <span key={t} style={{ fontSize: 9, background: '#f5f0e8', color: '#8a7a62', padding: '1px 5px', borderRadius: 4 }}>{t}</span>
+                    <span key={t} style={{ fontSize: 9, background: 'transparent', color: '#8a7a62', padding: '1px 5px', borderRadius: 4 }}>{t}</span>
                   ))}
                 </div>
                 <span style={{ fontSize: 10, color: '#b8a98a' }}>♡ {imp.likes}</span>

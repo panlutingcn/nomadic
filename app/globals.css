@@ -139,6 +139,40 @@ html, body {
     margin-bottom: 0 !important;
   }
 
+  /* 3 列等宽网格 */
+  .desktop-3col-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .desktop-3col-grid > * {
+    margin-bottom: 0 !important;
+  }
+
+  /* 印迹页顶部内容与卡片网格对齐（同宽同位置） */
+  .meet-content-wrap {
+    max-width: 730px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* 2 列居中网格：卡片宽度与手机端一致（约 358px），整体居中 */
+  .desktop-2col-centered {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    max-width: 730px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .desktop-2col-centered > * {
+    margin-bottom: 0 !important;
+  }
+
   /* 搜索框限宽居中 */
   .desktop-search-wrap {
     max-width: 580px;
@@ -296,6 +330,7 @@ a { text-decoration: none; }
     0 8px 32px rgba(0, 0, 0, 0.09),
     0 2px 8px rgba(0, 0, 0, 0.06),
     inset 0 1.5px 0 rgba(255, 255, 255, 1) !important;
+  transform: translateY(-2px);
 }
 
 /* ── 侧边栏导航项玻璃效果（非激活态） ── */

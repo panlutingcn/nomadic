@@ -179,7 +179,9 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/' }: L
     <div
       style={{
         position: 'fixed', inset: 0,
-        background: 'rgba(0,0,0,0.4)',
+        background: 'rgba(0,0,0,0.22)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         zIndex: 9999,
         opacity: show ? 1 : 0,
@@ -191,11 +193,14 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/' }: L
       <div
         style={{
           position: 'relative',
-          background: '#f0ebe0',
+          background: 'rgba(255,255,255,0.75)',
+          backdropFilter: 'blur(28px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+          border: '0.5px solid rgba(255,255,255,0.88)',
           borderRadius: 20,
           padding: '24px 20px 20px',
           maxWidth: 420, width: '100%',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.18)',
+          boxShadow: '0 12px 48px rgba(0,0,0,0.16), inset 0 1.5px 0 rgba(255,255,255,0.95)',
           transform: show ? 'scale(1)' : 'scale(0.95)',
           transition: 'transform 200ms ease',
         }}

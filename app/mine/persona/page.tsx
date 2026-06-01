@@ -199,7 +199,7 @@ function PersonaDetailContent() {
 
   if (!persona) {
     return (
-      <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
+      <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
         <div style={{ fontSize: 40, marginBottom: 16 }}>🧭</div>
         <div style={{ fontSize: 15, fontWeight: 500, color: '#2d2418', marginBottom: 8 }}>还没有旅行人格</div>
         <div style={{ fontSize: 13, color: '#8a7a62', marginBottom: 24 }}>完成 16 道题，解锁你的专属旅行者标签</div>
@@ -214,7 +214,7 @@ function PersonaDetailContent() {
   const axisChars = personaKey.split('')
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 1, padding: '14px 16px 12px' }}>
 
         {/* Header */}
@@ -397,7 +397,7 @@ function PersonaDetailContent() {
 export default function PersonaDetailPage() {
   return (
     <Suspense fallback={
-      <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <span style={{ fontSize: 13, color: '#b8a98a' }}>加载中……</span>
       </div>
     }>

@@ -57,7 +57,7 @@ export default function MinePage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column' }}>
       {/* 邮箱未验证横条 */}
       {emailUnverified && (
         <div style={{ background: '#fffbe6', borderBottom: '0.5px solid #f0c040', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
@@ -79,7 +79,7 @@ export default function MinePage() {
         <div className="desktop-page-inner-wrap">
 
         {/* 用户信息栏 */}
-        <div style={{ background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 16, padding: '13px 15px', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+        <div className="crystal-card" style={{ borderRadius: 16, padding: '13px 15px', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
           <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(29,158,117,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 500, color: '#1D9E75', flexShrink: 0, overflow: 'hidden' }}>
             {profileAvatar
               ? <img src={profileAvatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -102,7 +102,8 @@ export default function MinePage() {
         {/* 旅行人格卡片 */}
         {persona ? (
           <div onClick={() => router.push('/mine/persona')}
-            style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12 }}>
+            className="hover-lift"
+            style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
             <span style={{ fontSize: 28, flexShrink: 0, lineHeight: 1 }}>{persona.emoji}</span>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 11, color: '#854f0b', marginBottom: 2 }}>你的旅行人格</div>
@@ -114,7 +115,7 @@ export default function MinePage() {
         ) : null}
 
         {/* 全球版图 — 容器 160px，地球 5× */}
-        <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, overflow: 'hidden', marginBottom: 12 }}>
+        <div className="crystal-card" style={{ borderRadius: 13, overflow: 'hidden', marginBottom: 12, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 13px 7px' }}>
             <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的全球版图</span>
             <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprintCities.length} 座城市 · {uniqueCountries} 个国家</span>
@@ -140,7 +141,7 @@ export default function MinePage() {
               <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>收藏夹</span>
               <span style={{ fontSize: 12, color: '#1D9E75', cursor: 'pointer' }}>管理 ›</span>
             </div>
-            <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 12, padding: '10px 13px', marginBottom: 12 }}>
+            <div className="crystal-card" style={{ borderRadius: 12, padding: '10px 13px', marginBottom: 12 }}>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {savedCities.map(city => {
                   const inCities = city.name in CITIES
@@ -184,7 +185,7 @@ export default function MinePage() {
               </div>
             )}
             {imprints.slice(0, 5).map(imp => (
-              <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} style={{ display: 'flex', background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+              <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} className="crystal-card" style={{ display: 'flex', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
                 <div style={{ width: 68, background: '#ede8df', flexShrink: 0, alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {imp.photo ? <img src={imp.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 9, color: '#c8bfaa' }}>图片</span>}
                 </div>
@@ -205,7 +206,8 @@ export default function MinePage() {
 
             {/* 发布印迹入口 */}
             <div onClick={() => router.push('/story')}
-              style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginTop: 4, marginBottom: 8 }}>
+              className="crystal-card"
+              style={{ borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginTop: 4, marginBottom: 8, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
               <span style={{ fontSize: 22, flexShrink: 0 }}>✏️</span>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>发布旅行印迹</div>
@@ -222,7 +224,8 @@ export default function MinePage() {
           <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>联系共创</span>
         </div>
         <div onClick={() => setShowContact(true)}
-          style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 12, padding: '12px 14px', marginBottom: 12, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.03)', display: 'flex', alignItems: 'center', gap: 10 }}>
+          className="crystal-card"
+          style={{ borderRadius: 12, padding: '12px 14px', marginBottom: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
           <span style={{ fontSize: 22, flexShrink: 0 }}>📮</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>有建议、故事或合作意向？</div>
@@ -231,7 +234,8 @@ export default function MinePage() {
         </div>
         {/* 加入全球社群 */}
         <div onClick={() => setShowQR(true)}
-          style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12 }}>
+          className="crystal-card"
+          style={{ borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
           <span style={{ fontSize: 22, flexShrink: 0 }}>💬</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>加入全球社群</div>

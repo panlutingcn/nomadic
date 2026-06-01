@@ -39,6 +39,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
   const [placeholder, setPlaceholder] = useState('')
   const [pulsing, setPulsing] = useState(false)
   const [focused, setFocused] = useState(false)
+  const [hoveredGo, setHoveredGo] = useState(false)
   const [isMobile, setIsMobile] = useState(true)
   const router = useRouter()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -171,11 +172,15 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
       />
       <button
           onClick={handleSearch}
+          onMouseEnter={() => !loading && setHoveredGo(true)}
+          onMouseLeave={() => setHoveredGo(false)}
           style={{
             alignSelf: isMobile ? 'auto' : 'flex-end',
             background: loading
               ? 'rgba(232,245,238,0.80)'
-              : 'linear-gradient(150deg, #27b882 0%, #1D9E75 55%, #178f68 100%)',
+              : hoveredGo
+                ? 'linear-gradient(150deg, #32d494 0%, #22b882 55%, #1a9e6e 100%)'
+                : 'linear-gradient(150deg, #27b882 0%, #1D9E75 55%, #178f68 100%)',
             color: loading ? 'var(--accent)' : '#fff',
             fontSize: '12px',
             fontWeight: 500,
@@ -185,8 +190,13 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
             cursor: loading ? 'not-allowed' : 'pointer',
             pointerEvents: loading ? 'none' : 'auto',
             animation: loading ? 'pulse-hero 2.4s ease-in-out infinite' : 'none',
-            boxShadow: loading ? 'none' : '0 2px 10px rgba(29,158,117,0.32), inset 0 1px 0 rgba(255,255,255,0.22)',
-            transition: 'box-shadow 200ms ease',
+            boxShadow: loading
+              ? 'none'
+              : hoveredGo
+                ? '0 6px 20px rgba(29,158,117,0.48), inset 0 1px 0 rgba(255,255,255,0.30)'
+                : '0 2px 10px rgba(29,158,117,0.32), inset 0 1px 0 rgba(255,255,255,0.22)',
+            transform: hoveredGo && !loading ? 'scale(1.05) translateY(-1px)' : 'scale(1)',
+            transition: 'box-shadow 180ms ease, transform 180ms ease, background 180ms ease',
           }}
         >
           {loading ? '开启英雄之旅中……' : 'GO'}

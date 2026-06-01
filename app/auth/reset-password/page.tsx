@@ -55,7 +55,7 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px', fontFamily: '-apple-system, PingFang SC, Microsoft YaHei, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px', fontFamily: '-apple-system, PingFang SC, Microsoft YaHei, sans-serif' }}>
       <div style={{ background: '#f0ebe0', borderRadius: 20, padding: '28px 24px', maxWidth: 360, width: '100%', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
           <button
