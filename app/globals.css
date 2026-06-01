@@ -333,6 +333,19 @@ a { text-decoration: none; }
   transform: translateY(-2px);
 }
 
+/* ── 四象限卡片网格 ── */
+.quadrant-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 1024px) {
+  .quadrant-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+}
+
 /* ── 侧边栏导航项玻璃效果（非激活态） ── */
 .glass-nav-btn {
   backdrop-filter: blur(8px);
