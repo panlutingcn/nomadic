@@ -79,7 +79,7 @@ export default function MinePage() {
         <div className="desktop-page-inner-wrap">
 
         {/* 用户信息栏 */}
-        <div className="crystal-card" style={{ borderRadius: 16, padding: '13px 15px', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
+        <div className="crystal-card" style={{ borderRadius: 16, padding: '13px 15px', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
           <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(29,158,117,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 500, color: '#1D9E75', flexShrink: 0, overflow: 'hidden' }}>
             {profileAvatar
               ? <img src={profileAvatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -103,7 +103,7 @@ export default function MinePage() {
         {persona ? (
           <div onClick={() => router.push('/mine/persona')}
             className="hover-lift"
-            style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
+            style={{ background: '#faeeda', border: '0.5px solid #e8c98a', borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 20, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
             <span style={{ fontSize: 28, flexShrink: 0, lineHeight: 1 }}>{persona.emoji}</span>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 11, color: '#854f0b', marginBottom: 2 }}>你的旅行人格</div>
@@ -115,7 +115,7 @@ export default function MinePage() {
         ) : null}
 
         {/* 全球版图 — 容器 160px，地球 5× */}
-        <div className="crystal-card" style={{ borderRadius: 13, overflow: 'hidden', marginBottom: 12, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
+        <div className="crystal-card" style={{ borderRadius: 13, overflow: 'hidden', marginBottom: 20, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 13px 7px' }}>
             <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的全球版图</span>
             <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprintCities.length} 座城市 · {uniqueCountries} 个国家</span>
@@ -132,41 +132,8 @@ export default function MinePage() {
           <div style={{ fontSize: 10, color: '#8a7a62', textAlign: 'center', padding: '7px 0 9px' }}>点击发光点 · 进入该城市印迹</div>
         </div>
 
-        {/* 收藏夹 + 印迹：桌面左右两栏 */}
-        <div className="mine-bottom-cols">
-
-          {/* 左栏：收藏夹 */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-              <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>收藏夹</span>
-              <span style={{ fontSize: 12, color: '#1D9E75', cursor: 'pointer' }}>管理 ›</span>
-            </div>
-            <div className="crystal-card" style={{ borderRadius: 12, padding: '10px 13px', marginBottom: 12 }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                {savedCities.map(city => {
-                  const inCities = city.name in CITIES
-                  const label = CITIES[city.name]?.nameZh || city.nameZh || city.name
-                  return (
-                    <button key={city.name}
-                      onClick={() => {
-                        setSelectedCity(city.name)
-                        if (inCities) {
-                          router.push('/insights')
-                        } else {
-                          router.push(`/search?q=${encodeURIComponent(city.nameZh || city.name)}`)
-                        }
-                      }}
-                      style={{ fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 8, background: 'rgba(29,158,117,0.1)', color: '#0f6e56', border: '0.5px solid rgba(29,158,117,0.25)', cursor: 'pointer' }}>
-                      {label}
-                    </button>
-                  )
-                })}
-                {savedCities.length === 0 && <span style={{ fontSize: 12, color: '#b8a98a' }}>还没有收藏的城市</span>}
-              </div>
-            </div>
-          </div>
-
-          {/* 右栏：我的印迹 */}
+        {/* 我的印迹 */}
+        <div className="mine-bottom-cols" style={{ marginBottom: 20 }}>
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
               <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>我的印迹</span>
@@ -178,12 +145,7 @@ export default function MinePage() {
                 </span>
               </div>
             </div>
-            {user && imprints.length === 0 && (
-              <div onClick={() => router.push('/story')}
-                style={{ background: '#fff', border: '0.5px dashed #ddd4c0', borderRadius: 12, height: 64, marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                <span style={{ fontSize: 12, color: '#b8a98a' }}>+ 记录你的城市印迹</span>
-              </div>
-            )}
+
             {imprints.slice(0, 5).map(imp => (
               <div key={imp.id} onClick={() => router.push(`/imprint/${imp.id}`)} className="crystal-card" style={{ display: 'flex', borderRadius: 12, overflow: 'hidden', marginBottom: 8, cursor: 'pointer', transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
                 <div style={{ width: 68, background: '#ede8df', flexShrink: 0, alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -203,23 +165,41 @@ export default function MinePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
 
-            {/* 发布印迹入口 */}
-            <div onClick={() => router.push('/story')}
-              className="crystal-card"
-              style={{ borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginTop: 4, marginBottom: 8, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
-              <span style={{ fontSize: 22, flexShrink: 0 }}>✏️</span>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>发布旅行印迹</div>
-              </div>
-              <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500, flexShrink: 0 }}>点击发布 →</span>
+        {/* 收藏夹 */}
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>收藏夹</span>
+            <span style={{ fontSize: 12, color: '#1D9E75', cursor: 'pointer' }}>管理 ›</span>
+          </div>
+          <div className="crystal-card" style={{ borderRadius: 12, padding: '10px 13px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {savedCities.map(city => {
+                const inCities = city.name in CITIES
+                const label = CITIES[city.name]?.nameZh || city.nameZh || city.name
+                return (
+                  <button key={city.name}
+                    onClick={() => {
+                      setSelectedCity(city.name)
+                      if (inCities) {
+                        router.push('/insights')
+                      } else {
+                        router.push(`/search?q=${encodeURIComponent(city.nameZh || city.name)}`)
+                      }
+                    }}
+                    style={{ fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 8, background: 'rgba(29,158,117,0.1)', color: '#0f6e56', border: '0.5px solid rgba(29,158,117,0.25)', cursor: 'pointer' }}>
+                    {label}
+                  </button>
+                )
+              })}
+              {savedCities.length === 0 && <span style={{ fontSize: 12, color: '#b8a98a' }}>还没有收藏的城市</span>}
             </div>
           </div>
-
         </div>
 
         {/* 联系共创 */}
-        <div style={{ height: 8 }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
           <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>联系共创</span>
         </div>
@@ -238,7 +218,7 @@ export default function MinePage() {
           style={{ borderRadius: 13, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 12, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
           <span style={{ fontSize: 22, flexShrink: 0 }}>💬</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>加入全球社群</div>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>加入Nomadic在线全球社群</div>
           </div>
           <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500, flexShrink: 0 }}>扫码加入 →</span>
         </div>

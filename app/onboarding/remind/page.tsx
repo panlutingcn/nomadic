@@ -19,7 +19,7 @@ export default function RemindPage() {
     <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
       <div style={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
         <div style={{ fontSize: 52, marginBottom: 12 }}>🧭</div>
-        <div style={{ fontSize: 20, fontWeight: 500, color: '#2d2418', marginBottom: 8 }}>还没完成旅行人格测试</div>
+        <div style={{ fontSize: 20, fontWeight: 500, color: '#2d2418', marginBottom: 8 }}>快来完成旅行人格测试</div>
         <div style={{ fontSize: 13, color: '#8a7a62', lineHeight: 1.7, marginBottom: 28 }}>
           完成 16 道题，解锁专属城市推荐<br/>和你在 Nomadic 社区的旅行者身份标签。
         </div>
