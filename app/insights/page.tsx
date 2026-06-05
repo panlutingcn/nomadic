@@ -13,6 +13,8 @@ import ShareSheet from '@/components/ShareSheet'
 import LoginModal from '@/components/LoginModal'
 import CityCard from '@/components/cards/CityCard'
 import { useUserProfile } from '@/hooks/useUserProfile'
+import CityReports from '@/components/CityReports'
+import LocalGuides from '@/components/LocalGuides'
 
 // Custom hook for Escape key handling with stable callback reference
 function useEscapeKey(isOpen: boolean, onClose: () => void) {
@@ -393,6 +395,8 @@ export default function InsightsPage() {
           <div style={{ background: '#c8dcf0', border: '0.5px solid #84b8d8', borderRadius: 10, padding: '10px 12px' }}>
             <div style={{ fontSize: 12, color: '#0c447c', lineHeight: 1.6, marginBottom: 11 }}>{city.chance.paragraph}</div>
 
+            <CityReports city={city.nameZh || city.name} />
+
             <div style={{ marginBottom: 11 }}>
               <div style={{ fontSize: 12, color: '#0c447c', marginBottom: 6 }}>📋 政策环境</div>
               <a href={city.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: '#ddeaf8', border: '0.5px solid #84b8d8', textDecoration: 'none' }}>
@@ -435,6 +439,9 @@ export default function InsightsPage() {
             )}
           </div>
         </div>
+
+        {/* 在地专业咨询 */}
+        <LocalGuides city={city.nameZh || city.name} />
 
         {/* 分享按钮 — 城市卡片 */}
         {selectedCity && (
