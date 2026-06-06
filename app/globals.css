@@ -346,6 +346,46 @@ a { text-decoration: none; }
   }
 }
 
+/* ── 洞察页 hover 样式 ── */
+.insights-outline-btn {
+  transition: background 130ms ease, border-color 130ms ease, transform 130ms ease !important;
+}
+.insights-outline-btn:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-color: rgba(255, 255, 255, 0.90) !important;
+  transform: scale(1.05);
+}
+
+.insights-link-row {
+  transition: background 130ms ease, transform 130ms ease !important;
+  cursor: pointer;
+}
+.insights-link-row:hover {
+  background: rgba(185, 228, 206, 0.85) !important;
+  transform: translateX(3px);
+}
+.insights-dark-card {
+  transition: box-shadow 150ms ease, transform 150ms ease;
+}
+.insights-dark-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22) !important;
+}
+.insights-action-btn {
+  transition: opacity 130ms ease, transform 130ms ease !important;
+}
+.insights-action-btn:hover {
+  opacity: 0.80;
+  transform: scale(1.10);
+}
+.insights-back-btn {
+  transition: color 120ms ease, transform 120ms ease !important;
+}
+.insights-back-btn:hover {
+  color: var(--text-primary) !important;
+  transform: translateX(-2px);
+}
+
 /* ── 侧边栏导航项玻璃效果（非激活态） ── */
 .glass-nav-btn {
   backdrop-filter: blur(8px);

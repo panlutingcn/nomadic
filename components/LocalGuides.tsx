@@ -78,15 +78,30 @@ export default function LocalGuides({ city: _city }: LocalGuidesProps) {
           <GuideCard key={guide.id} guide={guide} onBook={handleBook} />
         ))}
 
-        <div style={{
-          background: 'rgba(255,255,255,0.3)',
-          border: '0.5px solid rgba(255,255,255,0.5)',
-          borderRadius: 12,
-          padding: '1rem 1.1rem',
-          display: 'flex',
-          gap: 12,
-          opacity: 0.7,
-        }}>
+        <div
+          style={{
+            background: 'rgba(255,255,255,0.3)',
+            border: '0.5px solid rgba(255,255,255,0.5)',
+            borderRadius: 12,
+            padding: '1rem 1.1rem',
+            display: 'flex',
+            gap: 12,
+            opacity: 0.7,
+            transition: 'background 150ms ease, border-color 150ms ease, transform 150ms ease',
+          }}
+          onMouseEnter={e => {
+            const el = e.currentTarget as HTMLDivElement
+            el.style.background = 'rgba(255,255,255,0.42)'
+            el.style.borderColor = 'rgba(255,255,255,0.75)'
+            el.style.transform = 'translateY(-2px)'
+          }}
+          onMouseLeave={e => {
+            const el = e.currentTarget as HTMLDivElement
+            el.style.background = 'rgba(255,255,255,0.3)'
+            el.style.borderColor = 'rgba(255,255,255,0.5)'
+            el.style.transform = 'translateY(0)'
+          }}
+        >
           <div style={{
             width: 44, height: 44, borderRadius: '50%',
             background: 'rgba(255,255,255,0.4)',
@@ -102,15 +117,29 @@ export default function LocalGuides({ city: _city }: LocalGuidesProps) {
         </div>
       </div>
 
-      <div style={{
-        background: 'rgba(255,255,255,0.12)',
-        borderRadius: 10,
-        padding: '0.875rem 1.1rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginTop: 12,
-      }}>
+      <div
+        style={{
+          background: 'rgba(255,255,255,0.12)',
+          borderRadius: 10,
+          padding: '0.875rem 1.1rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginTop: 12,
+          transition: 'background 150ms ease, transform 150ms ease',
+          cursor: 'default',
+        }}
+        onMouseEnter={e => {
+          const el = e.currentTarget as HTMLDivElement
+          el.style.background = 'rgba(255,255,255,0.20)'
+          el.style.transform = 'translateY(-2px)'
+        }}
+        onMouseLeave={e => {
+          const el = e.currentTarget as HTMLDivElement
+          el.style.background = 'rgba(255,255,255,0.12)'
+          el.style.transform = 'translateY(0)'
+        }}
+      >
         <div>
           <div style={{ fontSize: 12, fontWeight: 500, color: '#fff', marginBottom: 2 }}>
             想成为在地向导？
@@ -119,6 +148,7 @@ export default function LocalGuides({ city: _city }: LocalGuidesProps) {
         </div>
         <button
           onClick={handleApply}
+          className="insights-outline-btn"
           style={{
             background: 'transparent',
             border: '0.5px solid rgba(255,255,255,0.55)',
@@ -150,10 +180,20 @@ function GuideCard({ guide, onBook }: { guide: Guide; onBook: (g: Guide) => void
         display: 'flex',
         gap: 12,
         cursor: 'pointer',
-        transition: 'border-color 0.18s ease',
+        transition: 'border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease',
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#178f68' }}
-      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.8)' }}
+      onMouseEnter={e => {
+        const el = e.currentTarget as HTMLDivElement
+        el.style.borderColor = '#178f68'
+        el.style.transform = 'translateY(-2px)'
+        el.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)'
+      }}
+      onMouseLeave={e => {
+        const el = e.currentTarget as HTMLDivElement
+        el.style.borderColor = 'rgba(255,255,255,0.8)'
+        el.style.transform = 'translateY(0)'
+        el.style.boxShadow = 'none'
+      }}
     >
       <div style={{
         width: 44, height: 44, borderRadius: '50%',
@@ -191,6 +231,7 @@ function GuideCard({ guide, onBook }: { guide: Guide; onBook: (g: Guide) => void
 
       <button
         onClick={e => { e.stopPropagation(); onBook(guide) }}
+        className="insights-action-btn"
         style={{
           background: '#178f68',
           color: '#fff',

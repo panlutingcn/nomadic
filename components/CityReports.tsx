@@ -81,6 +81,19 @@ export default function CityReports({ city: _city }: CityReportsProps) {
               background: 'rgba(255,255,255,0.92)',
               borderRadius: 8,
               opacity: report.status === 'coming-soon' ? 0.65 : 1,
+              transition: 'transform 150ms ease, box-shadow 150ms ease, background 150ms ease',
+            }}
+            onMouseEnter={e => {
+              const el = e.currentTarget as HTMLDivElement
+              el.style.transform = 'translateY(-2px)'
+              el.style.background = 'rgba(255,255,255,1)'
+              el.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)'
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget as HTMLDivElement
+              el.style.transform = 'translateY(0)'
+              el.style.background = 'rgba(255,255,255,0.92)'
+              el.style.boxShadow = 'none'
             }}
           >
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -95,6 +108,7 @@ export default function CityReports({ city: _city }: CityReportsProps) {
                   <span style={{ fontSize: 13, fontWeight: 500, color: '#178f68' }}>{report.price}</span>
                   <button
                     onClick={() => handleUnlock(report)}
+                    className="insights-action-btn"
                     style={{
                       background: '#178f68',
                       color: '#fff',
@@ -114,6 +128,7 @@ export default function CityReports({ city: _city }: CityReportsProps) {
                   <span style={{ fontSize: 12, color: '#4a7a5e' }}>即将上线</span>
                   <button
                     onClick={() => handleWaitlist(report)}
+                    className="insights-outline-btn"
                     style={{
                       background: 'transparent',
                       color: '#fff',
