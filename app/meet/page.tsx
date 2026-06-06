@@ -153,7 +153,7 @@ export default function MeetPage() {
       {/* ── 页脚 ── */}
       <footer style={{ marginTop: 8, borderTop: '0.5px solid var(--border)', paddingTop: 24, paddingBottom: 8 }}>
         <div style={{ textAlign: 'center', marginBottom: 20 }}>
-          <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px' }} />
+          <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px', filter: 'brightness(0) saturate(100%) invert(52%) sepia(57%) saturate(447%) hue-rotate(117deg) brightness(87%)' }} />
           <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 600 }}>
             The Deep-Dive Platform for Global Wanderers
           </div>
