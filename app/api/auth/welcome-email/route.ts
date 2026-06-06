@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
             遇见和你一样在路上的人。
           </p>
           <div style="text-align: center; margin-bottom: 28px;">
-            <a href="https://nomadictree.io" style="display: inline-block; padding: 12px 28px; background: #1D9E75; color: #fff; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500;">
+            <a href="https://nomadictree.io" style="display: inline-block; padding: 12px 28px; background: #178f68; color: #fff; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500;">
               开始探索 →
             </a>
           </div>

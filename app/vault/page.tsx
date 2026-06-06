@@ -69,7 +69,7 @@ export default function VaultPage() {
                 <div style={{ display: 'flex', borderTop: '0.5px solid #f0ebe2' }}>
                   <button
                     onClick={() => restoreImprint(imp.id)}
-                    style={{ flex: 1, padding: '10px 0', background: 'none', border: 'none', fontSize: 12, color: '#1D9E75', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    style={{ flex: 1, padding: '10px 0', background: 'none', border: 'none', fontSize: 12, color: '#178f68', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}>
                     恢复
                   </button>
                   <div style={{ width: '0.5px', background: '#f0ebe2' }} />

@@ -152,7 +152,7 @@ function GuideCard({ guide, onBook }: { guide: Guide; onBook: (g: Guide) => void
         cursor: 'pointer',
         transition: 'border-color 0.18s ease',
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#1D9E75' }}
+      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#178f68' }}
       onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.8)' }}
     >
       <div style={{
@@ -186,13 +186,13 @@ function GuideCard({ guide, onBook }: { guide: Guide; onBook: (g: Guide) => void
             </span>
           ))}
         </div>
-        <div style={{ fontSize: 12, fontWeight: 500, color: '#1D9E75' }}>{guide.price}</div>
+        <div style={{ fontSize: 12, fontWeight: 500, color: '#178f68' }}>{guide.price}</div>
       </div>
 
       <button
         onClick={e => { e.stopPropagation(); onBook(guide) }}
         style={{
-          background: '#1D9E75',
+          background: '#178f68',
           color: '#fff',
           border: 'none',
           borderRadius: 8,

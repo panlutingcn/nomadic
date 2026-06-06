@@ -150,7 +150,7 @@ export default function EditImprintPage() {
         <style>{`
           @keyframes aiGlow {
             0%, 100% { border-color: var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-            50% { border-color: #1d9e75; box-shadow: 0 0 0 3px rgba(29,158,117,0.1); }
+            50% { border-color: #178f68; box-shadow: 0 0 0 3px rgba(23,143,104,0.1); }
           }
           .ai-glow { animation: aiGlow 1.4s ease-in-out infinite; }
         `}</style>

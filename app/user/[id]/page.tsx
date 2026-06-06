@@ -87,7 +87,7 @@ export default function UserProfilePage() {
 
         {/* 用户信息栏 */}
         <div style={{ background: '#fff', border: '0.5px solid #e2d9c8', borderRadius: 16, padding: '13px 15px', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(29,158,117,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 500, color: '#1D9E75', flexShrink: 0, overflow: 'hidden' }}>
+          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(23,143,104,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 500, color: '#178f68', flexShrink: 0, overflow: 'hidden' }}>
             {profile.avatarUrl
               ? <img src={profile.avatarUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               : displayName[0]?.toUpperCase() ?? 'N'

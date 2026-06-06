@@ -92,11 +92,11 @@ export default function CityReports({ city: _city }: CityReportsProps) {
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
               {report.status === 'available' ? (
                 <>
-                  <span style={{ fontSize: 13, fontWeight: 500, color: '#1D9E75' }}>{report.price}</span>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: '#178f68' }}>{report.price}</span>
                   <button
                     onClick={() => handleUnlock(report)}
                     style={{
-                      background: '#1D9E75',
+                      background: '#178f68',
                       color: '#fff',
                       border: 'none',
                       borderRadius: 8,

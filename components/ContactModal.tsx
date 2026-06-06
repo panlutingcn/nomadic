@@ -139,7 +139,7 @@ export default function ContactModal({ onClose }: ContactModalProps) {
         {success ? (
           <div style={{
             textAlign: 'center', padding: '24px 0',
-            color: '#1D9E75', fontSize: 14, fontWeight: 500,
+            color: '#178f68', fontSize: 14, fontWeight: 500,
           }}>
             ✓ 已发送！Luna会尽快回复你
           </div>
@@ -221,7 +221,7 @@ export default function ContactModal({ onClose }: ContactModalProps) {
                 disabled={loading}
                 style={{
                   padding: '8px 18px', borderRadius: 8, border: 'none',
-                  background: loading ? 'rgba(29,158,117,0.5)' : 'var(--accent)',
+                  background: loading ? 'rgba(23,143,104,0.5)' : 'var(--accent)',
                   color: '#fff', fontSize: 12, fontWeight: 500,
                   cursor: loading ? 'not-allowed' : 'pointer', fontFamily: 'inherit',
                 }}

@@ -138,12 +138,12 @@ export default function GlobeMap({ cities, onCityClick, scale = 150 }: GlobeMapP
           return (
             <Marker key={en} coordinates={coords} onClick={() => onCityClick(en)}>
               <g style={{ cursor: 'pointer' }}>
-                <circle r={isFirst ? 4 : 3} fill="#1D9E75" opacity={0.9} />
-                <circle r={isFirst ? 9 : 6} fill="#1D9E75" opacity={0.15} />
+                <circle r={isFirst ? 4 : 3} fill="#178f68" opacity={0.9} />
+                <circle r={isFirst ? 9 : 6} fill="#178f68" opacity={0.15} />
                 <text
                   textAnchor="middle"
                   y={14}
-                  style={{ fontSize: 8, fill: '#1D9E75', fontWeight: isFirst ? 600 : 400, pointerEvents: 'none' }}
+                  style={{ fontSize: 8, fill: '#178f68', fontWeight: isFirst ? 600 : 400, pointerEvents: 'none' }}
                 >
                   {zh}
                 </text>
@@ -159,8 +159,8 @@ export default function GlobeMap({ cities, onCityClick, scale = 150 }: GlobeMapP
         style={{
           position: 'absolute', left: 6, top: '50%', transform: 'translateY(-50%)',
           width: 22, height: 22, borderRadius: '50%', border: 'none',
-          background: dir === -1 ? 'rgba(29,158,117,0.18)' : 'rgba(255,255,255,0.55)',
-          color: dir === -1 ? '#1D9E75' : '#8a7a62',
+          background: dir === -1 ? 'rgba(23,143,104,0.18)' : 'rgba(255,255,255,0.55)',
+          color: dir === -1 ? '#178f68' : '#8a7a62',
           fontSize: 15, cursor: 'pointer', display: 'flex', alignItems: 'center',
           justifyContent: 'center', zIndex: 10, lineHeight: 1,
           boxShadow: '0 1px 4px rgba(0,0,0,0.10)',
@@ -173,8 +173,8 @@ export default function GlobeMap({ cities, onCityClick, scale = 150 }: GlobeMapP
         style={{
           position: 'absolute', right: 6, top: '50%', transform: 'translateY(-50%)',
           width: 22, height: 22, borderRadius: '50%', border: 'none',
-          background: dir === 1 ? 'rgba(29,158,117,0.18)' : 'rgba(255,255,255,0.55)',
-          color: dir === 1 ? '#1D9E75' : '#8a7a62',
+          background: dir === 1 ? 'rgba(23,143,104,0.18)' : 'rgba(255,255,255,0.55)',
+          color: dir === 1 ? '#178f68' : '#8a7a62',
           fontSize: 15, cursor: 'pointer', display: 'flex', alignItems: 'center',
           justifyContent: 'center', zIndex: 10, lineHeight: 1,
           boxShadow: '0 1px 4px rgba(0,0,0,0.10)',

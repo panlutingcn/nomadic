@@ -68,7 +68,7 @@ export default function MinePage() {
             <button
               onClick={handleResendVerification}
               disabled={verifyState === 'sending'}
-              style={{ fontSize: 12, fontWeight: 500, color: '#1D9E75', background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', padding: 0, opacity: verifyState === 'sending' ? 0.6 : 1 }}
+              style={{ fontSize: 12, fontWeight: 500, color: '#178f68', background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', padding: 0, opacity: verifyState === 'sending' ? 0.6 : 1 }}
             >
               {verifyState === 'sending' ? '发送中…' : '立即验证 →'}
             </button>
@@ -80,7 +80,7 @@ export default function MinePage() {
 
         {/* 用户信息栏 */}
         <div className="crystal-card" style={{ borderRadius: 16, padding: '13px 15px', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, transition: 'transform 150ms ease, box-shadow 150ms ease' }}>
-          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(29,158,117,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 500, color: '#1D9E75', flexShrink: 0, overflow: 'hidden' }}>
+          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(23,143,104,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 500, color: '#178f68', flexShrink: 0, overflow: 'hidden' }}>
             {profileAvatar
               ? <img src={profileAvatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               : (profileNickname?.[0] ?? 'N').toUpperCase()
@@ -140,7 +140,7 @@ export default function MinePage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ fontSize: 11, color: '#8a7a62' }}>{imprints.length} 个</span>
                 <span onClick={() => router.push('/vault')}
-                  style={{ fontSize: 11, color: '#1D9E75', cursor: 'pointer', fontWeight: 500 }}>
+                  style={{ fontSize: 11, color: '#178f68', cursor: 'pointer', fontWeight: 500 }}>
                   管理 ›
                 </span>
               </div>
@@ -153,7 +153,7 @@ export default function MinePage() {
                 </div>
                 <div style={{ padding: '8px 10px', flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
-                    <span style={{ fontSize: 10, padding: '2px 7px', borderRadius: 5, fontWeight: 500, background: imp.isPublic ? 'rgba(29,158,117,0.1)' : '#f0ebe2', color: imp.isPublic ? '#085041' : '#8a7a62', border: `0.5px solid ${imp.isPublic ? 'rgba(29,158,117,0.2)' : '#ddd4c0'}` }}>
+                    <span style={{ fontSize: 10, padding: '2px 7px', borderRadius: 5, fontWeight: 500, background: imp.isPublic ? 'rgba(23,143,104,0.1)' : '#f0ebe2', color: imp.isPublic ? '#085041' : '#8a7a62', border: `0.5px solid ${imp.isPublic ? 'rgba(23,143,104,0.2)' : '#ddd4c0'}` }}>
                       {imp.isPublic ? '公开' : '私藏'}
                     </span>
                     <span style={{ fontSize: 10, color: '#b8a98a' }}>
@@ -172,7 +172,7 @@ export default function MinePage() {
         <div style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
             <span style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>收藏夹</span>
-            <span style={{ fontSize: 12, color: '#1D9E75', cursor: 'pointer' }}>管理 ›</span>
+            <span style={{ fontSize: 12, color: '#178f68', cursor: 'pointer' }}>管理 ›</span>
           </div>
           <div className="crystal-card" style={{ borderRadius: 12, padding: '10px 13px' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -189,7 +189,7 @@ export default function MinePage() {
                         router.push(`/search?q=${encodeURIComponent(city.nameZh || city.name)}`)
                       }
                     }}
-                    style={{ fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 8, background: 'rgba(29,158,117,0.1)', color: '#0f6e56', border: '0.5px solid rgba(29,158,117,0.25)', cursor: 'pointer' }}>
+                    style={{ fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 8, background: 'rgba(23,143,104,0.1)', color: '#0f6e56', border: '0.5px solid rgba(23,143,104,0.25)', cursor: 'pointer' }}>
                     {label}
                   </button>
                 )
@@ -210,7 +210,7 @@ export default function MinePage() {
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>有建议、故事或合作意向？</div>
           </div>
-          <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500, flexShrink: 0 }}>欢迎来信 →</span>
+          <span style={{ fontSize: 13, color: '#178f68', fontWeight: 500, flexShrink: 0 }}>欢迎来信 →</span>
         </div>
         {/* 加入全球社群 */}
         <div onClick={() => setShowQR(true)}
@@ -220,7 +220,7 @@ export default function MinePage() {
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>加入Nomadic在线全球社群</div>
           </div>
-          <span style={{ fontSize: 13, color: '#1D9E75', fontWeight: 500, flexShrink: 0 }}>扫码加入 →</span>
+          <span style={{ fontSize: 13, color: '#178f68', fontWeight: 500, flexShrink: 0 }}>扫码加入 →</span>
         </div>
 
         <div style={{ height: 12 }} />
@@ -230,7 +230,7 @@ export default function MinePage() {
       {/* ── 页脚 ── */}
       <footer style={{ marginTop: 8, borderTop: '0.5px solid var(--border)', paddingTop: 24, paddingBottom: 8 }}>
         <div style={{ textAlign: 'center', marginBottom: 20 }}>
-          <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px', filter: 'brightness(0) saturate(100%) invert(52%) sepia(57%) saturate(447%) hue-rotate(117deg) brightness(87%)' }} />
+          <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
           <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 600 }}>
             The Deep-Dive Platform for Global Wanderers
           </div>

@@ -45,8 +45,8 @@ export default function CityMapPanel({ lat, lon, cityNameZh }: CityMapPanelProps
           }
         </Geographies>
         <Marker coordinates={[lon, lat]}>
-          <circle r={10} fill="#1D9E75" opacity={0.15} />
-          <circle r={5} fill="#1D9E75" opacity={0.9} />
+          <circle r={10} fill="#178f68" opacity={0.15} />
+          <circle r={5} fill="#178f68" opacity={0.9} />
           <circle r={2.2} fill="#ffffff" />
           <text
             textAnchor="middle"

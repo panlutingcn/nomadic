@@ -32,7 +32,7 @@ export async function GET() {
           position: 'absolute',
           top: 0, left: 0, right: 0,
           height: 6,
-          background: '#1D9E75',
+          background: '#178f68',
           display: 'flex',
         }} />
 
@@ -52,7 +52,7 @@ export async function GET() {
             </div>
           </div>
 
-          <div style={{ width: 80, height: 3, background: '#1D9E75', borderRadius: 2, marginBottom: 36, display: 'flex' }} />
+          <div style={{ width: 80, height: 3, background: '#178f68', borderRadius: 2, marginBottom: 36, display: 'flex' }} />
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
             <span style={{ fontSize: 28, color: '#5a4a38', letterSpacing: '1px' }}>
@@ -71,7 +71,7 @@ export async function GET() {
           right: 56,
           display: 'flex',
         }}>
-          <span style={{ fontSize: 22, color: '#1D9E75', fontWeight: 700 }}>
+          <span style={{ fontSize: 22, color: '#178f68', fontWeight: 700 }}>
             nomadictree.io
           </span>
         </div>

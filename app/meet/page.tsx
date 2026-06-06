@@ -70,21 +70,21 @@ export default function MeetPage() {
             onClick={handlePublish}
             style={{
               display: 'flex', alignItems: 'center', gap: 8,
-              background: 'linear-gradient(135deg, #34d899 0%, #1D9E75 50%, #15896a 100%)',
+              background: 'linear-gradient(135deg, #34d899 0%, #178f68 50%, #15896a 100%)',
               border: 'none', borderRadius: 32,
               padding: '13px 36px',
               cursor: 'pointer', fontSize: 15, fontWeight: 600, color: '#fff',
               letterSpacing: '0.02em',
-              boxShadow: '0 6px 24px rgba(29,158,117,0.45), 0 2px 8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.25)',
+              boxShadow: '0 6px 24px rgba(23,143,104,0.45), 0 2px 8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.25)',
               transition: 'transform 150ms ease, box-shadow 150ms ease',
             }}
             onMouseEnter={e => {
               (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.04) translateY(-1px)'
-              ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 10px 32px rgba(29,158,117,0.55), 0 3px 10px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.28)'
+              ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 10px 32px rgba(23,143,104,0.55), 0 3px 10px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.28)'
             }}
             onMouseLeave={e => {
               (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'
-              ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 24px rgba(29,158,117,0.45), 0 2px 8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.25)'
+              ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 24px rgba(23,143,104,0.45), 0 2px 8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.25)'
             }}
           >
             <span style={{ fontSize: 17 }}>✏️</span>
@@ -98,7 +98,7 @@ export default function MeetPage() {
         <div className="meet-content-wrap" style={{ display: 'flex', gap: 7, overflowX: 'auto', padding: '16px 0 14px', scrollbarWidth: 'none' }}>
         {CITY_FILTERS.map(city => (
           <button key={city.en} onClick={() => setActiveCity(city.en)}
-            style={{ fontSize: 12, fontWeight: 500, padding: '6px 14px', borderRadius: 20, whiteSpace: 'nowrap', cursor: 'pointer', background: activeCity === city.en ? '#1D9E75' : '#fff', color: activeCity === city.en ? '#fff' : '#8a7a62', border: activeCity === city.en ? 'none' : '0.5px solid #e2d9c8', flexShrink: 0 }}>
+            style={{ fontSize: 12, fontWeight: 500, padding: '6px 14px', borderRadius: 20, whiteSpace: 'nowrap', cursor: 'pointer', background: activeCity === city.en ? '#178f68' : '#fff', color: activeCity === city.en ? '#fff' : '#8a7a62', border: activeCity === city.en ? 'none' : '0.5px solid #e2d9c8', flexShrink: 0 }}>
             {city.zh}
           </button>
         ))}
@@ -153,7 +153,7 @@ export default function MeetPage() {
       {/* ── 页脚 ── */}
       <footer style={{ marginTop: 8, borderTop: '0.5px solid var(--border)', paddingTop: 24, paddingBottom: 8 }}>
         <div style={{ textAlign: 'center', marginBottom: 20 }}>
-          <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px', filter: 'brightness(0) saturate(100%) invert(52%) sepia(57%) saturate(447%) hue-rotate(117deg) brightness(87%)' }} />
+          <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
           <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 600 }}>
             The Deep-Dive Platform for Global Wanderers
           </div>

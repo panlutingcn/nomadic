@@ -312,12 +312,12 @@ export default function InsightsPage() {
         ].map((q) => {
           const isOpen = expandedQuadrant === q.key
           return (
-            <div key={q.key} ref={(el: HTMLDivElement | null) => { cardRefs.current[q.key] = el }} style={{ background: isOpen ? 'rgba(255,255,255,0.82)' : 'rgba(255,255,255,0.62)', backdropFilter: 'blur(14px) saturate(160%)', WebkitBackdropFilter: 'blur(14px) saturate(160%)', border: `0.5px solid ${isOpen ? '#1D9E75' : 'rgba(29,158,117,0.28)'}`, borderRadius: 12, marginBottom: 8, overflow: 'hidden', boxShadow: isOpen ? '0 8px 32px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.06)' : '0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.05)', transition: 'background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease' }}>
+            <div key={q.key} ref={(el: HTMLDivElement | null) => { cardRefs.current[q.key] = el }} style={{ background: isOpen ? 'rgba(255,255,255,0.82)' : 'rgba(255,255,255,0.62)', backdropFilter: 'blur(14px) saturate(160%)', WebkitBackdropFilter: 'blur(14px) saturate(160%)', border: `0.5px solid ${isOpen ? '#178f68' : 'rgba(23,143,104,0.28)'}`, borderRadius: 12, marginBottom: 8, overflow: 'hidden', boxShadow: isOpen ? '0 8px 32px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.06)' : '0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.05)', transition: 'background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease' }}>
               <button
                 onClick={() => handleCardToggle(q.key)}
                 style={{
                   width: '100%', background: 'transparent', border: 'none',
-                  borderBottom: isOpen ? '0.5px solid rgba(29,158,117,0.28)' : 'none',
+                  borderBottom: isOpen ? '0.5px solid rgba(23,143,104,0.28)' : 'none',
                   padding: '1.25rem 1.5rem', textAlign: 'left', cursor: 'pointer',
                   display: 'flex', flexDirection: 'column',
                 }}
@@ -379,7 +379,7 @@ export default function InsightsPage() {
                         <div style={{ fontSize: 12, color: '#3a8a64', lineHeight: 1.65 }}>{city.landing.housing}</div>
                       </div>
                       {'housingLinks' in city.landing && city.landing.housingLinks?.map(link => (
-                        <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(29,158,117,0.25)', marginBottom: 5, textDecoration: 'none' }}>
+                        <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(23,143,104,0.25)', marginBottom: 5, textDecoration: 'none' }}>
                           <span style={{ fontSize: 12, color: '#3a8a64' }}>
                             {link.name}
                             {'desc' in link && link.desc && <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {link.desc}</span>}
@@ -400,7 +400,7 @@ export default function InsightsPage() {
                       {selectedCity && CITY_SAFETY_LINKS[selectedCity] && (
                         <>
                           {CITY_SAFETY_LINKS[selectedCity].map(link => (
-                            <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(29,158,117,0.25)', marginBottom: 5, textDecoration: 'none' }}>
+                            <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(23,143,104,0.25)', marginBottom: 5, textDecoration: 'none' }}>
                               <span style={{ fontSize: 12, color: '#3a8a64' }}>
                                 {link.name}
                                 <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {link.desc}</span>
@@ -459,7 +459,7 @@ export default function InsightsPage() {
                     </div>
                     {selectedCity && CITY_EXPERIENCE_LINKS[selectedCity] && (
                       CITY_EXPERIENCE_LINKS[selectedCity].map(link => (
-                        <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(29,158,117,0.25)', marginBottom: 5, textDecoration: 'none' }}>
+                        <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(23,143,104,0.25)', marginBottom: 5, textDecoration: 'none' }}>
                           <span style={{ fontSize: 12, color: '#3a8a64' }}>
                             {link.name}
                             <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {link.desc}</span>
@@ -485,7 +485,7 @@ export default function InsightsPage() {
                       )}
                     </div>
                     {city.community.platforms.map(p => (
-                      <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(29,158,117,0.25)', marginBottom: 5, textDecoration: 'none' }}>
+                      <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(23,143,104,0.25)', marginBottom: 5, textDecoration: 'none' }}>
                         <span style={{ fontSize: 12, color: '#3a8a64' }}>
                           {p.name}
                           {'desc' in p && p.desc && <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {p.desc}</span>}
@@ -502,7 +502,7 @@ export default function InsightsPage() {
                       )}
                     </div>
                     {selectedCity && GLOBAL_COMMUNITIES.map(c => (
-                      <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(29,158,117,0.25)', marginBottom: 5, textDecoration: 'none' }}>
+                      <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(23,143,104,0.25)', marginBottom: 5, textDecoration: 'none' }}>
                         <span style={{ fontSize: 12, color: '#3a8a64' }}>
                           {c.name}
                           {c.desc && <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {c.desc}</span>}
@@ -519,7 +519,7 @@ export default function InsightsPage() {
                           <div style={{ fontSize: 12, color: '#3a8a64', lineHeight: 1.65 }}>{city.community.zhCommunity}</div>
                         </div>
                         {city.community.zhCommunityLinks?.map(link => (
-                          <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(29,158,117,0.25)', marginBottom: 5, textDecoration: 'none' }}>
+                          <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(23,143,104,0.25)', marginBottom: 5, textDecoration: 'none' }}>
                             <span style={{ fontSize: 12, color: '#3a8a64' }}>{link.name}</span>
                             <span style={{ fontSize: 12, color: '#3a8a64', flexShrink: 0, marginLeft: 6 }}>›</span>
                           </a>
@@ -546,7 +546,7 @@ export default function InsightsPage() {
                       )}
                     </div>
                     {city.chance.policy.url !== '#' && (
-                      <a href={city.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(29,158,117,0.25)', textDecoration: 'none' }}>
+                      <a href={city.chance.policy.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(23,143,104,0.25)', textDecoration: 'none' }}>
                         <span style={{ fontSize: 12, color: '#3a8a64' }}>
                           {city.chance.policy.label}
                           {'desc' in city.chance.policy && city.chance.policy.desc && <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {city.chance.policy.desc}</span>}
@@ -563,7 +563,7 @@ export default function InsightsPage() {
                       )}
                     </div>
                     {city.chance.localJobs.map(j => (
-                      <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(29,158,117,0.25)', marginBottom: 5, textDecoration: 'none' }}>
+                      <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(23,143,104,0.25)', marginBottom: 5, textDecoration: 'none' }}>
                         <span style={{ fontSize: 12, color: '#3a8a64' }}>
                           {j.name}
                           {'desc' in j && j.desc && <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {j.desc}</span>}
@@ -580,7 +580,7 @@ export default function InsightsPage() {
                       )}
                     </div>
                     {city.chance.remoteJobs.map(j => (
-                      <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(29,158,117,0.25)', marginBottom: 5, textDecoration: 'none' }}>
+                      <a key={j.name} href={j.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', borderRadius: 8, background: 'rgba(212,237,224,0.65)', border: '0.5px solid rgba(23,143,104,0.25)', marginBottom: 5, textDecoration: 'none' }}>
                         <span style={{ fontSize: 12, color: '#3a8a64' }}>
                           {j.name}
                           {'desc' in j && j.desc && <span style={{ color: '#3a8a64', fontWeight: 400 }}> | {j.desc}</span>}
@@ -596,7 +596,7 @@ export default function InsightsPage() {
         })}
 
         {/* 城市深度报告 */}
-        <div style={{ background: '#1D9E75', borderRadius: 12, marginBottom: 10, padding: '1.25rem 1.5rem 1rem' }}>
+        <div style={{ background: '#178f68', borderRadius: 12, marginBottom: 10, padding: '1.25rem 1.5rem 1rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
             <div style={{ fontSize: 15, fontWeight: 600, color: '#fff' }}>⚓️ 城市深度报告 REPORTS</div>
             <span style={{ background: 'rgba(255,255,255,0.18)', color: '#fff', fontSize: 10, padding: '2px 9px', borderRadius: 20, whiteSpace: 'nowrap', flexShrink: 0, marginLeft: 8 }}>付费解锁</span>
@@ -606,7 +606,7 @@ export default function InsightsPage() {
         </div>
 
         {/* 在地专业咨询 */}
-        <div style={{ background: '#1D9E75', borderRadius: 12, marginBottom: 10, padding: '1.25rem 1.5rem 1rem' }}>
+        <div style={{ background: '#178f68', borderRadius: 12, marginBottom: 10, padding: '1.25rem 1.5rem 1rem' }}>
           <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 4 }}>🎯 在地专业咨询 CONSULT</div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', marginBottom: 12, lineHeight: 1.5 }}>与真正在当地生活的人对话——掌握攻略里找不到的一手信息</div>
           <LocalGuides city={city.nameZh || city.name} />
@@ -618,7 +618,7 @@ export default function InsightsPage() {
       {/* ── 页脚 ── */}
       <footer style={{ marginTop: 8, borderTop: '0.5px solid var(--border)', paddingTop: 24, paddingBottom: 8 }}>
         <div style={{ textAlign: 'center', marginBottom: 20 }}>
-          <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px', filter: 'brightness(0) saturate(100%) invert(52%) sepia(57%) saturate(447%) hue-rotate(117deg) brightness(87%)' }} />
+          <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
           <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 600 }}>
             The Deep-Dive Platform for Global Wanderers
           </div>

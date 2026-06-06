@@ -101,10 +101,10 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
 
   const containerShadow = pulsing
     ? [
-        '0 6px 28px rgba(29,158,117,0.18)',
+        '0 6px 28px rgba(23,143,104,0.18)',
         '0 2px 6px rgba(0,0,0,0.10)',
-        '0 0 0 1.5px rgba(29,158,117,0.45)',
-        '0 0 0 3px rgba(29,158,117,0.10)',
+        '0 0 0 1.5px rgba(23,143,104,0.45)',
+        '0 0 0 3px rgba(23,143,104,0.10)',
         'inset 0 2.5px 0 rgba(255,255,255,1)',
         'inset 1.5px 0 0 rgba(255,255,255,0.60)',
         'inset -1.5px 0 0 rgba(255,255,255,0.60)',
@@ -113,8 +113,8 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
       ? [
           '0 8px 32px rgba(0,0,0,0.12)',
           '0 2px 6px rgba(0,0,0,0.08)',
-          '0 0 0 1.5px rgba(29,158,117,0.35)',
-          '0 0 0 4px rgba(29,158,117,0.08)',
+          '0 0 0 1.5px rgba(23,143,104,0.35)',
+          '0 0 0 4px rgba(23,143,104,0.08)',
           'inset 0 2.5px 0 rgba(255,255,255,1)',
           'inset 1.5px 0 0 rgba(255,255,255,0.65)',
           'inset -1.5px 0 0 rgba(255,255,255,0.65)',
@@ -180,21 +180,21 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
               ? 'rgba(232,245,238,0.80)'
               : hoveredGo
                 ? 'linear-gradient(150deg, #32d494 0%, #22b882 55%, #1a9e6e 100%)'
-                : 'linear-gradient(150deg, #27b882 0%, #1D9E75 55%, #178f68 100%)',
+                : 'linear-gradient(150deg, #27b882 0%, #178f68 55%, #178f68 100%)',
             color: loading ? 'var(--accent)' : '#fff',
             fontSize: '12px',
             fontWeight: 500,
             padding: '8px 18px',
             borderRadius: '9px',
-            border: loading ? '0.5px solid rgba(29,158,117,0.25)' : 'none',
+            border: loading ? '0.5px solid rgba(23,143,104,0.25)' : 'none',
             cursor: loading ? 'not-allowed' : 'pointer',
             pointerEvents: loading ? 'none' : 'auto',
             animation: loading ? 'pulse-hero 2.4s ease-in-out infinite' : 'none',
             boxShadow: loading
               ? 'none'
               : hoveredGo
-                ? '0 6px 20px rgba(29,158,117,0.48), inset 0 1px 0 rgba(255,255,255,0.30)'
-                : '0 2px 10px rgba(29,158,117,0.32), inset 0 1px 0 rgba(255,255,255,0.22)',
+                ? '0 6px 20px rgba(23,143,104,0.48), inset 0 1px 0 rgba(255,255,255,0.30)'
+                : '0 2px 10px rgba(23,143,104,0.32), inset 0 1px 0 rgba(255,255,255,0.22)',
             transform: hoveredGo && !loading ? 'scale(1.05) translateY(-1px)' : 'scale(1)',
             transition: 'box-shadow 180ms ease, transform 180ms ease, background 180ms ease',
           }}

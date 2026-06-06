@@ -278,7 +278,7 @@ export default function LoginModal({ onClose, onSuccess, redirectPath = '/' }: L
             />
             <div style={{
               fontSize: 10, marginBottom: 10, transition: 'color 200ms ease',
-              color: password.length === 0 ? '#b8a98a' : (isValidPassword(password) ? '#1D9E75' : '#c04040'),
+              color: password.length === 0 ? '#b8a98a' : (isValidPassword(password) ? '#178f68' : '#c04040'),
             }}>
               密码至少 6 位，需包含字母和数字
             </div>

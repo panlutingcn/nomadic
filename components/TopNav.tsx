@@ -66,7 +66,7 @@ export default function TopNav() {
             className="top-nav-logo"
             style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
           >
-            <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 28, width: 'auto', display: 'block', filter: 'brightness(0) saturate(100%) invert(52%) sepia(57%) saturate(447%) hue-rotate(117deg) brightness(87%)' }} />
+            <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 28, width: 'auto', display: 'block', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
           </div>
         </div>
 
@@ -90,7 +90,7 @@ export default function TopNav() {
                   cursor: 'pointer',
                   fontSize: 14,
                   fontWeight: active ? 600 : 400,
-                  color: active ? 'var(--accent-text)' : hovered ? 'var(--text-primary)' : 'rgba(45,36,24,0.55)',
+                  color: active ? '#178f68' : hovered ? 'var(--text-primary)' : 'rgba(45,36,24,0.55)',
                   padding: '6px 14px',
                   borderRadius: 10,
                   position: 'relative',
@@ -132,7 +132,7 @@ export default function TopNav() {
                 alignItems: 'center', justifyContent: 'center',
                 fontSize: 13, color: '#fff', fontWeight: 600,
                 transform: hoveredLogin ? 'scale(1.10)' : 'scale(1)',
-                boxShadow: hoveredLogin ? '0 4px 14px rgba(29,158,117,0.40)' : '0 2px 6px rgba(29,158,117,0.25)',
+                boxShadow: hoveredLogin ? '0 4px 14px rgba(23,143,104,0.40)' : '0 2px 6px rgba(23,143,104,0.25)',
                 transition: 'transform 150ms ease, box-shadow 150ms ease',
               }}
             >
@@ -145,7 +145,7 @@ export default function TopNav() {
               onMouseLeave={() => setHoveredLogin(false)}
               style={{
                 background: hoveredLogin
-                  ? 'linear-gradient(135deg, #2ec990 0%, #1D9E75 100%)'
+                  ? 'linear-gradient(135deg, #2ec990 0%, #178f68 100%)'
                   : 'var(--accent)',
                 border: 'none',
                 borderRadius: 18, padding: '6px 16px',
@@ -154,8 +154,8 @@ export default function TopNav() {
                 whiteSpace: 'nowrap',
                 transform: hoveredLogin ? 'scale(1.05) translateY(-1px)' : 'scale(1)',
                 boxShadow: hoveredLogin
-                  ? '0 6px 18px rgba(29,158,117,0.40), inset 0 1px 0 rgba(255,255,255,0.25)'
-                  : '0 2px 8px rgba(29,158,117,0.28)',
+                  ? '0 6px 18px rgba(23,143,104,0.40), inset 0 1px 0 rgba(255,255,255,0.25)'
+                  : '0 2px 8px rgba(23,143,104,0.28)',
                 transition: 'transform 150ms ease, box-shadow 150ms ease, background 150ms ease',
               }}
             >

@@ -389,7 +389,7 @@ export default function StoryPage() {
           .gps-pulse { animation: gpsPulse 0.8s ease-in-out infinite; }
           @keyframes aiGlow {
             0%, 100% { border-color: var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-            50% { border-color: #1d9e75; box-shadow: 0 0 0 3px rgba(29,158,117,0.1); }
+            50% { border-color: #178f68; box-shadow: 0 0 0 3px rgba(23,143,104,0.1); }
           }
           .ai-glow { animation: aiGlow 1.4s ease-in-out infinite; }
         `}</style>
@@ -491,7 +491,7 @@ export default function StoryPage() {
           { key: 'private' as const, label: '仅自己', desc: '私藏，只存在我的领地', icon: '🔒' },
         ].map(opt => (
           <button key={opt.key} onClick={() => setVisibility(opt.key)}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 14px', borderRadius: 12, background: visibility === opt.key ? 'rgba(29,158,117,0.06)' : 'var(--bg-card)', border: `${visibility === opt.key ? '1.5px solid var(--accent)' : '0.5px solid var(--border-light)'}`, cursor: 'pointer', marginBottom: 8, textAlign: 'left' }}>
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 14px', borderRadius: 12, background: visibility === opt.key ? 'rgba(23,143,104,0.06)' : 'var(--bg-card)', border: `${visibility === opt.key ? '1.5px solid var(--accent)' : '0.5px solid var(--border-light)'}`, cursor: 'pointer', marginBottom: 8, textAlign: 'left' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ width: 18, height: 18, borderRadius: '50%', border: `1.5px solid ${visibility === opt.key ? 'var(--accent)' : '#ddd4c0'}`, background: visibility === opt.key ? 'var(--accent)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 {visibility === opt.key && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff' }} />}
@@ -506,7 +506,7 @@ export default function StoryPage() {
         ))}
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 12, gap: 10 }}>
-          <button onClick={handlePublish} disabled={publishing || published} style={{ width: 80, height: 80, borderRadius: '50%', border: `3px solid ${published ? '#1D9E75' : 'var(--accent)'}`, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: (publishing || published) ? 'not-allowed' : 'pointer', opacity: publishing ? 0.7 : 1, transition: 'all 0.3s', padding: 0, flexShrink: 0 }}>
+          <button onClick={handlePublish} disabled={publishing || published} style={{ width: 80, height: 80, borderRadius: '50%', border: `3px solid ${published ? '#178f68' : 'var(--accent)'}`, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: (publishing || published) ? 'not-allowed' : 'pointer', opacity: publishing ? 0.7 : 1, transition: 'all 0.3s', padding: 0, flexShrink: 0 }}>
             <div style={{ width: 62, height: 62, borderRadius: '50%', background: published ? '#e8f5ee' : 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, color: published ? '#085041' : '#fff', transition: 'all 0.3s' }}>
               {published ? '✓' : publishing ? '…' : '📍'}
             </div>
@@ -543,7 +543,7 @@ export default function StoryPage() {
             </div>
             <button
               onClick={() => { setShowVerifyPrompt(false); router.push('/mine') }}
-              style={{ width: '100%', padding: '12px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
+              style={{ width: '100%', padding: '12px 0', borderRadius: 12, background: '#178f68', border: 'none', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
             >
               去「我的」页面验证邮箱
             </button>

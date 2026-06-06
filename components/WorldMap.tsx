@@ -51,12 +51,12 @@ export default function WorldMap({ cities, onCityClick }: WorldMapProps) {
           onClick={() => onCityClick(en)}
         >
           <g style={{ cursor: 'pointer' }}>
-            <circle r={isFirst ? 4 : 3} fill="#1D9E75" opacity={0.9} />
-            <circle r={isFirst ? 9 : 6} fill="#1D9E75" opacity={0.12} />
+            <circle r={isFirst ? 4 : 3} fill="#178f68" opacity={0.9} />
+            <circle r={isFirst ? 9 : 6} fill="#178f68" opacity={0.12} />
             <text
               textAnchor="middle"
               y={11}
-              style={{ fontSize: 5, fill: '#1D9E75', fontWeight: isFirst ? 600 : 400, pointerEvents: 'none' }}
+              style={{ fontSize: 5, fill: '#178f68', fontWeight: isFirst ? 600 : 400, pointerEvents: 'none' }}
             >
               {zh}
             </text>

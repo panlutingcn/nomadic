@@ -174,7 +174,7 @@ export default function SideNav() {
                   cursor: 'pointer', fontSize: 14, fontWeight: 500,
                   margin: '6px 0',
                   background: active
-                    ? '#1D9E75'
+                    ? '#178f68'
                     : hovered
                       ? 'rgba(45,36,24,0.05)'
                       : 'none',
@@ -203,7 +203,7 @@ export default function SideNav() {
                 cursor: 'pointer', fontSize: 14,
                 fontWeight: active ? 600 : hovered ? 500 : 400,
                 background: active
-                  ? '#1D9E75'
+                  ? '#178f68'
                   : hovered
                     ? 'rgba(45,36,24,0.05)'
                     : 'none',
@@ -238,8 +238,8 @@ export default function SideNav() {
           cursor: 'pointer', fontSize: 13, fontWeight: 500,
           width: '100%', marginBottom: 6,
           background: hoveredPath === '__persona__'
-            ? 'rgba(29,158,117,0.08)'
-            : 'rgba(29,158,117,0.04)',
+            ? 'rgba(23,143,104,0.08)'
+            : 'rgba(23,143,104,0.04)',
           color: hoveredPath === '__persona__' ? '#0f6e56' : '#5a8a76',
           transform: hoveredPath === '__persona__' ? 'scale(1.06)' : 'scale(1)',
           transition: 'background 150ms ease, transform 140ms ease',
@@ -261,8 +261,8 @@ export default function SideNav() {
           cursor: 'pointer', fontSize: 13, fontWeight: 500,
           width: '100%', marginBottom: 8,
           background: hoveredPath === '__qr__'
-            ? 'rgba(29,158,117,0.08)'
-            : 'rgba(29,158,117,0.04)',
+            ? 'rgba(23,143,104,0.08)'
+            : 'rgba(23,143,104,0.04)',
           color: hoveredPath === '__qr__' ? '#0f6e56' : '#5a8a76',
           transform: hoveredPath === '__qr__' ? 'scale(1.06)' : 'scale(1)',
           transition: 'background 150ms ease, transform 140ms ease',

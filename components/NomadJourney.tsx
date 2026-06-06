@@ -83,7 +83,7 @@ export default function NomadJourney() {
                 <div style={{
                   fontFamily: 'Georgia, serif',
                   fontWeight: 500,
-                  color: 'var(--accent)',
+                  color: '#178f68',
                   fontSize: station.numeralSize,
                   lineHeight: 1,
                   marginBottom: 3,
@@ -110,7 +110,7 @@ export default function NomadJourney() {
                     : 'rgba(255,255,255,0.60)',
                   backdropFilter: 'blur(14px) saturate(160%)',
                   WebkitBackdropFilter: 'blur(14px) saturate(160%)',
-                  border: `0.5px solid ${hovered ? '#1D9E75' : 'rgba(29,158,117,0.28)'}`,
+                  border: `0.5px solid ${hovered ? '#178f68' : 'rgba(23,143,104,0.28)'}`,
                   borderRadius: 12,
                   padding: '1.25rem 1.5rem',
                   textAlign: 'center',
@@ -125,7 +125,7 @@ export default function NomadJourney() {
                 <div style={{
                   fontSize: 15,
                   fontWeight: 500,
-                  color: 'var(--accent)',
+                  color: '#178f68',
                   marginBottom: 8,
                 }}>
                   {station.title}

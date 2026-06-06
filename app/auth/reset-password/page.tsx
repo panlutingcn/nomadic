@@ -101,7 +101,7 @@ export default function ResetPasswordPage() {
               placeholder="新密码"
               style={inputStyle}
             />
-            <div style={{ fontSize: 10, color: password.length === 0 ? '#b8a98a' : (password.length >= 6 && /[a-zA-Z]/.test(password) && /[0-9]/.test(password) ? '#1D9E75' : '#c04040'), marginBottom: 10, transition: 'color 200ms ease' }}>
+            <div style={{ fontSize: 10, color: password.length === 0 ? '#b8a98a' : (password.length >= 6 && /[a-zA-Z]/.test(password) && /[0-9]/.test(password) ? '#178f68' : '#c04040'), marginBottom: 10, transition: 'color 200ms ease' }}>
               密码至少 6 位，需包含字母和数字
             </div>
             <input
@@ -116,7 +116,7 @@ export default function ResetPasswordPage() {
             <button
               onClick={handleSubmit}
               disabled={loading}
-              style={{ width: '100%', padding: '10px', borderRadius: 10, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: loading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: loading ? 0.7 : 1, marginTop: 4 }}
+              style={{ width: '100%', padding: '10px', borderRadius: 10, background: '#178f68', border: 'none', color: '#fff', fontSize: 13, fontWeight: 500, cursor: loading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: loading ? 0.7 : 1, marginTop: 4 }}
             >
               {loading ? '更新中…' : '确认更新密码'}
             </button>

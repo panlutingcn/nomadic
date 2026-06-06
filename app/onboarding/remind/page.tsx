@@ -23,7 +23,7 @@ export default function RemindPage() {
         <div style={{ fontSize: 13, color: '#8a7a62', lineHeight: 1.7, marginBottom: 28 }}>
           完成 16 道题，解锁专属城市推荐<br/>和你在 Nomadic 社区的旅行者身份标签。
         </div>
-        <button onClick={goTest} style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}>
+        <button onClick={goTest} style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#178f68', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}>
           现在去完成测试
         </button>
         <button onClick={goLater} style={{ width: '100%', padding: '12px 0', borderRadius: 12, background: 'transparent', border: '0.5px solid #ddd4c0', color: '#8a7a62', fontSize: 14, cursor: 'pointer', marginBottom: 14 }}>

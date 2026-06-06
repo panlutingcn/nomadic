@@ -53,7 +53,7 @@ export default function WelcomeModal({ nickname, onClose }: WelcomeModalProps) {
           {nickname ? <>Hi {nickname}，<br /></> : null}
           欢迎来到 Nomadic 此时此地！<br />
           {userCount !== null && (
-            <>你是这里的第 <strong style={{ color: '#1D9E75' }}>{userCount}</strong> 位大旅行家。<br /></>
+            <>你是这里的第 <strong style={{ color: '#178f68' }}>{userCount}</strong> 位大旅行家。<br /></>
           )}
           我们一起探索这个世界吧！
         </div>

@@ -200,7 +200,7 @@ export default function OnboardingPage() {
           </div>
           <button
             onClick={() => setStep('quiz')}
-            style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
+            style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#178f68', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer', marginBottom: 10 }}
           >
             开始旅行人格测试
           </button>
@@ -217,7 +217,7 @@ export default function OnboardingPage() {
       {step === 'quiz' && q && (
         <div style={{ width: '100%', maxWidth: 400 }}>
           <div style={{ height: 3, background: '#e2d9c8', borderRadius: 2, marginBottom: 24 }}>
-            <div style={{ height: '100%', width: `${progress}%`, background: '#1D9E75', borderRadius: 2, transition: 'width 0.3s ease' }} />
+            <div style={{ height: '100%', width: `${progress}%`, background: '#178f68', borderRadius: 2, transition: 'width 0.3s ease' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -233,7 +233,7 @@ export default function OnboardingPage() {
 
           {/* 维度标签 + 多选提示 */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 14 }}>
-            <div style={{ display: 'inline-block', fontSize: 11, color: '#1D9E75', fontWeight: 500, background: 'rgba(29,158,117,0.1)', padding: '3px 10px', borderRadius: 6 }}>
+            <div style={{ display: 'inline-block', fontSize: 11, color: '#178f68', fontWeight: 500, background: 'rgba(23,143,104,0.1)', padding: '3px 10px', borderRadius: 6 }}>
               {q.dimension}
             </div>
             {q.type === 'multi' && (
@@ -259,8 +259,8 @@ export default function OnboardingPage() {
                 style={{
                   width: '100%', display: 'flex', alignItems: 'flex-start', gap: 12,
                   padding: '13px 14px',
-                  background: isSelected ? 'rgba(29,158,117,0.06)' : '#fff',
-                  border: `0.5px solid ${isSelected ? '#1D9E75' : '#ddd4c0'}`,
+                  background: isSelected ? 'rgba(23,143,104,0.06)' : '#fff',
+                  border: `0.5px solid ${isSelected ? '#178f68' : '#ddd4c0'}`,
                   borderRadius: 12, cursor: maxReached ? 'default' : 'pointer',
                   marginBottom: 9, opacity: maxReached ? 0.45 : 1,
                   transition: 'opacity 150ms, border-color 150ms, background 150ms',
@@ -270,8 +270,8 @@ export default function OnboardingPage() {
                 {q.type === 'single' ? (
                   <div style={{
                     width: 18, height: 18, borderRadius: '50%', flexShrink: 0, marginTop: 1,
-                    border: `1.5px solid ${isSelected ? '#1D9E75' : '#ddd4c0'}`,
-                    background: isSelected ? '#1D9E75' : 'transparent',
+                    border: `1.5px solid ${isSelected ? '#178f68' : '#ddd4c0'}`,
+                    background: isSelected ? '#178f68' : 'transparent',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     {isSelected && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff' }} />}
@@ -279,8 +279,8 @@ export default function OnboardingPage() {
                 ) : (
                   <div style={{
                     width: 18, height: 18, borderRadius: 4, flexShrink: 0, marginTop: 1,
-                    border: `1.5px solid ${isSelected ? '#1D9E75' : '#ddd4c0'}`,
-                    background: isSelected ? '#1D9E75' : 'transparent',
+                    border: `1.5px solid ${isSelected ? '#178f68' : '#ddd4c0'}`,
+                    background: isSelected ? '#178f68' : 'transparent',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     {isSelected && <span style={{ fontSize: 11, color: '#fff', lineHeight: 1 }}>✓</span>}
@@ -301,7 +301,7 @@ export default function OnboardingPage() {
               style={{
                 width: '100%', padding: '12px 0', marginTop: 4,
                 borderRadius: 12, border: 'none',
-                background: (answers[currentQ] ?? []).length > 0 ? '#1D9E75' : '#ddd4c0',
+                background: (answers[currentQ] ?? []).length > 0 ? '#178f68' : '#ddd4c0',
                 color: '#fff', fontSize: 14, fontWeight: 500,
                 cursor: (answers[currentQ] ?? []).length > 0 ? 'pointer' : 'default',
                 transition: 'background 200ms',
@@ -354,7 +354,7 @@ export default function OnboardingPage() {
                   setShowLogin(true)
                 }
               }}
-              style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
+              style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#178f68', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
             >
               {user ? '查看人格详情' : '登录解锁五大洲推荐城市'}
             </button>

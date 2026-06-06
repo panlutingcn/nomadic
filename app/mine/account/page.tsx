@@ -106,7 +106,7 @@ export default function AccountPage() {
 
         {/* 头像 */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
-          <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(29,158,117,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, color: '#1D9E75', overflow: 'hidden', marginBottom: 8 }}>
+          <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(23,143,104,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, color: '#178f68', overflow: 'hidden', marginBottom: 8 }}>
             {profileAvatar
               ? <img src={profileAvatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               : <span style={{ fontWeight: 600 }}>{(nickname[0] || 'N').toUpperCase()}</span>
@@ -132,7 +132,7 @@ export default function AccountPage() {
           <button
             onClick={handleSaveNickname}
             disabled={savingNickname}
-            style={{ fontSize: 12, padding: '5px 12px', borderRadius: 8, background: nicknameSaved ? '#e8f5ee' : '#1D9E75', color: nicknameSaved ? '#085041' : '#fff', border: 'none', cursor: 'pointer', flexShrink: 0 }}
+            style={{ fontSize: 12, padding: '5px 12px', borderRadius: 8, background: nicknameSaved ? '#e8f5ee' : '#178f68', color: nicknameSaved ? '#085041' : '#fff', border: 'none', cursor: 'pointer', flexShrink: 0 }}
           >
             {nicknameSaved ? '✓ 已保存' : savingNickname ? '保存中…' : '保存'}
           </button>
@@ -161,7 +161,7 @@ export default function AccountPage() {
             </button>
           </div>
         ) : (
-          <div style={{ fontSize: 12, color: '#1D9E75', padding: '4px 0' }}>✓ 确认邮件已发送至新邮箱，请点击链接完成更换</div>
+          <div style={{ fontSize: 12, color: '#178f68', padding: '4px 0' }}>✓ 确认邮件已发送至新邮箱，请点击链接完成更换</div>
         )}
 
         {/* 密码重置 */}
@@ -175,7 +175,7 @@ export default function AccountPage() {
             <span style={{ fontSize: 14, color: '#c8bfaa' }}>›</span>
           </div>
         ) : (
-          <div style={{ fontSize: 12, color: '#1D9E75', padding: '8px 0' }}>✓ 重置邮件已发送至 {user.email}</div>
+          <div style={{ fontSize: 12, color: '#178f68', padding: '8px 0' }}>✓ 重置邮件已发送至 {user.email}</div>
         )}
 
         {/* 退出登录 */}

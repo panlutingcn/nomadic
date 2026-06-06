@@ -200,7 +200,7 @@ export default function BottomNav() {
       <button onClick={handleExplore} className="nav-btn" style={niStyle()}>
         <VolcanoIcon erupting={erupting} />
         <span style={{ fontSize: 10, color: isHome ? '#2d2418' : '#8a7a62', fontWeight: isHome ? 500 : 400 }}>探索</span>
-        {isHome && <div style={{ height: 2, width: 18, background: '#1D9E75', borderRadius: 1, marginTop: 1 }} />}
+        {isHome && <div style={{ height: 2, width: 18, background: '#178f68', borderRadius: 1, marginTop: 1 }} />}
       </button>
 
       {/* 印迹快门（居中） */}
@@ -210,31 +210,31 @@ export default function BottomNav() {
           className="nav-btn"
           style={{
             width: 50, height: 50, borderRadius: '50%',
-            border: isStory ? '1.5px solid #1D9E75' : '1.5px solid #c8bfaa',
+            border: isStory ? '1.5px solid #178f68' : '1.5px solid #c8bfaa',
             background: '#ede5d8', marginTop: -14, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: isStory ? '0 2px 8px rgba(29,158,117,0.25)' : '0 2px 8px rgba(0,0,0,0.09)',
+            boxShadow: isStory ? '0 2px 8px rgba(23,143,104,0.25)' : '0 2px 8px rgba(0,0,0,0.09)',
           }}
         >
           <div style={{
             width: 36, height: 36, borderRadius: '50%',
-            border: isStory ? '0.5px solid rgba(29,158,117,0.4)' : '0.5px solid #ddd4c0',
+            border: isStory ? '0.5px solid rgba(23,143,104,0.4)' : '0.5px solid #ddd4c0',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <div style={{
               width: 21, height: 21, borderRadius: '50%',
-              background: isStory ? 'rgba(29,158,117,0.2)' : 'rgba(0,0,0,0.08)',
+              background: isStory ? 'rgba(23,143,104,0.2)' : 'rgba(0,0,0,0.08)',
             }} />
           </div>
         </button>
-        <span style={{ fontSize: 10, color: isStory ? '#1D9E75' : '#8a7a62', fontWeight: isStory ? 500 : 400, marginTop: 2 }}>印迹</span>
+        <span style={{ fontSize: 10, color: isStory ? '#178f68' : '#8a7a62', fontWeight: isStory ? 500 : 400, marginTop: 2 }}>印迹</span>
       </div>
 
       {/* 我的 */}
       <button onClick={() => router.push('/mine')} className="nav-btn" style={niStyle()}>
         <span style={{ fontSize: 20 }}>🗺️</span>
         <span style={{ fontSize: 10, color: isMine ? '#2d2418' : '#8a7a62', fontWeight: isMine ? 500 : 400 }}>我的</span>
-        {isMine && <div style={{ height: 2, width: 18, background: '#1D9E75', borderRadius: 1, marginTop: 1 }} />}
+        {isMine && <div style={{ height: 2, width: 18, background: '#178f68', borderRadius: 1, marginTop: 1 }} />}
       </button>
     </nav>
   )

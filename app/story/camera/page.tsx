@@ -130,11 +130,11 @@ export default function CameraPage() {
               <button
                 onClick={handleConfirm}
                 aria-label="使用此照片"
-                style={{ width: 52, height: 52, borderRadius: '50%', border: '2px solid #1d9e75', background: 'rgba(29,158,117,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                style={{ width: 52, height: 52, borderRadius: '50%', border: '2px solid #178f68', background: 'rgba(23,143,104,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
               >
-                <span style={{ fontSize: 22, color: '#1d9e75' }}>✓</span>
+                <span style={{ fontSize: 22, color: '#178f68' }}>✓</span>
               </button>
-              <span style={{ fontSize: 10, color: '#1d9e75' }}>使用</span>
+              <span style={{ fontSize: 10, color: '#178f68' }}>使用</span>
             </div>
           </>
         ) : (

@@ -232,7 +232,7 @@ function SearchContent() {
               <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--text-primary)' }}>{cityData.name} {cityData.nameZh}</div>
               <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 3 }}>{cityData.flag} {cityData.country} {cityData.countryZh}</div>
               {isAiGenerated && (
-                <div style={{ display: 'inline-block', marginTop: 5, fontSize: 10, color: 'var(--accent)', background: 'rgba(29,158,117,0.08)', border: '0.5px solid rgba(29,158,117,0.25)', borderRadius: 6, padding: '2px 8px' }}>AI 实时生成</div>
+                <div style={{ display: 'inline-block', marginTop: 5, fontSize: 10, color: 'var(--accent)', background: 'rgba(23,143,104,0.08)', border: '0.5px solid rgba(23,143,104,0.25)', borderRadius: 6, padding: '2px 8px' }}>AI 实时生成</div>
               )}
             </div>
 

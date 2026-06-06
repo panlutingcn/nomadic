@@ -204,7 +204,7 @@ function PersonaDetailContent() {
         <div style={{ fontSize: 15, fontWeight: 500, color: '#2d2418', marginBottom: 8 }}>还没有旅行人格</div>
         <div style={{ fontSize: 13, color: '#8a7a62', marginBottom: 24 }}>完成 16 道题，解锁你的专属旅行者标签</div>
         <button onClick={() => router.push('/onboarding')}
-          style={{ padding: '12px 28px', borderRadius: 12, background: '#1D9E75', border: 'none', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
+          style={{ padding: '12px 28px', borderRadius: 12, background: '#178f68', border: 'none', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
           开始测试
         </button>
       </div>
@@ -285,7 +285,7 @@ function PersonaDetailContent() {
             <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>为你推荐的欧洲城市</div>
             <button
               onClick={() => setEuroRandomCities(getRandomEuroCities(personaKey))}
-              style={{ fontSize: 11, color: '#1D9E75', background: 'rgba(29,158,117,0.08)', border: '0.5px solid rgba(29,158,117,0.25)', borderRadius: 8, padding: '4px 10px', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ fontSize: 11, color: '#178f68', background: 'rgba(23,143,104,0.08)', border: '0.5px solid rgba(23,143,104,0.25)', borderRadius: 8, padding: '4px 10px', cursor: 'pointer', fontFamily: 'inherit' }}
             >
               🎲 惊喜随机掉落
             </button>
@@ -297,7 +297,7 @@ function PersonaDetailContent() {
               return (
                 <div key={city}
                   onClick={() => handleCityClick(city)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 12, background: isLoading ? 'rgba(29,158,117,0.12)' : 'rgba(29,158,117,0.06)', border: '0.5px solid rgba(29,158,117,0.2)', borderRadius: 11, padding: '10px 13px', cursor: isDisabled ? 'default' : 'pointer', opacity: isDisabled ? 0.5 : 1, transition: 'background 150ms' }}>
+                  style={{ display: 'flex', alignItems: 'center', gap: 12, background: isLoading ? 'rgba(23,143,104,0.12)' : 'rgba(23,143,104,0.06)', border: '0.5px solid rgba(23,143,104,0.2)', borderRadius: 11, padding: '10px 13px', cursor: isDisabled ? 'default' : 'pointer', opacity: isDisabled ? 0.5 : 1, transition: 'background 150ms' }}>
                   <span style={{ fontSize: 20, flexShrink: 0 }}>{isLoading ? '⏳' : '📍'}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418', marginBottom: 2 }}>{city}</div>
@@ -305,7 +305,7 @@ function PersonaDetailContent() {
                       <div style={{ fontSize: 11, color: '#6a8a6a', lineHeight: 1.4 }}>{isLoading ? 'AI 正在生成城市数据…' : reason}</div>
                     )}
                   </div>
-                  <span style={{ fontSize: 14, color: '#1D9E75', flexShrink: 0 }}>{isLoading ? '' : '›'}</span>
+                  <span style={{ fontSize: 14, color: '#178f68', flexShrink: 0 }}>{isLoading ? '' : '›'}</span>
                 </div>
               )
             })}
@@ -318,7 +318,7 @@ function PersonaDetailContent() {
             <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>七大洲推荐城市</div>
             <button
               onClick={() => setGlobalCities(getRandomGlobalCities(personaKey))}
-              style={{ fontSize: 11, color: '#1D9E75', background: 'rgba(29,158,117,0.08)', border: '0.5px solid rgba(29,158,117,0.25)', borderRadius: 8, padding: '4px 10px', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ fontSize: 11, color: '#178f68', background: 'rgba(23,143,104,0.08)', border: '0.5px solid rgba(23,143,104,0.25)', borderRadius: 8, padding: '4px 10px', cursor: 'pointer', fontFamily: 'inherit' }}
             >
               🎲 惊喜随机掉落
             </button>
@@ -335,11 +335,11 @@ function PersonaDetailContent() {
               return (
                 <div key={continent}
                   onClick={() => handleCityClick(city)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 12, background: isLoading ? 'rgba(29,158,117,0.12)' : 'rgba(29,158,117,0.06)', border: '0.5px solid rgba(29,158,117,0.2)', borderRadius: 11, padding: '10px 13px', cursor: 'pointer', transition: 'background 150ms' }}>
+                  style={{ display: 'flex', alignItems: 'center', gap: 12, background: isLoading ? 'rgba(23,143,104,0.12)' : 'rgba(23,143,104,0.06)', border: '0.5px solid rgba(23,143,104,0.2)', borderRadius: 11, padding: '10px 13px', cursor: 'pointer', transition: 'background 150ms' }}>
                   <span style={{ fontSize: 20, flexShrink: 0 }}>{isLoading ? '⏳' : continentEmoji[continent]}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418', marginBottom: 2 }}>
-                      <span style={{ fontWeight: 400, color: '#1D9E75' }}>{continent}｜</span>
+                      <span style={{ fontWeight: 400, color: '#178f68' }}>{continent}｜</span>
                       {isLoading ? 'AI 生成中…' : city}
                     </div>
                     {desc && !isLoading && (
@@ -347,7 +347,7 @@ function PersonaDetailContent() {
                     )}
                     {isLoading && <div style={{ fontSize: 11, color: '#6a8a6a', lineHeight: 1.4 }}>AI 正在生成城市数据…</div>}
                   </div>
-                  <span style={{ fontSize: 14, color: '#1D9E75', flexShrink: 0 }}>{isLoading ? '' : '›'}</span>
+                  <span style={{ fontSize: 14, color: '#178f68', flexShrink: 0 }}>{isLoading ? '' : '›'}</span>
                 </div>
               )
             })}
