@@ -297,7 +297,7 @@ a { text-decoration: none; }
     0 1px 3px rgba(0, 0, 0, 0.10),
     0 0 0 1px rgba(255, 255, 255, 0.82),
     inset 0 2px 0 rgba(255, 255, 255, 1);
-  color: var(--accent-text) !important;
+  color: var(--accent) !important;
   transition: box-shadow 150ms ease, transform 120ms ease !important;
 }
 .crystal-tag:hover {

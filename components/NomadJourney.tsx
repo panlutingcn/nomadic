@@ -83,7 +83,7 @@ export default function NomadJourney() {
                 <div style={{
                   fontFamily: 'Georgia, serif',
                   fontWeight: 500,
-                  color: 'var(--accent-text)',
+                  color: 'var(--accent)',
                   fontSize: station.numeralSize,
                   lineHeight: 1,
                   marginBottom: 3,
@@ -125,7 +125,7 @@ export default function NomadJourney() {
                 <div style={{
                   fontSize: 15,
                   fontWeight: 500,
-                  color: 'var(--accent-text)',
+                  color: 'var(--accent)',
                   marginBottom: 8,
                 }}>
                   {station.title}

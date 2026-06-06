@@ -66,7 +66,7 @@ export default function TopNav() {
             className="top-nav-logo"
             style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
           >
-            <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 28, width: 'auto', display: 'block' }} />
+            <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 28, width: 'auto', display: 'block', filter: 'brightness(0) saturate(100%) invert(52%) sepia(57%) saturate(447%) hue-rotate(117deg) brightness(87%)' }} />
           </div>
         </div>
 
