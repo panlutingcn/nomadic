@@ -103,6 +103,7 @@ export default function NomadJourney() {
                 onClick={() => handleClick(station)}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
+                className={!hovered ? 'journey-card-pulse' : undefined}
                 style={{
                   width: '100%',
                   background: hovered
@@ -117,7 +118,8 @@ export default function NomadJourney() {
                   cursor: 'pointer',
                   boxShadow: hovered
                     ? '0 8px 32px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.06), inset 0 1.5px 0 rgba(255,255,255,1)'
-                    : '0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.05), inset 0 1.5px 0 rgba(255,255,255,0.95)',
+                    : undefined,
+                  animationDelay: `${i * 0.75}s`,
                   transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
                   transition: 'background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease',
                 }}
