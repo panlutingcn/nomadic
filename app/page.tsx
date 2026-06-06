@@ -88,10 +88,10 @@ export default function ExplorePage() {
               style={{ height: 50, width: 'auto', display: 'block', margin: '0 auto 4px', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }}
             />
             <div style={{ fontSize: 13, fontWeight: 500, color: '#3d3020', marginBottom: 2, textAlign: 'center' }}>
-              旅居者的城市深度洞察平台
+              环球旅居者的城市深度洞察平台
             </div>
-            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginBottom: 14, textAlign: 'center' }}>
-              在世界各地扎根，而不只是路过。
+            <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 14, textAlign: 'center' }}>
+              The Deep-Dive Platform for Global Wanderers
             </div>
 
             <div style={{ width: '100%' }}>
@@ -151,7 +151,7 @@ export default function ExplorePage() {
           <div style={{ textAlign: 'center', marginBottom: 20 }}>
             <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
             <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 600 }}>
-              The Deep-Dive Platform for Global Wanderers
+              在世界各地扎根，而不只是路过。
             </div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
               Rooted in the world, never just passing by.
