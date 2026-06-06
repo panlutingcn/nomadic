@@ -56,17 +56,10 @@ export default function CityReports({ city: _city }: CityReportsProps) {
   }
 
   return (
-    <div style={{
-      background: 'var(--bg-card-2)',
-      borderRadius: 10,
-      padding: '1rem 1.1rem',
-      marginBottom: 11,
-      position: 'relative',
-    }}>
-      {/* Toast */}
+    <div style={{ position: 'relative' }}>
       {toast && (
         <div style={{
-          position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)',
+          position: 'absolute', top: -4, left: '50%', transform: 'translateX(-50%)',
           background: 'rgba(45,36,24,0.85)', color: '#fff',
           fontSize: 12, padding: '6px 14px', borderRadius: 20,
           whiteSpace: 'nowrap', zIndex: 10, pointerEvents: 'none',
@@ -75,30 +68,8 @@ export default function CityReports({ city: _city }: CityReportsProps) {
         </div>
       )}
 
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-        <div>
-          <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 2 }}>城市深度报告</div>
-          <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>针对具体议题的付费深度内容</div>
-        </div>
-        <span style={{
-          background: '#FAECE7',
-          color: '#993C1D',
-          fontSize: 10,
-          padding: '2px 9px',
-          borderRadius: 20,
-          whiteSpace: 'nowrap',
-          flexShrink: 0,
-          marginLeft: 8,
-          alignSelf: 'center',
-        }}>
-          付费解锁
-        </span>
-      </div>
-
-      {/* Report list */}
-      <div>
-        {REPORTS.map((report, i) => (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {REPORTS.map((report) => (
           <div
             key={report.id}
             style={{
@@ -106,16 +77,17 @@ export default function CityReports({ city: _city }: CityReportsProps) {
               alignItems: 'center',
               justifyContent: 'space-between',
               gap: 10,
-              padding: '10px 0',
-              borderTop: i > 0 ? '0.5px solid var(--border-light)' : 'none',
-              opacity: report.status === 'coming-soon' ? 0.55 : 1,
+              padding: '10px 12px',
+              background: 'rgba(255,255,255,0.92)',
+              borderRadius: 8,
+              opacity: report.status === 'coming-soon' ? 0.65 : 1,
             }}
           >
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 3 }}>
+              <div style={{ fontSize: 13, fontWeight: 500, color: '#0d2e1c', marginBottom: 3 }}>
                 {report.title}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{report.tags}</div>
+              <div style={{ fontSize: 11, color: '#4a7a5e' }}>{report.tags}</div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
               {report.status === 'available' ? (
@@ -139,13 +111,13 @@ export default function CityReports({ city: _city }: CityReportsProps) {
                 </>
               ) : (
                 <>
-                  <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>即将上线</span>
+                  <span style={{ fontSize: 12, color: '#4a7a5e' }}>即将上线</span>
                   <button
                     onClick={() => handleWaitlist(report)}
                     style={{
                       background: 'transparent',
-                      color: '#1D9E75',
-                      border: '0.5px solid #1D9E75',
+                      color: '#fff',
+                      border: '0.5px solid rgba(255,255,255,0.55)',
                       borderRadius: 8,
                       padding: '8px 18px',
                       fontSize: 12,
@@ -162,14 +134,8 @@ export default function CityReports({ city: _city }: CityReportsProps) {
         ))}
       </div>
 
-      {/* Footer */}
-      <div style={{
-        textAlign: 'center',
-        marginTop: 8,
-        paddingTop: 8,
-        borderTop: '0.5px solid var(--border-light)',
-      }}>
-        <span style={{ fontSize: 11, color: 'var(--text-muted)', cursor: 'pointer' }}>
+      <div style={{ textAlign: 'center', marginTop: 10 }}>
+        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
           查看全部 {REPORTS.length} 报告 →
         </span>
       </div>

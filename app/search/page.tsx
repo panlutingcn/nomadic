@@ -49,6 +49,7 @@ function SearchContent() {
 
   useEffect(() => {
     if (!q) { setPhase('error'); return }
+    window.scrollTo(0, 0)
     setPhase('loading')
     setCityData(null)
     setIsAiGenerated(false)
@@ -181,13 +182,13 @@ function SearchContent() {
         {/* 搜索栏 + 收藏/分享按钮 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
           <button onClick={() => router.back()} style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0 }}>← 返回</button>
-          <div style={{ flex: 1, background: 'var(--bg-card)', border: '0.5px solid var(--border-light)', borderRadius: 10, padding: '8px 12px', fontSize: 13, color: 'var(--text-primary)' }}>{q}</div>
+          <div style={{ flex: 1 }} />
           {phase === 'result' && cityData && (
             <>
-              <button onClick={handleSave} style={{ width: 30, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 7, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: isCitySaved(cityData.name) ? 'var(--accent)' : 'var(--text-secondary)', cursor: 'pointer', flexShrink: 0 }}>
+              <button onClick={handleSave} style={{ width: 30, height: 30, border: 'none', borderRadius: 7, background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: '#fff', cursor: 'pointer', flexShrink: 0 }}>
                 {isCitySaved(cityData.name) ? '♥' : '♡'}
               </button>
-              <button onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())} aria-label="分享" style={{ width: 32, height: 30, border: '0.5px solid var(--border-light)', borderRadius: 8, background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--text-secondary)', cursor: 'pointer', flexShrink: 0 }}>⤴</button>
+              <button onClick={(e) => setShareAnchor(e.currentTarget.getBoundingClientRect())} aria-label="分享" style={{ width: 32, height: 30, border: 'none', borderRadius: 8, background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, color: '#fff', cursor: 'pointer', flexShrink: 0 }}>⤴</button>
             </>
           )}
         </div>

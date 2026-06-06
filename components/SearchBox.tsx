@@ -87,7 +87,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
   const handleSearch = () => {
     if (!query.trim()) return
     setLoading(true)
-    router.push(`/search?q=${encodeURIComponent(query.trim())}`)
+    router.push(`/insights?q=${encodeURIComponent(query.trim())}`)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

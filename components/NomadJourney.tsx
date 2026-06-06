@@ -19,7 +19,7 @@ const STATIONS = [
     title: '一座城市，四个象限',
     subtitle: '四个维度深度解读城市，连接在地向导咨询',
     english: 'Four lenses, one city — consult real locals',
-    href: '/search?q=柏林',
+    href: '/insights?q=柏林',
   },
   {
     numeral: 'III',

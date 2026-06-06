@@ -36,7 +36,7 @@ export default function ExplorePage() {
   }, [])
 
   const handleCityClick = (city: NomadCity) => {
-    router.push(`/search?q=${encodeURIComponent(city.zh)}`)
+    router.push(`/insights?q=${encodeURIComponent(city.zh)}`)
   }
 
   const handleRandomExplore = () => {

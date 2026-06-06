@@ -7,17 +7,22 @@ import LoginModal from '@/components/LoginModal'
 const TABS = [
   {
     path: '/',
-    label: '探索世界',
-    match: (p: string) => p === '/' || p.startsWith('/search') || p.startsWith('/insights'),
+    label: '出发',
+    match: (p: string) => p === '/' || p.startsWith('/search'),
+  },
+  {
+    path: '/insights',
+    label: '洞察',
+    match: (p: string) => p.startsWith('/insights'),
   },
   {
     path: '/meet',
-    label: '旅行印迹',
+    label: '到达',
     match: (p: string) => p === '/meet' || p.startsWith('/imprint') || p === '/story' || p.startsWith('/story/'),
   },
   {
     path: '/mine',
-    label: '我的版图',
+    label: '版图',
     match: (p: string) => p === '/mine' || p.startsWith('/mine/'),
   },
 ]

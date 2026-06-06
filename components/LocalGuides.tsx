@@ -42,7 +42,7 @@ interface LocalGuidesProps {
   city: string
 }
 
-export default function LocalGuides({ city }: LocalGuidesProps) {
+export default function LocalGuides({ city: _city }: LocalGuidesProps) {
   const [toast, setToast] = useState('')
 
   const showToast = (msg: string) => {
@@ -61,8 +61,7 @@ export default function LocalGuides({ city }: LocalGuidesProps) {
   }
 
   return (
-    <div style={{ marginBottom: 10, position: 'relative' }}>
-      {/* Toast */}
+    <div style={{ position: 'relative' }}>
       {toast && (
         <div style={{
           position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
@@ -74,50 +73,37 @@ export default function LocalGuides({ city }: LocalGuidesProps) {
         </div>
       )}
 
-      {/* Section header */}
-      <div style={{ marginBottom: '1rem' }}>
-        <div style={{ fontSize: 16, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 4 }}>
-          在地专业咨询
-        </div>
-        <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-          与真正在 {city} 生活的人对话——他们掌握你在任何攻略里找不到的一手信息
-        </div>
-      </div>
-
-      {/* Guide cards */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {GUIDES.map(guide => (
           <GuideCard key={guide.id} guide={guide} onBook={handleBook} />
         ))}
 
-        {/* More coming placeholder */}
         <div style={{
-          background: 'var(--bg-card)',
-          border: '0.5px solid var(--border-light)',
+          background: 'rgba(255,255,255,0.3)',
+          border: '0.5px solid rgba(255,255,255,0.5)',
           borderRadius: 12,
           padding: '1rem 1.1rem',
           display: 'flex',
           gap: 12,
-          opacity: 0.6,
+          opacity: 0.7,
         }}>
           <div style={{
             width: 44, height: 44, borderRadius: '50%',
-            background: 'var(--bg-card-2)',
+            background: 'rgba(255,255,255,0.4)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 18, color: 'var(--text-muted)',
+            fontSize: 18, color: '#fff',
             flexShrink: 0,
           }}>
             +
           </div>
           <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-            <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>更多在地向导即将上线</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)' }}>更多在地向导即将上线</div>
           </div>
         </div>
       </div>
 
-      {/* Recruit banner */}
       <div style={{
-        background: 'var(--bg-card-2)',
+        background: 'rgba(255,255,255,0.12)',
         borderRadius: 10,
         padding: '0.875rem 1.1rem',
         display: 'flex',
@@ -126,17 +112,17 @@ export default function LocalGuides({ city }: LocalGuidesProps) {
         marginTop: 12,
       }}>
         <div>
-          <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 2 }}>
+          <div style={{ fontSize: 12, fontWeight: 500, color: '#fff', marginBottom: 2 }}>
             想成为在地向导？
           </div>
-          <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>分享你的在地经验，接受付费咨询</div>
+          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>分享你的在地经验，接受付费咨询</div>
         </div>
         <button
           onClick={handleApply}
           style={{
             background: 'transparent',
-            border: '0.5px solid #1D9E75',
-            color: '#1D9E75',
+            border: '0.5px solid rgba(255,255,255,0.55)',
+            color: '#fff',
             borderRadius: 8,
             padding: '8px 18px',
             fontSize: 12,
@@ -157,8 +143,8 @@ function GuideCard({ guide, onBook }: { guide: Guide; onBook: (g: Guide) => void
   return (
     <div
       style={{
-        background: 'var(--bg-card)',
-        border: '0.5px solid var(--border-light)',
+        background: 'rgba(255,255,255,0.92)',
+        border: '0.5px solid rgba(255,255,255,0.8)',
         borderRadius: 12,
         padding: '1rem 1.1rem',
         display: 'flex',
@@ -167,9 +153,8 @@ function GuideCard({ guide, onBook }: { guide: Guide; onBook: (g: Guide) => void
         transition: 'border-color 0.18s ease',
       }}
       onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#1D9E75' }}
-      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-light)' }}
+      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.8)' }}
     >
-      {/* Avatar */}
       <div style={{
         width: 44, height: 44, borderRadius: '50%',
         background: guide.avatarBg,
@@ -181,7 +166,6 @@ function GuideCard({ guide, onBook }: { guide: Guide; onBook: (g: Guide) => void
         {guide.name[0]}
       </div>
 
-      {/* Info */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 2 }}>
           {guide.name}
@@ -205,7 +189,6 @@ function GuideCard({ guide, onBook }: { guide: Guide; onBook: (g: Guide) => void
         <div style={{ fontSize: 12, fontWeight: 500, color: '#1D9E75' }}>{guide.price}</div>
       </div>
 
-      {/* Book button */}
       <button
         onClick={e => { e.stopPropagation(); onBook(guide) }}
         style={{
