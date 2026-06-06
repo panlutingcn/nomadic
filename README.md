@@ -180,7 +180,7 @@ nomadic/
 
 ## About the Founder
 
-**Luna 潘璐婷** — Founder · Solo Builder · AI Product Manager
+**Luna** — Founder · Solo Builder · AI Product Manager
 
 - Traveled to 30+ countries
 - 4 years studying and living in Germany
