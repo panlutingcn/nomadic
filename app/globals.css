@@ -394,6 +394,93 @@ a { text-decoration: none; }
   transform: translateX(-2px);
 }
 
+/* ── Hero Logo 水晶立体框 ── */
+.logo-crystal-frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px 14px;
+  border-radius: 22px;
+  margin: 0 auto 8px;
+  background: linear-gradient(
+    158deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 0.5px solid rgba(255, 255, 255, 0.30);
+  box-shadow:
+    0 22px 64px rgba(0, 0, 0, 0.55),
+    0 8px 20px rgba(0, 0, 0, 0.38),
+    0 2px 6px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.22),
+    inset 0 2px 0 rgba(255, 255, 255, 0.82),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.14),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
+  transform: perspective(900px) rotateX(2deg);
+  position: relative;
+  overflow: hidden;
+}
+.logo-crystal-frame::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 52%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.00) 100%
+  );
+  pointer-events: none;
+  border-radius: 22px 22px 0 0;
+}
+.logo-crystal-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 12%; right: 12%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(46, 201, 144, 0.40) 40%,
+    rgba(255, 255, 255, 0.30) 60%,
+    transparent 100%
+  );
+}
+
+/* ── Forest 深绿主题（出发页专用） ── */
+[data-theme="forest"] {
+  --text-primary:   rgba(255,255,255,0.95);
+  --text-secondary: rgba(255,255,255,0.68);
+  --text-muted:     rgba(255,255,255,0.48);
+  --border:         rgba(255,255,255,0.14);
+  --bg-card:        rgba(255,255,255,0.09);
+  --bg-card-2:      rgba(255,255,255,0.13);
+}
+
+[data-theme="forest"] .crystal-tag {
+  background: rgba(255,255,255,0.12) !important;
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.20),
+    0 0 0 1px rgba(255,255,255,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.22) !important;
+  color: rgba(255,255,255,0.90) !important;
+}
+[data-theme="forest"] .crystal-tag:hover {
+  background: rgba(255,255,255,0.20) !important;
+  box-shadow:
+    0 4px 14px rgba(0,0,0,0.24),
+    0 0 0 1px rgba(255,255,255,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.30) !important;
+}
+
+[data-theme="forest"] .journey-card-pulse {
+  background: rgba(255,255,255,0.09) !important;
+  border: 0.5px solid rgba(255,255,255,0.18) !important;
+}
+
 /* ── 侧边栏导航项玻璃效果（非激活态） ── */
 .glass-nav-btn {
   backdrop-filter: blur(8px);
