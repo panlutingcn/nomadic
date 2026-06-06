@@ -88,7 +88,7 @@ export default function MinePage() {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 15, fontWeight: 500, color: '#2d2418', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {profileNickname ?? '世界旅人'}
+              {profileNickname ?? '世界公民'}
             </div>
             <div style={{ fontSize: 11, color: '#8a7a62', marginTop: 2 }}>{savedCities.length} 个收藏 · {imprints.length} 个印迹</div>
           </div>

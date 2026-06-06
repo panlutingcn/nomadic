@@ -505,9 +505,16 @@ export default function StoryPage() {
           </button>
         ))}
 
-        <button onClick={handlePublish} disabled={publishing || published} style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: published ? '#e8f5ee' : 'var(--accent)', border: published ? '1px solid #1D9E75' : 'none', color: published ? '#085041' : '#fff', fontSize: 16, fontWeight: 500, cursor: (publishing || published) ? 'not-allowed' : 'pointer', opacity: publishing ? 0.7 : 1, marginTop: 4, transition: 'all 0.3s' }}>
-          {published ? '✓ 已发布' : publishing ? '发布中…' : '发布印迹'}
-        </button>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 12, gap: 10 }}>
+          <button onClick={handlePublish} disabled={publishing || published} style={{ width: 80, height: 80, borderRadius: '50%', border: `3px solid ${published ? '#1D9E75' : 'var(--accent)'}`, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: (publishing || published) ? 'not-allowed' : 'pointer', opacity: publishing ? 0.7 : 1, transition: 'all 0.3s', padding: 0, flexShrink: 0 }}>
+            <div style={{ width: 62, height: 62, borderRadius: '50%', background: published ? '#e8f5ee' : 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, color: published ? '#085041' : '#fff', transition: 'all 0.3s' }}>
+              {published ? '✓' : publishing ? '…' : '📍'}
+            </div>
+          </button>
+          <div style={{ fontSize: 13, color: published ? '#085041' : 'var(--text-secondary)', fontWeight: published ? 500 : 400 }}>
+            {published ? '已发布' : publishing ? '发布中…' : '发布印迹'}
+          </div>
+        </div>
         </div>{/* /desktop-page-inner-wrap */}
       </div>
       <div style={{ height: 32 }} />
