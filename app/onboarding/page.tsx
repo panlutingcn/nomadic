@@ -167,6 +167,11 @@ export default function OnboardingPage() {
     router.replace('/')
   }
 
+  const neverRemind = () => {
+    localStorage.setItem('nomadic_never_remind', 'true')
+    router.replace('/')
+  }
+
   const handleBack = () => {
     if (currentQ > 0) setCurrentQ(q => q - 1)
   }
@@ -206,9 +211,15 @@ export default function OnboardingPage() {
           </button>
           <button
             onClick={skipOnboarding}
-            style={{ width: '100%', padding: '12px 0', borderRadius: 12, background: 'transparent', border: '0.5px solid #ddd4c0', color: '#8a7a62', fontSize: 14, cursor: 'pointer' }}
+            style={{ width: '100%', padding: '12px 0', borderRadius: 12, background: 'transparent', border: '0.5px solid #ddd4c0', color: '#8a7a62', fontSize: 14, cursor: 'pointer', marginBottom: 14 }}
           >
             稍后再说，先看看
+          </button>
+          <button
+            onClick={neverRemind}
+            style={{ background: 'none', border: 'none', fontSize: 13, color: '#b8a98a', textDecoration: 'none', cursor: 'pointer' }}
+          >
+            以后不再提醒
           </button>
         </div>
       )}
