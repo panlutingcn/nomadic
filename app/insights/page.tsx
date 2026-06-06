@@ -374,7 +374,7 @@ export default function InsightsPage() {
                   )}
                   {'housing' in city.landing && city.landing.housing && (
                     <div style={{ marginBottom: 11 }}>
-                      <div style={{ border: '0.5px solid #9fd4b8', borderRadius: 7, padding: '8px 11px', marginBottom: ('housingLinks' in city.landing && city.landing.housingLinks?.length) ? 8 : 0 }}>
+                      <div style={{ border: '0.5px solid #9fd4b8', borderRadius: 7, padding: '8px 11px', marginBottom: ('housingLinks' in city.landing && (city.landing as { housingLinks?: unknown[] }).housingLinks?.length) ? 8 : 0 }}>
                         <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--accent-text)', marginBottom: 5 }}>🏠 住房租房</div>
                         <div style={{ fontSize: 12, color: '#3a8a64', lineHeight: 1.65 }}>{city.landing.housing}</div>
                       </div>
