@@ -615,6 +615,21 @@ export default function InsightsPage() {
         )}{/* /searchPhase idle */}
       </div>{/* /desktop-search-wrap */}
       </div>{/* /page-inner */}
+      {/* ── 页脚 ── */}
+      <footer style={{ marginTop: 8, borderTop: '0.5px solid var(--border)', paddingTop: 24, paddingBottom: 8 }}>
+        <div style={{ textAlign: 'center', marginBottom: 20 }}>
+          <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px' }} />
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 600 }}>
+            The Deep-Dive Platform for Global Wanderers
+          </div>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
+            Rooted in the world, never just passing by.
+          </div>
+        </div>
+        <div style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.8 }}>
+          <div>© 2026 Nomadic · nomadictree.io</div>
+        </div>
+      </footer>
       <div style={{ height: 32 }} />
       <BottomNav />
 
