@@ -620,7 +620,7 @@ export default function InsightsPage() {
         <div style={{ textAlign: 'center', marginBottom: 20 }}>
           <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
           <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 600 }}>
-            The Deep-Dive Platform for Global Wanderers
+            在世界各地扎根，而不只是路过。
           </div>
           <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
             Rooted in the world, never just passing by.

@@ -188,10 +188,10 @@ export default function OnboardingPage() {
       {step === 'welcome' && (
         <div style={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-            <img src="/globe-icon.png" alt="globe" style={{ width: 100, height: 100, objectFit: 'contain' }} />
+            <img src="/globe-icon.png" alt="globe" style={{ width: 100, height: 100, objectFit: 'contain', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}>
-            <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 36, width: 'auto' }} />
+            <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 36, width: 'auto', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
           </div>
           <div style={{ fontSize: 13, color: '#4a3c28', marginBottom: 4 }}>在世界各地扎根，而不只是路过。</div>
           <div style={{ height: 0.5, background: '#e2d9c8', margin: '16px 0' }} />
