@@ -53,7 +53,7 @@ export default function MeetPage() {
 
   const handlePublish = () => {
     if (!user) { setShowLogin(true); return }
-    router.push('/story')
+    router.push('/story/camera')
   }
 
   const filtered = activeCity === '全部'
@@ -68,18 +68,18 @@ export default function MeetPage() {
         <div className="meet-content-wrap" style={{ display: 'flex', justifyContent: 'center' }}>
           <button
             onClick={handlePublish}
+            aria-label="发布印迹"
             style={{
-              display: 'flex', alignItems: 'center', gap: 8,
+              width: 64, height: 64, borderRadius: '50%',
+              border: '3px solid #fff',
               background: 'linear-gradient(135deg, #34d899 0%, #178f68 50%, #15896a 100%)',
-              border: 'none', borderRadius: 32,
-              padding: '13px 36px',
-              cursor: 'pointer', fontSize: 15, fontWeight: 600, color: '#fff',
-              letterSpacing: '0.02em',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', padding: 0,
               boxShadow: '0 6px 24px rgba(23,143,104,0.45), 0 2px 8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.25)',
               transition: 'transform 150ms ease, box-shadow 150ms ease',
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.04) translateY(-1px)'
+              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06) translateY(-1px)'
               ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 10px 32px rgba(23,143,104,0.55), 0 3px 10px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.28)'
             }}
             onMouseLeave={e => {
@@ -87,8 +87,7 @@ export default function MeetPage() {
               ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 24px rgba(23,143,104,0.45), 0 2px 8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.25)'
             }}
           >
-            <span style={{ fontSize: 17 }}>✏️</span>
-            发布印迹
+            <span style={{ fontSize: 24 }}>📷</span>
           </button>
         </div>
       </div>
