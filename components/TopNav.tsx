@@ -36,20 +36,10 @@ export default function TopNav() {
   const [hoveredLogin, setHoveredLogin] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
-  const [forestPage, setForestPage] = useState(false)
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  useEffect(() => {
-    const check = () => setForestPage(document.body.classList.contains('page-forest'))
-    check()
-    const obs = new MutationObserver(check)
-    obs.observe(document.body, { attributes: true, attributeFilter: ['class'] })
-    return () => obs.disconnect()
   }, [])
 
   return (
@@ -59,11 +49,11 @@ export default function TopNav() {
         top: 0, left: 0, right: 0,
         zIndex: 500,
         height: 56,
-        background: 'rgba(255,253,249,0.85)',
-        backdropFilter: 'blur(20px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-        borderBottom: '0.5px solid rgba(255,248,228,0.70)',
-        boxShadow: '0 1px 16px rgba(180,150,90,0.08), inset 0 -1px 0 rgba(255,255,255,0.55)',
+        background: scrolled ? 'rgba(255,253,249,0.68)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'blur(0px)',
+        WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'blur(0px)',
+        borderBottom: scrolled ? '0.5px solid rgba(255,248,228,0.70)' : 'none',
+        boxShadow: scrolled ? '0 1px 16px rgba(180,150,90,0.08), inset 0 -1px 0 rgba(255,255,255,0.55)' : 'none',
         display: 'flex',
         alignItems: 'center',
         padding: '0 20px',
@@ -100,11 +90,7 @@ export default function TopNav() {
                   cursor: 'pointer',
                   fontSize: 14,
                   fontWeight: active ? 600 : 400,
-                  color: active
-                    ? '#178f68'
-                    : hovered
-                      ? 'var(--text-primary)'
-                      : 'rgba(45,36,24,0.55)',
+                  color: active ? '#178f68' : hovered ? 'var(--text-primary)' : 'rgba(45,36,24,0.55)',
                   padding: '6px 14px',
                   borderRadius: 10,
                   position: 'relative',

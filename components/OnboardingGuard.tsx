@@ -23,7 +23,7 @@ export default function OnboardingGuard({ children }: { children: React.ReactNod
     if (!onboarded) {
       router.replace('/onboarding')
     } else if (!personaKey && !neverRemind && !skipThisSession) {
-      router.replace('/onboarding/remind')
+      router.replace('/onboarding')
     }
   }, [pathname, user?.id, loading])
 

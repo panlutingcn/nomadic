@@ -6,7 +6,6 @@ import nextDynamic from 'next/dynamic'
 import SearchBox, { SearchBoxHandle } from '@/components/SearchBox'
 import NomadJourney from '@/components/NomadJourney'
 import ErrorToast from '@/components/ErrorToast'
-import CrystalLogoText from '@/components/CrystalLogoText'
 import { PINNED_CITIES, NOMAD_CITY_POOL, NomadCity } from '@/data/nomadCities'
 import { shuffle } from '@/utils/shuffle'
 
@@ -25,16 +24,6 @@ export default function ExplorePage() {
 
   useEffect(() => {
     setRandomCities(shuffle(NOMAD_CITY_POOL).slice(0, RANDOM_COUNT))
-  }, [])
-
-  useEffect(() => {
-    const prev = document.body.style.background
-    document.body.style.background = '#061410'
-    document.body.classList.add('page-forest')
-    return () => {
-      document.body.style.background = prev
-      document.body.classList.remove('page-forest')
-    }
   }, [])
 
   useEffect(() => {
@@ -59,8 +48,8 @@ export default function ExplorePage() {
   const displayCities: NomadCity[] = [...PINNED_CITIES, ...randomCities]
 
   return (
-    <div data-theme="forest" style={{ minHeight: '100vh', background: 'radial-gradient(ellipse at 65% 48%, #1e8a4a 0%, #0d3c1e 44%, #061410 100%)', display: 'flex', flexDirection: 'column' }}>
-      <div className="page-inner" style={{ flex: 1, padding: '60px 16px 10px' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column' }}>
+      <div className="page-inner" style={{ flex: 1, padding: '64px 16px 10px' }}>
 
         {/* ── Hero Globe ── */}
         <div style={{
@@ -70,7 +59,7 @@ export default function ExplorePage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: 28,
+          marginBottom: 8,
         }}>
           <div style={{
             position: 'absolute',
@@ -78,8 +67,7 @@ export default function ExplorePage() {
             transform: 'translate(-50%, -50%)',
             zIndex: 1,
             pointerEvents: 'none',
-            opacity: 0.22,
-            filter: 'invert(1) brightness(1.6)',
+            opacity: 0.20,
           }}>
             <HeroGlobe size={globeSize} />
           </div>
@@ -94,11 +82,15 @@ export default function ExplorePage() {
             alignItems: 'center',
             padding: '0 16px',
           }}>
-            <CrystalLogoText height={52} style={{ marginBottom: 4 }} />
-            <div style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.62)', marginBottom: 2, textAlign: 'center' }}>
+            <img
+              src="/logo-nomadic-t.png"
+              alt="Nomadic"
+              style={{ height: 50, width: 'auto', display: 'block', margin: '0 auto 4px', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }}
+            />
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#3d3020', marginBottom: 2, textAlign: 'center' }}>
               环球旅居者的城市深度洞察平台
             </div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.42)', marginBottom: 14, textAlign: 'center' }}>
+            <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 14, textAlign: 'center' }}>
               The Deep-Dive Platform for Global Wanderers
             </div>
 
@@ -153,32 +145,24 @@ export default function ExplorePage() {
         {/* ── 用户旅程 ── */}
         <NomadJourney />
 
-      </div>
 
         {/* ── 页脚 ── */}
-        <footer style={{
-          marginTop: 8,
-          background: 'rgba(255,253,249,0.85)',
-          backdropFilter: 'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          borderTop: '0.5px solid rgba(255,248,228,0.70)',
-          boxShadow: '0 -1px 16px rgba(180,150,90,0.08), inset 0 1px 0 rgba(255,255,255,0.55)',
-          paddingTop: 24, paddingBottom: 16,
-          paddingLeft: 16, paddingRight: 16,
-        }}>
-          <div style={{ textAlign: 'center', marginBottom: 16 }}>
+        <footer style={{ marginTop: 8, borderTop: '0.5px solid var(--border)', paddingTop: 24, paddingBottom: 8 }}>
+          <div style={{ textAlign: 'center', marginBottom: 20 }}>
             <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 30, width: 'auto', display: 'block', margin: '0 auto 8px', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
-            <div style={{ fontSize: 12, color: 'rgba(45,36,24,0.72)', lineHeight: 1.7, fontWeight: 600 }}>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 600 }}>
               在世界各地扎根，而不只是路过。
             </div>
-            <div style={{ fontSize: 12, color: 'rgba(45,36,24,0.48)', lineHeight: 1.7 }}>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
               Rooted in the world, never just passing by.
             </div>
           </div>
-          <div style={{ textAlign: 'center', fontSize: 12, color: 'rgba(45,36,24,0.38)', lineHeight: 1.8 }}>
+          <div style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.8 }}>
             <div>© 2026 Nomadic · nomadictree.io</div>
           </div>
         </footer>
+
+      </div>
 
       {errorMessage && <ErrorToast onClose={() => setErrorMessage('')} />}
     </div>
