@@ -40,7 +40,6 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
   const [pulsing, setPulsing] = useState(false)
   const [focused, setFocused] = useState(false)
   const [hoveredGo, setHoveredGo] = useState(false)
-  const [isMobile, setIsMobile] = useState(true)
   const router = useRouter()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -56,13 +55,6 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
     search: () => { handleSearch() },
     startLoading: () => { setLoading(true) },
   }))
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
 
   useEffect(() => {
     const prompt = getDailyPrompt()
@@ -139,9 +131,9 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
       borderRadius: '14px',
       padding: '8px 12px',
       display: 'flex',
-      flexDirection: isMobile ? 'row' : 'column',
-      alignItems: isMobile ? 'center' : 'stretch',
-      gap: isMobile ? '10px' : '6px',
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      gap: '6px',
       margin: '8px 0 4px',
       boxShadow: containerShadow,
       animation: containerAnimation,
@@ -158,7 +150,6 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
         rows={3}
         disabled={loading}
         style={{
-          ...(isMobile ? { flex: 1 } : {}),
           fontSize: '12px',
           color: 'var(--text-primary)',
           lineHeight: 1.6,
@@ -175,7 +166,7 @@ const SearchBox = forwardRef<SearchBoxHandle, SearchBoxProps>(({ onError: _onErr
           onMouseEnter={() => !loading && setHoveredGo(true)}
           onMouseLeave={() => setHoveredGo(false)}
           style={{
-            alignSelf: isMobile ? 'auto' : 'flex-end',
+            alignSelf: 'flex-end',
             background: loading
               ? 'rgba(232,245,238,0.80)'
               : hoveredGo

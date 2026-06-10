@@ -5,6 +5,7 @@ import { AuthProvider } from '@/context/AuthContext'
 import OnboardingGuard from '@/components/OnboardingGuard'
 import NicknameGuard from '@/components/NicknameGuard'
 import TopNav from '@/components/TopNav'
+import TreeBackground from '@/components/TreeBackground'
 
 export const metadata: Metadata = {
   title: 'Nomadic',
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="zh">
       <body>
+        <TreeBackground />
         <AuthProvider>
           <AppProvider>
             <OnboardingGuard>

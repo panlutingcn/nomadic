@@ -12,6 +12,8 @@ import { shuffle } from '@/utils/shuffle'
 const HeroGlobe = nextDynamic(() => import('@/components/HeroGlobe'), { ssr: false })
 
 const RANDOM_COUNT = 9
+const HERO_WIDTH = 400
+const GLOBE_SIZE = 560
 
 
 export default function ExplorePage() {
@@ -19,20 +21,24 @@ export default function ExplorePage() {
   const [errorMessage, setErrorMessage] = useState('')
   const [randomCities, setRandomCities] = useState<NomadCity[]>([])
   const [hoveredCity, setHoveredCity] = useState<string | null>(null)
-  const [globeSize, setGlobeSize] = useState(440)
+  const [heroScale, setHeroScale] = useState(1)
   const searchBoxRef = useRef<SearchBoxHandle>(null)
+  const heroRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setRandomCities(shuffle(NOMAD_CITY_POOL).slice(0, RANDOM_COUNT))
   }, [])
 
   useEffect(() => {
+    const el = heroRef.current
+    if (!el) return
     const update = () => {
-      setGlobeSize(window.innerWidth >= 1024 ? 560 : Math.min(440, window.innerWidth - 20))
+      setHeroScale(Math.min(1, el.clientWidth / GLOBE_SIZE))
     }
     update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
+    const observer = new ResizeObserver(update)
+    observer.observe(el)
+    return () => observer.disconnect()
   }, [])
 
   const handleCityClick = (city: NomadCity) => {
@@ -52,14 +58,24 @@ export default function ExplorePage() {
       <div className="page-inner" style={{ flex: 1, padding: '64px 16px 10px' }}>
 
         {/* ── Hero Globe ── */}
-        <div style={{
-          position: 'relative',
+        <div ref={heroRef} style={{
           width: '100%',
-          height: globeSize,
+          height: GLOBE_SIZE * heroScale,
+          overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: 8,
+        }}>
+        <div style={{
+          position: 'relative',
+          width: HERO_WIDTH,
+          height: GLOBE_SIZE,
+          flexShrink: 0,
+          transform: `scale(${heroScale})`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
           <div style={{
             position: 'absolute',
@@ -67,31 +83,45 @@ export default function ExplorePage() {
             transform: 'translate(-50%, -50%)',
             zIndex: 1,
             pointerEvents: 'none',
-            opacity: 0.20,
+            width: GLOBE_SIZE * 0.92,
+            height: GLOBE_SIZE * 0.92,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.10) 65%, rgba(255,255,255,0) 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-            <HeroGlobe size={globeSize} />
+            <div style={{ opacity: 0.65 }}>
+              <HeroGlobe size={GLOBE_SIZE} />
+            </div>
           </div>
 
           <div style={{
             position: 'relative',
             zIndex: 3,
             width: '100%',
-            maxWidth: 400,
+            maxWidth: HERO_WIDTH,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             padding: '0 16px',
           }}>
-            <img
-              src="/logo-nomadic-t.png"
-              alt="Nomadic"
-              style={{ height: 50, width: 'auto', display: 'block', margin: '0 auto 4px', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }}
-            />
-            <div style={{ fontSize: 13, fontWeight: 500, color: '#3d3020', marginBottom: 2, textAlign: 'center' }}>
-              环球旅居者的城市深度洞察平台
-            </div>
-            <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 14, textAlign: 'center' }}>
-              The Deep-Dive Platform for Global Wanderers
+            <div style={{
+              marginBottom: 6,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+            }}>
+              <div style={{ fontFamily: "'HYYaKuHeiJ', '汉仪琥珀体简', 'PingFang SC', 'Heiti SC', sans-serif", fontSize: 38, fontWeight: 900, color: 'var(--accent-text)', letterSpacing: '1px', marginBottom: 4, textAlign: 'center', lineHeight: 1.5, textShadow: '0 1px 6px rgba(255,255,255,0.6)' }}>
+                在世界各地扎根<br />而不只是路过
+              </div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2, textAlign: 'center', textShadow: '0 1px 4px rgba(255,255,255,0.6)' }}>
+                环球旅居者的城市深度洞察平台
+              </div>
+              <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-secondary)', letterSpacing: '1px', textAlign: 'center', textShadow: '0 1px 4px rgba(255,255,255,0.6)' }}>
+                The Deep-Dive Platform for Global Wanderers
+              </div>
             </div>
 
             <div style={{ width: '100%' }}>
@@ -140,6 +170,7 @@ export default function ExplorePage() {
               </button>
             </div>
           </div>
+        </div>
         </div>
 
         {/* ── 用户旅程 ── */}

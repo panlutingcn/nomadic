@@ -50,8 +50,8 @@ export default function TopNav() {
         zIndex: 500,
         height: 56,
         background: scrolled ? 'rgba(255,253,249,0.68)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'blur(0px)',
-        WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'blur(0px)',
+        backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
         borderBottom: scrolled ? '0.5px solid rgba(255,248,228,0.70)' : 'none',
         boxShadow: scrolled ? '0 1px 16px rgba(180,150,90,0.08), inset 0 -1px 0 rgba(255,255,255,0.55)' : 'none',
         display: 'flex',
@@ -66,7 +66,7 @@ export default function TopNav() {
             className="top-nav-logo"
             style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
           >
-            <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 28, width: 'auto', display: 'block', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
+            <img src="/logo-nomadic-t.png" alt="Nomadic" style={{ height: 'clamp(18px, calc(28px * 100vw / 592px), 28px)', width: 'auto', display: 'block', filter: 'brightness(0) saturate(100%) invert(44%) sepia(63%) saturate(500%) hue-rotate(121deg) brightness(72%)' }} />
           </div>
         </div>
 
@@ -90,7 +90,7 @@ export default function TopNav() {
                   cursor: 'pointer',
                   fontSize: 14,
                   fontWeight: active ? 600 : 400,
-                  color: active ? '#178f68' : hovered ? 'var(--text-primary)' : 'rgba(45,36,24,0.55)',
+                  color: active ? '#178f68' : hovered ? 'var(--text-primary)' : 'rgba(45,36,24,0.75)',
                   padding: '6px 14px',
                   borderRadius: 10,
                   position: 'relative',
