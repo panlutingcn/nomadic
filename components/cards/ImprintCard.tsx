@@ -51,7 +51,7 @@ export default function ImprintCard({
           WebkitBoxOrient: 'vertical' as const, overflow: 'hidden',
           paddingBottom: 4,
         }}>{displayNarrative}</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#8a7560' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#4a3a28' }}>
           <span>📍</span>
           <span>{cityNameZh}{countryZh ? ` · ${flag} ${countryZh}` : ''}</span>
         </div>

@@ -18,7 +18,7 @@ interface PersonaCardProps {
 const HANDWRITING_FONT = "'Xingkai SC', 'STXingkai', 'KaiTi', cursive"
 
 // Label color shared by "你的旅行人格" and "为你推荐的城市"
-const LABEL_COLOR = '#8a7560'
+const LABEL_COLOR = '#4a3a28'
 
 export default function PersonaCard({
   nickname, avatarUrl,
@@ -32,8 +32,8 @@ export default function PersonaCard({
 
   return (
     <CardShell nickname={nickname} avatarUrl={avatarUrl} qrValue={qrUrl}>
-      {/* 黄色方框 */}
-      <div style={{ flex: 1, border: '2px solid #f0c040', borderRadius: 12, display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }}>
+      {/* 绿色方框 */}
+      <div style={{ flex: 1, border: '2px solid #178f68', borderRadius: 12, display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }}>
         <div style={{ display: 'flex', flexDirection: 'column', paddingTop: 20, paddingBottom: 36, paddingLeft: 4, paddingRight: 4 }}>
 
           {/* Emoji */}
@@ -69,9 +69,8 @@ export default function PersonaCard({
               <div style={{
                 fontSize: 12,
                 fontWeight: 700,
-                color: '#f0c040',
+                color: '#0f6e56',
                 lineHeight: 1.8,
-                textShadow: '0 1px 4px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.75), 1px 1px 2px rgba(0,0,0,0.8)',
               }}>
                 {personaDescription}
               </div>

@@ -11,6 +11,7 @@ export default function OnboardingGuard({ children }: { children: React.ReactNod
   useEffect(() => {
     if (loading) return
     if (pathname.startsWith('/onboarding')) return
+    if (pathname.startsWith('/preview-cards')) return
 
     const onboarded = localStorage.getItem('nomadic_onboarded')
     const neverRemind = localStorage.getItem('nomadic_never_remind')

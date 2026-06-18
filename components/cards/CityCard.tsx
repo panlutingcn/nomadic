@@ -45,7 +45,7 @@ export default function CityCard({
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 10, flexWrap: 'wrap' as const }}>
           <span style={{ fontSize: 26, fontWeight: 700, color: '#3d3020', lineHeight: 1.2 }}>{cityNameZh || cityNameEn}</span>
           {cityNameZh && cityNameEn && cityNameZh !== cityNameEn && (
-            <span style={{ fontSize: 13, color: '#8a7560' }}>{cityNameEn}</span>
+            <span style={{ fontSize: 13, color: '#5a4a38' }}>{cityNameEn}</span>
           )}
         </div>
         <div style={{ fontSize: 13, color: '#5a4a38', marginBottom: 16 }}>
