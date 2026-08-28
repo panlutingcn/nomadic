@@ -344,32 +344,26 @@ const ANTARCTICA_CITIES = ['乌斯怀亚', '蓬塔阿雷纳斯', '斯坦利']
 
 export const CONTINENT_ORDER = ['亚洲', '欧洲', '北美洲', '南美洲', '非洲', '大洋洲', '南极洲'] as const
 
-export function getRandomGlobalCities(personaKey: string): Record<string, string> {
+export function getGlobalCities(personaKey: string, axisScores: Record<string, number>): Record<string, string> {
   const euroPool = PERSONA_CITY_POOLS[personaKey] ?? []
   const globalPool = GLOBAL_CITY_POOLS[personaKey] ?? {}
   const result: Record<string, string> = {}
   if (euroPool.length > 0) {
-    result['欧洲'] = euroPool[Math.floor(Math.random() * euroPool.length)].name
+    const top = selectCities(personaKey, axisScores)
+    result['欧洲'] = top.length > 0 ? top[0].name : euroPool[0].name
   }
   for (const continent of CONTINENT_ORDER.filter(c => c !== '欧洲' && c !== '南极洲')) {
     const cities = globalPool[continent] ?? []
     if (cities.length > 0) {
-      result[continent] = cities[Math.floor(Math.random() * cities.length)]
+      result[continent] = cities[0]
     }
   }
-  result['南极洲'] = ANTARCTICA_CITIES[Math.floor(Math.random() * ANTARCTICA_CITIES.length)]
+  result['南极洲'] = ANTARCTICA_CITIES[0]
   return result
 }
 
 export function getEuroCityReason(personaKey: string, cityName: string): string {
   return PERSONA_CITY_POOLS[personaKey]?.find(c => c.name === cityName)?.reason ?? ''
-}
-
-export function getRandomEuroCities(personaKey: string): { name: string; reason: string }[] {
-  const pool = PERSONA_CITY_POOLS[personaKey] ?? []
-  if (pool.length === 0) return []
-  const shuffled = [...pool].sort(() => Math.random() - 0.5)
-  return shuffled.slice(0, 3).map(c => ({ name: c.name, reason: c.reason }))
 }
 
 export function selectCities(

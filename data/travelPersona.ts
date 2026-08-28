@@ -19,10 +19,10 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: 0, dimension: '节奏轴 · 你的旅行速度', type: 'single',
     question: '你理想的旅行节奏是？',
     options: [
-      { id: 'A', text: '在一座城市住满三周，认识固定的街坊', weights: { S: 2 } },
-      { id: 'B', text: '住十天左右，把主要街区慢慢走遍', weights: { S: 1 } },
-      { id: 'C', text: '平均五天换一个地方，不断有新发现', weights: { D: 1 } },
-      { id: 'D', text: '一座城市住久了就手痒，不留恋的话立刻走人', weights: { D: 2 } },
+      { id: 'A', text: '在一座城市住满三周甚至更久，像本地人一样生活', weights: { S: 2 } },
+      { id: 'B', text: '住一到两周，把喜欢的街区反复走透', weights: { S: 1 } },
+      { id: 'C', text: '三到五天换一座城市，保持新鲜感', weights: { D: 1 } },
+      { id: 'D', text: '一两天就走，恨不得一趟旅行刷完十座城', weights: { D: 2 } },
     ],
   },
   {
@@ -36,13 +36,13 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    id: 2, dimension: '节奏轴 · 你的旅行速度', type: 'multi', maxSelect: 2,
-    question: '旅途中你的照片通常是？（最多选 2 项）',
+    id: 2, dimension: '节奏轴 · 你的旅行速度', type: 'single',
+    question: '你旅途中最喜欢拍的照片是？',
     options: [
-      { id: 'A', text: '同一个街角在不同时刻的光线变化', weights: { S: 1 } },
-      { id: 'B', text: '同一家咖啡馆里反复出现的日常角落', weights: { S: 1 } },
-      { id: 'C', text: '每张背景都不同，记录不断移动的轨迹', weights: { D: 1 } },
-      { id: 'D', text: '各座城市的全景和标志性地标', weights: { D: 1 } },
+      { id: 'A', text: '同一条街在不同天气和光线下的样子', weights: { S: 2 } },
+      { id: 'B', text: '一家你连续去了五天的咖啡馆或小店', weights: { S: 1 } },
+      { id: 'C', text: '每张照片背景都不同，串起来像一条移动轨迹', weights: { D: 1 } },
+      { id: 'D', text: '从高处俯瞰一座座不同城市的全景', weights: { D: 2 } },
     ],
   },
   {
@@ -67,13 +67,13 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    id: 5, dimension: '动力轴 · 什么驱动你出发', type: 'multi', maxSelect: 2,
-    question: '你认为旅行最大的意义是？（选最重要的 2 项）',
+    id: 5, dimension: '动力轴 · 什么驱动你出发', type: 'single',
+    question: '什么理由最能让你立刻买张机票？',
     options: [
-      { id: 'A', text: '理解不同文明如何解答"人应该怎么活"', weights: { C: 1 } },
-      { id: 'B', text: '发现与自己相似却又截然不同的人和故事', weights: { C: 1 } },
-      { id: 'C', text: '用身体感受世界，让感官被彻底打开', weights: { V: 1 } },
-      { id: 'D', text: '突破舒适区，完成有挑战性的体验', weights: { V: 1 } },
+      { id: 'A', text: '想亲眼看看另一种文明怎么回答"人应该怎么活"', weights: { C: 2 } },
+      { id: 'B', text: '想遇见和自己完全不同的人，听 TA 的故事', weights: { C: 1 } },
+      { id: 'C', text: '想把自己扔进一片能彻底打开感官的自然里', weights: { V: 1 } },
+      { id: 'D', text: '想完成一件之前不敢尝试的事', weights: { V: 2 } },
     ],
   },
   {
@@ -111,20 +111,20 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: 9, dimension: '社交轴 · 你的旅行方式', type: 'single',
     question: '旅途中陌生人主动和你搭话，你通常？',
     options: [
-      { id: 'A', text: '礼貌回应，心里希望他们不要聊太久', weights: { L: 2 } },
-      { id: 'B', text: '简短交流，有缘分才会深入', weights: { L: 1 } },
-      { id: 'C', text: '聊开了，可能顺手交换联系方式', weights: { T: 1 } },
-      { id: 'D', text: '聊到停不下来，甚至一起去了原本没计划的地方', weights: { T: 2 } },
+      { id: 'A', text: '戴上耳机假装没听见，享受自己的世界', weights: { L: 2 } },
+      { id: 'B', text: '礼貌聊几句，但不会主动延续话题', weights: { L: 1 } },
+      { id: 'C', text: '越聊越投缘，结束时互相加了联系方式', weights: { T: 1 } },
+      { id: 'D', text: '聊到改变了当天的行程，一起去了没计划的地方', weights: { T: 2 } },
     ],
   },
   {
-    id: 10, dimension: '社交轴 · 你的旅行方式', type: 'multi', maxSelect: 2,
-    question: '旅行中最有价值的"收获"是？（最多选 2 项）',
+    id: 10, dimension: '社交轴 · 你的旅行方式', type: 'single',
+    question: '旅行结束后，让你觉得"这趟值了"的瞬间是？',
     options: [
-      { id: 'A', text: '与自己相处，重新认识自己', weights: { L: 1 } },
-      { id: 'B', text: '独自完成一件对自己有意义的事', weights: { L: 1 } },
-      { id: 'C', text: '认识一个改变了你视角的人', weights: { T: 1 } },
-      { id: 'D', text: '和陌生人建立了意想不到的真实连接', weights: { T: 1 } },
+      { id: 'A', text: '某个独处的时刻，你突然想通了一件事', weights: { L: 2 } },
+      { id: 'B', text: '独自完成了一件有难度的事，比如找到一个隐秘的地方', weights: { L: 1 } },
+      { id: 'C', text: '和一个陌生人聊了很久，ta 的一句话改变了你的想法', weights: { T: 1 } },
+      { id: 'D', text: '和旅途中认识的人告别时，发现彼此成了真正的朋友', weights: { T: 2 } },
     ],
   },
   {
@@ -159,13 +159,13 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    id: 14, dimension: '决策轴 · 你的旅行风格', type: 'multi', maxSelect: 2,
-    question: '关于旅行预算，你更接近哪种？（最多选 2 项）',
+    id: 14, dimension: '决策轴 · 你的旅行风格', type: 'single',
+    question: '关于旅行花钱这件事，最像你的是？',
     options: [
-      { id: 'A', text: '提前做好预算，尽量控制在计划内', weights: { P: 1 } },
-      { id: 'B', text: '重要体验愿意花，日常消费很谨慎', weights: { P: 1 } },
-      { id: 'C', text: '遇到喜欢的就花，账后面再算', weights: { F: 1 } },
-      { id: 'D', text: '从来不提前算，走到哪算到哪', weights: { F: 1 } },
+      { id: 'A', text: '出发前就算好了总预算和每日限额', weights: { P: 2 } },
+      { id: 'B', text: '大方向有预算，但遇到真正值得的体验会突破一点', weights: { P: 1 } },
+      { id: 'C', text: '不提前算，但结束后会复盘一下花了多少', weights: { F: 1 } },
+      { id: 'D', text: '从来不算也不复盘，钱花得开心就行', weights: { F: 2 } },
     ],
   },
   {
@@ -178,6 +178,14 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { id: 'D', text: '带着感受就够了，记录这件事没那么重要', weights: { F: 2 } },
     ],
   },
+]
+
+// 交叉排列展示顺序：每轮 4 题分别来自不同轴，避免用户连续回答同一维度导致疲劳
+export const QUIZ_DISPLAY_ORDER: number[] = [
+  0, 4, 8, 12,   // 第 1 轮：节奏→动力→社交→决策
+  1, 5, 9, 13,   // 第 2 轮
+  2, 6, 10, 14,  // 第 3 轮
+  3, 7, 11, 15,  // 第 4 轮
 ]
 
 export function computeAxisScores(answers: Record<number, string[]>): Record<string, number> {
@@ -199,7 +207,28 @@ export function computeAxisScores(answers: Record<number, string[]>): Record<str
 export function calcPersona(answers: Record<number, string[]>): string {
   const scores = computeAxisScores(answers)
   const axes: Array<[string, string]> = [['S', 'D'], ['C', 'V'], ['L', 'T'], ['P', 'F']]
-  return axes.map(([a, b]) => (scores[a] ?? 0) >= (scores[b] ?? 0) ? a : b).join('')
+  // 每轴对应的题目 id（按顺序，最后一题用于平局破局）
+  const axisQuestions: Record<string, number[]> = {
+    SD: [0, 1, 2, 3], CV: [4, 5, 6, 7], LT: [8, 9, 10, 11], PF: [12, 13, 14, 15],
+  }
+  return axes.map(([a, b]) => {
+    const sa = scores[a] ?? 0
+    const sb = scores[b] ?? 0
+    if (sa !== sb) return sa > sb ? a : b
+    // 平局：用该轴最后一道有回答的题来决定方向
+    const qIds = axisQuestions[`${a}${b}`] ?? []
+    for (let i = qIds.length - 1; i >= 0; i--) {
+      const selected = answers[qIds[i]]
+      if (!selected || selected.length === 0) continue
+      const q = QUIZ_QUESTIONS.find(q => q.id === qIds[i])
+      if (!q) continue
+      const lastOpt = q.options.find(o => o.id === selected[selected.length - 1])
+      if (!lastOpt) continue
+      if ((lastOpt.weights[a] ?? 0) > 0) return a
+      if ((lastOpt.weights[b] ?? 0) > 0) return b
+    }
+    return a
+  }).join('')
 }
 
 export const PERSONAS: Record<string, {

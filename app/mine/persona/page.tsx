@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
 import { PERSONAS } from '@/data/travelPersona'
-import { selectCities, getRandomGlobalCities, getRandomEuroCities, getEuroCityReason, CONTINENT_ORDER } from '@/data/personaCities'
+import { selectCities, getGlobalCities, getEuroCityReason, CONTINENT_ORDER } from '@/data/personaCities'
 import { CITY_GLOBAL_INFO } from '@/data/cityInfo'
 import { generateCardImage, generateCardDataUrl, dataUrlToFile } from '@/lib/generateCardImage'
 import { CITIES } from '@/data/cities'
@@ -49,7 +49,6 @@ function PersonaDetailContent() {
   const [personaKey, setPersonaKey] = useState('')
   const [storedScores, setStoredScores] = useState<Record<string, number>>({})
   const [globalCities, setGlobalCities] = useState<Record<string, string>>({})
-  const [euroRandomCities, setEuroRandomCities] = useState<{ name: string; reason: string }[] | null>(null)
   const [loadingCity, setLoadingCity] = useState<string | null>(null)
   const [cardSaving, setCardSaving] = useState(false)
   const [prebuiltDataUrl, setPrebuiltDataUrl] = useState<string | null>(null)
@@ -74,10 +73,9 @@ function PersonaDetailContent() {
 
   useEffect(() => {
     if (personaKey) {
-      setGlobalCities(getRandomGlobalCities(personaKey))
-      setEuroRandomCities(null)
+      setGlobalCities(getGlobalCities(personaKey, storedScores))
     }
-  }, [personaKey])
+  }, [personaKey, storedScores])
 
   useEffect(() => {
     if (!personaKey) return
@@ -257,6 +255,12 @@ function PersonaDetailContent() {
               const bgColors = ['#fde4a0', '#d4ede0', '#dbd2f0', '#c8dcf0']
               const textColors = ['#854f0b', '#085041', '#3c3489', '#0c447c']
               const borderColors = ['#c8a830', '#9fd4b8', '#b8a8e0', '#84b8d8']
+              const opp = AXIS_OPPOSITE[char]
+              const myScore = storedScores[char] ?? 0
+              const oppScore = storedScores[opp] ?? 0
+              const total = myScore + oppScore
+              const pct = total > 0 ? Math.round((myScore / total) * 100) : 50
+              const strengthLabel = pct >= 80 ? '极强' : pct >= 65 ? '明显' : pct >= 55 ? '轻微' : '均衡'
               return (
                 <div key={char} style={{ background: bgColors[i], border: `0.5px solid ${borderColors[i]}`, borderRadius: 12, padding: '11px 14px' }}>
                   <div style={{ display: 'flex', alignItems: 'stretch', gap: 12 }}>
@@ -270,7 +274,15 @@ function PersonaDetailContent() {
                         <span style={{ fontSize: 13, color: textColors[i], opacity: 0.4, margin: '0 4px' }}>｜</span>
                         <span style={{ fontSize: 13, color: textColors[i], opacity: 0.5 }}>{opposite.label}</span>
                       </div>
-                      <div style={{ fontSize: 11, color: textColors[i], opacity: 0.85, lineHeight: 1.5 }}>{meta.desc}</div>
+                      <div style={{ fontSize: 11, color: textColors[i], opacity: 0.85, lineHeight: 1.5, marginBottom: 6 }}>{meta.desc}</div>
+                      {total > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <div style={{ flex: 1, height: 4, background: 'rgba(255,255,255,0.6)', borderRadius: 2, overflow: 'hidden' }}>
+                            <div style={{ height: '100%', width: `${pct}%`, background: textColors[i], borderRadius: 2, opacity: 0.7, transition: 'width 0.3s ease' }} />
+                          </div>
+                          <span style={{ fontSize: 10, color: textColors[i], opacity: 0.7, whiteSpace: 'nowrap' }}>{strengthLabel} {pct}%</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -281,17 +293,11 @@ function PersonaDetailContent() {
 
         {/* 推荐城市 — 点击跳转城市洞察 */}
         <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 16, padding: '14px 16px', marginBottom: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+          <div style={{ marginBottom: 12 }}>
             <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>为你推荐的欧洲城市</div>
-            <button
-              onClick={() => setEuroRandomCities(getRandomEuroCities(personaKey))}
-              style={{ fontSize: 11, color: '#178f68', background: 'rgba(23,143,104,0.08)', border: '0.5px solid rgba(23,143,104,0.25)', borderRadius: 8, padding: '4px 10px', cursor: 'pointer', fontFamily: 'inherit' }}
-            >
-              🎲 惊喜随机掉落
-            </button>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {(euroRandomCities ?? dynamicCities).map(({ name: city, reason }) => {
+            {dynamicCities.map(({ name: city, reason }) => {
               const isLoading = loadingCity === city
               const isDisabled = city === '随机城市'
               return (
@@ -312,16 +318,10 @@ function PersonaDetailContent() {
           </div>
         </div>
 
-        {/* 五大洲推荐城市 */}
+        {/* 七大洲推荐城市 */}
         <div style={{ background: '#fff', border: '0.5px solid #ddd4c0', borderRadius: 16, padding: '14px 16px', marginBottom: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+          <div style={{ marginBottom: 12 }}>
             <div style={{ fontSize: 13, fontWeight: 500, color: '#2d2418' }}>七大洲推荐城市</div>
-            <button
-              onClick={() => setGlobalCities(getRandomGlobalCities(personaKey))}
-              style={{ fontSize: 11, color: '#178f68', background: 'rgba(23,143,104,0.08)', border: '0.5px solid rgba(23,143,104,0.25)', borderRadius: 8, padding: '4px 10px', cursor: 'pointer', fontFamily: 'inherit' }}
-            >
-              🎲 惊喜随机掉落
-            </button>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {CONTINENT_ORDER.map(continent => {

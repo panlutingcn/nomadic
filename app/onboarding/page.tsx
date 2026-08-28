@@ -2,7 +2,7 @@
 export const dynamic = 'force-static'
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { QUIZ_QUESTIONS, calcPersona, computeAxisScores, PERSONAS } from '@/data/travelPersona'
+import { QUIZ_QUESTIONS, QUIZ_DISPLAY_ORDER, calcPersona, computeAxisScores, PERSONAS } from '@/data/travelPersona'
 import { selectCities } from '@/data/personaCities'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -48,7 +48,7 @@ export default function OnboardingPage() {
   }, [step, personaKey])
 
   const advanceOrFinish = (newAnswers: Record<number, string[]>) => {
-    if (currentQ < QUIZ_QUESTIONS.length - 1) {
+    if (currentQ < QUIZ_DISPLAY_ORDER.length - 1) {
       setTimeout(() => setCurrentQ(q => q + 1), 280)
     } else {
       const scores = computeAxisScores(newAnswers)
@@ -60,22 +60,25 @@ export default function OnboardingPage() {
   }
 
   const handleSingleSelect = (optionId: string) => {
-    const newAnswers = { ...answers, [currentQ]: [optionId] }
+    const qId = QUIZ_DISPLAY_ORDER[currentQ]
+    const newAnswers = { ...answers, [qId]: [optionId] }
     setAnswers(newAnswers)
     advanceOrFinish(newAnswers)
   }
 
   const handleMultiToggle = (optionId: string) => {
-    const current = answers[currentQ] ?? []
-    const max = QUIZ_QUESTIONS[currentQ].maxSelect ?? 2
+    const qId = QUIZ_DISPLAY_ORDER[currentQ]
+    const current = answers[qId] ?? []
+    const max = q?.maxSelect ?? 2
     const next = current.includes(optionId)
       ? current.filter(id => id !== optionId)
       : current.length < max ? [...current, optionId] : current
-    setAnswers({ ...answers, [currentQ]: next })
+    setAnswers({ ...answers, [qId]: next })
   }
 
   const handleMultiConfirm = () => {
-    if ((answers[currentQ] ?? []).length === 0) return
+    const qId = QUIZ_DISPLAY_ORDER[currentQ]
+    if ((answers[qId] ?? []).length === 0) return
     advanceOrFinish(answers)
   }
 
@@ -177,8 +180,8 @@ export default function OnboardingPage() {
   }
 
   const persona = PERSONAS[personaKey]
-  const progress = (currentQ / QUIZ_QUESTIONS.length) * 100
-  const q = QUIZ_QUESTIONS[currentQ]
+  const progress = (currentQ / QUIZ_DISPLAY_ORDER.length) * 100
+  const q = QUIZ_QUESTIONS.find(question => question.id === QUIZ_DISPLAY_ORDER[currentQ])!
 
   const dynamicCities = personaKey && Object.keys(axisScores).length > 0
     ? selectCities(personaKey, axisScores)
@@ -235,9 +238,9 @@ export default function OnboardingPage() {
               {currentQ > 0 ? (
                 <button onClick={handleBack} style={{ fontSize: 12, color: '#8a7a62', background: 'none', border: '0.5px solid #ddd4c0', borderRadius: 7, padding: '3px 10px', cursor: 'pointer' }}>← 上一题</button>
               ) : (
-                <span style={{ fontSize: 12, color: '#b8a98a' }}>Q{currentQ + 1} / {QUIZ_QUESTIONS.length}</span>
+                <span style={{ fontSize: 12, color: '#b8a98a' }}>Q{currentQ + 1} / {QUIZ_DISPLAY_ORDER.length}</span>
               )}
-              {currentQ > 0 && <span style={{ fontSize: 12, color: '#b8a98a' }}>Q{currentQ + 1} / {QUIZ_QUESTIONS.length}</span>}
+              {currentQ > 0 && <span style={{ fontSize: 12, color: '#b8a98a' }}>Q{currentQ + 1} / {QUIZ_DISPLAY_ORDER.length}</span>}
             </div>
             <button onClick={skipOnboarding} style={{ fontSize: 12, color: '#b8a98a', background: 'none', border: 'none', cursor: 'pointer' }}>稍后完成</button>
           </div>
@@ -260,7 +263,8 @@ export default function OnboardingPage() {
 
           {/* 选项 */}
           {q.options.map(option => {
-            const selected = answers[currentQ] ?? []
+            const qId = QUIZ_DISPLAY_ORDER[currentQ]
+            const selected = answers[qId] ?? []
             const isSelected = selected.includes(option.id)
             const maxReached = q.type === 'multi' && selected.length >= (q.maxSelect ?? 2) && !isSelected
             return (
@@ -308,18 +312,18 @@ export default function OnboardingPage() {
           {q.type === 'multi' ? (
             <button
               onClick={handleMultiConfirm}
-              disabled={(answers[currentQ] ?? []).length === 0}
+              disabled={(answers[QUIZ_DISPLAY_ORDER[currentQ]] ?? []).length === 0}
               style={{
                 width: '100%', padding: '12px 0', marginTop: 4,
                 borderRadius: 12, border: 'none',
-                background: (answers[currentQ] ?? []).length > 0 ? '#178f68' : '#ddd4c0',
+                background: (answers[QUIZ_DISPLAY_ORDER[currentQ]] ?? []).length > 0 ? '#178f68' : '#ddd4c0',
                 color: '#fff', fontSize: 14, fontWeight: 500,
-                cursor: (answers[currentQ] ?? []).length > 0 ? 'pointer' : 'default',
+                cursor: (answers[QUIZ_DISPLAY_ORDER[currentQ]] ?? []).length > 0 ? 'pointer' : 'default',
                 transition: 'background 200ms',
               }}
             >
-              {(answers[currentQ] ?? []).length > 0
-                ? `已选 ${(answers[currentQ] ?? []).length} 项，确认下一题 →`
+              {(answers[QUIZ_DISPLAY_ORDER[currentQ]] ?? []).length > 0
+                ? `已选 ${(answers[QUIZ_DISPLAY_ORDER[currentQ]] ?? []).length} 项，确认下一题 →`
                 : '请至少选择 1 项'}
             </button>
           ) : (
@@ -367,7 +371,7 @@ export default function OnboardingPage() {
               }}
               style={{ width: '100%', padding: '13px 0', borderRadius: 12, background: '#178f68', border: 'none', color: '#fff', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
             >
-              {user ? '查看人格详情' : '登录解锁五大洲推荐城市'}
+              {user ? '查看人格详情' : '登录解锁七大洲推荐城市'}
             </button>
           </div>
         </div>
